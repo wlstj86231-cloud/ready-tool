@@ -1,0 +1,20 @@
+{
+  "name": "ready-tool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Ready tool public utility browser tools for file, image privacy, and CSV cleanup.",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build && node scripts/postbuild.mjs",
+    "preview": "vite preview --host 127.0.0.1"
+  },
+  "dependencies": {
+    "exceljs": "^4.4.0",
+    "jszip": "^3.10.1"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0",
+    "vite": "^7.1.12"
+  }
+}
