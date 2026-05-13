@@ -2,8 +2,8 @@ import JSZip from "jszip";
 import { getGuideByPath, guideIndexMeta, guidePages } from "./guides.js";
 import "./styles.css";
 
-const BRAND = "Ready tool";
-const baseDomain = "https://readytool.com";
+const BRAND = "goatool";
+const baseDomain = "https://goatool.com";
 const lastUpdated = "2026-05-13";
 const LIMITS = {
   fileCount: 80,
@@ -15,9 +15,9 @@ const LIMITS = {
   cells: 500000
 };
 const STORAGE_KEYS = {
-  recentGuides: "ready-tool:recent-guides",
-  favoriteGuides: "ready-tool:favorite-guides",
-  guideProgress: "ready-tool:guide-progress"
+  recentGuides: "goatool:recent-guides",
+  favoriteGuides: "goatool:favorite-guides",
+  guideProgress: "goatool:guide-progress"
 };
 const READING_CHARS_PER_MINUTE = 900;
 
@@ -65,6 +65,12 @@ const situations = [
   { id: "share", label: "자료 공유" }
 ];
 
+const homeMeta = {
+  title: "goatool - 제출 전 파일, 이미지 개인정보, CSV 정리 도구",
+  description:
+    "goatool은 민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 이미지 개인정보, CSV와 엑셀 데이터를 브라우저에서 정리하는 공익형 준비 도구입니다."
+};
+
 const expertise = {
   "file-ready": {
     summary: "파일 준비 점검은 파일 자체를 평가하거나 합격 여부를 보장하지 않습니다. 대신 업로드 실패를 자주 만드는 이름, 용량, 확장자, 중복, 해시 기록을 제출 전에 눈으로 확인할 수 있게 만듭니다.",
@@ -80,7 +86,7 @@ const expertise = {
     ],
     checklist: ["파일명이 제출자와 용도를 설명하는지 확인", "접수 페이지의 최대 용량과 확장자 조건 확인", "ZIP을 내려받은 뒤 원본 파일 수와 비교"],
     faq: [
-      ["파일이 서버로 올라가나요?", "아니요. Ready tool은 선택한 파일을 브라우저에서 읽고 결과 파일을 생성합니다."],
+      ["파일이 서버로 올라가나요?", "아니요. goatool은 선택한 파일을 브라우저에서 읽고 결과 파일을 생성합니다."],
       ["SHA-256은 왜 필요한가요?", "제출 전 파일과 제출 후 보관 파일이 같은지 확인할 수 있는 식별값입니다."]
     ]
   },
@@ -125,38 +131,39 @@ const expertise = {
 const infoPages = {
   "/about/": {
     title: "소개",
-    metaTitle: "소개 - Ready tool",
-    description: "Ready tool은 제출 전 파일 준비와 개인정보 정리를 돕는 공익형 브라우저 도구 모음입니다.",
+    metaTitle: "소개 - goatool",
+    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 공익형 브라우저 도구 모음입니다.",
     body: [
-      ["운영 목적", "Ready tool은 민원, 입사지원, 학교와 기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 공익형 도구 사이트입니다. 사용자가 파일을 서버에 올리지 않고도 기본 점검과 정리를 마칠 수 있게 설계했습니다."],
+      ["운영 목적", "goatool은 민원, 입사지원, 학교와 기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 공익형 도구 사이트입니다. 사용자가 파일을 서버에 올리지 않고도 기본 점검과 정리를 마칠 수 있게 설계했습니다."],
+      ["goatool 신뢰 기준", "goatool의 브랜드 신뢰는 빠른 자동화보다 처리 위치와 한계 고지를 분명히 하는 데서 시작합니다. 각 도구는 브라우저 로컬 처리, 제출 전 검수, 원본 보관, 개인정보 최소화 원칙을 함께 안내합니다."],
       ["전문성 기준", "각 도구는 작동 원리, 한계, 검수 기준을 함께 제공합니다. 결과를 과장하지 않고 사용자가 마지막 판단을 할 수 있게 돕는 것을 우선합니다."],
       ["최종 업데이트", `${lastUpdated} 기준으로 파일 준비, 이미지 개인정보 정리, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
     ]
   },
   "/privacy/": {
     title: "개인정보 처리방침",
-    metaTitle: "개인정보 처리방침 - Ready tool",
-    description: "Ready tool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다.",
+    metaTitle: "개인정보 처리방침 - goatool",
+    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다.",
     body: [
       ["브라우저 처리", "파일 준비, 이미지 정리, 데이터 정리는 사용자의 브라우저 안에서 실행됩니다. 결과 파일도 브라우저에서 생성됩니다."],
       ["보관하지 않는 정보", "현재 구현은 사용자가 선택한 파일을 별도 서버로 업로드하거나 저장하지 않습니다. 페이지를 새로고침하면 선택 파일과 결과 상태는 사라집니다."],
-      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 공유 폴더 같은 외부 환경은 Ready tool이 통제하지 않습니다. 민감한 자료는 내려받은 결과를 직접 확인한 뒤 사용하세요."]
+      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 공유 폴더 같은 외부 환경은 goatool이 통제하지 않습니다. 민감한 자료는 내려받은 결과를 직접 확인한 뒤 사용하세요."]
     ]
   },
   "/terms/": {
     title: "이용안내",
-    metaTitle: "이용안내 - Ready tool",
-    description: "Ready tool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다.",
+    metaTitle: "이용안내 - goatool",
+    description: "goatool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다.",
     body: [
-      ["보조 도구", "Ready tool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 데이터 정확성을 보장하지 않습니다."],
+      ["보조 도구", "goatool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 데이터 정확성을 보장하지 않습니다."],
       ["원본 보관", "정리 전 원본 파일은 반드시 따로 보관하세요. 결과 파일은 제출 전 사람이 직접 열어 확인해야 합니다."],
       ["제한", "대용량 파일과 대용량 표는 브라우저 성능 보호를 위해 처리 제한이 있습니다."]
     ]
   },
   "/contact/": {
     title: "문의",
-    metaTitle: "문의 - Ready tool",
-    description: "Ready tool 개선 제안과 오류 제보를 위한 안내 페이지입니다.",
+    metaTitle: "문의 - goatool",
+    description: "goatool 개선 제안과 오류 제보를 위한 안내 페이지입니다.",
     body: [
       ["오류 제보", "어떤 도구에서 어떤 파일 형식으로 문제가 생겼는지, 브라우저 종류와 화면 상태를 함께 기록하면 개선에 도움이 됩니다."],
       ["개선 제안", "공공기관 제출, 입사지원, 학교 제출처럼 반복되는 파일 준비 문제가 있으면 새 도구 후보로 검토할 수 있습니다."],
@@ -225,11 +232,11 @@ function render() {
     <a class="skip-link" href="#mainContent">본문 바로가기</a>
     <header class="site-header">
       <div class="header-main">
-        <a class="brand" href="/" data-link aria-label="Ready tool 홈">
+        <a class="brand" href="/" data-link aria-label="goatool 홈">
           <span class="brand-mark" aria-hidden="true">${documentIcon()}</span>
           <span>
-            <strong>Ready <span>tool</span></strong>
-            <small>PUBLIC FILE READY GUIDE</small>
+            <strong>goatool</strong>
+            <small>GOATOOL FILE GUIDE</small>
           </span>
         </a>
         <label class="header-search">
@@ -292,13 +299,14 @@ function render() {
         </div>
 
         <section class="notice-card ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="noticeTitle">
-          <p class="notice-kicker">READY CHECK DB</p>
+          <p class="notice-kicker">GOATOOL CHECK DB</p>
           <h1 id="noticeTitle">제출 전에 파일, 이미지, 표 데이터를 먼저 정리하는 공익형 도구</h1>
           <p>
-            Ready tool은 민원, 입사지원, 학교 과제, 기관 제출처럼 실패하면 다시 올려야 하는 파일 준비 작업을
+            goatool은 민원, 입사지원, 학교 과제, 기관 제출처럼 실패하면 다시 올려야 하는 파일 준비 작업을
             한 화면에서 처리하도록 만든 브라우저 기반 도구입니다.
           </p>
           <div class="notice-badges">
+            <span>goatool 신뢰 기준</span>
             <span>브라우저 처리 우선</span>
             <span>서버 업로드 없음</span>
             <span>공공 제출 준비</span>
@@ -330,7 +338,7 @@ function render() {
         </section>
 
         <section class="guide-copy ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="guideTitle">
-          <h2 id="guideTitle">Ready tool 사용 기준</h2>
+          <h2 id="guideTitle">goatool 사용 기준</h2>
           <div class="guide-grid">
             <article>
               <h3>파일 제출 전</h3>
@@ -404,7 +412,7 @@ function render() {
 
     <footer class="site-footer">
       <div>
-        <strong>Ready tool</strong>
+        <strong>goatool</strong>
         <p>제출 전 파일 준비, 이미지 개인정보 정리, CSV와 엑셀 정리를 돕는 공익형 도구 모음입니다.</p>
       </div>
       <nav aria-label="하단 링크">
@@ -428,15 +436,16 @@ function infoPageFromRoute(pathname) {
 }
 
 function updateDocumentMeta(tool, page = null, guide = null, isGuideIndex = false) {
-  const title = guide?.metaTitle || (isGuideIndex ? guideIndexMeta.metaTitle : page?.metaTitle || `${tool.label} - ${BRAND}`);
-  const description = guide?.description || (isGuideIndex ? guideIndexMeta.description : page?.description || `${tool.label}: ${tool.description}`);
-  const path = guide?.path || (isGuideIndex ? guideIndexMeta.path : page ? normalizePath(location.pathname) : tool.path);
+  const isHome = normalizePath(location.pathname) === "/";
+  const title = guide?.metaTitle || (isGuideIndex ? guideIndexMeta.metaTitle : page?.metaTitle || (isHome ? homeMeta.title : `${tool.label} - ${BRAND}`));
+  const description = guide?.description || (isGuideIndex ? guideIndexMeta.description : page?.description || (isHome ? homeMeta.description : `${tool.label}: ${tool.description}`));
+  const path = guide?.path || (isGuideIndex ? guideIndexMeta.path : page ? normalizePath(location.pathname) : isHome ? "/" : tool.path);
   document.title = title;
   setMeta("description", description);
   setMeta("og:title", title, "property");
   setMeta("og:description", description, "property");
   setCanonical(`${baseDomain}${path}`);
-  updateStructuredData(tool, page, `${baseDomain}${path}`, guide, isGuideIndex);
+  updateStructuredData(tool, page, `${baseDomain}${path}`, guide, isGuideIndex, isHome);
 }
 
 function setMeta(name, content, attribute = "name") {
@@ -459,18 +468,36 @@ function setCanonical(href) {
   node.setAttribute("href", href);
 }
 
-function updateStructuredData(tool, page, url, guide = null, isGuideIndex = false) {
+function updateStructuredData(tool, page, url, guide = null, isGuideIndex = false, isHome = false) {
   let node =
-    document.querySelector("#ready-tool-structured-data") ||
+    document.querySelector("#goatool-structured-data") ||
     document.querySelector('script[type="application/ld+json"]');
   if (!node) {
     node = document.createElement("script");
     node.type = "application/ld+json";
     document.head.append(node);
   }
-  node.id = "ready-tool-structured-data";
-  const data = guide ? guideSchema(guide, url) : isGuideIndex ? guideIndexSchema(url) : page ? organizationSchema(page, url) : toolSchema(tool, url);
+  node.id = "goatool-structured-data";
+  const data = guide ? guideSchema(guide, url) : isGuideIndex ? guideIndexSchema(url) : page ? organizationSchema(page, url) : isHome ? websiteSchema(url) : toolSchema(tool, url);
   node.textContent = JSON.stringify(data);
+}
+
+function websiteSchema(url) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: homeMeta.title,
+    url,
+    inLanguage: "ko-KR",
+    description: homeMeta.description,
+    dateModified: lastUpdated,
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain },
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${baseDomain}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  };
 }
 
 function guideSchema(guide, url) {
@@ -544,7 +571,7 @@ function organizationSchema(page, url) {
 function renderInfoPage(page) {
   return `
     <section class="info-page" aria-labelledby="infoPageTitle">
-      <p class="notice-kicker">READY TOOL STANDARD</p>
+      <p class="notice-kicker">GOATOOL STANDARD</p>
       <h1 id="infoPageTitle">${page.title}</h1>
       <p class="info-lead">${page.description}</p>
       <div class="info-blocks">
@@ -568,7 +595,7 @@ function renderGuideIndexPage() {
   const visibleGuides = filteredGuidePages();
   return `
     <section class="guide-index-page" aria-labelledby="guideIndexTitle">
-      <p class="notice-kicker">READY TOOL LONGTAIL GUIDE</p>
+      <p class="notice-kicker">GOATOOL LONGTAIL GUIDE</p>
       <h1 id="guideIndexTitle">${guideIndexMeta.title}</h1>
       <p class="guide-lead">${guideIndexMeta.description}</p>
       <div class="guide-index-stats" aria-label="가이드 통계">
@@ -630,7 +657,7 @@ function renderGuidePage(guide) {
   return `
     <article class="guide-page" aria-labelledby="guidePageTitle">
       <nav class="breadcrumb" aria-label="현재 위치">
-        <a href="/" data-link>Ready tool</a>
+        <a href="/" data-link>goatool</a>
         <span aria-hidden="true">/</span>
         <a href="/guides/" data-link>전문 가이드</a>
       </nav>
@@ -1129,11 +1156,11 @@ function bindFileReadyEvents() {
   });
 
   manifestButton?.addEventListener("click", () => {
-    if (state.lastManifestBlob) downloadBlob(state.lastManifestBlob, "ready-tool-checklist.txt");
+    if (state.lastManifestBlob) downloadBlob(state.lastManifestBlob, "goatool-checklist.txt");
   });
 
   zipButton?.addEventListener("click", () => {
-    if (state.lastZipBlob) downloadBlob(state.lastZipBlob, "ready-tool-package.zip");
+    if (state.lastZipBlob) downloadBlob(state.lastZipBlob, "goatool-package.zip");
   });
 }
 
@@ -1210,7 +1237,7 @@ function collectFileWarnings(items) {
 
 function makeManifest(prefix, items, warnings) {
   const lines = [
-    "Ready tool 제출 파일 점검표",
+    "goatool 제출 파일 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `묶음 이름: ${prefix}`,
     `파일 수: ${items.length}`,
@@ -1318,7 +1345,7 @@ function bindImagePrivacyEvents() {
   });
 
   downloadButton?.addEventListener("click", () => {
-    if (state.lastImageZipBlob) downloadBlob(state.lastImageZipBlob, "ready-tool-clean-images.zip");
+    if (state.lastImageZipBlob) downloadBlob(state.lastImageZipBlob, "goatool-clean-images.zip");
   });
 }
 
@@ -1502,11 +1529,11 @@ function bindDataCleanEvents() {
   });
 
   csvButton?.addEventListener("click", () => {
-    if (state.lastCsvBlob) downloadBlob(state.lastCsvBlob, "ready-tool-clean.csv");
+    if (state.lastCsvBlob) downloadBlob(state.lastCsvBlob, "goatool-clean.csv");
   });
 
   xlsxButton?.addEventListener("click", () => {
-    if (state.lastXlsxBlob) downloadBlob(state.lastXlsxBlob, "ready-tool-clean.xlsx");
+    if (state.lastXlsxBlob) downloadBlob(state.lastXlsxBlob, "goatool-clean.xlsx");
   });
 }
 

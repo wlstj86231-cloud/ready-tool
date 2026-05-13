@@ -1,4 +1,4 @@
-const CACHE_NAME = "ready-tool-v1";
+const CACHE_NAME = "goatool-v1";
 const SHELL_URLS = ["/", "/guides/", "/favicon.svg", "/site.webmanifest"];
 
 self.addEventListener("install", (event) => {

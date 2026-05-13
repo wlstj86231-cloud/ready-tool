@@ -1,6 +1,6 @@
-# Ready tool
+# goatool
 
-Ready tool is a Korean public-interest browser utility site for preparing files before submission.
+goatool is a Korean public-interest browser utility site for preparing files before submission.
 
 It includes:
 
@@ -37,4 +37,4 @@ Recommended Cloudflare Pages settings:
 
 ## Privacy Model
 
-Ready tool prioritizes browser-side processing. Selected files are read in the user's browser and result files are generated locally by the browser.
+goatool prioritizes browser-side processing. Selected files are read in the user's browser and result files are generated locally by the browser.

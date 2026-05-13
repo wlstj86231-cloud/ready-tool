@@ -5,7 +5,7 @@ import { guideIndexMeta, guidePages } from "../src/guides.js";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const dist = join(root, "../dist");
-const base = "https://readytool.com";
+const base = "https://goatool.com";
 const lastUpdated = "2026-05-13";
 
 const coreRoutes = [
@@ -24,46 +24,46 @@ const guideByPath = new Map(guidePages.map((guide) => [guide.path, guide]));
 
 const routeMeta = {
   "/": {
-    title: "Ready tool - 제출 전 파일, 이미지 개인정보, CSV 정리 도구",
+    title: "goatool - 제출 전 파일, 이미지 개인정보, CSV 정리 도구",
     description:
-      "Ready tool은 민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 이미지 개인정보, CSV와 엑셀 데이터를 브라우저에서 정리하는 공익형 준비 도구입니다."
+      "goatool은 민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 이미지 개인정보, CSV와 엑셀 데이터를 브라우저에서 정리하는 공익형 준비 도구입니다."
   },
   "/tools/file-ready/": {
-    title: "파일 준비 점검 - Ready tool",
+    title: "파일 준비 점검 - goatool",
     description:
       "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다.",
     type: "SoftwareApplication",
     features: ["파일명 점검", "SHA-256 해시", "제출용 ZIP", "점검표 TXT"]
   },
   "/tools/image-privacy/": {
-    title: "이미지 개인정보 정리 - Ready tool",
+    title: "이미지 개인정보 정리 - goatool",
     description:
       "사진과 캡처 이미지를 캔버스로 다시 저장해 EXIF 노출 가능성을 줄이고 제출용 이미지 ZIP을 만듭니다.",
     type: "SoftwareApplication",
     features: ["캔버스 재저장", "EXIF 노출 가능성 감소", "이미지 리사이즈", "결과 ZIP"]
   },
   "/tools/data-clean/": {
-    title: "CSV·엑셀 정리 - Ready tool",
+    title: "CSV·엑셀 정리 - goatool",
     description:
       "CSV와 XLSX 표의 앞뒤 공백, 빈 행과 빈 열, 중복 행을 정리하고 CSV 또는 XLSX로 다시 내려받습니다.",
     type: "SoftwareApplication",
     features: ["CSV 정리", "XLSX 첫 번째 시트 읽기", "빈 행 제거", "중복 행 제거"]
   },
   "/about/": {
-    title: "소개 - Ready tool",
-    description: "Ready tool은 제출 전 파일 준비와 개인정보 정리를 돕는 공익형 브라우저 도구 모음입니다."
+    title: "소개 - goatool",
+    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 공익형 브라우저 도구 모음입니다."
   },
   "/privacy/": {
-    title: "개인정보 처리방침 - Ready tool",
-    description: "Ready tool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다."
+    title: "개인정보 처리방침 - goatool",
+    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다."
   },
   "/terms/": {
-    title: "이용안내 - Ready tool",
-    description: "Ready tool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다."
+    title: "이용안내 - goatool",
+    description: "goatool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다."
   },
   "/contact/": {
-    title: "문의 - Ready tool",
-    description: "Ready tool 개선 제안과 오류 제보를 위한 안내 페이지입니다."
+    title: "문의 - goatool",
+    description: "goatool 개선 제안과 오류 제보를 위한 안내 페이지입니다."
   },
   [guideIndexMeta.path]: {
     title: guideIndexMeta.metaTitle,
@@ -101,8 +101,8 @@ function htmlForRoute(route, html) {
     .replace(/<meta\s+property="og:description"[\s\S]*?\/>/, `<meta property="og:description" content="${escapeAttr(meta.description)}" />`)
     .replace(/<meta property="og:url" content="[^"]*"\s*\/?>/, `<meta property="og:url" content="${url}" />`)
     .replace(
-      /<script(?:\s+id="ready-tool-structured-data")?\s+type="application\/ld\+json">[\s\S]*?<\/script>/,
-      `<script id="ready-tool-structured-data" type="application/ld+json">${JSON.stringify(schemaForRoute(route, meta, url))}</script>`
+      /<script(?:\s+id="goatool-structured-data")?\s+type="application\/ld\+json">[\s\S]*?<\/script>/,
+      `<script id="goatool-structured-data" type="application/ld+json">${JSON.stringify(schemaForRoute(route, meta, url))}</script>`
     )
     .replace(/<div id="app"><\/div>/, `<div id="app">${fallbackForRoute(route, meta)}</div>`);
 }
@@ -138,12 +138,12 @@ function fallbackForRoute(route, meta) {
     : "";
 
   return `
-    <main class="static-fallback" aria-label="Ready tool 정적 페이지 요약">
-      <p class="static-kicker">Ready tool</p>
-      <h1>${escapeHtml(meta.title.replace(" - Ready tool", ""))}</h1>
+    <main class="static-fallback" aria-label="goatool 정적 페이지 요약">
+      <p class="static-kicker">goatool</p>
+      <h1>${escapeHtml(meta.title.replace(" - goatool", ""))}</h1>
       <p>${escapeHtml(meta.description)}</p>
       ${featureBlock}
-      <nav aria-label="Ready tool 주요 페이지">
+      <nav aria-label="goatool 주요 페이지">
         ${links
           .map(([href, label]) => `<a href="${href}"${href === route ? ' aria-current="page"' : ""}>${label}</a>`)
           .join("")}
@@ -154,8 +154,8 @@ function fallbackForRoute(route, meta) {
 
 function guideIndexFallback() {
   return `
-    <main class="static-fallback static-guide-index" aria-label="Ready tool 전문 가이드 목록">
-      <p class="static-kicker">Ready tool guide</p>
+    <main class="static-fallback static-guide-index" aria-label="goatool 전문 가이드 목록">
+      <p class="static-kicker">goatool guide</p>
       <h1>${escapeHtml(guideIndexMeta.title)}</h1>
       <p>${escapeHtml(guideIndexMeta.description)}</p>
       <section>
@@ -210,8 +210,8 @@ function schemaForRoute(route, meta, url) {
       description: meta.guide.description,
       datePublished: meta.guide.dateModified,
       dateModified: meta.guide.dateModified,
-      author: { "@type": "Organization", name: "Ready tool", url: base },
-      publisher: { "@type": "Organization", name: "Ready tool", url: base },
+      author: { "@type": "Organization", name: "goatool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base },
       articleSection: meta.guide.category,
       keywords: [meta.guide.keyword, ...meta.guide.related],
       wordCount: meta.guide.nonSpaceLength
@@ -227,7 +227,7 @@ function schemaForRoute(route, meta, url) {
       inLanguage: "ko-KR",
       description: meta.description,
       dateModified: lastUpdated,
-      publisher: { "@type": "Organization", name: "Ready tool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base },
       hasPart: guidePages.map((guide) => ({
         "@type": "Article",
         name: guide.title,
@@ -248,7 +248,7 @@ function schemaForRoute(route, meta, url) {
       description: meta.description,
       dateModified: lastUpdated,
       offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
-      publisher: { "@type": "Organization", name: "Ready tool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base },
       featureList: meta.features || []
     };
   }
@@ -261,7 +261,7 @@ function schemaForRoute(route, meta, url) {
     inLanguage: "ko-KR",
     description: meta.description,
     dateModified: lastUpdated,
-    publisher: { "@type": "Organization", name: "Ready tool", url: base }
+    publisher: { "@type": "Organization", name: "goatool", url: base }
   };
 }
 
