@@ -1,14 +1,24 @@
 # goatool
 
-goatool is a Korean public-interest browser utility site for preparing files before submission.
+goatool is a Korean browser utility site for public-service submissions, job applications, and school or institution file preparation.
 
 It includes:
 
+- Photo resizing for job-application and public-application image presets.
+- PDF merge and page extraction for submission-ready documents.
 - File readiness checks with filename, size, extension, duplicate detection, SHA-256 hashes, TXT checklist, and ZIP packaging.
-- Image privacy cleanup through browser canvas re-save, resize, format selection, and ZIP export.
+- Image privacy and file-size cleanup through browser canvas re-save, resize, format selection, and ZIP export.
+- Batch filename cleanup with ZIP export and rename map.
+- Image-to-PDF conversion for scanned documents and evidence images.
+- ZIP content inspection for internal file lists and folder-depth warnings.
+- Text length and UTF-8 byte counting for application forms.
+- Text whitespace cleanup for form paste workflows.
+- Image dimension inspection for pixel, ratio, and size checks.
+- Fast TXT/CSV file-list generation.
+- SHA-256 file comparison for before/after verification.
 - CSV and XLSX cleanup for trimming, blank row/column removal, duplicate row removal, and CSV/XLSX export.
 - Long-form Korean guide pages for submission workflows, privacy checks, and spreadsheet cleanup.
-- Reader retention features such as guide search, category filters, bookmarks, recent guides, reading progress, and PWA support.
+- Reader retention features such as popular-task lanes, recent tools, guide search, category filters, bookmarks, recent guides, reading progress, and PWA support.
 
 ## Development
 

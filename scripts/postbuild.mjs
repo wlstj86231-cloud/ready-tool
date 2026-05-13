@@ -9,8 +9,18 @@ const base = "https://goatool.com";
 const lastUpdated = "2026-05-13";
 
 const coreRoutes = [
+  "/tools/photo-resize/",
+  "/tools/pdf-organizer/",
   "/tools/file-ready/",
   "/tools/image-privacy/",
+  "/tools/filename-cleaner/",
+  "/tools/image-to-pdf/",
+  "/tools/zip-inspector/",
+  "/tools/text-counter/",
+  "/tools/text-cleaner/",
+  "/tools/image-inspector/",
+  "/tools/file-list/",
+  "/tools/hash-compare/",
   "/tools/data-clean/",
   "/about/",
   "/privacy/",
@@ -24,23 +34,93 @@ const guideByPath = new Map(guidePages.map((guide) => [guide.path, guide]));
 
 const routeMeta = {
   "/": {
-    title: "goatool - 제출 전 파일, 이미지 개인정보, CSV 정리 도구",
+    title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
     description:
-      "goatool은 민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 이미지 개인정보, CSV와 엑셀 데이터를 브라우저에서 정리하는 공익형 준비 도구입니다."
+      "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 증명사진 규격 맞추기, 이미지 용량 정리, 파일명 정리, ZIP 점검을 브라우저에서 처리하는 실용 도구입니다."
+  },
+  "/tools/photo-resize/": {
+    title: "증명사진 규격 맞추기 - goatool",
+    description:
+      "이력서 사진, 응시원서 사진, 민원 첨부 사진을 3x4, 3.5x4.5, 100x140, 150x210 같은 규격과 용량 기준에 맞춰 새 JPG로 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["증명사진 리사이즈", "JPG 용량 조절", "3x4 비율", "입사지원 사진 규격"]
+  },
+  "/tools/pdf-organizer/": {
+    title: "PDF 합치기·페이지 뽑기 - goatool",
+    description:
+      "여러 PDF를 하나로 합치거나 긴 PDF에서 필요한 페이지만 추출해 민원·입사지원 제출용 PDF를 브라우저에서 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 합치기", "PDF 페이지 추출", "제출용 PDF", "브라우저 PDF 처리"]
   },
   "/tools/file-ready/": {
-    title: "파일 준비 점검 - goatool",
+    title: "제출 파일 점검·ZIP - goatool",
     description:
       "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다.",
     type: "SoftwareApplication",
     features: ["파일명 점검", "SHA-256 해시", "제출용 ZIP", "점검표 TXT"]
   },
   "/tools/image-privacy/": {
-    title: "이미지 개인정보 정리 - goatool",
+    title: "이미지 용량·개인정보 정리 - goatool",
     description:
       "사진과 캡처 이미지를 캔버스로 다시 저장해 EXIF 노출 가능성을 줄이고 제출용 이미지 ZIP을 만듭니다.",
     type: "SoftwareApplication",
-    features: ["캔버스 재저장", "EXIF 노출 가능성 감소", "이미지 리사이즈", "결과 ZIP"]
+      features: ["캔버스 재저장", "EXIF 노출 가능성 감소", "이미지 리사이즈", "결과 ZIP"]
+  },
+  "/tools/filename-cleaner/": {
+    title: "파일명 일괄 정리 - goatool",
+    description:
+      "여러 파일의 특수문자, 공백, 번호, 날짜를 정리하고 제출용 파일명 변경표와 ZIP을 브라우저에서 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["파일명 일괄 정리", "제출용 ZIP", "변경표 TXT", "특수문자 정리"]
+  },
+  "/tools/image-to-pdf/": {
+    title: "이미지 PDF 변환 - goatool",
+    description:
+      "JPG, PNG, WebP 이미지와 스캔본을 페이지별 PDF로 묶어 제출용 첨부 파일을 브라우저에서 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["JPG PDF 변환", "PNG PDF 변환", "스캔본 PDF", "이미지 묶기"]
+  },
+  "/tools/zip-inspector/": {
+    title: "ZIP 내용 점검 - goatool",
+    description:
+      "ZIP 파일 안의 내부 파일 수, 폴더 깊이, 파일명 위험 신호를 브라우저에서 확인하고 파일 목록 TXT를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["ZIP 내부 목록", "폴더 깊이 확인", "숨김 파일 점검", "파일 목록 TXT"]
+  },
+  "/tools/text-counter/": {
+    title: "자소서 글자수·바이트 계산 - goatool",
+    description:
+      "자기소개서와 지원 문항의 공백 포함·제외 글자수, 줄 수, UTF-8 바이트를 브라우저에서 즉시 계산합니다.",
+    type: "SoftwareApplication",
+    features: ["글자수 계산", "공백 제외", "UTF-8 바이트", "자기소개서 제한 확인"]
+  },
+  "/tools/text-cleaner/": {
+    title: "텍스트 공백 정리 - goatool",
+    description:
+      "지원서 문항과 민원 사유문을 붙여넣기 전에 과한 공백, 탭, 빈 줄을 브라우저에서 정리합니다.",
+    type: "SoftwareApplication",
+    features: ["공백 정리", "줄바꿈 정리", "탭 제거", "정리본 복사"]
+  },
+  "/tools/image-inspector/": {
+    title: "이미지 규격 확인 - goatool",
+    description:
+      "사진과 스캔 이미지의 픽셀 크기, 비율, 용량, 확장자를 브라우저에서 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 픽셀 확인", "이미지 용량 확인", "비율 계산", "다중 이미지 표"]
+  },
+  "/tools/file-list/": {
+    title: "파일 목록 만들기 - goatool",
+    description:
+      "선택한 파일의 이름, 확장자, 용량을 TXT와 CSV 목록으로 만들어 제출 전후 기록으로 보관합니다.",
+    type: "SoftwareApplication",
+    features: ["파일 목록 TXT", "파일 목록 CSV", "확장자 확인", "총 용량 계산"]
+  },
+  "/tools/hash-compare/": {
+    title: "파일 해시 비교 - goatool",
+    description:
+      "두 파일의 SHA-256 해시를 계산해 제출 전후 파일 동일성을 브라우저에서 비교합니다.",
+    type: "SoftwareApplication",
+    features: ["SHA-256", "파일 동일성 비교", "제출 전후 검증", "해시 결과 TXT"]
   },
   "/tools/data-clean/": {
     title: "CSV·엑셀 정리 - goatool",
@@ -51,7 +131,7 @@ const routeMeta = {
   },
   "/about/": {
     title: "소개 - goatool",
-    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 공익형 브라우저 도구 모음입니다."
+    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 브라우저 도구 모음입니다."
   },
   "/privacy/": {
     title: "개인정보 처리방침 - goatool",
@@ -125,10 +205,21 @@ function fallbackForRoute(route, meta) {
   if (route === guideIndexMeta.path) return guideIndexFallback();
 
   const links = [
+    ["/tools/photo-resize/", "증명사진 규격 맞추기"],
+    ["/tools/pdf-organizer/", "PDF 합치기·페이지 뽑기"],
     ["/tools/file-ready/", "파일 준비 점검"],
     ["/tools/image-privacy/", "이미지 개인정보 정리"],
+    ["/tools/filename-cleaner/", "파일명 일괄 정리"],
+    ["/tools/image-to-pdf/", "이미지 PDF 변환"],
+    ["/tools/zip-inspector/", "ZIP 내용 점검"],
+    ["/tools/text-counter/", "자소서 글자수·바이트 계산"],
+    ["/tools/text-cleaner/", "텍스트 공백 정리"],
+    ["/tools/image-inspector/", "이미지 규격 확인"],
+    ["/tools/file-list/", "파일 목록 만들기"],
+    ["/tools/hash-compare/", "파일 해시 비교"],
     ["/tools/data-clean/", "CSV·엑셀 정리"],
     ["/guides/", "전문 가이드"],
+    ["https://policyfundpedia.com/", "정책자금 백과"],
     ["/about/", "소개"],
     ["/privacy/", "개인정보 처리방침"]
   ];
@@ -189,6 +280,9 @@ function guideFallback(guide) {
           .join("")}
         <nav aria-label="관련 페이지">
           <a href="/guides/">전체 전문 가이드</a>
+          <a href="/tools/photo-resize/">증명사진 규격 맞추기</a>
+          <a href="/tools/pdf-organizer/">PDF 합치기·페이지 뽑기</a>
+          <a href="/tools/zip-inspector/">ZIP 내용 점검</a>
           <a href="/tools/file-ready/">파일 준비 점검</a>
           <a href="/tools/image-privacy/">이미지 개인정보 정리</a>
           <a href="/tools/data-clean/">CSV·엑셀 정리</a>

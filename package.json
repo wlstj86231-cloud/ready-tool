@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "goatool public utility browser tools for file, image privacy, and CSV cleanup.",
+  "description": "goatool browser tools for Korean public submission, job application files, PDFs, photo resizing, and cleanup.",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
     "build": "vite build && node scripts/postbuild.mjs",
@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "exceljs": "^4.4.0",
-    "jszip": "^3.10.1"
+    "jszip": "^3.10.1",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "playwright": "^1.60.0",
