@@ -5,6 +5,7 @@ goatool is a Korean browser utility site for public-service submissions, job app
 It includes:
 
 - Photo resizing for job-application and public-application image presets.
+- Broad file viewing for PDF, images, SVG, video, audio, fonts, Markdown, JSON/JSONL, XML, YAML/TOML/INI/ENV config files, SRT/VTT subtitles, LOG files, source code, RTF, ICS calendar, VCF contacts, EML email, EPUB metadata and chapters, CSS color palettes, UTF-8/UTF-16/CP949 text, auto-delimited CSV/TSV, ODS, XLSX/XLSM, ZIP-based bundles, DOCX/DOCM, PPTX/PPTM, HWPX, ODT, ODP, signature mismatch warnings, and raw-byte fallback checks.
 - PDF merge and page extraction for submission-ready documents.
 - File readiness checks with filename, size, extension, duplicate detection, SHA-256 hashes, TXT checklist, and ZIP packaging.
 - Image privacy and file-size cleanup through browser canvas re-save, resize, format selection, and ZIP export.

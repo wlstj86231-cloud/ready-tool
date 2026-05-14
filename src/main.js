@@ -14,6 +14,12 @@ const LIMITS = {
   totalBytes: 250 * 1024 * 1024,
   singleBytes: 80 * 1024 * 1024,
   csvTextBytes: 8 * 1024 * 1024,
+  viewerTextBytes: 6 * 1024 * 1024,
+  viewerPreviewChars: 120000,
+  viewerHexBytes: 4096,
+  viewerArchiveEntries: 1000,
+  viewerTableRows: 120,
+  viewerTableCols: 24,
   rows: 50000,
   cells: 500000,
   pdfCount: 30,
@@ -81,6 +87,17 @@ const tools = [
     title: "PDF 쪽수와 페이지 방향을 제출 전에 점검하기",
     description: "여러 PDF의 쪽수, 첫 페이지 크기, 가로 페이지, 서로 다른 페이지 크기 여부를 표로 확인해 업로드 전 위험 신호를 줄입니다.",
     tags: ["PDF", "쪽수", "방향 점검"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "file-viewer",
+    path: "/tools/file-viewer/",
+    group: "제출 상위",
+    label: "파일 뷰어",
+    short: "XLSX, HWPX, PDF, ZIP",
+    title: "파일 뷰어",
+    description: "XLSX 표, HWPX 문서, PDF, 이미지, ZIP처럼 형식이 다른 제출 파일을 업로드 전 한 화면에서 미리 확인합니다.",
+    tags: ["XLSX 뷰어", "HWPX 뷰어", "PDF"],
     situations: ["public", "job", "school", "share"]
   },
   {
@@ -368,6 +385,12 @@ const simpleToolCopy = {
     short: "쪽수, 방향, 크기 확인",
     title: "PDF 구조 점검",
     description: "PDF 쪽수와 페이지 크기, 가로 페이지 여부를 제출 전에 한 번에 확인합니다."
+  },
+  "file-viewer": {
+    label: "파일 뷰어",
+    short: "XLSX·HWPX·PDF 미리보기",
+    title: "파일 뷰어",
+    description: "파일 하나를 고르면 XLSX 표 보기, HWPX 문서 텍스트 추출, PDF·이미지 미리보기를 자동으로 보여줍니다."
   },
   "pdf-a4-normalizer": {
     label: "PDF A4 맞춤",
@@ -866,6 +889,7 @@ const toolOrder = [
   "photo-resize",
   "pdf-organizer",
   "image-to-pdf",
+  "file-viewer",
   "file-ready",
   "required-doc-checker",
   "bundle-rule-checker",
@@ -904,7 +928,7 @@ const situations = [
 const homeMeta = {
   title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
   description:
-    "goatool은 민원 제출과 입사지원 전에 PDF 합치기, A4 맞춤, PDF 나누기, ZIP 다시 포장, 증명사진 규격, 제출 규칙 검사, 개인정보 가림, 표 개인정보 점검을 브라우저에서 처리하는 실용 도구입니다."
+    "goatool은 민원 제출과 입사지원 전에 파일 뷰어, PDF 합치기, A4 맞춤, PDF 나누기, ZIP 다시 포장, 증명사진 규격, 제출 규칙 검사, 개인정보 가림, 표 개인정보 점검을 브라우저에서 처리하는 실용 도구입니다."
 };
 
 const expertise = {
@@ -996,6 +1020,27 @@ const expertise = {
     faq: [
       ["왜 페이지 크기를 확인해야 하나요?", "스캔본을 합치는 과정에서 A4와 이미지 크기 페이지가 섞이면 출력이나 검토 화면에서 어색하게 보일 수 있습니다."],
       ["PDF를 수정하나요?", "아니요. 구조 점검은 읽기 전용이며 결과 PDF를 만들지 않습니다."]
+    ]
+  },
+  "file-viewer": {
+    summary: "파일 뷰어는 제출 직전에 XLSX, HWPX, PDF, 이미지, ZIP 파일이 제대로 열리는지 한 화면에서 확인하는 읽기 전용 뷰어입니다. 브라우저가 직접 표시할 수 있는 파일은 원본 미리보기로 열고, 문서·압축·표 파일은 구조와 텍스트 일부를 꺼내 보여줍니다.",
+    method: [
+      "확장자, MIME, 파일 앞부분 서명을 함께 보고 PDF, 이미지, 미디어, 텍스트, 표, 압축, 오피스 XML 계열을 자동 분류합니다.",
+      "CP949/EUC-KR, UTF-8, UTF-16 텍스트를 비교 해석하고 CSV는 쉼표·탭·세미콜론·파이프 구분자를 자동 추정합니다.",
+      "PDF·이미지·영상·음성은 브라우저 내장 뷰어로 열고 CSV·ODS·XLSX·XLSM은 상위 행을 표로 보여줍니다.",
+      "Markdown은 읽기 화면, JSON·XML은 구조 요약, ICS·VCF·EML은 일정·연락처·메일 요약, CSS 계열은 색상 팔레트를 함께 보여줍니다.",
+      "YAML·TOML·INI·ENV 설정 파일, SRT·VTT 자막, LOG, RTF, SVG, 코드 파일은 구조와 핵심 줄을 따로 요약합니다.",
+      "TTF·OTF·WOFF 폰트는 브라우저 FontFace 샘플로 열고, DOCX, DOCM, PPTX, PPTM, HWPX, ODT, EPUB처럼 ZIP 기반 문서는 내부 텍스트와 목차 후보를 추출합니다."
+    ],
+    limits: [
+      "HWP 같은 폐쇄형 바이너리 문서는 전체 레이아웃을 재현하지 않고 파일 정보와 일부 원시 미리보기만 제공합니다.",
+      "암호화된 PDF, 손상된 ZIP, 매우 큰 문서는 브라우저 메모리 보호를 위해 제한될 수 있습니다.",
+      "HTML·SVG 등 실행 가능한 요소가 섞일 수 있는 파일은 보안을 위해 원본 실행보다 안전한 표시 방식을 우선합니다."
+    ],
+    checklist: ["제출 전 실제 파일명과 확장자 확인", "미리보기에서 내용이 깨지지 않는지 확인", "추출 텍스트와 원본 표시가 다르면 원본 프로그램으로 한 번 더 확인"],
+    faq: [
+      ["파일이 서버로 올라가나요?", "아니요. 선택한 파일은 브라우저에서만 읽고 미리보기와 추출 텍스트도 로컬에서 만듭니다."],
+      ["DOCX나 HWPX도 보이나요?", "DOCX, DOCM, PPTX, PPTM, HWPX처럼 ZIP 기반 문서는 내부 텍스트를 추출해 확인할 수 있습니다. 다만 원본 편집기 레이아웃과 완전히 같지는 않을 수 있습니다."]
     ]
   },
   "pdf-a4-normalizer": {
@@ -1477,6 +1522,9 @@ const state = {
   lastPdfLabelBlob: null,
   lastPdfRotateBlob: null,
   lastPdfInfoReportBlob: null,
+  lastViewerObjectUrl: null,
+  lastViewerText: "",
+  lastViewerTextBlob: null,
   lastPdfA4Blob: null,
   lastPdfSplitZipBlob: null,
   lastPdfSplitReportBlob: null,
@@ -1548,6 +1596,7 @@ function toolCue(tool) {
   if (tool.id === "pdf-page-labeler") return "페이지 번호를 붙일 PDF를 고르세요";
   if (tool.id === "pdf-rotate") return "방향을 돌릴 PDF를 고르세요";
   if (tool.id === "pdf-info") return "구조를 점검할 PDF를 고르세요";
+  if (tool.id === "file-viewer") return "XLSX, HWPX, PDF 같은 파일 하나를 고르세요";
   if (tool.id === "pdf-a4-normalizer") return "A4로 맞출 PDF를 고르세요";
   if (tool.id === "pdf-splitter") return "나눌 PDF와 쪽수 단위를 고르세요";
   if (tool.id === "pdf-blank-remover") return "빈 페이지를 정리할 PDF를 고르세요";
@@ -2298,6 +2347,7 @@ function renderTool(id) {
   if (id === "pdf-page-labeler") return renderPdfPageLabelerTool();
   if (id === "pdf-rotate") return renderPdfRotateTool();
   if (id === "pdf-info") return renderPdfInfoTool();
+  if (id === "file-viewer") return renderFileViewerTool();
   if (id === "pdf-a4-normalizer") return renderPdfA4NormalizerTool();
   if (id === "pdf-splitter") return renderPdfSplitterTool();
   if (id === "pdf-blank-remover") return renderPdfBlankRemoverTool();
@@ -2534,6 +2584,62 @@ function renderPdfInfoTool() {
       </form>
       <div class="result-panel" id="pdfInfoResult" role="status" aria-live="polite" aria-atomic="false">
         <p class="empty-result">PDF를 선택하면 제출 전에 확인할 구조 정보를 표로 보여줍니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderFileViewerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="fileViewerForm" novalidate>
+        <div class="viewer-support-card" aria-label="파일 뷰어 지원 형식">
+          <strong>파일 뷰어</strong>
+          <p>XLSX는 표로, HWPX는 문서 내부 텍스트로 바로 확인합니다.</p>
+          <div class="viewer-format-grid" aria-label="주요 지원 형식">
+            <span><b>XLSX</b><em>엑셀 첫 시트 표 보기</em></span>
+            <span><b>HWPX</b><em>한글 문서 텍스트 추출</em></span>
+            <span><b>PDF</b><em>내장 뷰어 미리보기</em></span>
+            <span><b>ZIP</b><em>압축 내부 목록 확인</em></span>
+          </div>
+        </div>
+        <label class="field">
+          <span>파일 선택</span>
+          <input id="fileViewerInput" class="file-native" type="file" aria-label="미리 볼 파일 선택" />
+          <span class="file-picker">${viewerIcon()} 파일 고르기</span>
+          <em id="fileViewerCount" class="file-count">XLSX, HWPX, PDF, 이미지, ZIP, 문서, 표, 코드 파일을 선택하세요</em>
+        </label>
+        <label class="field">
+          <span>보기 방식</span>
+          <select id="fileViewerMode">
+            <option value="auto" selected>자동으로 맞춰 보기</option>
+            <option value="table">XLSX·CSV 표 보기</option>
+            <option value="office">HWPX·DOCX 문서 보기</option>
+            <option value="text">텍스트로 보기</option>
+            <option value="archive">ZIP 내부 목록 보기</option>
+            <option value="hex">원시 바이트 보기</option>
+          </select>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 보기 옵션 변경</summary>
+          <label class="field">
+            <span>찾을 단어</span>
+            <input id="fileViewerQuery" type="search" placeholder="예: 이름, 금액, 증명서" autocomplete="off" />
+          </label>
+          <div class="check-grid">
+            <label><input id="fileViewerLineNumbers" type="checkbox" checked /> 텍스트 줄 번호</label>
+            <label><input id="fileViewerSafeOnly" type="checkbox" checked /> 실행 대신 안전 표시</label>
+          </div>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${viewerIcon()} 파일 보기</button>
+          <button class="ghost-button" type="button" id="copyViewerText" disabled>텍스트 복사</button>
+          <button class="ghost-button" type="button" id="downloadViewerText" disabled>${downloadIcon()} TXT 저장</button>
+        </div>
+        <p class="helper-text">파일은 브라우저 안에서만 읽습니다. XLSX는 첫 번째 시트를 표로, HWPX는 내부 XML 텍스트를 추출해 보여줍니다.</p>
+      </form>
+      <div class="result-panel" id="fileViewerResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">파일을 선택하면 형식에 맞는 미리보기와 구조 정보가 표시됩니다.</p>
       </div>
     </div>
   `;
@@ -3457,6 +3563,10 @@ function bindToolEvents(id) {
     bindPdfInfoEvents();
     return;
   }
+  if (id === "file-viewer") {
+    bindFileViewerEvents();
+    return;
+  }
   if (id === "pdf-a4-normalizer") {
     bindPdfA4NormalizerEvents();
     return;
@@ -4163,6 +4273,2186 @@ function renderPdfInfoResult(output) {
       </table>
     </div>
   `;
+}
+
+function bindFileViewerEvents() {
+  const form = document.querySelector("#fileViewerForm");
+  const input = document.querySelector("#fileViewerInput");
+  const count = document.querySelector("#fileViewerCount");
+  const mode = document.querySelector("#fileViewerMode");
+  const query = document.querySelector("#fileViewerQuery");
+  const lineNumbers = document.querySelector("#fileViewerLineNumbers");
+  const safeOnly = document.querySelector("#fileViewerSafeOnly");
+  const copyButton = document.querySelector("#copyViewerText");
+  const downloadButton = document.querySelector("#downloadViewerText");
+
+  const rerun = () => {
+    if (input?.files?.[0]) form?.requestSubmit();
+  };
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "XLSX, HWPX, PDF, 이미지, ZIP, 문서, 표, 코드 파일을 선택하세요";
+    rerun();
+  });
+
+  mode?.addEventListener("change", rerun);
+  lineNumbers?.addEventListener("change", rerun);
+  safeOnly?.addEventListener("change", rerun);
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#fileViewerResult");
+    copyButton.disabled = true;
+    downloadButton.disabled = true;
+    state.lastViewerText = "";
+    state.lastViewerTextBlob = null;
+    if (state.lastViewerObjectUrl) {
+      URL.revokeObjectURL(state.lastViewerObjectUrl);
+      state.lastViewerObjectUrl = null;
+    }
+
+    if (!file) {
+      showResultMessage(result, "볼 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.singleBytes) {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.singleBytes)}를 넘습니다. 브라우저에서 안정적으로 보기 어렵습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "파일 형식을 확인하고 미리보기를 준비하는 중입니다...");
+    try {
+      const output = await inspectViewerFile(file, {
+        mode: mode?.value || "auto",
+        query: query?.value || "",
+        lineNumbers: Boolean(lineNumbers?.checked),
+        safeOnly: Boolean(safeOnly?.checked)
+      });
+      state.lastViewerText = output.text || "";
+      if (state.lastViewerText) {
+        state.lastViewerTextBlob = new Blob([state.lastViewerText], { type: "text/plain;charset=utf-8" });
+        copyButton.disabled = false;
+        downloadButton.disabled = false;
+      }
+      result.innerHTML = renderFileViewerResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "파일을 읽지 못했습니다. 손상, 암호화, 또는 브라우저가 읽기 어려운 형식인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  query?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      rerun();
+    }
+  });
+
+  copyButton?.addEventListener("click", async () => {
+    if (!state.lastViewerText) return;
+    try {
+      await navigator.clipboard.writeText(state.lastViewerText);
+      const original = copyButton.textContent;
+      copyButton.textContent = "복사 완료";
+      window.setTimeout(() => {
+        copyButton.textContent = original || "텍스트 복사";
+      }, 1200);
+    } catch {
+      downloadBlob(state.lastViewerTextBlob, "goatool-viewer-text.txt");
+    }
+  });
+
+  downloadButton?.addEventListener("click", () => {
+    if (state.lastViewerTextBlob) downloadBlob(state.lastViewerTextBlob, "goatool-viewer-text.txt");
+  });
+}
+
+async function inspectViewerFile(file, options) {
+  const ext = extensionOf(file.name);
+  const detection = await detectViewerKind(file);
+  const detected = detection.kind;
+  const mode = options.mode === "auto" ? detected : options.mode;
+  const base = {
+    fileName: file.name,
+    extension: ext || "-",
+    size: file.size,
+    mime: file.type || "알 수 없음",
+    modified: file.lastModified ? new Date(file.lastModified).toLocaleString("ko-KR") : "-",
+    detectedLabel: detection.label,
+    query: options.query.trim(),
+    notes: [],
+    text: "",
+    previewHtml: ""
+  };
+  if (detection.warning) base.notes.push(detection.warning);
+  if (file.size === 0) base.notes.push("빈 파일입니다. 파일명과 형식 정보만 확인할 수 있습니다.");
+
+  if (mode === "hex") return inspectViewerAsHex(file, base);
+  if (mode === "archive") return inspectViewerWithFallback(() => inspectViewerAsArchive(file, base), file, base, "압축 구조로 열지 못해 원시 바이트 보기로 전환했습니다.");
+  if (mode === "table") return inspectViewerWithFallback(() => inspectViewerAsTable(file, base, options), file, base, "표 구조로 읽지 못해 원시 바이트 보기로 전환했습니다.");
+  if (mode === "office") return inspectViewerWithFallback(() => inspectViewerAsOfficeText(file, base, options), file, base, "문서 내부 텍스트를 읽지 못해 원시 바이트 보기로 전환했습니다.");
+  if (mode === "text") return inspectViewerAsText(file, base, options);
+
+  if (detected === "font") return inspectViewerWithFallback(() => inspectViewerAsFont(file, base), file, base, "폰트 미리보기를 만들지 못해 원시 바이트 보기로 전환했습니다.");
+  if (detected === "markdown") return inspectViewerAsMarkdown(file, base, options);
+  if (detected === "json") return inspectViewerAsJson(file, base, options);
+  if (detected === "xml") return inspectViewerAsXml(file, base, options);
+  if (detected === "calendar") return inspectViewerAsCalendar(file, base, options);
+  if (detected === "contact") return inspectViewerAsContact(file, base, options);
+  if (detected === "email") return inspectViewerAsEmail(file, base, options);
+  if (detected === "svg") return inspectViewerAsSvg(file, base, options);
+  if (detected === "config") return inspectViewerAsConfig(file, base, options);
+  if (detected === "subtitle") return inspectViewerAsSubtitle(file, base, options);
+  if (detected === "log") return inspectViewerAsLog(file, base, options);
+  if (detected === "code") return inspectViewerAsCode(file, base, options);
+  if (detected === "rtf") return inspectViewerAsRtf(file, base, options);
+  if (detected === "epub") return inspectViewerAsEpubWithFallback(file, base, options);
+  if (detected === "image") return inspectViewerAsImage(file, base);
+  if (detected === "pdf") return inspectViewerAsPdf(file, base);
+  if (detected === "audio" || detected === "video") return inspectViewerAsMedia(file, base, detected);
+  if (detected === "table") return inspectViewerWithFallback(() => inspectViewerAsTable(file, base, options), file, base, "표 구조로 읽지 못해 원시 바이트 보기로 전환했습니다.");
+  if (detected === "office-text") return inspectViewerWithFallback(() => inspectViewerAsOfficeText(file, base, options), file, base, "문서 내부 텍스트를 읽지 못해 원시 바이트 보기로 전환했습니다.");
+  if (detected === "archive") return inspectViewerWithFallback(() => inspectViewerAsArchive(file, base), file, base, "압축 구조로 열지 못해 원시 바이트 보기로 전환했습니다.");
+  if (detected === "text") return inspectViewerAsText(file, base, options);
+  return inspectViewerAsHex(file, base, "브라우저가 바로 표시하기 어려운 바이너리 파일입니다. 파일 정보와 앞부분 바이트를 보여줍니다.");
+}
+
+async function inspectViewerWithFallback(action, file, base, message) {
+  try {
+    return await action();
+  } catch {
+    if (!base.notes.includes(message)) base.notes.push(message);
+    return inspectViewerAsHex(file, base, "대체 보기로 파일 앞부분 바이트를 표시합니다.");
+  }
+}
+
+async function detectViewerKind(file) {
+  const ext = extensionOf(file.name);
+  const mime = file.type || "";
+  const signature = await sniffViewerSignature(file, ext).catch(() => ({ kind: "", label: "" }));
+  const extKind = viewerKindFromExtension(ext);
+  const nameKind = viewerKindFromFileName(file.name);
+  const mimeKind = viewerKindFromMime(mime);
+  const signatureKind = (extKind === "config" || nameKind === "config") && ["code", "text"].includes(signature.kind) ? "" : signature.kind;
+  const kind = signatureKind || extKind || nameKind || mimeKind || (isViewerTextFile(file) ? "text" : "binary");
+  const label = signatureKind ? signature.label || viewerKindLabel(kind, ext, mime) : viewerKindLabel(kind, ext, mime);
+  const warning =
+    signatureKind && extKind && signatureKind !== extKind && !viewerKindsCompatible(signatureKind, extKind)
+      ? `확장자는 .${ext}이지만 내부 서명은 ${signature.label}로 보입니다. 내부 서명 기준으로 표시합니다.`
+      : "";
+  return { kind, label, warning };
+}
+
+function viewerKindFromExtension(ext) {
+  if (ext === "pdf") return "pdf";
+  if (["ttf", "otf", "woff", "woff2"].includes(ext)) return "font";
+  if (ext === "svg") return "svg";
+  if (["jpg", "jpeg", "png", "gif", "webp", "bmp", "avif", "ico"].includes(ext)) return "image";
+  if (["mp4", "webm", "mov", "m4v", "ogv", "mkv"].includes(ext)) return "video";
+  if (["mp3", "wav", "m4a", "aac", "ogg", "flac"].includes(ext)) return "audio";
+  if (["md", "markdown"].includes(ext)) return "markdown";
+  if (["json", "jsonl", "ndjson", "geojson", "webmanifest"].includes(ext)) return "json";
+  if (["xml", "xhtml", "plist", "kml", "gpx"].includes(ext)) return "xml";
+  if (["ics", "ifb"].includes(ext)) return "calendar";
+  if (["vcf", "vcard"].includes(ext)) return "contact";
+  if (["eml"].includes(ext)) return "email";
+  if (["yml", "yaml", "toml", "ini", "env", "properties"].includes(ext)) return "config";
+  if (["srt", "vtt"].includes(ext)) return "subtitle";
+  if (ext === "log") return "log";
+  if (ext === "rtf") return "rtf";
+  if (ext === "epub") return "epub";
+  if (isViewerCodeExtension(ext)) return "code";
+  if (["csv", "tsv", "xlsx", "xlsm", "xltx", "ods"].includes(ext)) return "table";
+  if (["docx", "docm", "pptx", "pptm", "hwpx", "odt", "odp"].includes(ext)) return "office-text";
+  if (["zip", "jar", "cbz", "apk", "ipa", "vsix", "pages", "numbers", "key"].includes(ext)) return "archive";
+  if (["xls", "xlsb", "doc", "ppt", "hwp"].includes(ext)) return "binary";
+  if (isViewerTextExtension(ext)) return "text";
+  return "";
+}
+
+function viewerKindFromFileName(name) {
+  const lower = String(name || "").toLowerCase().split(/[\\/]/).pop() || "";
+  if (/^\.env(?:\.|$)/.test(lower) || lower.endsWith(".env")) return "config";
+  if (["dockerfile", "makefile", "rakefile", "gemfile", "procfile"].includes(lower)) return "code";
+  if ([".gitignore", ".gitattributes", ".npmrc", ".yarnrc", ".editorconfig"].includes(lower)) return "config";
+  return "";
+}
+
+function viewerKindFromMime(mime) {
+  if (!mime) return "";
+  if (mime === "application/pdf") return "pdf";
+  if (mime.startsWith("font/") || mime.includes("font-") || mime.includes("font")) return "font";
+  if (mime === "image/svg+xml") return "svg";
+  if (mime.startsWith("image/")) return "image";
+  if (mime.startsWith("video/")) return "video";
+  if (mime.startsWith("audio/")) return "audio";
+  if (mime === "text/markdown") return "markdown";
+  if (mime === "application/json" || mime.endsWith("+json")) return "json";
+  if (mime === "application/xml" || mime.endsWith("+xml")) return "xml";
+  if (mime === "text/calendar") return "calendar";
+  if (mime === "text/vcard" || mime === "text/x-vcard") return "contact";
+  if (mime === "message/rfc822") return "email";
+  if (mime === "text/vtt") return "subtitle";
+  if (mime === "application/rtf" || mime === "text/rtf") return "rtf";
+  if (mime.includes("yaml") || mime.includes("toml") || mime.includes("ini")) return "config";
+  if (mime.includes("epub")) return "epub";
+  if (mime === "application/javascript" || mime === "text/javascript" || mime.includes("x-sh")) return "code";
+  if (mime.startsWith("text/") || mime.endsWith("+json") || mime.endsWith("+xml")) return "text";
+  if (mime.includes("spreadsheet") || mime.includes("csv")) return "table";
+  if (mime.includes("wordprocessing") || mime.includes("presentation") || mime.includes("opendocument")) return "office-text";
+  if (mime.includes("zip") || mime.includes("archive")) return "archive";
+  return "";
+}
+
+function viewerKindsCompatible(a, b) {
+  const zipFamily = new Set(["archive", "office-text", "table"]);
+  if (zipFamily.has(a) && zipFamily.has(b)) return true;
+  if ((a === "svg" && ["image", "xml", "text"].includes(b)) || (b === "svg" && ["image", "xml", "text"].includes(a))) return true;
+  return a === b;
+}
+
+async function sniffViewerSignature(file, ext) {
+  const bytes = new Uint8Array(await file.slice(0, 560).arrayBuffer());
+  if (!bytes.length) return { kind: viewerKindFromExtension(ext) || "text", label: "빈 파일" };
+  const ascii = bytesToAscii(bytes);
+  if (ascii.startsWith("%PDF-")) return { kind: "pdf", label: "PDF 서명" };
+  if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) return { kind: "image", label: "JPEG 이미지" };
+  if (startsWithBytes(bytes, [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a])) return { kind: "image", label: "PNG 이미지" };
+  if (ascii.startsWith("GIF87a") || ascii.startsWith("GIF89a")) return { kind: "image", label: "GIF 이미지" };
+  if (ascii.startsWith("RIFF") && ascii.slice(8, 12) === "WEBP") return { kind: "image", label: "WebP 이미지" };
+  if (ascii.startsWith("BM")) return { kind: "image", label: "BMP 이미지" };
+  if (ascii.slice(4, 8) === "ftyp" && /avif|avis/.test(ascii.slice(8, 24))) return { kind: "image", label: "AVIF 이미지" };
+  if (ascii.slice(4, 8) === "ftyp") return { kind: "video", label: "MP4/MOV 계열 미디어" };
+  if (startsWithBytes(bytes, [0x1a, 0x45, 0xdf, 0xa3])) return { kind: "video", label: "WebM/MKV 계열 미디어" };
+  if (ascii.startsWith("ID3") || (bytes[0] === 0xff && (bytes[1] & 0xe0) === 0xe0)) return { kind: "audio", label: "MP3 오디오" };
+  if (ascii.startsWith("RIFF") && ascii.slice(8, 12) === "WAVE") return { kind: "audio", label: "WAV 오디오" };
+  if (ascii.startsWith("OggS")) return { kind: "audio", label: "OGG 미디어" };
+  if (ascii.startsWith("fLaC")) return { kind: "audio", label: "FLAC 오디오" };
+  if (startsWithBytes(bytes, [0x00, 0x01, 0x00, 0x00])) return { kind: "font", label: "TrueType 폰트" };
+  if (ascii.startsWith("OTTO")) return { kind: "font", label: "OpenType 폰트" };
+  if (ascii.startsWith("wOFF")) return { kind: "font", label: "WOFF 폰트" };
+  if (ascii.startsWith("wOF2")) return { kind: "font", label: "WOFF2 폰트" };
+  if (startsWithBytes(bytes, [0x50, 0x4b, 0x03, 0x04]) || startsWithBytes(bytes, [0x50, 0x4b, 0x05, 0x06]) || startsWithBytes(bytes, [0x50, 0x4b, 0x07, 0x08])) {
+    return { kind: viewerKindFromExtension(ext) || "archive", label: ext ? `ZIP 기반 .${ext}` : "ZIP 압축" };
+  }
+  if (startsWithBytes(bytes, [0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1])) return { kind: "binary", label: "구형 Office/OLE 바이너리" };
+  if (ascii.startsWith("HWP Document File")) return { kind: "binary", label: "HWP 바이너리 문서" };
+  const leading = decodeAsciiPreview(bytes).trimStart().slice(0, 80).toLowerCase();
+  if (leading.startsWith("{\\rtf")) return { kind: "rtf", label: "RTF 문서" };
+  if (leading.startsWith("webvtt")) return { kind: "subtitle", label: "WebVTT 자막" };
+  if (leading.startsWith("<svg") || ext === "svg" && leading.startsWith("<?xml") || leading.startsWith("<?xml") && leading.includes("<svg")) return { kind: "svg", label: "SVG 벡터 이미지" };
+  if (leading.startsWith("#!") || leading.startsWith("import ") || leading.startsWith("export ") || leading.startsWith("function ")) return { kind: "code", label: "코드 텍스트" };
+  if (leading.startsWith("{") || leading.startsWith("[") || leading.startsWith("<!doctype") || leading.startsWith("<html") || leading.startsWith("<?xml")) {
+    if (leading.startsWith("{") || leading.startsWith("[")) return { kind: "json", label: "JSON 텍스트" };
+    if (leading.startsWith("<?xml")) return { kind: "xml", label: "XML 텍스트" };
+    return { kind: "text", label: "텍스트 기반 문서" };
+  }
+  return { kind: "", label: "" };
+}
+
+function isViewerCodeExtension(ext) {
+  return ["js", "mjs", "cjs", "ts", "tsx", "jsx", "py", "java", "c", "cpp", "h", "go", "rs", "php", "rb", "vue", "svelte", "sh", "bat", "ps1", "sql"].includes(ext);
+}
+
+function startsWithBytes(bytes, signature) {
+  return signature.every((byte, index) => bytes[index] === byte);
+}
+
+function bytesToAscii(bytes) {
+  return [...bytes].map((byte) => (byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : "\u0000")).join("");
+}
+
+function decodeAsciiPreview(bytes) {
+  return [...bytes].map((byte) => (byte >= 9 && byte <= 126 ? String.fromCharCode(byte) : " ")).join("");
+}
+
+function viewerKindLabel(kind, ext, mime) {
+  if (ext) return `.${ext} ${kind}`;
+  if (mime) return mime;
+  return kind || "알 수 없음";
+}
+
+function isViewerTextFile(file) {
+  const ext = extensionOf(file.name);
+  const mime = file.type || "";
+  return (
+    mime.startsWith("text/") ||
+    mime === "application/json" ||
+    mime === "application/xml" ||
+    mime === "application/javascript" ||
+    mime.endsWith("+json") ||
+    mime.endsWith("+xml") ||
+    Boolean(viewerKindFromFileName(file.name)) ||
+    isViewerTextExtension(ext)
+  );
+}
+
+function isViewerTextExtension(ext) {
+  return [
+    "txt",
+    "md",
+      "markdown",
+      "jsonl",
+      "ndjson",
+      "geojson",
+      "webmanifest",
+      "json",
+      "xml",
+      "xhtml",
+      "plist",
+      "kml",
+      "gpx",
+      "html",
+      "htm",
+      "svg",
+      "css",
+      "scss",
+      "sass",
+      "less",
+      "js",
+    "mjs",
+    "cjs",
+    "ts",
+    "tsx",
+    "jsx",
+    "yml",
+    "yaml",
+    "log",
+    "ini",
+    "env",
+    "toml",
+    "properties",
+    "sql",
+    "rtf",
+      "srt",
+      "vtt",
+      "ics",
+      "ifb",
+      "vcf",
+      "vcard",
+      "eml",
+      "py",
+    "java",
+    "c",
+    "cpp",
+    "h",
+    "go",
+    "rs",
+    "php",
+    "rb",
+    "vue",
+    "svelte",
+    "sh",
+    "bat",
+    "ps1",
+    "csv",
+    "tsv"
+  ].includes(ext);
+}
+
+async function inspectViewerAsImage(file, base) {
+  const url = createViewerObjectUrl(file);
+  const dimensions = await readImageDimensions(url).catch(() => null);
+  return {
+    ...base,
+    kindLabel: "이미지",
+    title: "이미지 미리보기",
+    message: "브라우저 내장 이미지 표시로 원본을 바로 확인합니다.",
+    detail: dimensions ? `${dimensions.width}×${dimensions.height}px · ${ratioLabel(dimensions.width, dimensions.height)}` : "크기 확인 불가",
+    previewHtml: `
+      <figure class="viewer-media image-viewer">
+        <img src="${url}" alt="${escapeAttr(file.name)} 미리보기" />
+        <figcaption>${escapeHtml(file.name)}</figcaption>
+      </figure>
+    `
+  };
+}
+
+async function inspectViewerAsPdf(file, base) {
+  const url = createViewerObjectUrl(file);
+  let pageCount = "-";
+  try {
+    const { PDFDocument } = await loadPdfLib();
+    const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+    pageCount = pdf.getPageCount();
+  } catch {
+    base.notes.push("PDF 구조 정보는 읽지 못했습니다. 브라우저 내장 뷰어로 표시만 시도합니다.");
+  }
+  return {
+    ...base,
+    kindLabel: "PDF",
+    title: "PDF 미리보기",
+    message: "내장 PDF 뷰어로 열어 제출 전 페이지가 보이는지 확인합니다.",
+    detail: `${pageCount}쪽`,
+    previewHtml: `
+      <object class="viewer-frame" data="${url}" type="application/pdf" aria-label="${escapeAttr(file.name)} PDF 미리보기">
+        <p class="empty-result warn">이 브라우저에서 PDF 내장 보기가 막혔습니다. 원본 파일은 선택된 상태이며 파일 정보는 확인했습니다.</p>
+      </object>
+    `
+  };
+}
+
+function inspectViewerAsMedia(file, base, kind) {
+  const url = createViewerObjectUrl(file);
+  const tag = kind === "video" ? "video" : "audio";
+  const label = kind === "video" ? "영상" : "음성";
+  return {
+    ...base,
+    kindLabel: label,
+    title: `${label} 미리보기`,
+    message: "브라우저 기본 플레이어로 재생 가능 여부를 확인합니다.",
+    detail: file.type || extensionOf(file.name).toUpperCase(),
+    previewHtml: `
+      <div class="viewer-media">
+        <${tag} controls preload="metadata" src="${url}"></${tag}>
+      </div>
+    `
+  };
+}
+
+async function inspectViewerAsFont(file, base) {
+  const url = createViewerObjectUrl(file);
+  const family = `goatoolViewerFont_${Date.now().toString(36)}`;
+  let loaded = false;
+  try {
+    const font = new FontFace(family, `url(${url})`);
+    await font.load();
+    document.fonts.add(font);
+    loaded = true;
+  } catch {
+    base.notes.push("브라우저가 이 폰트를 바로 로드하지 못했습니다. 파일 정보와 샘플 영역만 표시합니다.");
+  }
+  return {
+    ...base,
+    kindLabel: "폰트",
+    title: "폰트 미리보기",
+    message: loaded ? "브라우저 FontFace로 폰트를 불러와 문장 샘플을 표시합니다." : "폰트 로드가 제한되어 기본 글꼴로 샘플을 표시합니다.",
+    detail: extensionOf(file.name).toUpperCase(),
+    previewHtml: renderViewerFontPreview(family, loaded, file.name)
+  };
+}
+
+async function inspectViewerAsMarkdown(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  if (output.truncated) base.notes.push(`${formatBytes(LIMITS.viewerTextBytes)}까지만 읽었습니다.`);
+  const stats = summarizeMarkdown(text);
+  return {
+    ...base,
+    kindLabel: "Markdown",
+    title: "Markdown 미리보기",
+    message: `제목 ${stats.headings}개, 목록 ${stats.lists}개, 링크 ${stats.links}개를 읽었습니다.`,
+    detail: `${text.split(/\r\n|\r|\n/).length.toLocaleString("ko-KR")}줄`,
+    text,
+    previewHtml: `${renderViewerMarkdownPreview(text)}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsJson(file, base, options) {
+  const output = await readViewerText(file);
+  let text = output.text;
+  addViewerTextNotes(base, output);
+  if (output.truncated) base.notes.push(`${formatBytes(LIMITS.viewerTextBytes)}까지만 읽었습니다.`);
+  let parsed = null;
+  let rows = [];
+  const ext = extensionOf(file.name);
+  try {
+    if (["jsonl", "ndjson"].includes(ext)) {
+      rows = text
+        .split(/\r\n|\r|\n/)
+        .map((line) => line.trim())
+        .filter(Boolean)
+        .slice(0, LIMITS.viewerTableRows)
+        .map((line) => JSON.parse(line));
+      parsed = rows;
+      text = rows.map((row) => JSON.stringify(row)).join("\n");
+    } else {
+      parsed = JSON.parse(text);
+      text = JSON.stringify(parsed, null, 2);
+    }
+  } catch {
+    base.notes.push("JSON 구조 파싱에는 실패했지만 원문은 표시합니다.");
+  }
+  const stats = parsed ? summarizeJsonValue(parsed) : null;
+  return {
+    ...base,
+    kindLabel: "JSON",
+    title: "JSON 구조 미리보기",
+    message: stats ? `객체 ${stats.objects}개, 배열 ${stats.arrays}개, 값 ${stats.values}개를 확인했습니다.` : "JSON 원문을 읽기 전용으로 표시합니다.",
+    detail: stats ? `${stats.keys.length.toLocaleString("ko-KR")}개 키` : `${text.length.toLocaleString("ko-KR")}자`,
+    text,
+    previewHtml: `${parsed ? renderViewerJsonSummary(parsed, stats) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsXml(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  if (output.truncated) base.notes.push(`${formatBytes(LIMITS.viewerTextBytes)}까지만 읽었습니다.`);
+  const doc = new DOMParser().parseFromString(text, "application/xml");
+  const parserError = doc.querySelector("parsererror");
+  if (parserError) base.notes.push("XML 파싱 오류가 있어 원문 중심으로 표시합니다.");
+  const outline = parserError ? null : summarizeXmlDocument(doc);
+  return {
+    ...base,
+    kindLabel: "XML",
+    title: "XML 구조 미리보기",
+    message: outline ? `루트 ${outline.root} 아래 요소 ${outline.total.toLocaleString("ko-KR")}개를 확인했습니다.` : "XML 원문을 읽기 전용으로 표시합니다.",
+    detail: outline ? `${outline.unique.length}개 태그` : `${text.length.toLocaleString("ko-KR")}자`,
+    text,
+    previewHtml: `${outline ? renderViewerXmlSummary(outline) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsCalendar(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const events = parseIcsEvents(text).slice(0, LIMITS.viewerTableRows);
+  return {
+    ...base,
+    kindLabel: "일정",
+    title: "일정 파일 미리보기",
+    message: events.length ? `${events.length}개 일정 후보를 표로 표시합니다.` : "일정 항목을 찾지 못해 원문을 표시합니다.",
+    detail: `${events.length}개 일정`,
+    text,
+    previewHtml: `${events.length ? renderViewerEventTable(events) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsContact(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const contacts = parseVcfContacts(text).slice(0, LIMITS.viewerTableRows);
+  return {
+    ...base,
+    kindLabel: "연락처",
+    title: "연락처 파일 미리보기",
+    message: contacts.length ? `${contacts.length}개 연락처 후보를 표로 표시합니다.` : "연락처 항목을 찾지 못해 원문을 표시합니다.",
+    detail: `${contacts.length}개 연락처`,
+    text,
+    previewHtml: `${contacts.length ? renderViewerContactTable(contacts) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsEmail(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const email = parseEmlPreview(text);
+  return {
+    ...base,
+    kindLabel: "이메일",
+    title: "이메일 원문 미리보기",
+    message: email.subject ? `"${email.subject}" 메일 헤더와 본문을 분리해 표시합니다.` : "메일 원문을 헤더와 본문으로 나눠 표시합니다.",
+    detail: email.subject || "제목 없음",
+    text,
+    previewHtml: `${renderViewerEmailSummary(email)}${renderViewerTextPreview(email.body || text, options)}`
+  };
+}
+
+async function inspectViewerAsSvg(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const svg = summarizeSvg(text);
+  if (!svg.safeSvg) base.notes.push("SVG 파싱 오류가 있어 원문 중심으로 표시합니다.");
+  else if (svg.removed) base.notes.push(`보안을 위해 실행 가능 요소와 이벤트 속성 ${svg.removed}개를 제거했습니다.`);
+  return {
+    ...base,
+    kindLabel: "SVG",
+    title: "SVG 벡터 미리보기",
+    message: svg.safeSvg ? `벡터 요소 ${svg.elements.toLocaleString("ko-KR")}개를 안전 미리보기로 표시합니다.` : "SVG 원문을 읽기 전용으로 표시합니다.",
+    detail: svg.viewBox || svg.size || `${text.length.toLocaleString("ko-KR")}자`,
+    text,
+    previewHtml: `${svg.safeSvg ? renderViewerSvgPreview(svg) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsConfig(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const summary = summarizeConfigText(text, extensionOf(file.name));
+  const safeText = redactConfigText(text);
+  if (safeText !== text) base.notes.push("민감값으로 보이는 설정값은 화면과 복사 텍스트에서 축약했습니다.");
+  return {
+    ...base,
+    kindLabel: "설정",
+    title: "설정 파일 미리보기",
+    message: `키 ${summary.keys.length.toLocaleString("ko-KR")}개와 섹션 ${summary.sections.length.toLocaleString("ko-KR")}개를 요약했습니다.`,
+    detail: `${summary.meaningfulLines.toLocaleString("ko-KR")}개 설정 줄`,
+    text: safeText,
+    previewHtml: `${renderViewerConfigSummary(summary)}${renderViewerTextPreview(safeText, options)}`
+  };
+}
+
+async function inspectViewerAsSubtitle(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const cues = parseSubtitleCues(text).slice(0, LIMITS.viewerTableRows);
+  return {
+    ...base,
+    kindLabel: "자막",
+    title: "자막 파일 미리보기",
+    message: cues.length ? `${cues.length.toLocaleString("ko-KR")}개 자막 구간을 시간순으로 표시합니다.` : "자막 시간 구간을 찾지 못해 원문을 표시합니다.",
+    detail: `${cues.length}개 구간`,
+    text,
+    previewHtml: `${cues.length ? renderViewerSubtitleTable(cues) : ""}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsLog(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const summary = summarizeLogText(text);
+  return {
+    ...base,
+    kindLabel: "로그",
+    title: "로그 파일 미리보기",
+    message: `오류 ${summary.counts.ERROR || 0}건, 경고 ${summary.counts.WARN || 0}건, 정보 ${summary.counts.INFO || 0}건을 우선 분류했습니다.`,
+    detail: `${summary.lines.toLocaleString("ko-KR")}줄`,
+    text,
+    previewHtml: `${renderViewerLogSummary(summary)}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsCode(file, base, options) {
+  const output = await readViewerText(file);
+  const text = output.text;
+  addViewerTextNotes(base, output);
+  const summary = summarizeCodeText(text, extensionOf(file.name));
+  return {
+    ...base,
+    kindLabel: "코드",
+    title: "코드 파일 미리보기",
+    message: `${summary.language} 코드로 보고 함수·클래스 ${summary.symbols.length}개, import ${summary.imports}개, TODO ${summary.todos}개를 찾았습니다.`,
+    detail: `${summary.lines.toLocaleString("ko-KR")}줄`,
+    text,
+    previewHtml: `${renderViewerCodeSummary(summary)}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsRtf(file, base, options) {
+  const output = await readViewerText(file);
+  const source = output.text;
+  addViewerTextNotes(base, output);
+  const text = rtfToPlainViewerText(source);
+  return {
+    ...base,
+    kindLabel: "RTF",
+    title: "RTF 텍스트 미리보기",
+    message: text ? "RTF 제어 코드를 걷어내고 본문 텍스트를 우선 표시합니다." : "RTF 본문을 추출하지 못해 원문을 표시합니다.",
+    detail: text ? `${text.length.toLocaleString("ko-KR")}자` : `${source.length.toLocaleString("ko-KR")}자`,
+    text: text || source,
+    previewHtml: renderViewerTextPreview(text || source, options)
+  };
+}
+
+async function inspectViewerAsEpub(file, base, options) {
+  const epub = await readEpubPreview(file);
+  if (epub.truncated) base.notes.push("전자책 본문이 길어 상위 일부 장만 표시합니다.");
+  if (!epub.text) base.notes.push("전자책에서 바로 추출 가능한 본문을 찾지 못했습니다.");
+  return {
+    ...base,
+    kindLabel: "전자책",
+    title: "EPUB 전자책 미리보기",
+    message: epub.title ? `"${epub.title}" 메타데이터와 목차 후보를 표시합니다.` : "EPUB 내부 메타데이터와 목차 후보를 표시합니다.",
+    detail: epub.chapters.length ? `${epub.chapters.length.toLocaleString("ko-KR")}개 장` : "목차 없음",
+    text: epub.text,
+    previewHtml: `${renderViewerEpubSummary(epub)}${epub.text ? renderViewerTextPreview(epub.text, options) : ""}${renderViewerArchiveTable(epub.entries.slice(0, 80), epub.folderCount, Math.max(0, epub.entries.length - 80))}`
+  };
+}
+
+async function inspectViewerAsEpubWithFallback(file, base, options) {
+  try {
+    return await inspectViewerAsEpub(file, base, options);
+  } catch {
+    const archiveMessage = "전자책 메타데이터를 읽지 못해 ZIP 내부 목록으로 전환했습니다.";
+    if (!base.notes.includes(archiveMessage)) base.notes.push(archiveMessage);
+    return inspectViewerWithFallback(
+      () => inspectViewerAsArchive(file, base),
+      file,
+      base,
+      "전자책과 압축 구조를 모두 읽지 못해 원시 바이트 보기로 전환했습니다."
+    );
+  }
+}
+
+async function inspectViewerAsText(file, base, options) {
+  if (!isViewerTextFile(file) && options.mode === "text") {
+    base.notes.push("텍스트 파일로 확정되지 않아 일부 문자가 깨질 수 있습니다.");
+  }
+  const output = await readViewerText(file);
+  let text = output.text;
+  addViewerTextNotes(base, output);
+  if (["json"].includes(extensionOf(file.name))) {
+    try {
+      text = JSON.stringify(JSON.parse(text), null, 2);
+    } catch {
+      base.notes.push("JSON 형식 검증에는 실패했지만 원문은 표시합니다.");
+    }
+  }
+  if (output.truncated) base.notes.push(`${formatBytes(LIMITS.viewerTextBytes)}까지만 읽었습니다.`);
+  const hits = countViewerMatches(text, options.query);
+  const htmlPreview = !options.safeOnly && ["html", "htm"].includes(extensionOf(file.name)) ? renderViewerHtmlPreview(text, file.name) : "";
+  if (htmlPreview) base.notes.push("HTML은 sandbox 미리보기로 열었고 스크립트 권한은 주지 않았습니다.");
+  const colors = extractViewerColors(text);
+  const colorPreview = colors.length ? renderViewerColorPalette(colors) : "";
+  return {
+    ...base,
+    kindLabel: "텍스트",
+    title: "텍스트 미리보기",
+    message: options.query ? `찾은 단어 ${hits}건을 표시합니다.` : "텍스트 내용을 읽기 전용으로 표시합니다.",
+    detail: `${text.split(/\r\n|\r|\n/).length.toLocaleString("ko-KR")}줄`,
+    text,
+    previewHtml: `${htmlPreview}${colorPreview}${renderViewerTextPreview(text, options)}`
+  };
+}
+
+async function inspectViewerAsTable(file, base, options) {
+  const ext = extensionOf(file.name);
+  let rows = [];
+  let source = "";
+  let truncated = false;
+  if (["xls", "xlsb"].includes(ext)) {
+    throw new Error("구형 Excel 바이너리는 브라우저 표 파서로 직접 열 수 없습니다.");
+  }
+  if (["xlsx", "xlsm", "xltx"].includes(ext)) {
+    const preview = await readWorkbookPreview(file);
+    rows = preview.rows;
+    source = preview.sheetName ? `${preview.sheetName} 시트` : "첫 번째 시트";
+    truncated = preview.truncated;
+    if (preview.sheetCount > 1) base.notes.push(`통합문서에 ${preview.sheetCount}개 시트가 있어 첫 번째 시트만 미리보기로 표시합니다.`);
+  } else if (ext === "ods") {
+    const preview = await readOdsPreview(file);
+    rows = preview.rows;
+    source = preview.sheetName ? `${preview.sheetName} 시트` : "ODS 첫 번째 표";
+    truncated = preview.truncated;
+  } else {
+    const preview = await readDelimitedPreview(file, ext === "tsv" ? "\t" : "auto");
+    rows = preview.rows;
+    source = preview.delimiterLabel ? `${ext === "tsv" ? "TSV" : "CSV"}(${preview.delimiterLabel})` : ext === "tsv" ? "TSV" : "CSV";
+    truncated = preview.truncated;
+    if (preview.encoding && preview.encoding !== "utf-8") base.notes.push(`${preview.encoding.toUpperCase()} 인코딩으로 해석했습니다.`);
+    if (preview.binaryLike) base.notes.push("바이너리 바이트가 섞여 있어 표 일부가 깨질 수 있습니다.");
+  }
+  if (truncated) base.notes.push("상위 일부 행만 미리보기로 표시합니다.");
+  const text = toCsv(rows);
+  return {
+    ...base,
+    kindLabel: "표",
+    title: "표 미리보기",
+    message: `${source} 데이터를 상위 행 기준으로 보여줍니다.`,
+    detail: `${rows.length}행`,
+    text,
+    previewHtml: renderViewerTable(rows, source)
+  };
+}
+
+async function inspectViewerAsArchive(file, base) {
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const entries = Object.values(zip.files)
+    .map((entry) => ({
+      name: entry.name,
+      originalName: entry.unsafeOriginalName || entry.name,
+      dir: entry.dir,
+      size: entry._data?.uncompressedSize || 0
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const files = entries.filter((entry) => !entry.dir);
+  const folders = entries.filter((entry) => entry.dir);
+  const totalUncompressed = files.reduce((sum, entry) => sum + entry.size, 0);
+  const riskyPaths = files.filter((entry) => /(^\/|^[A-Za-z]:|(^|\/)\.\.(\/|$))/.test(entry.originalName)).slice(0, 5);
+  const systemJunk = files.filter((entry) => entry.name.startsWith("__MACOSX/") || /(^|\/)\.DS_Store$/.test(entry.name)).length;
+  if (entries.length > LIMITS.viewerArchiveEntries) base.notes.push(`내부 항목이 많아 상위 ${LIMITS.viewerArchiveEntries.toLocaleString("ko-KR")}개 기준으로 표시합니다.`);
+  if (riskyPaths.length) base.notes.push(`상위 폴더로 빠져나가는 위험 경로 후보가 있습니다: ${riskyPaths.map((entry) => entry.originalName).join(", ")}`);
+  if (systemJunk) base.notes.push(`제출과 무관한 macOS 시스템 항목 ${systemJunk}개가 보입니다.`);
+  const text = entries.map((entry) => `${entry.dir ? "[폴더]" : "[파일]"} ${entry.originalName || entry.name}${entry.size ? ` / ${formatBytes(entry.size)}` : ""}`).join("\n");
+  return {
+    ...base,
+    kindLabel: "압축",
+    title: "압축 내부 보기",
+    message: `ZIP 기반 파일의 내부 목록을 열어 표시합니다. 압축 해제 예상 용량은 ${formatBytes(totalUncompressed)}입니다.`,
+    detail: `${files.length}개 파일`,
+    text,
+    previewHtml: renderViewerArchiveTable(files.slice(0, Math.min(220, LIMITS.viewerArchiveEntries)), folders.length, Math.max(0, files.length - 220))
+  };
+}
+
+async function inspectViewerAsOfficeText(file, base, options) {
+  const extracted = await extractOfficeText(file);
+  const text = extracted.text || "";
+  const fallback = text ? renderViewerTextPreview(text, options) : `<p class="empty-result warn">추출 가능한 텍스트를 찾지 못했습니다. 내부 파일 목록으로 구조만 확인하세요.</p>`;
+  const archive = extracted.entries?.length ? renderViewerArchiveTable(extracted.entries.slice(0, 80), extracted.folderCount || 0, Math.max(0, extracted.entries.length - 80)) : "";
+  if (extracted.truncated) base.notes.push("문서 텍스트가 길어 상위 일부만 표시합니다.");
+  if (extracted.skipped) base.notes.push(`읽을 수 없는 내부 XML ${extracted.skipped}개는 건너뛰었습니다.`);
+  return {
+    ...base,
+    kindLabel: "문서",
+    title: "문서 텍스트 미리보기",
+    message: `${extensionOf(file.name).toUpperCase()} 내부 XML에서 텍스트를 추출했습니다.`,
+    detail: text ? `${text.length.toLocaleString("ko-KR")}자` : "텍스트 없음",
+    text,
+    previewHtml: `${fallback}${archive}`
+  };
+}
+
+async function inspectViewerAsHex(file, base, message = "파일 앞부분 바이트를 원시 미리보기로 표시합니다.") {
+  const hex = await readHexPreview(file);
+  return {
+    ...base,
+    kindLabel: "바이너리",
+    title: "원시 바이트 미리보기",
+    message,
+    detail: `${Math.min(file.size, LIMITS.viewerHexBytes).toLocaleString("ko-KR")}바이트`,
+    text: hex,
+    previewHtml: `<pre class="viewer-text hex-viewer">${escapeHtml(hex)}</pre>`
+  };
+}
+
+function createViewerObjectUrl(file) {
+  if (state.lastViewerObjectUrl) URL.revokeObjectURL(state.lastViewerObjectUrl);
+  state.lastViewerObjectUrl = URL.createObjectURL(file);
+  return state.lastViewerObjectUrl;
+}
+
+function readImageDimensions(url) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve({ width: image.naturalWidth, height: image.naturalHeight });
+    image.onerror = reject;
+    image.src = url;
+  });
+}
+
+async function readViewerText(file) {
+  const truncated = file.size > LIMITS.viewerTextBytes;
+  const blob = truncated ? file.slice(0, LIMITS.viewerTextBytes) : file;
+  const buffer = await blob.arrayBuffer();
+  const decoded = decodeViewerTextBuffer(buffer);
+  return {
+    text: decoded.text.slice(0, LIMITS.viewerPreviewChars),
+    truncated: truncated || decoded.text.length > LIMITS.viewerPreviewChars,
+    encoding: decoded.encoding,
+    binaryLike: decoded.binaryLike
+  };
+}
+
+async function readDelimitedPreview(file, delimiter) {
+  const output = await readViewerText(file);
+  const delimiterInfo = delimiter === "auto" ? detectViewerDelimiter(output.text) : { delimiter, label: delimiter === "\t" ? "탭" : "쉼표" };
+  const rows = parseDelimited(output.text, delimiterInfo.delimiter);
+  return {
+    rows: rows.slice(0, LIMITS.viewerTableRows).map((row) => row.slice(0, LIMITS.viewerTableCols)),
+    truncated: output.truncated || rows.length > LIMITS.viewerTableRows || rows.some((row) => row.length > LIMITS.viewerTableCols),
+    delimiterLabel: delimiterInfo.label,
+    encoding: output.encoding,
+    binaryLike: output.binaryLike
+  };
+}
+
+async function readWorkbookPreview(file) {
+  const ExcelJS = await loadExcelJS();
+  const workbook = new ExcelJS.Workbook();
+  await workbook.xlsx.load(await file.arrayBuffer());
+  const worksheet = workbook.worksheets[0];
+  if (!worksheet) return { rows: [], sheetName: "", truncated: false };
+  const rows = [];
+  const rowLimit = LIMITS.viewerTableRows;
+  const colLimit = Math.min(worksheet.columnCount || LIMITS.viewerTableCols, LIMITS.viewerTableCols);
+  for (let rowIndex = 1; rowIndex <= Math.min(worksheet.rowCount, rowLimit); rowIndex += 1) {
+    const row = worksheet.getRow(rowIndex);
+    const values = [];
+    for (let colIndex = 1; colIndex <= colLimit; colIndex += 1) {
+      values.push(normalizeExcelValue(row.getCell(colIndex).value));
+    }
+    rows.push(values);
+  }
+  return { rows, sheetName: worksheet.name, sheetCount: workbook.worksheets.length, truncated: worksheet.rowCount > rowLimit || worksheet.columnCount > colLimit };
+}
+
+async function readOdsPreview(file) {
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const content = zip.file("content.xml");
+  if (!content) throw new Error("ODS content.xml not found");
+  const xml = await content.async("text");
+  const doc = new DOMParser().parseFromString(xml, "application/xml");
+  const parserError = doc.querySelector("parsererror");
+  if (parserError) throw new Error("ODS XML parse failed");
+  const table = [...doc.getElementsByTagName("*")].find((node) => node.localName === "table");
+  if (!table) return { rows: [], sheetName: "", truncated: false };
+  const rows = [];
+  const tableName = table.getAttribute("table:name") || table.getAttribute("name") || "";
+  const rowNodes = [...table.children].filter((node) => node.localName === "table-row");
+  for (const rowNode of rowNodes.slice(0, LIMITS.viewerTableRows)) {
+    const row = [];
+    const repeatRows = Math.min(Number(rowNode.getAttribute("table:number-rows-repeated") || 1), LIMITS.viewerTableRows - rows.length);
+    const cellNodes = [...rowNode.children].filter((node) => node.localName === "table-cell" || node.localName === "covered-table-cell");
+    cellNodes.forEach((cellNode) => {
+      const repeat = Math.min(Number(cellNode.getAttribute("table:number-columns-repeated") || 1), LIMITS.viewerTableCols - row.length);
+      const cellText = [...cellNode.getElementsByTagName("*")]
+        .filter((node) => node.localName === "p")
+        .map((node) => node.textContent || "")
+        .join("\n");
+      for (let index = 0; index < repeat; index += 1) row.push(cellText);
+    });
+    for (let index = 0; index < repeatRows; index += 1) rows.push(row.slice(0, LIMITS.viewerTableCols));
+    if (rows.length >= LIMITS.viewerTableRows) break;
+  }
+  return { rows, sheetName: tableName, truncated: rowNodes.length > LIMITS.viewerTableRows || rows.some((row) => row.length > LIMITS.viewerTableCols) };
+}
+
+function decodeViewerTextBuffer(buffer) {
+  const bytes = new Uint8Array(buffer);
+  if (!bytes.length) return { text: "", encoding: "utf-8", binaryLike: false };
+  const bom = detectTextBom(bytes);
+  if (bom) {
+    const text = new TextDecoder(bom.encoding).decode(bytes.slice(bom.offset));
+    return { text: stripBom(text), encoding: bom.encoding, binaryLike: false };
+  }
+
+  const nullRatio = bytes.filter((byte) => byte === 0).length / bytes.length;
+  const utf16Guess = guessUtf16Encoding(bytes);
+  const labels = utf16Guess ? [utf16Guess, "utf-8", "euc-kr"] : ["utf-8", "euc-kr", "utf-16le", "utf-16be"];
+  const candidates = labels
+    .map((encoding) => {
+      try {
+        const text = new TextDecoder(encoding).decode(bytes);
+        return { encoding, text: stripBom(text), score: scoreDecodedText(text) };
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score);
+  const best = candidates[0] || { encoding: "utf-8", text: new TextDecoder().decode(bytes) };
+  return { text: best.text, encoding: best.encoding, binaryLike: nullRatio > 0.05 && !best.encoding.startsWith("utf-16") };
+}
+
+function detectTextBom(bytes) {
+  if (startsWithBytes(bytes, [0xef, 0xbb, 0xbf])) return { encoding: "utf-8", offset: 3 };
+  if (startsWithBytes(bytes, [0xff, 0xfe])) return { encoding: "utf-16le", offset: 2 };
+  if (startsWithBytes(bytes, [0xfe, 0xff])) return { encoding: "utf-16be", offset: 2 };
+  return null;
+}
+
+function guessUtf16Encoding(bytes) {
+  const sample = bytes.slice(0, Math.min(bytes.length, 200));
+  let evenNulls = 0;
+  let oddNulls = 0;
+  sample.forEach((byte, index) => {
+    if (byte === 0 && index % 2 === 0) evenNulls += 1;
+    if (byte === 0 && index % 2 === 1) oddNulls += 1;
+  });
+  if (oddNulls > sample.length * 0.25) return "utf-16le";
+  if (evenNulls > sample.length * 0.25) return "utf-16be";
+  return "";
+}
+
+function scoreDecodedText(text) {
+  const replacement = (text.match(/\uFFFD/g) || []).length;
+  const controls = (text.match(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g) || []).length;
+  const hangul = (text.match(/[가-힣]/g) || []).length;
+  const printable = text.replace(/\s/g, "").length;
+  return replacement * 120 + controls * 10 - Math.min(hangul, 80) - Math.min(printable, 200) * 0.01;
+}
+
+function stripBom(text) {
+  return String(text || "").replace(/^\uFEFF/, "");
+}
+
+function detectViewerDelimiter(text) {
+  const candidates = [
+    { delimiter: ",", label: "쉼표" },
+    { delimiter: "\t", label: "탭" },
+    { delimiter: ";", label: "세미콜론" },
+    { delimiter: "|", label: "파이프" }
+  ];
+  const lines = String(text || "")
+    .split(/\r\n|\r|\n/)
+    .filter((line) => line.trim())
+    .slice(0, 20);
+  const ranked = candidates
+    .map((candidate) => {
+      const counts = lines.map((line) => splitDelimitedLine(line, candidate.delimiter).length);
+      const useful = counts.filter((count) => count > 1);
+      const variance = useful.length ? Math.max(...useful) - Math.min(...useful) : 99;
+      return { ...candidate, score: useful.length * 20 + Math.max(0, Math.min(...useful, 0)) - variance * 4 };
+    })
+    .sort((a, b) => b.score - a.score);
+  return ranked[0]?.score > 0 ? ranked[0] : candidates[0];
+}
+
+async function extractOfficeText(file) {
+  const ext = extensionOf(file.name);
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const entries = Object.values(zip.files).sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const candidates = entries.filter((entry) => !entry.dir && isOfficeTextEntry(ext, entry.name)).slice(0, 24);
+  let text = "";
+  let skipped = 0;
+  for (const entry of candidates) {
+    try {
+      const xml = await entry.async("text");
+      const extracted = xmlMarkupToText(xml);
+      if (extracted) text += `${text ? "\n\n" : ""}[${entry.name}]\n${extracted}`;
+      if (text.length > LIMITS.viewerPreviewChars) break;
+    } catch {
+      skipped += 1;
+    }
+  }
+  const fileEntries = entries
+    .filter((entry) => !entry.dir)
+    .map((entry) => ({
+      name: entry.name,
+      dir: false,
+      size: entry._data?.uncompressedSize || 0
+    }));
+  return {
+    text: text.slice(0, LIMITS.viewerPreviewChars),
+    truncated: text.length > LIMITS.viewerPreviewChars,
+    skipped,
+    entries: fileEntries,
+    folderCount: entries.filter((entry) => entry.dir).length
+  };
+}
+
+function isOfficeTextEntry(ext, name) {
+  const lower = name.toLowerCase();
+  if (["docx", "docm"].includes(ext)) return /^word\/(document|header|footer|footnotes|endnotes).*\.xml$/.test(lower);
+  if (["pptx", "pptm"].includes(ext)) return /^ppt\/slides\/slide\d+\.xml$/.test(lower) || /^ppt\/notesSlides\/notesSlide\d+\.xml$/.test(lower);
+  if (ext === "hwpx") return lower.endsWith(".xml") && (lower.includes("contents/") || lower.includes("bodytext/") || lower.includes("section"));
+  if (["odt", "odp", "epub"].includes(ext)) return lower === "content.xml" || lower.endsWith(".xhtml") || lower.endsWith(".html");
+  return lower.endsWith(".xml");
+}
+
+function xmlMarkupToText(xml) {
+  return decodeHtmlEntities(
+    String(xml || "")
+      .replace(/<w:tab\s*\/>/gi, "\t")
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<\/(?:w:p|a:p|hp:p|text:p|p|h[1-6]|tr)>/gi, "\n")
+      .replace(/<\/(?:w:tbl|table)>/gi, "\n\n")
+      .replace(/<[^>]+>/g, " ")
+      .replace(/[ \t]+\n/g, "\n")
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/[ \t]{2,}/g, " ")
+      .trim()
+  );
+}
+
+function decodeHtmlEntities(value) {
+  const textarea = document.createElement("textarea");
+  textarea.innerHTML = value;
+  return textarea.value;
+}
+
+async function readHexPreview(file) {
+  const buffer = await file.slice(0, LIMITS.viewerHexBytes).arrayBuffer();
+  const bytes = [...new Uint8Array(buffer)];
+  const lines = [];
+  for (let offset = 0; offset < bytes.length; offset += 16) {
+    const chunk = bytes.slice(offset, offset + 16);
+    const hex = chunk.map((byte) => byte.toString(16).padStart(2, "0")).join(" ").padEnd(47, " ");
+    const ascii = chunk.map((byte) => (byte >= 32 && byte <= 126 ? String.fromCharCode(byte) : ".")).join("");
+    lines.push(`${offset.toString(16).padStart(8, "0")}  ${hex}  ${ascii}`);
+  }
+  return lines.join("\n");
+}
+
+function renderFileViewerResult(output) {
+  const hitCount = output.text && output.query ? countViewerMatches(output.text, output.query) : 0;
+  return `
+    <div class="stat-grid">
+      <div><span>보기 형식</span><strong>${escapeHtml(output.kindLabel || "-")}</strong></div>
+      <div><span>용량</span><strong>${formatBytes(output.size)}</strong></div>
+      <div><span>${output.query ? "검색 결과" : "세부 정보"}</span><strong>${output.query ? `${hitCount}건` : escapeHtml(output.detail || output.extension)}</strong></div>
+    </div>
+    <div class="result-block compact-result">
+      <h3>${escapeHtml(output.title || "파일 미리보기")}</h3>
+      <p>${escapeHtml(output.message || "파일 정보를 확인했습니다.")}</p>
+      ${
+        output.notes?.length
+          ? `<ul class="warning-list">${output.notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>`
+          : ""
+      }
+    </div>
+    <div class="viewer-meta">
+      <span>${escapeHtml(output.fileName)}</span>
+      <span>.${escapeHtml(output.extension)}</span>
+      <span>${escapeHtml(output.mime)}</span>
+      <span>판별: ${escapeHtml(output.detectedLabel || output.kindLabel || "-")}</span>
+      <span>${escapeHtml(output.modified)}</span>
+    </div>
+    ${output.previewHtml}
+  `;
+}
+
+function renderViewerTextPreview(text, options) {
+  const lines = String(text || "").split(/\r\n|\r|\n/).slice(0, 520);
+  const hidden = Math.max(0, String(text || "").split(/\r\n|\r|\n/).length - lines.length);
+  const body = lines
+    .map((line, index) => {
+      const content = highlightViewerQuery(escapeHtml(line || " "), options.query);
+      if (!options.lineNumbers) return `<span class="viewer-line"><span class="viewer-line-body">${content}</span></span>`;
+      return `<span class="viewer-line"><span class="viewer-line-no">${index + 1}</span><span class="viewer-line-body">${content}</span></span>`;
+    })
+    .join("");
+  return `
+    <pre class="viewer-text ${options.lineNumbers ? "with-lines" : ""}">${body}</pre>
+    ${hidden ? `<p class="helper-text">아래 ${hidden.toLocaleString("ko-KR")}줄은 미리보기에서 생략했습니다. TXT 저장으로 추출 텍스트를 확인하세요.</p>` : ""}
+  `;
+}
+
+function renderViewerHtmlPreview(html, fileName) {
+  const safeHtml = sanitizeViewerHtml(html);
+  return `
+    <iframe
+      class="viewer-frame html-viewer"
+      sandbox
+      srcdoc="${escapeAttr(safeHtml)}"
+      title="${escapeAttr(fileName)} HTML 미리보기"
+    ></iframe>
+  `;
+}
+
+function sanitizeViewerHtml(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(String(html || ""), "text/html");
+  doc.querySelectorAll("script, iframe, object, embed, applet, frame, frameset, meta[http-equiv], link[rel='preload']").forEach((node) => node.remove());
+  doc.querySelectorAll("*").forEach((node) => {
+    [...node.attributes].forEach((attr) => {
+      const name = attr.name.toLowerCase();
+      const value = String(attr.value || "").trim();
+      if (name.startsWith("on")) node.removeAttribute(attr.name);
+      if (["href", "src", "xlink:href", "formaction"].includes(name) && /^(javascript:|data:text\/html)/i.test(value)) {
+        node.setAttribute(attr.name, "#");
+      }
+    });
+  });
+  return `<!doctype html>${doc.documentElement.outerHTML}`;
+}
+
+function addViewerTextNotes(base, output) {
+  if (output.binaryLike) base.notes.push("바이너리 성격의 바이트가 섞여 있어 텍스트가 일부 깨질 수 있습니다.");
+  if (output.encoding && output.encoding !== "utf-8") base.notes.push(`${output.encoding.toUpperCase()} 인코딩으로 해석했습니다.`);
+}
+
+function renderViewerFontPreview(family, loaded, fileName) {
+  const fontFamily = loaded ? `"${family}", "Noto Sans KR", sans-serif` : `"Noto Sans KR", system-ui, sans-serif`;
+  const samples = [
+    "goatool 제출 파일 미리보기",
+    "가나다라마바사 ABCDEFG 1234567890",
+    "The quick brown fox jumps over the lazy dog."
+  ];
+  return `
+    <div class="viewer-rich font-preview">
+      <div class="viewer-summary-grid">
+        <div><span>파일</span><strong>${escapeHtml(fileName)}</strong></div>
+        <div><span>로드 상태</span><strong>${loaded ? "미리보기 가능" : "기본 글꼴 대체"}</strong></div>
+      </div>
+      <div class="font-preview-sample" style="font-family: ${escapeAttr(fontFamily)}">
+        ${samples.map((sample) => `<p>${escapeHtml(sample)}</p>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function summarizeMarkdown(text) {
+  const lines = String(text || "").split(/\r\n|\r|\n/);
+  return {
+    headings: lines.filter((line) => /^#{1,6}\s+/.test(line)).length,
+    lists: lines.filter((line) => /^\s*(?:[-*+]|\d+\.)\s+/.test(line)).length,
+    links: (String(text || "").match(/\[[^\]]+\]\([^)]+\)/g) || []).length
+  };
+}
+
+function renderViewerMarkdownPreview(text) {
+  const html = markdownToViewerHtml(String(text || "").slice(0, LIMITS.viewerPreviewChars));
+  return `
+    <div class="viewer-rich markdown-preview">
+      ${html || `<p>표시할 Markdown 내용이 없습니다.</p>`}
+    </div>
+  `;
+}
+
+function markdownToViewerHtml(text) {
+  const lines = String(text || "").split(/\r\n|\r|\n/).slice(0, 220);
+  const html = [];
+  let inList = false;
+  let inCode = false;
+  let codeLines = [];
+
+  const closeList = () => {
+    if (inList) {
+      html.push("</ul>");
+      inList = false;
+    }
+  };
+  const closeCode = () => {
+    if (inCode) {
+      html.push(`<pre><code>${escapeHtml(codeLines.join("\n"))}</code></pre>`);
+      inCode = false;
+      codeLines = [];
+    }
+  };
+
+  lines.forEach((line) => {
+    if (/^```/.test(line.trim())) {
+      if (inCode) closeCode();
+      else {
+        closeList();
+        inCode = true;
+        codeLines = [];
+      }
+      return;
+    }
+    if (inCode) {
+      codeLines.push(line);
+      return;
+    }
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      closeList();
+      const level = Math.min(3, heading[1].length);
+      html.push(`<h${level}>${inlineMarkdownToHtml(heading[2])}</h${level}>`);
+      return;
+    }
+    const item = line.match(/^\s*(?:[-*+]|\d+\.)\s+(.+)$/);
+    if (item) {
+      if (!inList) {
+        html.push("<ul>");
+        inList = true;
+      }
+      html.push(`<li>${inlineMarkdownToHtml(item[1])}</li>`);
+      return;
+    }
+    if (/^>\s?/.test(line)) {
+      closeList();
+      html.push(`<blockquote>${inlineMarkdownToHtml(line.replace(/^>\s?/, ""))}</blockquote>`);
+      return;
+    }
+    closeList();
+    if (line.trim()) html.push(`<p>${inlineMarkdownToHtml(line)}</p>`);
+  });
+  closeCode();
+  closeList();
+  return html.join("");
+}
+
+function inlineMarkdownToHtml(value) {
+  return escapeHtml(value)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+}
+
+function summarizeJsonValue(value) {
+  const stats = { objects: 0, arrays: 0, values: 0, keys: [] };
+  const seenKeys = new Set();
+  const walk = (item, depth = 0) => {
+    if (depth > 8) return;
+    if (Array.isArray(item)) {
+      stats.arrays += 1;
+      item.slice(0, 80).forEach((child) => walk(child, depth + 1));
+      return;
+    }
+    if (item && typeof item === "object") {
+      stats.objects += 1;
+      Object.keys(item).forEach((key) => {
+        if (!seenKeys.has(key)) {
+          seenKeys.add(key);
+          stats.keys.push(key);
+        }
+        walk(item[key], depth + 1);
+      });
+      return;
+    }
+    stats.values += 1;
+  };
+  walk(value);
+  return stats;
+}
+
+function renderViewerJsonSummary(value, stats) {
+  const arrayRows = Array.isArray(value) ? value.filter((row) => row && typeof row === "object" && !Array.isArray(row)).slice(0, 20) : [];
+  const keys = stats.keys.slice(0, 24);
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>객체</span><strong>${stats.objects}</strong></div>
+        <div><span>배열</span><strong>${stats.arrays}</strong></div>
+        <div><span>값</span><strong>${stats.values}</strong></div>
+      </div>
+      ${
+        keys.length
+          ? `<div class="viewer-pill-list">${keys.map((key) => `<span>${escapeHtml(key)}</span>`).join("")}</div>`
+          : ""
+      }
+      ${arrayRows.length ? renderViewerTable(arrayRowsToCells(arrayRows), "JSON 배열") : ""}
+    </div>
+  `;
+}
+
+function arrayRowsToCells(rows) {
+  const keys = [...new Set(rows.flatMap((row) => Object.keys(row)))].slice(0, LIMITS.viewerTableCols);
+  return [keys, ...rows.map((row) => keys.map((key) => formatJsonCell(row[key])))];
+}
+
+function formatJsonCell(value) {
+  if (value == null) return "";
+  if (typeof value === "object") return JSON.stringify(value);
+  return String(value);
+}
+
+function summarizeXmlDocument(doc) {
+  const elements = [...doc.getElementsByTagName("*")];
+  const counts = new Map();
+  elements.forEach((element) => counts.set(element.nodeName, (counts.get(element.nodeName) || 0) + 1));
+  return {
+    root: doc.documentElement?.nodeName || "-",
+    total: elements.length,
+    unique: [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 30),
+    outline: elements.slice(0, 80).map((element) => ({
+      name: element.nodeName,
+      attrs: element.attributes?.length || 0,
+      text: String(element.textContent || "").trim().slice(0, 80)
+    }))
+  };
+}
+
+function renderViewerXmlSummary(outline) {
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>루트</span><strong>${escapeHtml(outline.root)}</strong></div>
+        <div><span>요소</span><strong>${outline.total}</strong></div>
+        <div><span>태그 종류</span><strong>${outline.unique.length}</strong></div>
+      </div>
+      <div class="viewer-pill-list">${outline.unique.map(([name, count]) => `<span>${escapeHtml(name)} ${count}</span>`).join("")}</div>
+      <div class="table-wrap viewer-table">
+        <table>
+          <thead><tr><th>태그</th><th>속성</th><th>텍스트 일부</th></tr></thead>
+          <tbody>${outline.outline.map((item) => `<tr><td>${escapeHtml(item.name)}</td><td>${item.attrs}</td><td>${escapeHtml(item.text)}</td></tr>`).join("")}</tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function unfoldCalendarLines(text) {
+  const lines = String(text || "").split(/\r\n|\r|\n/);
+  const unfolded = [];
+  lines.forEach((line) => {
+    if (/^[ \t]/.test(line) && unfolded.length) unfolded[unfolded.length - 1] += line.slice(1);
+    else unfolded.push(line);
+  });
+  return unfolded;
+}
+
+function parseStructuredLine(line) {
+  const index = line.indexOf(":");
+  const name = index < 0 ? line : line.slice(0, index);
+  const parts = splitStructuredName(name);
+  const key = (parts.shift() || "").trim().toUpperCase();
+  return { key, value: index < 0 ? "" : line.slice(index + 1), params: parseStructuredParams(parts) };
+}
+
+function splitStructuredName(value) {
+  const parts = [];
+  let current = "";
+  let quoted = false;
+  String(value || "").split("").forEach((char) => {
+    if (char === "\"") quoted = !quoted;
+    if (char === ";" && !quoted) {
+      parts.push(current);
+      current = "";
+      return;
+    }
+    current += char;
+  });
+  parts.push(current);
+  return parts;
+}
+
+function parseStructuredParams(parts) {
+  return parts.reduce((params, part) => {
+    const index = part.indexOf("=");
+    const rawName = index >= 0 ? part.slice(0, index) : part;
+    const name = rawName.trim().toUpperCase();
+    if (!name) return params;
+    const rawValue = index >= 0 ? part.slice(index + 1).trim() : "true";
+    params[name] = rawValue.replace(/^"(.*)"$/, "$1");
+    return params;
+  }, {});
+}
+
+function parseIcsEvents(text) {
+  const events = [];
+  let current = null;
+  unfoldCalendarLines(text).forEach((line) => {
+    const { key, value, params } = parseStructuredLine(line);
+    if (key === "BEGIN" && value === "VEVENT") current = {};
+    else if (key === "END" && value === "VEVENT" && current) {
+      events.push(current);
+      current = null;
+    } else if (current && ["SUMMARY", "DTSTART", "DTEND", "LOCATION", "DESCRIPTION"].includes(key)) {
+      current[key.toLowerCase()] = decodeStructuredText(value, params);
+    }
+  });
+  return events;
+}
+
+function decodeIcsText(value) {
+  return String(value || "").replace(/\\n/gi, "\n").replace(/\\,/g, ",").replace(/\\;/g, ";").replace(/\\\\/g, "\\");
+}
+
+function decodeStructuredText(value, params = {}) {
+  const encoding = String(params.ENCODING || "").trim().toUpperCase();
+  const charset = params.CHARSET || "utf-8";
+  if (encoding === "QUOTED-PRINTABLE" || encoding === "QP") {
+    return decodeIcsText(decodeQuotedPrintable(value, charset));
+  }
+  if (encoding === "BASE64" || encoding === "B") {
+    return decodeIcsText(decodeBase64Text(value, charset));
+  }
+  return decodeIcsText(decodeMimeHeader(value));
+}
+
+function renderViewerEventTable(events) {
+  const rows = [["제목", "시작", "종료", "장소"], ...events.map((event) => [event.summary || "-", formatIcsDate(event.dtstart), formatIcsDate(event.dtend), event.location || "-"])];
+  return renderViewerTable(rows, "일정");
+}
+
+function formatIcsDate(value) {
+  if (!value) return "-";
+  const match = String(value).match(/^(\d{4})(\d{2})(\d{2})(?:T(\d{2})(\d{2}))?/);
+  if (!match) return value;
+  return `${match[1]}-${match[2]}-${match[3]}${match[4] ? ` ${match[4]}:${match[5]}` : ""}`;
+}
+
+function parseVcfContacts(text) {
+  const contacts = [];
+  let current = null;
+  unfoldCalendarLines(text).forEach((line) => {
+    const { key, value, params } = parseStructuredLine(line);
+    if (key === "BEGIN" && value === "VCARD") current = {};
+    else if (key === "END" && value === "VCARD" && current) {
+      contacts.push(current);
+      current = null;
+    } else if (current && ["FN", "ORG", "TEL", "EMAIL", "TITLE"].includes(key)) {
+      appendContactField(current, key, decodeStructuredText(value, params));
+    }
+  });
+  return contacts;
+}
+
+function appendContactField(contact, key, value) {
+  const field = key.toLowerCase();
+  const cleanValue = String(value || "").trim();
+  if (!cleanValue) return;
+  contact[field] = contact[field] ? `${contact[field]}, ${cleanValue}` : cleanValue;
+}
+
+function renderViewerContactTable(contacts) {
+  const rows = [["이름", "소속", "이메일", "전화"], ...contacts.map((contact) => [contact.fn || "-", contact.org || contact.title || "-", contact.email || "-", contact.tel || "-"])];
+  return renderViewerTable(rows, "연락처");
+}
+
+function parseEmlPreview(text) {
+  const normalized = String(text || "").replace(/\r\n/g, "\n");
+  const root = splitEmailSection(normalized);
+  const headers = parseEmailHeaders(root.headerText);
+  let body = root.body;
+  let bodyHeaders = headers;
+  const boundary = getHeaderParam(headers["content-type"], "boundary");
+  if (boundary && /multipart\//i.test(headers["content-type"] || "")) {
+    const part = selectEmailTextPart(root.body, boundary);
+    if (part) {
+      body = part.body;
+      bodyHeaders = part.headers;
+    }
+  }
+  const contentType = bodyHeaders["content-type"] || headers["content-type"] || "";
+  const decodedBody = decodeEmailBody(body, bodyHeaders);
+  return {
+    from: headers.from || "",
+    to: headers.to || "",
+    subject: headers.subject || "",
+    date: headers.date || "",
+    body: normalizeEmailBodyForPreview(decodedBody, contentType)
+  };
+}
+
+function decodeMimeHeader(value) {
+  return String(value || "").replace(/(\?=)\s+(=\?)/g, "$1$2").replace(/=\?([^?]+)\?([BQ])\?([^?]+)\?=/gi, (_match, charset, encoding, body) => {
+    try {
+      if (encoding.toUpperCase() === "Q") return decodeQuotedPrintable(body.replace(/_/g, " "), charset);
+      return decodeBase64Text(body, charset);
+    } catch {
+      return body;
+    }
+  }).trim();
+}
+
+function parseEmailHeaders(headerText) {
+  const headers = {};
+  unfoldCalendarLines(headerText).forEach((line) => {
+    const index = line.indexOf(":");
+    if (index <= 0) return;
+    const key = line.slice(0, index).trim().toLowerCase();
+    const value = decodeMimeHeader(line.slice(index + 1).trim());
+    headers[key] = headers[key] ? `${headers[key]}, ${value}` : value;
+  });
+  return headers;
+}
+
+function splitEmailSection(source) {
+  const normalized = String(source || "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const splitIndex = normalized.search(/\n\n/);
+  if (splitIndex < 0) return { headerText: normalized, body: "" };
+  return { headerText: normalized.slice(0, splitIndex), body: normalized.slice(splitIndex + 2) };
+}
+
+function selectEmailTextPart(body, boundary) {
+  const marker = `--${boundary}`;
+  const parts = String(body || "")
+    .split(marker)
+    .slice(1)
+    .map((part) => part.replace(/^\n/, ""))
+    .filter((part) => part.trim() && !part.trim().startsWith("--"))
+    .map((part) => {
+      const section = splitEmailSection(part);
+      return { headers: parseEmailHeaders(section.headerText), body: section.body };
+    });
+  const nested = parts
+    .map((part) => {
+      const nestedBoundary = getHeaderParam(part.headers["content-type"], "boundary");
+      return nestedBoundary && /multipart\//i.test(part.headers["content-type"] || "") ? selectEmailTextPart(part.body, nestedBoundary) : null;
+    })
+    .find(Boolean);
+  if (nested) return nested;
+  return parts.find((part) => isInlineEmailTextPart(part, "text/plain")) || parts.find((part) => isInlineEmailTextPart(part, "text/html")) || null;
+}
+
+function isInlineEmailTextPart(part, mime) {
+  const contentType = part.headers["content-type"] || "";
+  const disposition = part.headers["content-disposition"] || "";
+  return contentType.toLowerCase().includes(mime) && !/attachment/i.test(disposition);
+}
+
+function decodeEmailBody(body, headers) {
+  const transferEncoding = String(headers["content-transfer-encoding"] || "").trim().toLowerCase();
+  const charset = getHeaderParam(headers["content-type"], "charset") || "utf-8";
+  if (transferEncoding === "quoted-printable") return decodeQuotedPrintable(body, charset);
+  if (transferEncoding === "base64") return decodeBase64Text(body, charset);
+  return String(body || "");
+}
+
+function normalizeEmailBodyForPreview(body, contentType) {
+  const text = String(body || "");
+  if (/text\/html/i.test(contentType || "")) return htmlToPlainViewerText(text);
+  return text.replace(/\n{4,}/g, "\n\n\n").trim();
+}
+
+function htmlToPlainViewerText(html) {
+  const doc = new DOMParser().parseFromString(String(html || ""), "text/html");
+  doc.querySelectorAll("script, style, noscript, iframe, object, embed").forEach((node) => node.remove());
+  return (doc.body?.textContent || "").replace(/[ \t]+\n/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+}
+
+function getHeaderParam(value, name) {
+  const match = String(value || "").match(new RegExp(`${escapeRegExp(name)}\\s*=\\s*(?:"([^"]*)"|([^;\\s]+))`, "i"));
+  return match ? (match[1] || match[2] || "").trim() : "";
+}
+
+function decodeQuotedPrintable(value, charset = "utf-8") {
+  return decodeBytesWithCharset(quotedPrintableToBytes(value), charset);
+}
+
+function quotedPrintableToBytes(value) {
+  const source = String(value || "").replace(/=\r?\n/g, "");
+  const bytes = [];
+  for (let index = 0; index < source.length; index += 1) {
+    const char = source[index];
+    const hex = source.slice(index + 1, index + 3);
+    if (char === "=" && /^[0-9a-f]{2}$/i.test(hex)) {
+      bytes.push(parseInt(hex, 16));
+      index += 2;
+      continue;
+    }
+    const code = char.charCodeAt(0);
+    if (code <= 0xff) bytes.push(code);
+    else bytes.push(...new TextEncoder().encode(char));
+  }
+  return new Uint8Array(bytes);
+}
+
+function decodeBase64Text(value, charset = "utf-8") {
+  const compact = String(value || "").replace(/[^A-Za-z0-9+/=]/g, "");
+  if (!compact) return "";
+  const binary = atob(compact);
+  return decodeBytesWithCharset(Uint8Array.from(binary, (char) => char.charCodeAt(0)), charset);
+}
+
+function decodeBytesWithCharset(bytes, charset = "utf-8") {
+  const labels = [...new Set([normalizeTextCharset(charset), "utf-8", "euc-kr"].filter(Boolean))];
+  const candidates = labels
+    .map((label) => {
+      try {
+        const text = new TextDecoder(label).decode(bytes);
+        return { text, score: scoreDecodedText(text) };
+      } catch {
+        return null;
+      }
+    })
+    .filter(Boolean)
+    .sort((a, b) => a.score - b.score);
+  return candidates[0]?.text || "";
+}
+
+function normalizeTextCharset(charset) {
+  const label = String(charset || "utf-8").trim().toLowerCase().replace(/^"|"$/g, "").replace(/_/g, "-");
+  if (!label || label === "utf8") return "utf-8";
+  if (["ks-c-5601-1987", "ks-c-5601", "cp949", "ms949", "x-windows-949", "euc-kr"].includes(label)) return "euc-kr";
+  if (label === "us-ascii" || label === "ascii") return "utf-8";
+  return label;
+}
+
+function renderViewerEmailSummary(email) {
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid email-summary">
+        <div><span>제목</span><strong>${escapeHtml(email.subject || "-")}</strong></div>
+        <div><span>보낸 사람</span><strong>${escapeHtml(email.from || "-")}</strong></div>
+        <div><span>받는 사람</span><strong>${escapeHtml(email.to || "-")}</strong></div>
+        <div><span>날짜</span><strong>${escapeHtml(email.date || "-")}</strong></div>
+      </div>
+    </div>
+  `;
+}
+
+function summarizeSvg(text) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(String(text || ""), "image/svg+xml");
+  if (doc.querySelector("parsererror") || doc.documentElement?.nodeName.toLowerCase() !== "svg") return { safeSvg: "", elements: 0, removed: 0, size: "", viewBox: "" };
+  let removed = 0;
+  doc.querySelectorAll("script, foreignObject, iframe, object, embed, audio, video, style").forEach((node) => {
+    node.remove();
+    removed += 1;
+  });
+  doc.querySelectorAll("*").forEach((node) => {
+    [...node.attributes].forEach((attr) => {
+      const name = attr.name.toLowerCase();
+      const value = String(attr.value || "").trim();
+      if (name.startsWith("on") || isUnsafeSvgAttribute(name, value)) {
+        node.removeAttribute(attr.name);
+        removed += 1;
+      }
+    });
+  });
+  const root = doc.documentElement;
+  const width = root.getAttribute("width") || "";
+  const height = root.getAttribute("height") || "";
+  return {
+    safeSvg: new XMLSerializer().serializeToString(root),
+    elements: doc.getElementsByTagName("*").length,
+    removed,
+    size: width && height ? `${width}×${height}` : "",
+    viewBox: root.getAttribute("viewBox") || ""
+  };
+}
+
+function isUnsafeSvgAttribute(name, value) {
+  if (["href", "xlink:href", "src"].includes(name)) {
+    return value && !value.startsWith("#") && !/^data:image\/(?:png|jpe?g|gif|webp);base64,/i.test(value);
+  }
+  if (name === "style") return /url\s*\(/i.test(value);
+  return /url\s*\(\s*['"]?(?:https?:|data:text\/html|javascript:)/i.test(value);
+}
+
+function renderViewerSvgPreview(svg) {
+  const html = `<!doctype html><html><body style="margin:0;display:grid;place-items:center;min-height:360px;background:#f8fbfd;">${svg.safeSvg}</body></html>`;
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>viewBox</span><strong>${escapeHtml(svg.viewBox || "-")}</strong></div>
+        <div><span>크기</span><strong>${escapeHtml(svg.size || "-")}</strong></div>
+        <div><span>요소</span><strong>${svg.elements}</strong></div>
+      </div>
+      <iframe class="viewer-frame svg-viewer" sandbox srcdoc="${escapeAttr(html)}" title="SVG 안전 미리보기"></iframe>
+    </div>
+  `;
+}
+
+function summarizeConfigText(text, ext) {
+  const lines = String(text || "").split(/\r\n|\r|\n/);
+  const keys = [];
+  const sections = [];
+  let comments = 0;
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+    if (!trimmed) return;
+    if (/^(#|\/\/|;)/.test(trimmed)) {
+      comments += 1;
+      return;
+    }
+    const section = trimmed.match(/^\[([^\]]+)]$/);
+    if (section) {
+      sections.push({ line: index + 1, name: section[1] });
+      return;
+    }
+    const yaml = trimmed.match(/^([A-Za-z0-9_.-][^:#={}\[\]]{0,80})\s*:\s*(.*)$/);
+    const equals = trimmed.match(/^(?:export\s+)?([A-Za-z_][A-Za-z0-9_.-]{0,80})\s*=\s*(.*)$/);
+    const match = ["yml", "yaml"].includes(ext) ? yaml || equals : equals || yaml;
+    if (match) keys.push({ line: index + 1, key: match[1].trim(), value: maskConfigSecret(match[2].trim(), match[1].trim()) });
+  });
+  return {
+    keys: keys.slice(0, 100),
+    sections: sections.slice(0, 40),
+    comments,
+    meaningfulLines: keys.length + sections.length
+  };
+}
+
+function maskConfigSecret(value, key = "") {
+  if (!value) return "";
+  if (isSensitiveConfigKey(key)) return "민감값 가능성 - 화면 축약";
+  if (/^(["']?)(?:[A-Za-z0-9+/=_-]{24,}|sk-|pk_|ghp_|AKIA)/.test(value)) return "민감값 가능성 - 화면 축약";
+  return value.slice(0, 120);
+}
+
+function isSensitiveConfigKey(key) {
+  return /(secret|token|password|passwd|pwd|api[_-]?key|private[_-]?key|credential|auth|client[_-]?secret)/i.test(String(key || ""));
+}
+
+function redactConfigText(text) {
+  return String(text || "")
+    .split(/\r\n|\r|\n/)
+    .map((line) => {
+      const match = line.match(/^(\s*(?:export\s+)?([A-Za-z0-9_.-]{1,80})\s*[:=]\s*)(.*)$/);
+      if (!match) return line;
+      const masked = maskConfigSecret(match[3].trim(), match[2]);
+      return masked === match[3].trim() ? line : `${match[1]}${masked}`;
+    })
+    .join("\n");
+}
+
+function renderViewerConfigSummary(summary) {
+  const rows = [["줄", "키", "값 일부"], ...summary.keys.slice(0, 60).map((item) => [item.line, item.key, item.value || "-"])];
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>키</span><strong>${summary.keys.length}</strong></div>
+        <div><span>섹션</span><strong>${summary.sections.length}</strong></div>
+        <div><span>주석</span><strong>${summary.comments}</strong></div>
+      </div>
+      ${summary.sections.length ? `<div class="viewer-pill-list">${summary.sections.slice(0, 24).map((item) => `<span>${escapeHtml(item.name)}</span>`).join("")}</div>` : ""}
+      ${renderViewerTable(rows, "설정 키")}
+    </div>
+  `;
+}
+
+function parseSubtitleCues(text) {
+  return String(text || "")
+    .replace(/^\uFEFF/, "")
+    .replace(/\r\n/g, "\n")
+    .split(/\n{2,}/)
+    .map((block) => block.trim())
+    .filter(Boolean)
+    .map((block) => {
+      const lines = block.split("\n").map((line) => line.trim()).filter(Boolean);
+      if (!lines.length || /^WEBVTT/i.test(lines[0]) || /^NOTE\b/i.test(lines[0])) return null;
+      if (/^\d+$/.test(lines[0]) && lines[1]?.includes("-->")) lines.shift();
+      const timingIndex = lines.findIndex((line) => line.includes("-->"));
+      if (timingIndex < 0) return null;
+      const [start, end] = lines[timingIndex].split("-->").map((part) => normalizeSubtitleTime(part));
+      const body = lines.slice(timingIndex + 1).join(" ").replace(/<[^>]+>/g, "").trim();
+      return { start, end, body };
+    })
+    .filter(Boolean);
+}
+
+function normalizeSubtitleTime(value) {
+  return String(value || "").split(/\s+/)[0].replace(",", ".");
+}
+
+function renderViewerSubtitleTable(cues) {
+  const rows = [["시작", "종료", "자막"], ...cues.map((cue) => [cue.start, cue.end, cue.body])];
+  return renderViewerTable(rows, "자막 구간");
+}
+
+function summarizeLogText(text) {
+  const lines = String(text || "").split(/\r\n|\r|\n/);
+  const counts = { ERROR: 0, WARN: 0, INFO: 0, DEBUG: 0, TRACE: 0 };
+  const important = [];
+  lines.forEach((line, index) => {
+    const level = detectLogLevel(line);
+    if (level) counts[level] = (counts[level] || 0) + 1;
+    if ((level === "ERROR" || level === "WARN" || level === "INFO") && important.length < 80) {
+      important.push({ line: index + 1, level, time: detectLogTime(line), text: line.trim().slice(0, 180) });
+    }
+  });
+  return { lines: lines.length, counts, important };
+}
+
+function detectLogLevel(line) {
+  const match = String(line || "").match(/\b(FATAL|CRITICAL|ERROR|ERR|WARN|WARNING|NOTICE|INFO|DEBUG|TRACE)\b/i);
+  if (!match) return "";
+  const level = match[1].toUpperCase();
+  if (["FATAL", "CRITICAL", "ERR"].includes(level)) return "ERROR";
+  if (level === "WARNING" || level === "NOTICE") return "WARN";
+  return level;
+}
+
+function detectLogTime(line) {
+  return String(line || "").match(/\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}:\d{2}|\d{2}:\d{2}:\d{2}/)?.[0] || "-";
+}
+
+function renderViewerLogSummary(summary) {
+  const rows = [["줄", "레벨", "시각", "내용"], ...summary.important.map((item) => [item.line, item.level, item.time, item.text])];
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>ERROR</span><strong>${summary.counts.ERROR || 0}</strong></div>
+        <div><span>WARN</span><strong>${summary.counts.WARN || 0}</strong></div>
+        <div><span>INFO</span><strong>${summary.counts.INFO || 0}</strong></div>
+      </div>
+      ${renderViewerTable(rows, "로그 핵심 줄")}
+    </div>
+  `;
+}
+
+function summarizeCodeText(text, ext) {
+  const lines = String(text || "").split(/\r\n|\r|\n/);
+  const symbols = [];
+  let imports = 0;
+  let comments = 0;
+  let todos = 0;
+  lines.forEach((line, index) => {
+    const trimmed = line.trim();
+    if (/^(import\b|from\b|const\s+\w+\s*=\s*require\(|#include\b|using\b|use\b|package\b)/.test(trimmed)) imports += 1;
+    if (/^(\/\/|#|--|\/\*|\*)/.test(trimmed)) comments += 1;
+    if (/\b(TODO|FIXME|BUG|HACK)\b/i.test(trimmed)) todos += 1;
+    const symbol = detectCodeSymbol(trimmed);
+    if (symbol && symbols.length < 80) symbols.push({ line: index + 1, ...symbol });
+  });
+  return { language: codeLanguageLabel(ext), lines: lines.length, imports, comments, todos, symbols };
+}
+
+function detectCodeSymbol(line) {
+  const patterns = [
+    { type: "class", regex: /^(?:export\s+)?(?:default\s+)?class\s+([A-Za-z_$][\w$]*)/ },
+    { type: "function", regex: /^(?:export\s+)?(?:async\s+)?function\s+([A-Za-z_$][\w$]*)/ },
+    { type: "function", regex: /^(?:def|func|fn)\s+([A-Za-z_][\w]*)/ },
+    { type: "type", regex: /^(?:interface|type|struct|enum)\s+([A-Za-z_$][\w$]*)/ },
+    { type: "component", regex: /^(?:const|let|var)\s+([A-Z][A-Za-z0-9_$]*)\s*=\s*(?:\([^)]*\)|[A-Za-z_$][\w$]*)\s*=>/ },
+    { type: "sql", regex: /^(SELECT|INSERT|UPDATE|DELETE|CREATE|ALTER|DROP)\b/i }
+  ];
+  for (const pattern of patterns) {
+    const match = line.match(pattern.regex);
+    if (match) return { type: pattern.type, name: match[1] };
+  }
+  return null;
+}
+
+function codeLanguageLabel(ext) {
+  const labels = {
+    js: "JavaScript",
+    mjs: "JavaScript",
+    cjs: "JavaScript",
+    ts: "TypeScript",
+    tsx: "TypeScript JSX",
+    jsx: "JavaScript JSX",
+    py: "Python",
+    java: "Java",
+    c: "C",
+    cpp: "C++",
+    h: "C/C++ Header",
+    go: "Go",
+    rs: "Rust",
+    php: "PHP",
+    rb: "Ruby",
+    vue: "Vue",
+    svelte: "Svelte",
+    sh: "Shell",
+    bat: "Batch",
+    ps1: "PowerShell",
+    sql: "SQL"
+  };
+  return labels[ext] || "Code";
+}
+
+function renderViewerCodeSummary(summary) {
+  const rows = [["줄", "종류", "이름"], ...summary.symbols.map((item) => [item.line, item.type, item.name])];
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>언어</span><strong>${escapeHtml(summary.language)}</strong></div>
+        <div><span>import</span><strong>${summary.imports}</strong></div>
+        <div><span>TODO</span><strong>${summary.todos}</strong></div>
+      </div>
+      ${summary.symbols.length ? renderViewerTable(rows, "코드 구조") : ""}
+    </div>
+  `;
+}
+
+function rtfToPlainViewerText(value) {
+  return String(value || "")
+    .replace(/\\u(-?\d+)\??/g, (_match, code) => {
+      const number = Number(code);
+      return Number.isFinite(number) ? String.fromCharCode(number < 0 ? number + 65536 : number) : "";
+    })
+    .replace(/\\'([0-9a-f]{2})/gi, (_match, hex) => String.fromCharCode(parseInt(hex, 16)))
+    .replace(/\\(?:par|line)\b/g, "\n")
+    .replace(/\\tab\b/g, "\t")
+    .replace(/\\[a-z]+\d* ?/gi, "")
+    .replace(/\\./g, "")
+    .replace(/[{}]/g, "")
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+}
+
+async function readEpubPreview(file) {
+  const zip = await JSZip.loadAsync(await file.arrayBuffer());
+  const entries = Object.values(zip.files).sort((a, b) => a.name.localeCompare(b.name, "ko"));
+  const opfPath = await findEpubOpfPath(zip);
+  const opf = opfPath ? await zip.file(opfPath)?.async("text") : "";
+  const doc = opf ? new DOMParser().parseFromString(opf, "application/xml") : null;
+  const metadata = doc && !doc.querySelector("parsererror") ? extractEpubMetadata(doc) : {};
+  const chapters = doc && !doc.querySelector("parsererror") ? extractEpubChapters(doc, opfPath, zip) : [];
+  let text = "";
+  for (const chapter of chapters.slice(0, 12)) {
+    try {
+      const html = await zip.file(chapter.path)?.async("text");
+      const extracted = xmlMarkupToText(html || "");
+      if (extracted) text += `${text ? "\n\n" : ""}[${chapter.label}]\n${extracted}`;
+      if (text.length > LIMITS.viewerPreviewChars) break;
+    } catch {
+      // EPUB 내부 장 하나가 깨져도 나머지 장은 계속 표시한다.
+    }
+  }
+  return {
+    ...metadata,
+    chapters,
+    text: text.slice(0, LIMITS.viewerPreviewChars),
+    truncated: text.length > LIMITS.viewerPreviewChars,
+    entries: entries.filter((entry) => !entry.dir).map((entry) => ({ name: entry.name, size: entry._data?.uncompressedSize || 0 })),
+    folderCount: entries.filter((entry) => entry.dir).length
+  };
+}
+
+async function findEpubOpfPath(zip) {
+  const container = zip.file("META-INF/container.xml");
+  if (container) {
+    const xml = await container.async("text");
+    const doc = new DOMParser().parseFromString(xml, "application/xml");
+    const rootfile = [...doc.getElementsByTagName("*")].find((node) => node.localName === "rootfile");
+    const path = rootfile?.getAttribute("full-path");
+    if (path && zip.file(path)) return path;
+  }
+  return Object.keys(zip.files).find((name) => name.toLowerCase().endsWith(".opf")) || "";
+}
+
+function extractEpubMetadata(doc) {
+  return {
+    title: getXmlLocalText(doc, "title"),
+    creator: getXmlLocalText(doc, "creator"),
+    language: getXmlLocalText(doc, "language"),
+    identifier: getXmlLocalText(doc, "identifier")
+  };
+}
+
+function extractEpubChapters(doc, opfPath, zip) {
+  const baseDir = opfPath.split("/").slice(0, -1).join("/");
+  const manifest = new Map();
+  [...doc.getElementsByTagName("*")]
+    .filter((node) => node.localName === "item")
+    .forEach((item) => {
+      const id = item.getAttribute("id");
+      const href = item.getAttribute("href");
+      if (id && href) manifest.set(id, { href, media: item.getAttribute("media-type") || "" });
+    });
+  const ordered = [...doc.getElementsByTagName("*")]
+    .filter((node) => node.localName === "itemref")
+    .map((item) => item.getAttribute("idref"))
+    .filter(Boolean)
+    .map((id) => manifest.get(id))
+    .filter(Boolean);
+  const candidates = (ordered.length ? ordered : [...manifest.values()]).filter((item) => /xhtml|html/i.test(item.media) || /\.(xhtml|html?)$/i.test(item.href));
+  return candidates
+    .map((item, index) => {
+      const path = normalizeZipPath(baseDir, item.href);
+      return { path, label: decodeURIComponentSafe(item.href.split("/").pop() || `chapter-${index + 1}`), exists: Boolean(zip.file(path)) };
+    })
+    .filter((item) => item.exists)
+    .slice(0, 80);
+}
+
+function getXmlLocalText(doc, name) {
+  return [...doc.getElementsByTagName("*")].find((node) => node.localName === name)?.textContent?.trim() || "";
+}
+
+function normalizeZipPath(baseDir, href) {
+  const parts = `${baseDir ? `${baseDir}/` : ""}${decodeURIComponentSafe(href).split("#")[0]}`.split("/");
+  const stack = [];
+  parts.forEach((part) => {
+    if (!part || part === ".") return;
+    if (part === "..") stack.pop();
+    else stack.push(part);
+  });
+  return stack.join("/");
+}
+
+function decodeURIComponentSafe(value) {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
+}
+
+function renderViewerEpubSummary(epub) {
+  const rows = [["순서", "파일"], ...epub.chapters.slice(0, 40).map((chapter, index) => [index + 1, chapter.path])];
+  return `
+    <div class="viewer-rich">
+      <div class="viewer-summary-grid">
+        <div><span>제목</span><strong>${escapeHtml(epub.title || "-")}</strong></div>
+        <div><span>저자</span><strong>${escapeHtml(epub.creator || "-")}</strong></div>
+        <div><span>언어</span><strong>${escapeHtml(epub.language || "-")}</strong></div>
+      </div>
+      ${epub.identifier ? `<div class="viewer-pill-list"><span>${escapeHtml(epub.identifier)}</span></div>` : ""}
+      ${renderViewerTable(rows, "EPUB 목차 후보")}
+    </div>
+  `;
+}
+
+function extractViewerColors(text) {
+  const matches = String(text || "").match(/#[0-9a-f]{3,8}\b|rgba?\([^)]+\)|hsla?\([^)]+\)/gi) || [];
+  return [...new Set(matches.map((item) => item.trim()))].filter(isSafeCssColor).slice(0, 48);
+}
+
+function isSafeCssColor(value) {
+  return /^(#[0-9a-f]{3,8}|rgba?\([0-9.,% \t-]+\)|hsla?\([0-9.,% \t-]+\))$/i.test(value);
+}
+
+function renderViewerColorPalette(colors) {
+  return `
+    <div class="viewer-rich">
+      <h3>색상 팔레트</h3>
+      <div class="viewer-color-grid">
+        ${colors.map((color) => `<span class="viewer-color-chip"><i style="background:${escapeAttr(color)}"></i>${escapeHtml(color)}</span>`).join("")}
+      </div>
+    </div>
+  `;
+}
+
+function renderViewerTable(rows, caption) {
+  const colCount = Math.max(1, ...rows.map((row) => row.length));
+  const safeRows = rows.length ? rows : [["표시할 셀이 없습니다."]];
+  return `
+    <div class="table-wrap viewer-table">
+      <table>
+        <thead>
+          <tr><th colspan="${Math.max(1, colCount)}">${escapeHtml(caption)} 미리보기</th></tr>
+        </thead>
+        <tbody>
+          ${safeRows
+            .map((row) => `<tr>${Array.from({ length: Math.max(1, colCount) }, (_, index) => `<td>${escapeHtml(row[index] ?? "")}</td>`).join("")}</tr>`)
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function renderViewerArchiveTable(files, folderCount, omitted) {
+  return `
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>내부 경로</th><th>확장자</th><th>용량</th></tr></thead>
+        <tbody>
+          ${
+            files.length
+              ? files
+                  .map((entry) => {
+                    const displayName = entry.originalName && entry.originalName !== entry.name ? `${entry.originalName} → ${entry.name}` : entry.name;
+                    return `<tr><td>${escapeHtml(displayName)}</td><td>${escapeHtml(extensionOf(entry.name) || "-")}</td><td>${entry.size ? formatBytes(entry.size) : "-"}</td></tr>`;
+                  })
+                  .join("")
+              : `<tr><td colspan="3">파일 항목이 없습니다. 폴더 ${folderCount}개만 확인됐습니다.</td></tr>`
+          }
+          ${omitted ? `<tr><td colspan="3">외 ${omitted.toLocaleString("ko-KR")}개 파일은 화면에서 생략했습니다.</td></tr>` : ""}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function highlightViewerQuery(escapedText, query) {
+  const trimmed = String(query || "").trim();
+  if (!trimmed) return escapedText;
+  const escapedQuery = escapeHtml(trimmed);
+  return escapedText.replace(new RegExp(escapeRegExp(escapedQuery), "gi"), (match) => `<mark>${match}</mark>`);
+}
+
+function countViewerMatches(text, query) {
+  const trimmed = String(query || "").trim();
+  if (!trimmed) return 0;
+  return (String(text || "").match(new RegExp(escapeRegExp(trimmed), "gi")) || []).length;
+}
+
+function parseTsv(text) {
+  return parseDelimited(text, "\t");
+}
+
+function parseDelimited(text, delimiter = ",") {
+  const rows = [];
+  let row = [];
+  let value = "";
+  let inQuotes = false;
+  const source = String(text || "");
+
+  for (let i = 0; i < source.length; i += 1) {
+    const char = source[i];
+    const next = source[i + 1];
+
+    if (char === '"' && inQuotes && next === '"') {
+      value += '"';
+      i += 1;
+    } else if (char === '"') {
+      inQuotes = !inQuotes;
+    } else if (char === delimiter && !inQuotes) {
+      row.push(value);
+      value = "";
+    } else if ((char === "\n" || char === "\r") && !inQuotes) {
+      if (char === "\r" && next === "\n") i += 1;
+      row.push(value);
+      rows.push(row);
+      row = [];
+      value = "";
+    } else {
+      value += char;
+    }
+  }
+
+  row.push(value);
+  rows.push(row);
+  return rows;
+}
+
+function splitDelimitedLine(line, delimiter = ",") {
+  return parseDelimited(line, delimiter)[0] || [String(line || "")];
 }
 
 function bindPdfA4NormalizerEvents() {
@@ -7398,37 +9688,7 @@ function renderTablePrivacyResult(output) {
 }
 
 function parseCsv(text) {
-  const rows = [];
-  let row = [];
-  let value = "";
-  let inQuotes = false;
-
-  for (let i = 0; i < text.length; i += 1) {
-    const char = text[i];
-    const next = text[i + 1];
-
-    if (char === '"' && inQuotes && next === '"') {
-      value += '"';
-      i += 1;
-    } else if (char === '"') {
-      inQuotes = !inQuotes;
-    } else if (char === "," && !inQuotes) {
-      row.push(value);
-      value = "";
-    } else if ((char === "\n" || char === "\r") && !inQuotes) {
-      if (char === "\r" && next === "\n") i += 1;
-      row.push(value);
-      rows.push(row);
-      row = [];
-      value = "";
-    } else {
-      value += char;
-    }
-  }
-
-  row.push(value);
-  rows.push(row);
-  return rows;
+  return parseDelimited(text, ",");
 }
 
 function toCsv(rows) {
@@ -7658,8 +9918,16 @@ function escapeAttr(value) {
   return escapeHtml(value).replace(/`/g, "&#96;");
 }
 
+function escapeRegExp(value) {
+  return String(value ?? "").replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function searchIcon() {
   return `<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>`;
+}
+
+function viewerIcon() {
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M8 9h8"/><path d="M8 13h5"/><circle cx="17" cy="15" r="2"/><path d="m18.5 16.5 2 2"/></svg>`;
 }
 
 function arrowIcon() {
