@@ -4395,14 +4395,8 @@ function bindShellEvents() {
     });
   });
 
-  const toolSearch = document.querySelector("#toolSearch");
-  toolSearch?.addEventListener("input", (event) => {
-    const cursor = event.target.selectionStart;
-    state.toolQuery = event.target.value;
-    render();
-    const nextInput = document.querySelector("#toolSearch");
-    nextInput?.focus();
-    if (Number.isInteger(cursor)) nextInput?.setSelectionRange(cursor, cursor);
+  bindSearchInput("#toolSearch", (value) => {
+    state.toolQuery = value;
   });
 
   document.querySelectorAll("[data-link]:not([data-tool])").forEach((node) => {
@@ -4422,16 +4416,41 @@ function bindShellEvents() {
   });
 }
 
+function bindSearchInput(selector, updateValue) {
+  const input = document.querySelector(selector);
+  if (!input) return;
+  let composing = false;
+  const commit = (value, cursor) => {
+    updateValue(value);
+    render();
+    const nextInput = document.querySelector(selector);
+    nextInput?.focus();
+    if (Number.isInteger(cursor)) nextInput?.setSelectionRange(cursor, cursor);
+  };
+
+  input.addEventListener("compositionstart", () => {
+    composing = true;
+  });
+
+  input.addEventListener("compositionend", (event) => {
+    composing = false;
+    commit(event.target.value, event.target.selectionStart);
+  });
+
+  input.addEventListener("input", (event) => {
+    const value = event.target.value;
+    if (composing || event.isComposing) {
+      updateValue(value);
+      return;
+    }
+    commit(value, event.target.selectionStart);
+  });
+}
+
 function bindGuideEvents(guidePage, isGuideIndex) {
   if (isGuideIndex) {
-    const input = document.querySelector("#guideSearch");
-    input?.addEventListener("input", (event) => {
-      const cursor = event.target.selectionStart;
-      state.guideQuery = event.target.value;
-      render();
-      const nextInput = document.querySelector("#guideSearch");
-      nextInput?.focus();
-      if (Number.isInteger(cursor)) nextInput?.setSelectionRange(cursor, cursor);
+    bindSearchInput("#guideSearch", (value) => {
+      state.guideQuery = value;
     });
 
     document.querySelectorAll("[data-guide-category]").forEach((node) => {
