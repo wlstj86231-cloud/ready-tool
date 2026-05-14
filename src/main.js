@@ -2369,6 +2369,7 @@ const utilityToolConfigs = {
 
 const state = {
   situation: "all",
+  toolQuery: "",
   guideQuery: "",
   guideCategory: "all",
   activeTool: toolFromRoute(location.pathname) || "photo-resize",
@@ -2490,7 +2491,7 @@ function render() {
   const primaryPickerTools = pickerTools.slice(0, 6);
   const secondaryPickerTools = pickerTools.slice(6);
   const selectedCopy = simpleTool(selected);
-  const filteredTools = pickerTools;
+  const filteredTools = filteredToolList(pickerTools);
   const publicTools = pickerTools.filter((tool) => tool.situations.includes("public")).slice(0, 5);
   const jobTools = pickerTools.filter((tool) => tool.situations.includes("job")).slice(0, 5);
 
@@ -2534,15 +2535,23 @@ function render() {
               <span>제출 전 검수</span>
             </div>
           </div>
-          <nav class="tool-picker" aria-label="도구 선택">
-            ${primaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
-            <details class="more-tools">
-              <summary>다른 도구 보기</summary>
-              <div>
-                ${secondaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
-              </div>
-            </details>
-          </nav>
+          <div class="tool-picker-panel">
+            <label class="compact-search tool-search">
+              <span class="visually-hidden">도구 검색</span>
+              <span aria-hidden="true">${searchIcon()}</span>
+              <input id="toolSearch" type="search" value="${escapeAttr(state.toolQuery)}" placeholder="PDF, ZIP, 복구, 사진 검색" autocomplete="off" />
+            </label>
+            <nav class="tool-picker" aria-label="도구 선택">
+              ${primaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
+              <details class="more-tools">
+                <summary>다른 도구 보기</summary>
+                <div>
+                  ${secondaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
+                </div>
+              </details>
+            </nav>
+            ${state.toolQuery.trim() ? renderToolSearchResults(filteredTools, selected, isReferencePage) : ""}
+          </div>
         </section>
         <section class="priority-lanes ${isReferencePage ? "is-hidden" : ""}" aria-label="상황별 상위 도구">
           <article class="lane-card">
@@ -2599,9 +2608,11 @@ function render() {
         ${shouldShowWorkbench ? renderExpertisePanel(selected) : ""}
 
         <section class="tool-list ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="toolListTitle">
-          <div class="section-head">
-            <h2 id="toolListTitle">도구 목록</h2>
-            <span>${filteredTools.length}개 도구</span>
+          <div class="section-head tool-list-head">
+            <div>
+              <h2 id="toolListTitle">도구 목록</h2>
+              <span>${filteredTools.length}개 도구</span>
+            </div>
           </div>
           <div class="card-stack">
             ${filteredTools.map((tool) => renderToolCard(tool)).join("") || `<p class="empty">검색 조건에 맞는 도구가 없습니다.</p>`}
@@ -2898,7 +2909,7 @@ function renderGuideIndexPage() {
       </div>
       ${renderGuideMemoryPanel()}
       <div class="guide-filter-panel" aria-label="전문 가이드 찾기">
-        <label class="guide-search">
+        <label class="compact-search guide-search">
           <span class="visually-hidden">전문 가이드 검색</span>
           <span aria-hidden="true">${searchIcon()}</span>
           <input id="guideSearch" type="search" value="${escapeAttr(state.guideQuery)}" placeholder="민원, EXIF, CSV, ZIP, 엑셀 검색..." />
@@ -3086,14 +3097,38 @@ function renderGuideNextCard(label, guide) {
 }
 
 function filteredGuidePages() {
-  const q = state.guideQuery.trim().toLowerCase();
+  const tokens = searchTokens(state.guideQuery);
   return guidePages.filter((guide) => {
     const byCategory = state.guideCategory === "all" || guide.category === state.guideCategory;
-    const haystack = [guide.title, guide.category, guide.keyword, guide.description, guide.audience, guide.risk, ...guide.related]
-      .join(" ")
-      .toLowerCase();
-    return byCategory && (!q || haystack.includes(q));
+    const haystack = searchableText([
+      guide.slug,
+      guide.title,
+      guide.category,
+      guide.keyword,
+      guide.description,
+      guide.audience,
+      guide.risk,
+      ...guide.related,
+      ...guide.sections.flatMap((section) => [section.heading, section.body])
+    ]);
+    return byCategory && matchesSearchTokens(haystack, tokens);
   });
+}
+
+function searchTokens(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean);
+}
+
+function searchableText(parts) {
+  return parts.filter(Boolean).join(" ").toLowerCase();
+}
+
+function matchesSearchTokens(haystack, tokens) {
+  return !tokens.length || tokens.every((token) => haystack.includes(token));
 }
 
 function guideSectionId(guide, index) {
@@ -3203,6 +3238,60 @@ function renderToolCard(tool) {
       </a>
     </article>
   `;
+}
+
+function renderToolSearchResults(results, selected, isReferencePage) {
+  const topResults = results.slice(0, 8);
+  return `
+    <div class="tool-search-results" role="status" aria-live="polite">
+      <div class="tool-search-results-head">
+        <strong>${results.length}개 도구</strong>
+        <span>${results.length > topResults.length ? "상위 8개 표시" : "검색 결과"}</span>
+      </div>
+      ${
+        topResults.length
+          ? `<div class="tool-search-result-list">
+              ${topResults
+                .map((tool) => {
+                  const active = !isReferencePage && tool.id === selected.id;
+                  const copy = simpleTool(tool);
+                  return `
+                    <a href="${tool.path}" data-tool="${tool.id}" data-link class="${active ? "on" : ""}" ${active ? 'aria-current="page"' : ""}>
+                      <span>${copy.label}</span>
+                      <small>${copy.short}</small>
+                    </a>
+                  `;
+                })
+                .join("")}
+            </div>`
+          : `<p>검색 조건에 맞는 도구가 없습니다.</p>`
+      }
+    </div>
+  `;
+}
+
+function filteredToolList(list) {
+  const tokens = searchTokens(state.toolQuery);
+  return list.filter((tool) => {
+    const bySituation = state.situation === "all" || tool.situations.includes(state.situation);
+    if (!bySituation) return false;
+    const copy = simpleTool(tool);
+    const haystack = searchableText([
+      tool.id,
+      tool.path,
+      tool.group,
+      tool.label,
+      tool.short,
+      tool.title,
+      tool.description,
+      ...(tool.tags || []),
+      copy.label,
+      copy.short,
+      copy.title,
+      copy.description
+    ]);
+    return matchesSearchTokens(haystack, tokens);
+  });
 }
 
 function renderTool(id) {
@@ -4304,6 +4393,16 @@ function bindShellEvents() {
       render();
       document.querySelector("#mainContent")?.focus({ preventScroll: true });
     });
+  });
+
+  const toolSearch = document.querySelector("#toolSearch");
+  toolSearch?.addEventListener("input", (event) => {
+    const cursor = event.target.selectionStart;
+    state.toolQuery = event.target.value;
+    render();
+    const nextInput = document.querySelector("#toolSearch");
+    nextInput?.focus();
+    if (Number.isInteger(cursor)) nextInput?.setSelectionRange(cursor, cursor);
   });
 
   document.querySelectorAll("[data-link]:not([data-tool])").forEach((node) => {
