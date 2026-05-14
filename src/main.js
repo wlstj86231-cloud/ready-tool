@@ -2245,7 +2245,7 @@ const utilityToolConfigs = {
     downloadLabel: "ZIP",
     help: "브라우저에서 표시되는 이미지만 다시 저장할 수 있습니다. 결과 이미지는 선명도와 잘림 여부를 다시 확인하세요.",
     icon: imageIcon,
-    controls: () => imageQualityControls({ maxSide: 0, quality: 90, format: "image/jpeg", formatLocked: true }),
+    controls: () => imageQualityControls({ maxSide: 0, quality: 90, format: "image/jpeg" }),
     run: runImageRepairBasic
   },
   "image-background-flattener": {
@@ -2386,6 +2386,8 @@ const state = {
   lastViewerObjectUrl: null,
   lastViewerText: "",
   lastViewerTextBlob: null,
+  lastViewerRepairBlob: null,
+  lastViewerRepairName: null,
   lastPdfA4Blob: null,
   lastPdfSplitZipBlob: null,
   lastPdfSplitReportBlob: null,
@@ -3496,6 +3498,7 @@ function renderFileViewerTool() {
           <button class="primary-button" type="submit">${viewerIcon()} 파일 보기</button>
           <button class="ghost-button" type="button" id="copyViewerText" disabled>텍스트 복사</button>
           <button class="ghost-button" type="button" id="downloadViewerText" disabled>${downloadIcon()} TXT 저장</button>
+          <button class="ghost-button" type="button" id="downloadViewerRepair" disabled>${downloadIcon()} 복구본 저장</button>
         </div>
         <p class="helper-text">파일은 브라우저 안에서만 읽습니다. XLSX는 첫 번째 시트를 표로, HWPX는 내부 XML 텍스트를 추출해 보여줍니다.</p>
       </form>
@@ -5179,6 +5182,7 @@ function bindFileViewerEvents() {
   const safeOnly = document.querySelector("#fileViewerSafeOnly");
   const copyButton = document.querySelector("#copyViewerText");
   const downloadButton = document.querySelector("#downloadViewerText");
+  const repairButton = document.querySelector("#downloadViewerRepair");
 
   const rerun = () => {
     if (input?.files?.[0]) form?.requestSubmit();
@@ -5187,6 +5191,9 @@ function bindFileViewerEvents() {
   input?.addEventListener("change", () => {
     const file = input.files?.[0];
     count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "XLSX, HWPX, PDF, 이미지, ZIP, 문서, 표, 코드 파일을 선택하세요";
+    state.lastViewerRepairBlob = null;
+    state.lastViewerRepairName = null;
+    if (repairButton) repairButton.disabled = true;
     rerun();
   });
 
@@ -5200,8 +5207,11 @@ function bindFileViewerEvents() {
     const result = document.querySelector("#fileViewerResult");
     copyButton.disabled = true;
     downloadButton.disabled = true;
+    if (repairButton) repairButton.disabled = true;
     state.lastViewerText = "";
     state.lastViewerTextBlob = null;
+    state.lastViewerRepairBlob = null;
+    state.lastViewerRepairName = null;
     if (state.lastViewerObjectUrl) {
       URL.revokeObjectURL(state.lastViewerObjectUrl);
       state.lastViewerObjectUrl = null;
@@ -5224,6 +5234,10 @@ function bindFileViewerEvents() {
         lineNumbers: Boolean(lineNumbers?.checked),
         safeOnly: Boolean(safeOnly?.checked)
       });
+      output.recovery = await prepareViewerRecovery(file);
+      state.lastViewerRepairBlob = output.recovery?.blob || null;
+      state.lastViewerRepairName = output.recovery?.outputName || null;
+      if (repairButton) repairButton.disabled = !state.lastViewerRepairBlob;
       state.lastViewerText = output.text || "";
       if (state.lastViewerText) {
         state.lastViewerTextBlob = new Blob([state.lastViewerText], { type: "text/plain;charset=utf-8" });
@@ -5262,6 +5276,10 @@ function bindFileViewerEvents() {
 
   downloadButton?.addEventListener("click", () => {
     if (state.lastViewerTextBlob) downloadBlob(state.lastViewerTextBlob, "goatool-viewer-text.txt");
+  });
+
+  repairButton?.addEventListener("click", () => {
+    if (state.lastViewerRepairBlob && state.lastViewerRepairName) downloadBlob(state.lastViewerRepairBlob, state.lastViewerRepairName);
   });
 }
 
@@ -6287,8 +6305,31 @@ function renderFileViewerResult(output) {
       <span>판별: ${escapeHtml(output.detectedLabel || output.kindLabel || "-")}</span>
       <span>${escapeHtml(output.modified)}</span>
     </div>
+    ${output.recovery ? renderViewerRecoveryPanel(output.recovery) : ""}
     ${output.previewHtml}
   `;
+}
+
+function renderViewerRecoveryPanel(recovery) {
+  const statusClass = repairStatusClass(recovery.status);
+  const notes = recovery.notes?.length ? recovery.notes : [];
+  return `
+    <div class="result-block compact-result viewer-recovery-panel">
+      <h3>파일 상태 검사</h3>
+      <p><strong class="${statusClass}">${escapeHtml(recovery.status)}</strong> · ${escapeHtml(recovery.detail || "복구 가능성을 확인했습니다.")}</p>
+      ${
+        notes.length
+          ? `<ul class="warning-list">${notes.map((note) => `<li>${escapeHtml(note)}</li>`).join("")}</ul>`
+          : ""
+      }
+    </div>
+  `;
+}
+
+function repairStatusClass(status) {
+  if (status === "복구 가능") return "status-ok";
+  if (status === "일부 가능") return "status-warn";
+  return "status-muted";
 }
 
 function renderViewerTextPreview(text, options) {
@@ -10535,14 +10576,7 @@ async function runPdfMetadataCleaner(files) {
   const file = requireSingleFile(files, "pdf");
   const { PDFDocument } = await loadPdfLib();
   const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
-  pdf.setTitle("");
-  pdf.setAuthor("");
-  pdf.setSubject("");
-  pdf.setKeywords([]);
-  pdf.setProducer("goatool");
-  pdf.setCreator("goatool");
-  pdf.setCreationDate(new Date(0));
-  pdf.setModificationDate(new Date(0));
+  scrubPdfMetadata(pdf);
   const bytes = await pdf.save();
   const blob = new Blob([bytes], { type: "application/pdf" });
   return {
@@ -10873,11 +10907,15 @@ async function runFileRepairAttempt(files) {
     }
   }
   const report = makeRepairReport("goatool 파일 복구 시도 결과", results);
-  zip.file("goatool-repair-report.txt", report);
-  const blob = await zip.generateAsync({ type: "blob" });
+  const recovered = results.filter((item) => item.blob).length;
+  let blob = null;
+  if (recovered) {
+    zip.file("goatool-repair-report.txt", report);
+    blob = await zip.generateAsync({ type: "blob" });
+  }
   return {
     blob,
-    fileName: "goatool-file-repair-attempt.zip",
+    fileName: recovered ? "goatool-file-repair-attempt.zip" : "",
     html: renderRepairResult("파일 복구 시도 결과", "브라우저에서 열 수 있었던 파일만 새 복사본으로 다시 저장했습니다.", results, blob)
   };
 }
@@ -11027,18 +11065,22 @@ async function runZipRepairBasic(files) {
   const used = new Set();
   for (const file of files) {
     if (extensionOf(file.name) !== "zip") {
-      results.push(repairStatus(file, "제외", "ZIP 파일이 아닙니다."));
+      results.push(repairStatus(file, "불가", "ZIP 파일이 아닙니다."));
       continue;
     }
     const result = await repairZipLikeBlob(file, "zip", { skipSystem: false });
     results.push(result);
     if (result.blob) zip.file(uniqueZipName(result.outputName, used), result.blob);
   }
-  zip.file("goatool-zip-repair-report.txt", makeRepairReport("goatool ZIP 복구 시도 결과", results));
-  const blob = await zip.generateAsync({ type: "blob" });
+  const recovered = results.filter((item) => item.blob).length;
+  let blob = null;
+  if (recovered) {
+    zip.file("goatool-zip-repair-report.txt", makeRepairReport("goatool ZIP 복구 시도 결과", results));
+    blob = await zip.generateAsync({ type: "blob" });
+  }
   return {
     blob,
-    fileName: "goatool-zip-repair-results.zip",
+    fileName: recovered ? "goatool-zip-repair-results.zip" : "",
     html: renderRepairResult("ZIP 복구 시도 결과", "읽을 수 있었던 ZIP 항목을 새 ZIP으로 다시 포장했습니다.", results, blob)
   };
 }
@@ -11083,24 +11125,59 @@ async function runOfficeZipRepair(files) {
   for (const file of files) {
     const ext = extensionOf(file.name);
     if (!officeZipExtensions().has(ext)) {
-      results.push(repairStatus(file, "제외", "지원하는 오피스 ZIP 계열이 아닙니다."));
+      results.push(repairStatus(file, "불가", "지원하는 오피스 ZIP 계열이 아닙니다."));
       continue;
     }
     const result = await repairZipLikeBlob(file, ext, { skipSystem: false });
     results.push(result);
     if (result.blob) zip.file(uniqueZipName(result.outputName, used), result.blob);
   }
-  zip.file("goatool-office-repair-report.txt", makeRepairReport("goatool 오피스 파일 복구 시도 결과", results));
-  const blob = await zip.generateAsync({ type: "blob" });
+  const recovered = results.filter((item) => item.blob).length;
+  let blob = null;
+  if (recovered) {
+    zip.file("goatool-office-repair-report.txt", makeRepairReport("goatool 오피스 파일 복구 시도 결과", results));
+    blob = await zip.generateAsync({ type: "blob" });
+  }
   return {
     blob,
-    fileName: "goatool-office-repair-results.zip",
+    fileName: recovered ? "goatool-office-repair-results.zip" : "",
     html: renderRepairResult("오피스 파일 복구 시도 결과", "ZIP 구조가 열린 파일만 같은 확장자로 다시 포장했습니다.", results, blob)
   };
 }
 
 async function runImageRepairBasic(files, options) {
-  return zipImageOperation(files, (file) => reencodeImageFile(file, normalizeImageOptions({ ...options, format: "image/jpeg" }), "_repaired"), "이미지 복구 시도 결과", "goatool-image-repair.zip");
+  const imageOptions = normalizeImageOptions(options);
+  const zip = new JSZip();
+  const used = new Set();
+  const results = [];
+  for (const file of files) {
+    try {
+      const output = await reencodeImageFile(file, imageOptions, "_repaired");
+      const name = uniqueZipName(output.name, used);
+      zip.file(name, output.blob);
+      results.push({
+        name: file.name,
+        size: file.size,
+        status: "복구 가능",
+        detail: `${output.width}×${output.height} 재인코딩`,
+        outputName: name,
+        blob: output.blob
+      });
+    } catch {
+      results.push(repairStatus(file, "불가", "브라우저가 이미지를 읽지 못했습니다."));
+    }
+  }
+  const recovered = results.filter((item) => item.blob).length;
+  let blob = null;
+  if (recovered) {
+    zip.file("goatool-image-repair-report.txt", makeRepairReport("goatool 이미지 복구 시도 결과", results));
+    blob = await zip.generateAsync({ type: "blob" });
+  }
+  return {
+    blob,
+    fileName: recovered ? "goatool-image-repair.zip" : "",
+    html: renderRepairResult("이미지 복구 시도 결과", "브라우저가 읽을 수 있었던 이미지만 다시 인코딩했습니다.", results, blob)
+  };
 }
 
 async function runImageBackgroundFlattener(files, options) {
@@ -11217,8 +11294,26 @@ function normalizeImageOptions(options) {
   };
 }
 
-async function repairSupportedFile(file) {
+async function prepareViewerRecovery(file) {
   const signature = await detectFileSignature(file);
+  const currentExt = extensionOf(file.name);
+  const correctedExt = await correctedExtensionForFile(file, signature);
+  const mismatch = signature.family !== "unknown" && !signatureMatchesExtension(signature.family, currentExt);
+  const result = await repairSupportedFile(file, signature, correctedExt);
+  const notes = [];
+  if (mismatch && correctedExt) {
+    notes.push(`확장자가 실제 형식과 달라 복구본은 .${correctedExt} 파일로 저장합니다.`);
+  }
+  if (result.blob) {
+    notes.push("다운로드되는 파일은 원본을 직접 바꾸지 않는 새 복사본입니다.");
+  } else {
+    notes.push("브라우저에서 안전하게 다시 저장할 수 있는 형식일 때만 복구본 저장 버튼이 열립니다.");
+  }
+  return { ...result, notes };
+}
+
+async function repairSupportedFile(file, knownSignature = null, knownCorrectedExt = null) {
+  const signature = knownSignature || (await detectFileSignature(file));
   const ext = extensionOf(file.name);
   try {
     if (signature.family === "pdf" || ext === "pdf") return repairPdfBlob(file);
@@ -11227,19 +11322,19 @@ async function repairSupportedFile(file) {
       return {
         name: file.name,
         size: file.size,
-        status: "복구본 생성",
+        status: "복구 가능",
         detail: `${output.width}×${output.height}`,
         outputName: output.name,
         blob: output.blob
       };
     }
     if (signature.family === "zip" || officeZipExtensions().has(ext)) {
-      const nextExt = officeZipExtensions().has(ext) ? ext : await correctedExtensionForFile(file, signature);
+      const nextExt = officeZipExtensions().has(ext) ? ext : knownCorrectedExt || (await correctedExtensionForFile(file, signature));
       return repairZipLikeBlob(file, nextExt || "zip", { skipSystem: false });
     }
-    return repairStatus(file, "지원 안 됨", "브라우저 재저장 대상 형식이 아닙니다.");
+    return repairStatus(file, "불가", "브라우저 재저장 대상 형식이 아닙니다.");
   } catch (error) {
-    return repairStatus(file, "실패", error.message || "파일을 다시 저장하지 못했습니다.");
+    return repairStatus(file, "불가", error.message || "파일을 다시 저장하지 못했습니다.");
   }
 }
 
@@ -11248,23 +11343,54 @@ async function repairPdfBlob(file) {
     const { PDFDocument } = await loadPdfLib();
     const source = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
     const output = await PDFDocument.create();
-    const indices = Array.from({ length: source.getPageCount() }, (_, index) => index);
-    const pages = await output.copyPages(source, indices);
-    pages.forEach((page) => output.addPage(page));
+    scrubPdfMetadata(output);
+    const total = source.getPageCount();
+    let copiedCount = 0;
+    const failedPages = [];
+    for (let index = 0; index < total; index += 1) {
+      try {
+        const [page] = await output.copyPages(source, [index]);
+        output.addPage(page);
+        copiedCount += 1;
+      } catch {
+        failedPages.push(index + 1);
+      }
+    }
+    if (!copiedCount) return repairStatus(file, "불가", "복사할 수 있는 PDF 페이지를 찾지 못했습니다.");
     const bytes = await output.save();
     const blob = new Blob([bytes], { type: "application/pdf" });
     return {
       name: file.name,
       size: file.size,
-      status: "복구본 생성",
-      detail: `${source.getPageCount()}쪽 재저장`,
+      status: failedPages.length ? "일부 가능" : "복구 가능",
+      detail: failedPages.length ? `${copiedCount}/${total}쪽 재저장, ${failedPages.length}쪽 건너뜀` : `${copiedCount}쪽 재저장, 메타데이터 제거`,
       outputName: `${removeExtension(safeBaseName(file.name))}_repaired.pdf`,
-      pages: source.getPageCount(),
+      pages: copiedCount,
       blob
     };
   } catch {
-    return repairStatus(file, "실패", "PDF를 열 수 없어 브라우저 복구가 어렵습니다.");
+    return repairStatus(file, "불가", "PDF를 열 수 없어 브라우저 복구가 어렵습니다.");
   }
+}
+
+function scrubPdfMetadata(pdf) {
+  const clearDate = new Date(0);
+  [
+    () => pdf.setTitle(""),
+    () => pdf.setAuthor(""),
+    () => pdf.setSubject(""),
+    () => pdf.setKeywords([]),
+    () => pdf.setCreator(""),
+    () => pdf.setProducer(""),
+    () => pdf.setCreationDate(clearDate),
+    () => pdf.setModificationDate(new Date())
+  ].forEach((action) => {
+    try {
+      action();
+    } catch {
+      // Metadata fields are best-effort; page recovery should still continue.
+    }
+  });
 }
 
 async function repairZipLikeBlob(file, extension, options = {}) {
@@ -11272,26 +11398,31 @@ async function repairZipLikeBlob(file, extension, options = {}) {
     const source = await JSZip.loadAsync(await file.arrayBuffer());
     const output = new JSZip();
     let count = 0;
+    let skipped = 0;
     for (const entry of Object.values(source.files)) {
       if (entry.dir) continue;
       if (options.skipSystem && isSystemZipEntry(entry.name)) continue;
       const name = safeZipEntryName(entry.name);
-      output.file(name, await entry.async("blob"));
-      count += 1;
+      try {
+        output.file(name, await entry.async("blob"));
+        count += 1;
+      } catch {
+        skipped += 1;
+      }
     }
-    if (!count) return repairStatus(file, "실패", "다시 포장할 내부 파일을 찾지 못했습니다.");
+    if (!count) return repairStatus(file, "불가", "다시 포장할 내부 파일을 찾지 못했습니다.");
     const ext = extension || extensionOf(file.name) || "zip";
     const blob = await output.generateAsync({ type: "blob" });
     return {
       name: file.name,
       size: file.size,
-      status: "복구본 생성",
-      detail: `${count}개 항목 재포장`,
+      status: skipped ? "일부 가능" : "복구 가능",
+      detail: skipped ? `${count}개 항목 재포장, ${skipped}개 건너뜀` : `${count}개 항목 재포장`,
       outputName: `${removeExtension(safeBaseName(file.name))}_repacked.${ext}`,
       blob
     };
   } catch {
-    return repairStatus(file, "실패", "ZIP 구조를 열 수 없습니다.");
+    return repairStatus(file, "불가", "ZIP 구조를 열 수 없습니다.");
   }
 }
 
@@ -11348,13 +11479,14 @@ function makeRepairReport(title, results) {
 }
 
 function renderRepairResult(title, message, results, blob) {
+  const recovered = results.filter((item) => item.blob).length;
   return renderUtilityTableResult({
     title,
-    message,
+    message: recovered ? message : "브라우저에서 안전하게 다시 저장할 수 있는 파일을 찾지 못했습니다.",
     stats: [
       ["파일 수", results.length],
-      ["복구본", results.filter((item) => item.blob).length],
-      ["ZIP 용량", formatBytes(blob.size)]
+      ["복구본", recovered],
+      ["다운로드", blob ? formatBytes(blob.size) : "불가"]
     ],
     headers: ["파일명", "상태", "세부", "결과"],
     rows: results.map((item) => [item.name, item.status, item.detail, item.outputName || "-"])
