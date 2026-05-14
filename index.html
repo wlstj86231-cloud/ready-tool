@@ -9,15 +9,21 @@
       content="goatool은 민원 제출과 입사지원 전에 PDF 합치기, 증명사진 규격 맞추기, 이미지 용량 정리, 파일명 정리, ZIP 점검을 브라우저에서 처리하는 실용 도구입니다."
     />
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large" />
-    <meta name="theme-color" content="#0f172a" />
+    <meta name="theme-color" content="#1f5da8" />
     <link rel="canonical" href="https://goatool.com/" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/brand/goatool-apple-touch.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7217591196020054"
-      crossorigin="anonymous"
-    ></script>
+    <script>
+      if (!["localhost", "127.0.0.1"].includes(location.hostname)) {
+        const adScript = document.createElement("script");
+        adScript.async = true;
+        adScript.crossOrigin = "anonymous";
+        adScript.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7217591196020054";
+        document.head.append(adScript);
+      }
+    </script>
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="goatool" />
     <meta property="og:title" content="goatool - 민원·입사지원 파일 변환 도구" />
@@ -26,6 +32,12 @@
       content="PDF 합치기, 증명사진 규격 맞추기, 이미지 용량 정리, 파일명 정리, ZIP 점검을 브라우저에서 처리하는 실용 도구 모음입니다."
     />
     <meta property="og:url" content="https://goatool.com/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="GOATool logo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://goatool.com/brand/goatool-og.png" />
     <script id="goatool-structured-data" type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -34,10 +46,11 @@
         "url": "https://goatool.com/",
         "inLanguage": "ko-KR",
         "description": "민원 제출과 입사지원 전에 PDF, 사진 규격, 파일명, ZIP, 이미지 용량을 브라우저에서 정리하는 실용 도구입니다.",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://goatool.com/?q={search_term_string}",
-          "query-input": "required name=search_term_string"
+        "publisher": {
+          "@type": "Organization",
+          "name": "goatool",
+          "url": "https://goatool.com/",
+          "logo": "https://goatool.com/brand/goatool-icon-512.png"
         }
       }
     </script>

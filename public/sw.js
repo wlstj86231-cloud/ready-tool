@@ -1,5 +1,15 @@
-const CACHE_NAME = "goatool-v1";
-const SHELL_URLS = ["/", "/guides/", "/favicon.svg", "/site.webmanifest"];
+const CACHE_NAME = "goatool-v2";
+const SHELL_URLS = [
+  "/",
+  "/guides/",
+  "/favicon.ico",
+  "/favicon.png",
+  "/brand/goatool-logo.png",
+  "/brand/goatool-icon-192.png",
+  "/brand/goatool-icon-512.png",
+  "/brand/goatool-og.png",
+  "/site.webmanifest"
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_URLS)));

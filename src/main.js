@@ -4,7 +4,10 @@ import "./styles.css";
 
 const BRAND = "goatool";
 const baseDomain = "https://goatool.com";
-const lastUpdated = "2026-05-13";
+const brandLogoPath = "/brand/goatool-logo.png";
+const brandOgPath = "/brand/goatool-og.png";
+const brandIconPath = "/brand/goatool-icon-512.png";
+const lastUpdated = "2026-05-14";
 const LIMITS = {
   fileCount: 80,
   imageCount: 60,
@@ -168,6 +171,103 @@ const tools = [
     tags: ["CSV", "XLSX", "중복 제거"],
     situations: ["public", "job", "share"]
   }
+];
+
+const simpleToolCopy = {
+  "photo-resize": {
+    label: "증명사진 규격",
+    short: "사진 크기와 용량 맞추기",
+    title: "증명사진 규격 맞추기",
+    description: "사진을 고르고 필요한 규격만 선택하면 제출용 JPG로 정리합니다."
+  },
+  "pdf-organizer": {
+    label: "PDF 합치기",
+    short: "합치기 또는 페이지만 뽑기",
+    title: "PDF 합치기·페이지 뽑기",
+    description: "여러 PDF를 하나로 묶거나 필요한 페이지만 골라 새 PDF로 만듭니다."
+  },
+  "file-ready": {
+    label: "제출 파일 점검",
+    short: "파일명·용량·ZIP 확인",
+    title: "제출 파일 점검",
+    description: "파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP을 만듭니다."
+  },
+  "image-privacy": {
+    label: "이미지 개인정보",
+    short: "EXIF 줄이고 이미지 정리",
+    title: "이미지 개인정보 정리",
+    description: "이미지를 다시 저장해 사진 메타데이터 노출 가능성을 줄입니다."
+  },
+  "filename-cleaner": {
+    label: "파일명 정리",
+    short: "번호·날짜·특수문자 정리",
+    title: "파일명 일괄 정리",
+    description: "여러 파일 이름을 제출처가 읽기 쉬운 규칙으로 한 번에 정리합니다."
+  },
+  "image-to-pdf": {
+    label: "이미지 PDF",
+    short: "사진 여러 장을 PDF로",
+    title: "이미지 PDF 변환",
+    description: "JPG, PNG, WebP 이미지를 순서대로 묶어 제출용 PDF로 만듭니다."
+  },
+  "zip-inspector": {
+    label: "ZIP 점검",
+    short: "압축 안 파일 목록 확인",
+    title: "ZIP 내용 점검",
+    description: "ZIP 안에 들어간 파일 이름, 폴더 깊이, 누락 가능성을 빠르게 확인합니다."
+  },
+  "text-counter": {
+    label: "글자수 계산",
+    short: "공백 포함·제외·바이트",
+    title: "글자수·바이트 계산",
+    description: "자기소개서나 민원 문장의 글자수와 UTF-8 바이트를 바로 계산합니다."
+  },
+  "text-cleaner": {
+    label: "텍스트 정리",
+    short: "공백과 줄바꿈 정리",
+    title: "텍스트 공백 정리",
+    description: "붙여넣기 전에 과한 공백, 빈 줄, 줄바꿈을 읽기 좋게 정리합니다."
+  },
+  "image-inspector": {
+    label: "이미지 정보",
+    short: "픽셀·용량·비율 확인",
+    title: "이미지 규격 확인",
+    description: "이미지의 크기, 비율, 용량을 한 번에 확인합니다."
+  },
+  "file-list": {
+    label: "파일 목록",
+    short: "TXT·CSV 목록 만들기",
+    title: "파일 목록 만들기",
+    description: "선택한 파일의 이름, 확장자, 용량 목록을 TXT나 CSV로 저장합니다."
+  },
+  "hash-compare": {
+    label: "파일 해시 비교",
+    short: "SHA-256으로 동일성 확인",
+    title: "파일 해시 비교",
+    description: "파일의 SHA-256 값을 계산해 제출 전후 파일이 같은지 확인합니다."
+  },
+  "data-clean": {
+    label: "CSV·엑셀 정리",
+    short: "공백·빈 행·중복 정리",
+    title: "CSV·엑셀 정리",
+    description: "CSV나 XLSX 표의 공백, 빈 행, 중복 행을 정리해 다시 내려받습니다."
+  }
+};
+
+const toolOrder = [
+  "photo-resize",
+  "pdf-organizer",
+  "image-to-pdf",
+  "file-ready",
+  "filename-cleaner",
+  "zip-inspector",
+  "image-privacy",
+  "text-counter",
+  "text-cleaner",
+  "image-inspector",
+  "file-list",
+  "hash-compare",
+  "data-clean"
 ];
 
 const situations = [
@@ -466,7 +566,6 @@ const infoPages = {
 };
 
 const state = {
-  query: new URLSearchParams(location.search).get("q") || "",
   situation: "all",
   guideQuery: "",
   guideCategory: "all",
@@ -512,29 +611,43 @@ function activeTool() {
   return tools.find((tool) => tool.id === state.activeTool) || tools[0];
 }
 
+function orderedTools() {
+  return toolOrder.map((id) => tools.find((tool) => tool.id === id)).filter(Boolean);
+}
+
+function simpleTool(tool) {
+  return simpleToolCopy[tool.id] || {
+    label: tool.label,
+    short: tool.short,
+    title: tool.title,
+    description: tool.description
+  };
+}
+
+function toolCue(tool) {
+  if (["text-counter", "text-cleaner"].includes(tool.id)) return "먼저 텍스트를 붙여넣으세요";
+  if (tool.id === "data-clean") return "CSV·엑셀을 고르거나 표를 붙여넣으세요";
+  return "먼저 파일을 고르세요";
+}
+
 function render() {
   const selected = activeTool();
   const currentPath = normalizePath(location.pathname);
+  const activeRouteToolId = toolFromRoute(location.pathname);
   const infoPage = infoPageFromRoute(location.pathname);
   const guidePage = getGuideByPath(location.pathname);
   const isGuideIndex = currentPath === guideIndexMeta.path;
   const isReferencePage = Boolean(infoPage || guidePage || isGuideIndex);
+  const shouldShowWorkbench = !isReferencePage && Boolean(activeRouteToolId);
   if (guidePage) recordGuideVisit(guidePage);
   updateDocumentMeta(selected, infoPage, guidePage, isGuideIndex);
-  const filteredTools = tools.filter((tool) => {
-    const q = state.query.trim().toLowerCase();
-    const byQuery =
-      !q ||
-      [tool.label, tool.short, tool.title, tool.description, tool.group, ...tool.tags]
-        .join(" ")
-        .toLowerCase()
-        .includes(q);
-    const bySituation = state.situation === "all" || tool.situations.includes(state.situation);
-    return byQuery && bySituation;
-  });
-  const headerTools = tools.slice(0, 5);
-  const publicTools = tools.filter((tool) => tool.situations.includes("public")).slice(0, 5);
-  const jobTools = tools.filter((tool) => tool.situations.includes("job")).slice(0, 5);
+  const pickerTools = orderedTools();
+  const primaryPickerTools = pickerTools.slice(0, 6);
+  const secondaryPickerTools = pickerTools.slice(6);
+  const selectedCopy = simpleTool(selected);
+  const filteredTools = pickerTools;
+  const publicTools = pickerTools.filter((tool) => tool.situations.includes("public")).slice(0, 5);
+  const jobTools = pickerTools.filter((tool) => tool.situations.includes("job")).slice(0, 5);
 
   app.innerHTML = `
     ${guidePage ? `<div class="read-progress" aria-hidden="true"><span></span></div>` : ""}
@@ -542,29 +655,17 @@ function render() {
     <header class="site-header">
       <div class="header-main">
         <a class="brand" href="/" data-link aria-label="goatool 홈">
-          <span class="brand-mark" aria-hidden="true">${documentIcon()}</span>
-          <span>
-            <strong>goatool</strong>
+          <span class="brand-logo-frame">
+            <img class="brand-logo" src="${brandLogoPath}" alt="" width="188" height="45" decoding="async" />
             <small>브라우저 제출 도구</small>
           </span>
         </a>
-        <label class="header-search">
-          <span class="visually-hidden">도구 검색</span>
-          <span aria-hidden="true">${searchIcon()}</span>
-          <input id="siteSearch" type="search" value="${escapeAttr(state.query)}" placeholder="파일명, 이미지, CSV, 제출 준비 검색..." />
-        </label>
-        <nav class="header-nav" aria-label="주요 도구">
-          ${headerTools
-            .map(
-              (tool) => `
-                <a href="${tool.path}" data-tool="${tool.id}" data-link class="${!isReferencePage && tool.id === selected.id ? "on" : ""}" ${!isReferencePage && tool.id === selected.id ? 'aria-current="page"' : ""}>
-                  ${tool.label}
-                </a>
-              `
-            )
-            .join("")}
+        <nav class="header-nav" aria-label="주요 이동">
+          <a href="/" data-link class="${!isReferencePage ? "on" : ""}" ${!isReferencePage ? 'aria-current="page"' : ""}>
+            도구 선택
+          </a>
           <a href="/guides/" data-link class="${isGuideIndex || guidePage ? "on" : ""}" ${isGuideIndex || guidePage ? 'aria-current="page"' : ""}>
-            전문 가이드
+            가이드
           </a>
           <a class="nav-sibling" href="https://policyfundpedia.com/" target="_blank" rel="noopener">
             정책자금 백과
@@ -573,35 +674,29 @@ function render() {
       </div>
     </header>
 
-    <main class="page-shell" id="mainContent" tabindex="-1">
+    <main class="page-shell ${isReferencePage ? "reference-shell" : "tool-shell"}" id="mainContent" tabindex="-1">
       <section class="content">
         ${infoPage ? renderInfoPage(infoPage) : ""}
         ${isGuideIndex ? renderGuideIndexPage() : ""}
         ${guidePage ? renderGuidePage(guidePage) : ""}
-        <section class="workspace-intro ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="workspaceTitle">
+        <section class="workspace-intro simple-intro ${isReferencePage || shouldShowWorkbench ? "is-hidden" : ""}" aria-labelledby="workspaceTitle">
           <div class="intro-copy">
-            <h1 id="workspaceTitle">민원·입사지원 파일 막힘을 바로 해결하세요</h1>
-            <p>사진 규격, PDF 합치기, 이미지 용량, 파일명, ZIP 점검처럼 제출 직전에 가장 자주 막히는 작업을 위에 배치했습니다.</p>
+            <h1 id="workspaceTitle">필요한 도구를 하나만 고르세요</h1>
+            <p>버튼을 누르면 아래 설정 화면으로 바로 이동합니다.</p>
             <div class="intro-points" aria-label="goatool 처리 기준">
               <span>브라우저 처리</span>
               <span>정리본 다운로드</span>
               <span>제출 전 검수</span>
             </div>
-            <a class="intro-sibling-link" href="https://policyfundpedia.com/" target="_blank" rel="noopener">
-              <span>정책자금도 찾아야 한다면</span>
-              <strong>정책자금 백과에서 지원제도 먼저 확인</strong>
-            </a>
           </div>
-          <nav class="priority-board" aria-label="많이 찾는 제출 작업">
-            <h2>많이 찾는 작업</h2>
-            ${tools
-              .slice(0, 6)
-              .map(
-                (tool) => `
-                  ${renderPriorityLink(tool, selected, isReferencePage)}
-                `
-              )
-              .join("")}
+          <nav class="tool-picker" aria-label="도구 선택">
+            ${primaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
+            <details class="more-tools">
+              <summary>다른 도구 보기</summary>
+              <div>
+                ${secondaryPickerTools.map((tool) => renderToolPickerButton(tool, selected, isReferencePage, shouldShowWorkbench)).join("")}
+              </div>
+            </details>
           </nav>
         </section>
         <section class="priority-lanes ${isReferencePage ? "is-hidden" : ""}" aria-label="상황별 상위 도구">
@@ -624,7 +719,6 @@ function render() {
             </div>
           </article>
         </section>
-        ${isReferencePage ? "" : renderSiblingBridge()}
         <div class="chip-row ${isReferencePage ? "is-hidden" : ""}" aria-label="상황 필터">
           <span class="chip-label">내 상황</span>
           ${situations
@@ -638,24 +732,26 @@ function render() {
             .join("")}
         </div>
 
-        <section class="tool-workbench ${isReferencePage ? "is-hidden" : ""}" id="toolWorkbench" aria-labelledby="toolTitle">
+        ${
+          shouldShowWorkbench
+            ? `<section class="tool-workbench" id="toolWorkbench" aria-labelledby="toolTitle">
           <div class="tool-heading">
             <div>
               <p class="section-label">${selected.group}</p>
-              <h2 id="toolTitle">${selected.title}</h2>
-              <p>${selected.description}</p>
+              <h2 id="toolTitle">${selectedCopy.title}</h2>
+              <p>${selectedCopy.description}</p>
             </div>
             <a class="tool-url" href="${selected.path}" data-link>${baseDomain}${selected.path}</a>
           </div>
-          <div class="flow-steps" aria-label="도구 사용 순서">
-            <span><b>1</b> 파일 또는 텍스트 선택</span>
-            <span><b>2</b> 기본값 그대로 실행</span>
-            <span><b>3</b> 결과 확인 후 받기</span>
+          <div class="flow-steps focus-cue" aria-label="현재 할 일">
+            <span><b>1</b> ${toolCue(selected)}</span>
           </div>
           ${renderTool(selected.id)}
-        </section>
+        </section>`
+            : ""
+        }
 
-        ${isReferencePage ? "" : renderExpertisePanel(selected)}
+        ${shouldShowWorkbench ? renderExpertisePanel(selected) : ""}
 
         <section class="tool-list ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="toolListTitle">
           <div class="section-head">
@@ -745,7 +841,7 @@ function render() {
 
     <footer class="site-footer">
       <div>
-        <strong>goatool</strong>
+        <img class="footer-logo" src="${brandLogoPath}" alt="goatool" width="156" height="37" loading="lazy" decoding="async" />
         <p>민원 제출, 입사지원, 학교·기관 첨부파일을 브라우저에서 정리하는 실용 도구 모음입니다.</p>
       </div>
       <nav aria-label="하단 링크">
@@ -763,32 +859,6 @@ function render() {
   bindGuideEvents(guidePage, isGuideIndex);
   bindToolEvents(selected.id);
   updateReadingProgress();
-}
-
-function renderSiblingBridge() {
-  return `
-    <section class="sibling-bridge" aria-labelledby="siblingBridgeTitle">
-      <div class="sibling-copy">
-        <span class="bridge-route">policyfundpedia.com → goatool.com</span>
-        <h2 id="siblingBridgeTitle">정책자금 찾고, 제출 파일은 바로 정리하세요</h2>
-        <p>지원금·대출·고용장려금 정보를 정책자금 백과에서 먼저 고르고, goatool에서 PDF·사진·ZIP 제출본을 이어서 마무리하는 흐름입니다.</p>
-        <div class="bridge-points" aria-label="연결 흐름">
-          <span>지원제도 탐색</span>
-          <span>공식기관 확인</span>
-          <span>제출서류 준비</span>
-        </div>
-      </div>
-      <div class="bridge-panel" aria-hidden="true">
-        <div class="bridge-node">정책자금 백과</div>
-        <div class="bridge-line"><span></span></div>
-        <div class="bridge-node strong">goatool</div>
-      </div>
-      <div class="bridge-actions">
-        <a class="bridge-button" href="https://policyfundpedia.com/" target="_blank" rel="noopener">정책자금 백과 열기</a>
-        <a class="bridge-text-link" href="#toolWorkbench">서류 도구 계속 쓰기</a>
-      </div>
-    </section>
-  `;
 }
 
 function renderSiblingSidePanel() {
@@ -818,6 +888,13 @@ function updateDocumentMeta(tool, page = null, guide = null, isGuideIndex = fals
   setMeta("description", description);
   setMeta("og:title", title, "property");
   setMeta("og:description", description, "property");
+  setMeta("og:url", `${baseDomain}${path}`, "property");
+  setMeta("og:image", `${baseDomain}${brandOgPath}`, "property");
+  setMeta("og:image:width", "1200", "property");
+  setMeta("og:image:height", "630", "property");
+  setMeta("og:image:alt", "GOATool logo", "property");
+  setMeta("twitter:card", "summary_large_image");
+  setMeta("twitter:image", `${baseDomain}${brandOgPath}`);
   setCanonical(`${baseDomain}${path}`);
   updateStructuredData(tool, page, `${baseDomain}${path}`, guide, isGuideIndex, isHome);
 }
@@ -864,13 +941,9 @@ function websiteSchema(url) {
     url,
     inLanguage: "ko-KR",
     description: homeMeta.description,
+    image: `${baseDomain}${brandOgPath}`,
     dateModified: lastUpdated,
-    publisher: { "@type": "Organization", name: BRAND, url: baseDomain },
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${baseDomain}/?q={search_term_string}`,
-      "query-input": "required name=search_term_string"
-    }
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain, logo: `${baseDomain}${brandIconPath}` }
   };
 }
 
@@ -883,10 +956,11 @@ function guideSchema(guide, url) {
     url,
     inLanguage: "ko-KR",
     description: guide.description,
+    image: `${baseDomain}${brandOgPath}`,
     datePublished: guide.dateModified,
     dateModified: guide.dateModified,
     author: { "@type": "Organization", name: BRAND, url: baseDomain },
-    publisher: { "@type": "Organization", name: BRAND, url: baseDomain },
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain, logo: `${baseDomain}${brandIconPath}` },
     articleSection: guide.category,
     keywords: [guide.keyword, ...guide.related],
     wordCount: guide.nonSpaceLength
@@ -901,8 +975,9 @@ function guideIndexSchema(url) {
     url,
     inLanguage: "ko-KR",
     description: guideIndexMeta.description,
+    image: `${baseDomain}${brandOgPath}`,
     dateModified: lastUpdated,
-    publisher: { "@type": "Organization", name: BRAND, url: baseDomain },
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain, logo: `${baseDomain}${brandIconPath}` },
     hasPart: guidePages.map((guide) => ({
       "@type": "Article",
       name: guide.title,
@@ -922,9 +997,10 @@ function toolSchema(tool, url) {
     url,
     inLanguage: "ko-KR",
     description: tool.description,
+    image: `${baseDomain}${brandOgPath}`,
     dateModified: lastUpdated,
     offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
-    publisher: { "@type": "Organization", name: BRAND, url: baseDomain },
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain, logo: `${baseDomain}${brandIconPath}` },
     featureList: [...tool.tags, ...detail.method]
   };
 }
@@ -937,8 +1013,9 @@ function organizationSchema(page, url) {
     url,
     inLanguage: "ko-KR",
     description: page.description,
+    image: `${baseDomain}${brandOgPath}`,
     dateModified: lastUpdated,
-    publisher: { "@type": "Organization", name: BRAND, url: baseDomain }
+    publisher: { "@type": "Organization", name: BRAND, url: baseDomain, logo: `${baseDomain}${brandIconPath}` }
   };
 }
 
@@ -1185,11 +1262,16 @@ function readingMinutes(guide) {
 
 function renderExpertisePanel(tool) {
   const detail = expertise[tool.id];
+  const copy = simpleTool(tool);
   return `
-    <section class="expert-panel" aria-labelledby="expertTitle">
+    <details class="expert-panel compact-expert">
+      <summary>
+        <span>${copy.label} 사용 기준 보기</span>
+        <small>최종 검수 ${lastUpdated}</small>
+      </summary>
       <div class="expert-head">
         <div>
-          <h2 id="expertTitle">${tool.label} 전문 기준</h2>
+          <h2 id="expertTitle">${copy.label} 전문 기준</h2>
           <p>${detail.summary}</p>
         </div>
         <span>최종 검수 ${lastUpdated}</span>
@@ -1211,7 +1293,7 @@ function renderExpertisePanel(tool) {
           )
           .join("")}
       </div>
-    </section>
+    </details>
   `;
 }
 
@@ -1223,6 +1305,16 @@ function renderExpertList(title, items) {
         ${items.map((item) => `<li>${item}</li>`).join("")}
       </ul>
     </article>
+  `;
+}
+
+function renderToolPickerButton(tool, selected, isReferencePage, showActive = true) {
+  const active = showActive && !isReferencePage && tool.id === selected.id;
+  const copy = simpleTool(tool);
+  return `
+    <a href="${tool.path}" data-tool="${tool.id}" data-link class="tool-pick ${active ? "on" : ""}" aria-label="${escapeAttr(`${copy.label}: ${copy.short}`)}" ${active ? 'aria-current="page"' : ""}>
+      <strong>${copy.label}</strong>
+    </a>
   `;
 }
 
@@ -1744,16 +1836,19 @@ function renderDataCleanTool() {
   `;
 }
 
-function bindShellEvents() {
-  document.querySelector("#siteSearch")?.addEventListener("input", (event) => {
-    const cursor = event.target.selectionStart;
-    state.query = event.target.value;
-    render();
-    const input = document.querySelector("#siteSearch");
-    input?.focus();
-    if (Number.isInteger(cursor)) input?.setSelectionRange(cursor, cursor);
+function scrollToWorkbench() {
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      const target = document.querySelector("#toolWorkbench");
+      if (!target) return;
+      const headerHeight = document.querySelector(".site-header")?.getBoundingClientRect().height || 0;
+      const top = window.scrollY + target.getBoundingClientRect().top - headerHeight - 10;
+      scrollTo({ top: Math.max(0, top), behavior: "auto" });
+    });
   });
+}
 
+function bindShellEvents() {
   document.querySelectorAll("[data-tool]").forEach((node) => {
     node.addEventListener("click", (event) => {
       event.preventDefault();
@@ -1764,8 +1859,8 @@ function bindShellEvents() {
       recordToolUse(id);
       history.pushState({ tool: id }, "", tool.path);
       render();
-      document.querySelector("#toolWorkbench")?.scrollIntoView({ behavior: "smooth", block: "start" });
       document.querySelector("#mainContent")?.focus({ preventScroll: true });
+      scrollToWorkbench();
     });
   });
 
@@ -1790,7 +1885,7 @@ function bindShellEvents() {
   });
 
   document.querySelector("[data-scroll-tool]")?.addEventListener("click", () => {
-    document.querySelector("#toolWorkbench")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    scrollToWorkbench();
   });
 }
 
@@ -2898,6 +2993,9 @@ function bindTextCounterEvents() {
 }
 
 function renderTextCounterResult(value, target) {
+  if (!value) {
+    return `<p class="empty-result">텍스트를 붙여넣으면 글자수와 바이트를 계산합니다.</p>`;
+  }
   const chars = value.length;
   const noSpace = value.replace(/\s/g, "").length;
   const bytes = new TextEncoder().encode(value).length;
@@ -3696,10 +3794,6 @@ function escapeHtml(value) {
 
 function escapeAttr(value) {
   return escapeHtml(value).replace(/`/g, "&#96;");
-}
-
-function documentIcon() {
-  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v5h5"/><path d="M9 14l2 2 4-5"/></svg>`;
 }
 
 function searchIcon() {

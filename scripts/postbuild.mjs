@@ -6,7 +6,9 @@ import { guideIndexMeta, guidePages } from "../src/guides.js";
 const root = dirname(fileURLToPath(import.meta.url));
 const dist = join(root, "../dist");
 const base = "https://goatool.com";
-const lastUpdated = "2026-05-13";
+const brandIcon = `${base}/brand/goatool-icon-512.png`;
+const brandImage = `${base}/brand/goatool-og.png`;
+const lastUpdated = "2026-05-14";
 
 const coreRoutes = [
   "/tools/photo-resize/",
@@ -302,10 +304,11 @@ function schemaForRoute(route, meta, url) {
       url,
       inLanguage: "ko-KR",
       description: meta.guide.description,
+      image: brandImage,
       datePublished: meta.guide.dateModified,
       dateModified: meta.guide.dateModified,
       author: { "@type": "Organization", name: "goatool", url: base },
-      publisher: { "@type": "Organization", name: "goatool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon },
       articleSection: meta.guide.category,
       keywords: [meta.guide.keyword, ...meta.guide.related],
       wordCount: meta.guide.nonSpaceLength
@@ -320,8 +323,9 @@ function schemaForRoute(route, meta, url) {
       url,
       inLanguage: "ko-KR",
       description: meta.description,
+      image: brandImage,
       dateModified: lastUpdated,
-      publisher: { "@type": "Organization", name: "goatool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon },
       hasPart: guidePages.map((guide) => ({
         "@type": "Article",
         name: guide.title,
@@ -340,9 +344,10 @@ function schemaForRoute(route, meta, url) {
       url,
       inLanguage: "ko-KR",
       description: meta.description,
+      image: brandImage,
       dateModified: lastUpdated,
       offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
-      publisher: { "@type": "Organization", name: "goatool", url: base },
+      publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon },
       featureList: meta.features || []
     };
   }
@@ -354,8 +359,9 @@ function schemaForRoute(route, meta, url) {
     url,
     inLanguage: "ko-KR",
     description: meta.description,
+    image: brandImage,
     dateModified: lastUpdated,
-    publisher: { "@type": "Organization", name: "goatool", url: base }
+    publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon }
   };
 }
 
