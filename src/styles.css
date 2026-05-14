@@ -1101,6 +1101,78 @@ svg {
   line-height: 1.45;
 }
 
+.field-note {
+  color: var(--ink-4);
+  font-size: 13px;
+  font-style: normal;
+  line-height: 1.5;
+}
+
+.preset-preview {
+  margin: -3px 0 18px;
+}
+
+.preset-card {
+  padding: 16px;
+  color: var(--ink-2);
+  background: #ffffff;
+  border: 1px solid rgba(36, 87, 166, 0.16);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.055);
+}
+
+.preset-card strong {
+  display: block;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.preset-card p {
+  margin: 7px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.preset-empty {
+  background: #fdfefe;
+  border-style: dashed;
+  box-shadow: none;
+}
+
+.preset-doc-list {
+  max-height: 178px;
+  margin: 12px 0 0;
+  padding: 10px 12px 10px 32px;
+  overflow: auto;
+  color: var(--ink-2);
+  background: #f7fafc;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: calc(var(--radius) - 2px);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.7;
+}
+
+.preset-doc-list li + li {
+  margin-top: 3px;
+}
+
+.preset-warning {
+  color: #9a3412;
+  font-weight: 800;
+}
+
+.preset-source a {
+  color: var(--blue);
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.preset-source a:hover {
+  text-decoration: underline;
+}
+
 .field textarea {
   min-height: 140px;
   resize: vertical;
@@ -1284,6 +1356,10 @@ svg {
   margin-bottom: 18px;
 }
 
+.doc-stat-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
 .stat-grid div {
   padding: 16px;
   background: #f6fafc;
@@ -1314,6 +1390,14 @@ svg {
   color: var(--amber) !important;
 }
 
+.status-review {
+  color: var(--blue) !important;
+}
+
+.status-muted {
+  color: var(--ink-4) !important;
+}
+
 .result-block {
   margin-bottom: 16px;
   padding: 18px;
@@ -1328,6 +1412,20 @@ svg {
   font-size: 17px;
 }
 
+.compact-result {
+  padding: 14px 16px;
+  background: #f8fbff;
+  border-color: rgba(36, 87, 166, 0.16);
+}
+
+.compact-result p {
+  margin: 0;
+  color: var(--ink-3);
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.65;
+}
+
 .ok-line {
   margin: 0;
   color: var(--green);
@@ -1340,6 +1438,49 @@ svg {
   color: var(--amber);
   font-size: 15px;
   font-weight: 850;
+}
+
+.doc-attention-list {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.doc-attention-list p {
+  margin: 0;
+  padding: 11px 12px;
+  display: grid;
+  gap: 4px;
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: calc(var(--radius) - 2px);
+}
+
+.doc-attention-list strong {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.doc-attention-list span {
+  color: var(--ink-3);
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.55;
+}
+
+.doc-kind {
+  display: inline-flex;
+  min-width: 58px;
+  justify-content: center;
+  padding: 4px 8px;
+  color: var(--ink-3);
+  background: #f1f5f9;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 .preview-layout {

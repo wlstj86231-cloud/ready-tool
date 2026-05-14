@@ -132,9 +132,9 @@ const tools = [
     path: "/tools/required-doc-checker/",
     group: "민원 상위",
     label: "제출서류 누락 대조",
-    short: "목록 vs 파일명",
+    short: "신청별 서류 자동 대조",
     title: "필수 서류 목록과 실제 파일을 대조하기",
-    description: "공고문이나 접수 화면의 제출서류 목록을 붙여넣고 파일을 고르면, 파일명 기준으로 빠진 서류와 남는 파일을 대조표로 보여줍니다.",
+    description: "정책자금, 고용지원, 민원, 입사지원 유형을 고르면 대표 제출서류가 자동으로 들어가고 실제 파일명 기준으로 빠진 서류를 대조합니다.",
     tags: ["누락 점검", "서류 목록", "파일명"],
     situations: ["public", "job", "school"]
   },
@@ -395,9 +395,9 @@ const simpleToolCopy = {
   },
   "required-doc-checker": {
     label: "서류 누락 대조",
-    short: "필수 목록과 파일명 비교",
+    short: "신청별 필수서류 자동 입력",
     title: "제출서류 누락 대조",
-    description: "제출서류 목록과 실제 파일명을 비교해 빠진 서류를 찾습니다."
+    description: "정책자금·민원·신청 유형을 고르면 제출서류 목록을 자동으로 채우고 실제 파일명과 비교합니다."
   },
   "bundle-rule-checker": {
     label: "제출 규칙 검사",
@@ -508,6 +508,359 @@ const simpleToolCopy = {
     description: "CSV와 XLSX 표 안의 개인정보 패턴을 제출 전에 확인합니다."
   }
 };
+
+const requiredDocPresets = [
+  {
+    id: "policy-smallbiz-general",
+    group: "정책자금",
+    label: "소상공인 일반경영안정자금",
+    note: "지역, 보증기관, 접수 연도에 따라 매출·업력 증빙이 추가될 수 있습니다.",
+    href: "https://policyfundpedia.com/소상공인-일반경영안정자금/",
+    docs: [
+      "정책자금 신청서",
+      "사업자등록증명원",
+      "대표자 신분증 사본",
+      "부가가치세 과세표준증명원",
+      "최근 3개월 매출 자료",
+      "국세 납세증명서",
+      "지방세 납세증명서",
+      "임대차계약서 사본",
+      "통장 사본"
+    ]
+  },
+  {
+    id: "policy-smallbiz-emergency",
+    group: "정책자금",
+    label: "소상공인 긴급경영안정자금",
+    note: "피해 유형별 확인서 명칭이 다르므로 지자체·소진공 공고명을 마지막에 맞춰야 합니다.",
+    href: "https://policyfundpedia.com/소상공인-긴급경영안정자금/",
+    docs: [
+      "정책자금 신청서",
+      "사업자등록증",
+      "대표자 신분증 사본",
+      "피해사실 확인서",
+      "피해 규모 자료",
+      "매출 감소 증빙 자료",
+      "국세 납세증명서",
+      "지방세 납세증명서",
+      "통장 사본"
+    ]
+  },
+  {
+    id: "policy-smart-store",
+    group: "정책자금",
+    label: "소상공인 스마트상점 기술보급",
+    note: "도입 기술, 공급기업, 매장 보유 형태에 따라 견적·사진·계약 증빙이 달라질 수 있습니다.",
+    href: "https://policyfundpedia.com/소상공인-스마트상점-기술보급사업/",
+    docs: [
+      "참여 신청서",
+      "사업자등록증명원",
+      "소상공인 확인서",
+      "스마트기술 도입 계획서",
+      "공급기업 견적서",
+      "국세 납세증명서",
+      "지방세 납세증명서",
+      "개인정보 수집 이용 동의서",
+      "매장 사진 또는 임대차계약서"
+    ]
+  },
+  {
+    id: "policy-jinheung-innovation",
+    group: "정책자금",
+    label: "중진공 혁신성장자금",
+    note: "시설·운전·기술사업화 구분에 따라 사업계획서와 기술 증빙의 깊이가 달라집니다.",
+    href: "https://policyfundpedia.com/2026년-중진공-혁신성장자금/",
+    docs: [
+      "융자 신청서",
+      "사업자등록증명원",
+      "최근 3개년 재무제표",
+      "국세 납세증명서",
+      "지방세 납세증명서",
+      "사업계획서",
+      "기술성 또는 혁신성 증빙자료",
+      "법인등기부등본",
+      "주주명부"
+    ]
+  },
+  {
+    id: "policy-export-voucher",
+    group: "정책자금",
+    label: "수출바우처 사업",
+    note: "수출 실적 유무와 우대 요건에 따라 계약서, 실적증명, 인증서류가 추가됩니다.",
+    href: "https://policyfundpedia.com/2026년-수출바우처-사업/",
+    docs: [
+      "수출바우처 신청서",
+      "사업자등록증명원",
+      "중소기업 확인서",
+      "최근 재무제표",
+      "수출실적증명서 또는 수출계약서",
+      "국세 납세증명서",
+      "지방세 납세증명서",
+      "개인정보 제공 동의서"
+    ]
+  },
+  {
+    id: "policy-pre-startup",
+    group: "정책자금",
+    label: "예비창업패키지",
+    note: "예비창업자 여부, 팀 구성, 가점 항목에 따라 사실증명과 증빙서류가 달라질 수 있습니다.",
+    href: "https://policyfundpedia.com/2026년-예비창업패키지/",
+    docs: [
+      "온라인 사업신청서",
+      "사업계획서",
+      "대표자 신분증 사본",
+      "사업자등록 사실여부 사실증명",
+      "개인정보 수집 이용 동의서",
+      "가점 증빙서류",
+      "발표자료"
+    ]
+  },
+  {
+    id: "policy-early-startup",
+    group: "정책자금",
+    label: "초기창업패키지",
+    note: "창업 업력과 법인 여부에 따라 등기부등본, 매출·고용 증빙이 달라질 수 있습니다.",
+    href: "https://policyfundpedia.com/2026년-초기창업패키지/",
+    docs: [
+      "사업신청서",
+      "사업계획서",
+      "사업자등록증명원",
+      "법인등기부등본",
+      "최근 매출 증빙자료",
+      "고용 증빙자료",
+      "개인정보 수집 이용 동의서",
+      "가점 증빙서류"
+    ]
+  },
+  {
+    id: "policy-growth-startup",
+    group: "정책자금",
+    label: "창업도약패키지",
+    note: "성장성 평가가 들어가므로 매출, 투자, 수출, 고용 실적 증빙을 빠뜨리기 쉽습니다.",
+    href: "https://policyfundpedia.com/2026년-창업도약패키지/",
+    docs: [
+      "사업신청서",
+      "사업계획서",
+      "사업자등록증명원",
+      "법인등기부등본",
+      "최근 3개년 재무제표",
+      "4대보험 가입자 명부",
+      "매출 실적 증빙자료",
+      "투자 또는 수출 실적 증빙자료",
+      "개인정보 수집 이용 동의서"
+    ]
+  },
+  {
+    id: "policy-rechallenge",
+    group: "정책자금",
+    label: "재도전성공패키지",
+    note: "폐업 이력, 재창업 상태, 채무조정 여부에 따라 확인 서류가 달라질 수 있습니다.",
+    href: "https://policyfundpedia.com/재도전성공패키지/",
+    docs: [
+      "사업자등록증 또는 폐업사실증명원",
+      "재창업 사업계획서",
+      "대표자 신분증 사본",
+      "폐업 또는 재도전 관련 증빙자료",
+      "개인정보 수집 이용 동의서",
+      "발표자료"
+    ]
+  },
+  {
+    id: "policy-youth-academy",
+    group: "정책자금",
+    label: "청년창업사관학교",
+    note: "입교 단계별로 온라인 지원서, 발표자료, 가점 증빙 제출 시점이 나뉠 수 있습니다.",
+    href: "https://policyfundpedia.com/청년창업사관학교/",
+    docs: [
+      "온라인 지원서",
+      "사업계획서 또는 아이디어 기획안",
+      "발표자료",
+      "대표자 신분증 사본",
+      "사업자등록 사실여부 증빙",
+      "가점 증빙서류",
+      "개인정보 수집 이용 동의서"
+    ]
+  },
+  {
+    id: "employment-retention",
+    group: "고용지원",
+    label: "고용유지지원금",
+    note: "휴업·휴직 방식과 사업장 상황에 따라 계획서, 임금대장, 매출 감소 자료가 함께 필요합니다.",
+    href: "https://policyfundpedia.com/고용유지지원금/",
+    docs: [
+      "사업자등록증",
+      "고용유지조치 계획서",
+      "매출 감소 증빙 자료",
+      "근로자 명부",
+      "근로계약서",
+      "임금대장",
+      "임금 지급 서류",
+      "통장 사본"
+    ]
+  },
+  {
+    id: "employment-youth-job",
+    group: "고용지원",
+    label: "청년일자리도약장려금",
+    note: "청년 요건, 채용일, 고용보험 가입 상태 확인 자료를 함께 묶어두는 편이 안전합니다.",
+    href: "https://policyfundpedia.com/청년일자리도약장려금/",
+    docs: [
+      "사업자등록증",
+      "근로계약서",
+      "채용 청년 요건 확인 서류",
+      "고용보험 가입 확인 자료",
+      "임금 지급 내역",
+      "사업주 확인서",
+      "개인정보 제공 동의서"
+    ]
+  },
+  {
+    id: "employment-durunuri",
+    group: "고용지원",
+    label: "두루누리 사회보험료 지원",
+    note: "근로자 보수와 가입 상태 자료가 핵심이므로 사업장·근로자 정보가 맞는지 먼저 보세요.",
+    href: "https://policyfundpedia.com/두루누리-사회보험료-지원사업/",
+    docs: [
+      "지원 신청서",
+      "사업자등록증",
+      "사업장 가입자 명부",
+      "근로자 보수월액 자료",
+      "보험료 고지내역",
+      "대표자 신분증 사본",
+      "통장 사본"
+    ]
+  },
+  {
+    id: "civil-business-registration",
+    group: "민원·신청",
+    label: "사업자등록 신청",
+    note: "업종 인허가가 필요한 경우 허가증·신고필증이 빠지면 접수가 지연됩니다.",
+    docs: [
+      "사업자등록 신청서",
+      "대표자 신분증",
+      "임대차계약서 사본",
+      "인허가증 또는 신고필증",
+      "동업계약서",
+      "법인등기부등본",
+      "정관 또는 주주명부"
+    ]
+  },
+  {
+    id: "civil-mailorder",
+    group: "민원·신청",
+    label: "통신판매업 신고",
+    note: "쇼핑몰 주소, 구매안전서비스 확인증, 사업자 정보가 서로 일치해야 반려가 줄어듭니다.",
+    docs: [
+      "통신판매업 신고서",
+      "사업자등록증명원",
+      "구매안전서비스 이용 확인증",
+      "대표자 신분증",
+      "법인등기부등본",
+      "도메인 또는 쇼핑몰 정보"
+    ]
+  },
+  {
+    id: "civil-transfer-address",
+    group: "민원·신청",
+    label: "전입신고",
+    note: "세대주 확인이나 대리 신청이면 위임 자료가 추가됩니다.",
+    docs: [
+      "전입신고서",
+      "신고인 신분증",
+      "임대차계약서",
+      "세대주 확인 자료",
+      "위임장",
+      "위임자 신분증 사본"
+    ]
+  },
+  {
+    id: "civil-health-dependent",
+    group: "민원·신청",
+    label: "건강보험 피부양자 등록",
+    note: "가족관계, 소득, 재학·재직 상태 증빙이 같이 요구되는 경우가 많습니다.",
+    docs: [
+      "피부양자 자격취득 신고서",
+      "가족관계증명서",
+      "혼인관계증명서 또는 기본증명서",
+      "소득 확인 자료",
+      "재학증명서 또는 재직증명서",
+      "신분증 사본"
+    ]
+  },
+  {
+    id: "civil-unemployment-benefit",
+    group: "민원·신청",
+    label: "실업급여 수급자격 신청",
+    note: "이직확인서 처리 여부와 퇴사 사유 증빙을 먼저 확인하면 재방문을 줄일 수 있습니다.",
+    docs: [
+      "수급자격 인정 신청서",
+      "신분증",
+      "이직확인서",
+      "통장 사본",
+      "구직신청 확인 자료",
+      "퇴사 사유 증빙자료"
+    ]
+  },
+  {
+    id: "civil-housing-benefit",
+    group: "민원·신청",
+    label: "주거급여 신청",
+    note: "가구원 소득·재산 자료와 임대차계약서 정보가 접수 기준과 맞아야 합니다.",
+    docs: [
+      "사회보장급여 신청서",
+      "금융정보 등 제공 동의서",
+      "임대차계약서",
+      "소득 재산 신고서",
+      "통장 사본",
+      "신분증"
+    ]
+  },
+  {
+    id: "civil-emergency-welfare",
+    group: "민원·신청",
+    label: "긴급복지 지원 신청",
+    note: "위기사유를 보여주는 증빙이 핵심이며 의료비·주거비 등 지출 자료가 같이 쓰입니다.",
+    docs: [
+      "긴급복지 신청서",
+      "신분증",
+      "위기사유 증빙자료",
+      "소득 재산 확인 자료",
+      "통장 사본",
+      "의료비 또는 주거비 지출 증빙"
+    ]
+  },
+  {
+    id: "application-job-basic",
+    group: "입사지원·기관",
+    label: "입사지원 기본 제출",
+    note: "회사별로 졸업·성적·경력 증빙 제출 시점이 다르므로 공고문 요구 순서에 맞춰 정리하세요.",
+    docs: [
+      "이력서",
+      "자기소개서",
+      "경력기술서",
+      "포트폴리오",
+      "졸업증명서",
+      "성적증명서",
+      "자격증 사본",
+      "경력증명서"
+    ]
+  },
+  {
+    id: "application-school-scholarship",
+    group: "입사지원·기관",
+    label: "학교 장학금 신청",
+    note: "소득분위, 가족관계, 성적 기준 서류는 발급일 기준을 함께 확인해야 합니다.",
+    docs: [
+      "장학금 신청서",
+      "재학증명서",
+      "성적증명서",
+      "가족관계증명서",
+      "소득분위 확인서",
+      "통장 사본",
+      "개인정보 제공 동의서"
+    ]
+  }
+];
 
 const toolOrder = [
   "photo-resize",
@@ -718,19 +1071,22 @@ const expertise = {
     ]
   },
   "required-doc-checker": {
-    summary: "제출서류 누락 대조는 공고문이나 접수 화면의 필수 서류 목록과 실제 파일명을 비교해 빠진 항목을 찾는 도구입니다. 문서 내용을 열어 판정하지 않고, 파일명에 드러난 서류명을 기준으로 점검합니다.",
+    summary: "제출서류 누락 대조는 정책자금, 고용지원, 민원, 입사지원 유형을 먼저 고르면 대표 제출서류 목록을 자동으로 채우고 실제 파일명과 비교해 빠진 항목을 찾는 도구입니다. 필수 누락, 해당 시 확인, 파일명 확인 필요를 나누어 보여주기 때문에 실제 제출 직전 판단이 더 빨라집니다.",
     method: [
-      "붙여넣은 제출서류 목록을 줄 단위 항목으로 나눕니다.",
-      "각 항목에서 의미 있는 키워드를 추출하고 선택한 파일명과 비교합니다.",
+      "선택한 신청 유형의 대표 제출서류를 줄 단위 항목으로 자동 입력합니다.",
+      "세부 공고문이나 접수 화면과 다른 부분은 사용자가 목록에서 바로 수정할 수 있습니다.",
+      "각 항목에서 의미 있는 키워드와 대체서류 표현을 추출하고 선택한 파일명과 비교합니다.",
       "매칭된 파일, 누락 가능 항목, 목록에 없는 추가 파일을 대조표와 TXT로 만듭니다."
     ],
     limits: [
       "파일명 기준 점검이므로 파일 안의 실제 내용이 맞는지는 확인하지 않습니다.",
       "공고문 표현과 파일명이 너무 다르면 누락으로 표시될 수 있습니다.",
+      "자동 목록은 준비용 기준입니다. 접수 연도, 지역, 기관, 세부 공고가 요구하는 최종 서류와 다를 수 있습니다.",
       "제출처가 요구하는 원본, 사본, 직인, 발급일 조건은 사람이 마지막에 확인해야 합니다."
     ],
-    checklist: ["공고문 제출서류 목록을 줄 단위로 붙여넣기", "파일명에 서류명이 드러나도록 정리", "누락 항목은 실제 파일 내용까지 열어 확인"],
+    checklist: ["신청 유형을 먼저 선택해 기본 서류 자동 입력", "공고문과 다른 서류명은 목록에서 바로 수정", "파일명에 서류명이 드러나도록 정리", "누락 항목은 실제 파일 내용까지 열어 확인"],
     faq: [
+      ["자동으로 뜨는 제출서류가 최종 기준인가요?", "아니요. goatool은 사용자가 빠르게 준비를 시작하도록 대표 목록을 제공합니다. 실제 제출은 해당 공고문과 접수 화면이 최종 기준입니다."],
       ["서류 내용을 읽어서 맞는지 판단하나요?", "아니요. 개인정보 보호와 브라우저 처리 원칙상 파일명과 목록을 기준으로만 대조합니다."],
       ["왜 파일명 정리가 중요한가요?", "서류명이 파일명에 들어가야 자동 대조와 담당자 확인이 모두 쉬워집니다."]
     ]
@@ -1188,7 +1544,7 @@ function simpleTool(tool) {
 function toolCue(tool) {
   if (["text-counter", "text-cleaner"].includes(tool.id)) return "먼저 텍스트를 붙여넣으세요";
   if (tool.id === "data-clean") return "CSV·엑셀을 고르거나 표를 붙여넣으세요";
-  if (tool.id === "required-doc-checker") return "서류 목록을 붙여넣고 파일을 고르세요";
+  if (tool.id === "required-doc-checker") return "신청 유형을 고르고 파일을 대조하세요";
   if (tool.id === "pdf-page-labeler") return "페이지 번호를 붙일 PDF를 고르세요";
   if (tool.id === "pdf-rotate") return "방향을 돌릴 PDF를 고르세요";
   if (tool.id === "pdf-info") return "구조를 점검할 PDF를 고르세요";
@@ -2326,13 +2682,71 @@ function renderFileReadyTool() {
   `;
 }
 
+function renderRequiredDocPresetOptions() {
+  const groups = [...new Set(requiredDocPresets.map((preset) => preset.group))];
+  return groups
+    .map((group) => {
+      const options = requiredDocPresets
+        .filter((preset) => preset.group === group)
+        .map((preset) => `<option value="${escapeAttr(preset.id)}">${escapeHtml(preset.label)}</option>`)
+        .join("");
+      return `<optgroup label="${escapeAttr(group)}">${options}</optgroup>`;
+    })
+    .join("");
+}
+
+function findRequiredDocPreset(id) {
+  return requiredDocPresets.find((preset) => preset.id === id) || null;
+}
+
+function requiredDocPresetText(preset) {
+  return preset?.docs?.join("\n") || "";
+}
+
+function renderRequiredDocPresetPreview(preset) {
+  if (!preset) {
+    return `
+      <div class="preset-card preset-empty">
+        <strong>신청 유형을 먼저 고르세요</strong>
+        <p>정책자금, 고용지원, 민원, 입사지원 유형을 선택하면 대표 제출서류가 아래 목록에 자동으로 들어갑니다.</p>
+      </div>
+    `;
+  }
+
+  const source = preset.href
+    ? `<a href="${escapeAttr(preset.href)}" target="_blank" rel="noopener">정책자금백과에서 보기</a>`
+    : "";
+  return `
+    <div class="preset-card">
+      <strong>${escapeHtml(preset.label)}</strong>
+      <p>${escapeHtml(preset.group)} 기준 대표 제출서류 ${preset.docs.length}개가 자동 입력됩니다.</p>
+      <ol class="preset-doc-list">
+        ${preset.docs.map((doc) => `<li>${escapeHtml(doc)}</li>`).join("")}
+      </ol>
+      <p class="preset-warning">${escapeHtml(preset.note)} 공고문과 접수 화면이 최종 기준입니다.</p>
+      ${source ? `<p class="preset-source">${source}</p>` : ""}
+    </div>
+  `;
+}
+
 function renderRequiredDocCheckerTool() {
   return `
     <div class="tool-grid">
       <form class="control-panel" id="requiredDocForm" novalidate>
         <label class="field">
-          <span>제출서류 목록 붙여넣기</span>
-          <textarea id="requiredDocText" rows="9" maxlength="${LIMITS.textChars}" placeholder="예:&#10;사업자등록증 사본&#10;주민등록등본&#10;통장 사본&#10;신청서 PDF"></textarea>
+          <span>신청 유형 선택</span>
+          <select id="requiredDocPreset" aria-describedby="requiredDocPresetHelp">
+            <option value="">직접 목록 붙여넣기</option>
+            ${renderRequiredDocPresetOptions()}
+          </select>
+          <em id="requiredDocPresetHelp" class="field-note">유형을 고르면 아래 제출서류 목록이 자동으로 채워집니다.</em>
+        </label>
+        <div class="preset-preview" id="requiredDocPresetPreview" aria-live="polite">
+          ${renderRequiredDocPresetPreview(null)}
+        </div>
+        <label class="field">
+          <span>제출서류 목록</span>
+          <textarea id="requiredDocText" rows="10" maxlength="${LIMITS.textChars}" placeholder="위 신청 유형을 고르거나 직접 붙여넣으세요.&#10;예:&#10;사업자등록증명원&#10;대표자 신분증 사본&#10;통장 사본"></textarea>
         </label>
         <label class="field">
           <span>실제 제출 파일 선택</span>
@@ -2344,10 +2758,10 @@ function renderRequiredDocCheckerTool() {
           <button class="primary-button" type="submit">${checkIcon()} 누락 대조</button>
           <button class="ghost-button" type="button" id="downloadRequiredDocReport" disabled>${downloadIcon()} 대조표</button>
         </div>
-        <p class="helper-text">파일 내용은 열어 판정하지 않습니다. 파일명에 서류명이 드러날수록 더 정확하게 대조됩니다.</p>
+        <p class="helper-text">자동 목록은 준비용 기준입니다. 접수 연도, 지역, 기관, 세부 공고에 따라 추가 서류가 붙을 수 있으니 최종 공고문과 함께 확인하세요.</p>
       </form>
       <div class="result-panel" id="requiredDocResult" role="status" aria-live="polite" aria-atomic="false">
-        <p class="empty-result">제출서류 목록과 파일을 넣으면 빠진 항목을 바로 보여줍니다.</p>
+        <p class="empty-result">신청 유형을 고르고 파일을 넣으면 빠진 항목을 바로 보여줍니다.</p>
       </div>
     </div>
   `;
@@ -4320,9 +4734,18 @@ function renderFileReadyResult(items, warnings) {
 
 function bindRequiredDocCheckerEvents() {
   const form = document.querySelector("#requiredDocForm");
+  const presetSelect = document.querySelector("#requiredDocPreset");
+  const presetPreview = document.querySelector("#requiredDocPresetPreview");
+  const textArea = document.querySelector("#requiredDocText");
   const fileInput = document.querySelector("#requiredDocFiles");
   const count = document.querySelector("#requiredDocCount");
   const reportButton = document.querySelector("#downloadRequiredDocReport");
+
+  presetSelect?.addEventListener("change", () => {
+    const preset = findRequiredDocPreset(presetSelect.value);
+    if (preset && textArea) textArea.value = requiredDocPresetText(preset);
+    if (presetPreview) presetPreview.innerHTML = renderRequiredDocPresetPreview(preset);
+  });
 
   fileInput?.addEventListener("change", () => {
     count.textContent = fileInput.files?.length ? `${fileInput.files.length}개 파일 선택됨` : "목록과 비교할 파일을 선택하세요";
@@ -4330,14 +4753,15 @@ function bindRequiredDocCheckerEvents() {
 
   form?.addEventListener("submit", (event) => {
     event.preventDefault();
-    const text = document.querySelector("#requiredDocText")?.value || "";
+    const preset = findRequiredDocPreset(presetSelect?.value);
+    const text = textArea?.value || "";
     const files = Array.from(fileInput?.files || []);
     const result = document.querySelector("#requiredDocResult");
     reportButton.disabled = true;
 
     const required = parseRequiredDocuments(text);
     if (!required.length) {
-      showResultMessage(result, "공고문이나 접수 화면의 제출서류 목록을 먼저 붙여넣으세요.", "warn");
+      showResultMessage(result, "신청 유형을 고르거나 공고문·접수 화면의 제출서류 목록을 먼저 붙여넣으세요.", "warn");
       return;
     }
     if (!files.length) {
@@ -4350,7 +4774,7 @@ function bindRequiredDocCheckerEvents() {
       return;
     }
 
-    const output = matchRequiredDocuments(required, files);
+    const output = matchRequiredDocuments(required, files, preset);
     state.lastRequiredChecklistBlob = new Blob([makeRequiredDocReport(output)], { type: "text/plain;charset=utf-8" });
     reportButton.disabled = false;
     result.innerHTML = renderRequiredDocResult(output);
@@ -4375,7 +4799,7 @@ function parseRequiredDocuments(text) {
     .slice(0, 80);
 }
 
-function matchRequiredDocuments(required, files) {
+function matchRequiredDocuments(required, files, preset = null) {
   const fileItems = files.map((file, index) => ({
     file,
     index,
@@ -4386,18 +4810,25 @@ function matchRequiredDocuments(required, files) {
   }));
 
   const rows = required.map((title) => {
+    const meta = analyzeRequiredDocument(title);
     const best = fileItems
       .map((item) => ({ item, score: scoreRequiredMatch(title, item.normalized) }))
+      .filter(({ item }) => !item.matched || fileContainsRequiredTitle(title, item.normalized))
       .sort((a, b) => b.score - a.score)[0];
     const match = best?.score >= 0.5 ? best.item : null;
     if (match) match.matched = true;
-    return { title, match, score: best?.score || 0 };
+    const score = best?.score || 0;
+    return { title, meta, match, score, status: requiredDocRowStatus(meta, match, score) };
   });
 
+  const warnings = inspectRequiredDocFiles(files, rows);
   return {
     rows,
     extras: fileItems.filter((item) => !item.matched),
-    fileCount: files.length
+    fileCount: files.length,
+    summary: summarizeRequiredDocRows(rows),
+    warnings,
+    preset
   };
 }
 
@@ -4410,6 +4841,27 @@ function normalizeMatchText(value) {
     .trim();
 }
 
+function compactMatchText(value) {
+  return normalizeMatchText(value).replace(/\s/g, "");
+}
+
+function fileContainsRequiredTitle(title, fileNormalized) {
+  const compactTitle = compactMatchText(title);
+  const compactFile = String(fileNormalized || "").replace(/\s/g, "");
+  return requiredTitleVariants(title).some((variant) => {
+    const compactVariant = compactMatchText(variant);
+    return compactVariant.length >= 3 && compactFile.includes(compactVariant);
+  });
+}
+
+function hasRequiredKeywordMismatch(compactTitle, compactFile) {
+  const exclusiveGroups = [["국세", "지방세"]];
+  return exclusiveGroups.some((group) => {
+    const requiredKeyword = group.find((keyword) => compactTitle.includes(keyword));
+    return requiredKeyword && !compactFile.includes(requiredKeyword);
+  });
+}
+
 function requirementTokens(title) {
   const stop = new Set(["사본", "원본", "제출", "첨부", "필수", "선택", "해당", "파일", "서류", "및", "또는", "각", "부", "제출용"]);
   return normalizeMatchText(title)
@@ -4419,28 +4871,161 @@ function requirementTokens(title) {
 }
 
 function scoreRequiredMatch(title, fileNormalized) {
+  return Math.max(...requiredTitleVariants(title).map((variant) => scoreRequiredMatchVariant(variant, fileNormalized)));
+}
+
+function scoreRequiredMatchVariant(title, fileNormalized) {
   const titleNormalized = normalizeMatchText(title);
   if (!titleNormalized || !fileNormalized) return 0;
   const compactTitle = titleNormalized.replace(/\s/g, "");
   const compactFile = fileNormalized.replace(/\s/g, "");
   if (compactTitle.length >= 3 && compactFile.includes(compactTitle)) return 1;
+  if (hasRequiredKeywordMismatch(compactTitle, compactFile)) return 0;
   const tokens = requirementTokens(title);
   if (!tokens.length) return compactFile.includes(compactTitle) ? 1 : 0;
   const hits = tokens.filter((token) => compactFile.includes(token.replace(/\s/g, ""))).length;
   return hits / tokens.length;
 }
 
+function splitAlternativeRequiredTitle(title) {
+  return String(title || "")
+    .split(/\s+(?:또는|혹은|or)\s+/i)
+    .map((item) => item.trim())
+    .filter((item) => item.length >= 2);
+}
+
+function conditionalRequirementReason(title) {
+  const compact = compactMatchText(title);
+  if (compact.includes("가점")) return "가점 항목이 있는 경우";
+  if (compact.includes("발표자료")) return "발표평가 단계에서 요청된 경우";
+  if (compact.includes("법인등기부등본") || compact.includes("주주명부") || compact.includes("정관")) return "법인 또는 주주 구성 확인이 필요한 경우";
+  if (compact.includes("동업계약서")) return "공동사업자인 경우";
+  if (compact.includes("인허가증") || compact.includes("신고필증")) return "해당 업종 인허가가 필요한 경우";
+  if (compact.includes("퇴사사유")) return "퇴사 사유 소명이 필요한 경우";
+  if (compact.includes("재학증명서") || compact.includes("재직증명서")) return "해당 신분 확인이 필요한 경우";
+  if (compact.includes("혼인관계증명서") || compact.includes("기본증명서")) return "가족관계만으로 확인이 어려운 경우";
+  if (compact.includes("의료비") || compact.includes("주거비")) return "해당 지원 항목 지출을 증명해야 하는 경우";
+  return "";
+}
+
+function analyzeRequiredDocument(title) {
+  const alternatives = splitAlternativeRequiredTitle(title);
+  const condition = conditionalRequirementReason(title);
+  const kind = condition ? "conditional" : alternatives.length > 1 ? "alternative" : "required";
+  return {
+    kind,
+    label: kind === "conditional" ? "해당 시" : kind === "alternative" ? "대체 가능" : "필수",
+    condition,
+    alternatives
+  };
+}
+
+function requiredTitleVariants(title) {
+  const base = [title, ...splitAlternativeRequiredTitle(title)];
+  const aliasRules = [
+    ["사업자등록증명원", ["사업자등록증", "사업자 등록 증명"]],
+    ["부가가치세 과세표준증명원", ["부가세 과세표준증명", "부가가치세 증명"]],
+    ["국세 납세증명서", ["국세완납증명서", "국세 완납증명"]],
+    ["지방세 납세증명서", ["지방세완납증명서", "지방세 완납증명"]],
+    ["임대차계약서", ["임대차 계약", "임대 계약서"]],
+    ["통장 사본", ["계좌 사본", "통장표지", "계좌개설확인서"]],
+    ["대표자 신분증", ["대표 신분증", "주민등록증", "운전면허증", "여권"]],
+    ["가족관계증명서", ["가족관계"]],
+    ["4대보험 가입자 명부", ["4대보험가입자명부", "사업장가입자명부"]],
+    ["소상공인 확인서", ["소상공인확인서"]],
+    ["중소기업 확인서", ["중소기업확인서"]]
+  ];
+
+  aliasRules.forEach(([keyword, aliases]) => {
+    if (compactMatchText(title).includes(compactMatchText(keyword))) base.push(...aliases);
+  });
+  return [...new Set(base.filter(Boolean))];
+}
+
+function requiredDocRowStatus(meta, match, score) {
+  if (match && score >= 0.75) return { key: "ok", label: "확인됨", className: "status-ok" };
+  if (match) return { key: "review", label: "파일명 확인", className: "status-review" };
+  if (meta.kind === "conditional") return { key: "conditional", label: "해당 시 확인", className: "status-muted" };
+  if (meta.kind === "alternative") return { key: "missing", label: "대체서류 누락 가능", className: "status-warn" };
+  return { key: "missing", label: "누락 가능", className: "status-warn" };
+}
+
+function summarizeRequiredDocRows(rows) {
+  return {
+    total: rows.length,
+    ok: rows.filter((row) => row.status.key === "ok").length,
+    missing: rows.filter((row) => row.status.key === "missing").length,
+    conditional: rows.filter((row) => row.status.key === "conditional").length,
+    review: rows.filter((row) => row.status.key === "review").length
+  };
+}
+
+function extractFileNameDate(name) {
+  const text = removeExtension(name);
+  const candidates = [];
+  const fullDatePattern = /(?:^|[^\d])((?:20)\d{2})[.\-_/년\s]?(\d{1,2})[.\-_/월\s]?(\d{1,2})(?:일)?(?:[^\d]|$)/g;
+  const compactDatePattern = /(?:^|[^\d])((?:20)\d{2})(\d{2})(\d{2})(?:[^\d]|$)/g;
+  [fullDatePattern, compactDatePattern].forEach((pattern) => {
+    let match;
+    while ((match = pattern.exec(text))) {
+      const year = Number(match[1]);
+      const month = Number(match[2]);
+      const day = Number(match[3]);
+      const date = new Date(year, month - 1, day);
+      if (date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day) candidates.push(date);
+    }
+  });
+  return candidates.sort((a, b) => b.getTime() - a.getTime())[0] || null;
+}
+
+function inspectRequiredDocFiles(files, rows) {
+  const warnings = [];
+  const normalizedNames = new Map();
+  files.forEach((file) => {
+    const stableName = compactMatchText(removeExtension(file.name).replace(/\((?:복사본|copy|\d+)\)$/i, ""));
+    if (normalizedNames.has(stableName)) warnings.push(`${file.name}: 비슷한 이름의 파일이 중복 선택되었습니다.`);
+    normalizedNames.set(stableName, file.name);
+
+    const date = extractFileNameDate(file.name);
+    if (date) {
+      const days = Math.floor((Date.now() - date.getTime()) / 86400000);
+      if (days > 90) warnings.push(`${file.name}: 파일명 날짜가 90일보다 오래되어 발급일 제한을 확인해야 합니다.`);
+      if (days < -1) warnings.push(`${file.name}: 파일명 날짜가 미래로 보입니다.`);
+    }
+  });
+
+  rows
+    .filter((row) => row.status.key === "review")
+    .forEach((row) => warnings.push(`${row.title}: ${row.match.name} 파일명이 일부만 맞습니다. 접수 전 파일명을 더 명확하게 바꾸세요.`));
+
+  return warnings.slice(0, 12);
+}
+
 function makeRequiredDocReport(output) {
-  const missing = output.rows.filter((row) => !row.match);
+  const missing = output.rows.filter((row) => row.status.key === "missing");
+  const conditional = output.rows.filter((row) => row.status.key === "conditional");
+  const review = output.rows.filter((row) => row.status.key === "review");
   return [
     "goatool 제출서류 누락 대조표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `선택 유형: ${output.preset ? `${output.preset.group} - ${output.preset.label}` : "직접 입력"}`,
+    ...(output.preset ? [`주의: ${output.preset.note}`, "자동 목록은 준비용 기준이며 공고문과 접수 화면이 최종 기준입니다."] : []),
     `요구 서류: ${output.rows.length}개`,
     `선택 파일: ${output.fileCount}개`,
-    `누락 가능: ${missing.length}개`,
+    `필수 누락 가능: ${missing.length}개`,
+    `해당 시 확인: ${conditional.length}개`,
+    `파일명 확인 필요: ${review.length}개`,
     "",
     "[요구 서류 대조]",
-    ...output.rows.map((row, index) => `${index + 1}. ${row.title} -> ${row.match ? row.match.name : "누락 가능"}`),
+    ...output.rows.map((row, index) => `${index + 1}. [${row.meta.label}] ${row.title} -> ${row.match ? row.match.name : "-"} / ${row.status.label}`),
+    "",
+    "[확인 필요]",
+    ...(missing.length ? missing.map((row) => `- 필수 누락 가능: ${row.title}`) : ["- 필수 누락 가능 항목 없음"]),
+    ...(conditional.length ? conditional.map((row) => `- 해당 시 확인: ${row.title}${row.meta.condition ? ` (${row.meta.condition})` : ""}`) : []),
+    ...(review.length ? review.map((row) => `- 파일명 확인: ${row.title} -> ${row.match.name}`) : []),
+    "",
+    "[파일명 주의 신호]",
+    ...(output.warnings.length ? output.warnings.map((item) => `- ${item}`) : ["- 없음"]),
     "",
     "[목록에 직접 매칭되지 않은 파일]",
     ...(output.extras.length ? output.extras.map((item) => `- ${item.name}`) : ["- 없음"])
@@ -4448,32 +5033,62 @@ function makeRequiredDocReport(output) {
 }
 
 function renderRequiredDocResult(output) {
-  const missing = output.rows.filter((row) => !row.match);
+  const missing = output.rows.filter((row) => row.status.key === "missing");
+  const conditional = output.rows.filter((row) => row.status.key === "conditional");
+  const review = output.rows.filter((row) => row.status.key === "review");
   return `
-    <div class="stat-grid">
-      <div><span>요구 서류</span><strong>${output.rows.length}</strong></div>
-      <div><span>누락 가능</span><strong class="${missing.length ? "status-warn" : "status-ok"}">${missing.length}</strong></div>
-      <div><span>추가 파일</span><strong>${output.extras.length}</strong></div>
+    <div class="stat-grid doc-stat-grid">
+      <div><span>요구 서류</span><strong>${output.summary.total}</strong></div>
+      <div><span>필수 누락</span><strong class="${missing.length ? "status-warn" : "status-ok"}">${missing.length}</strong></div>
+      <div><span>해당 시</span><strong>${conditional.length}</strong></div>
+      <div><span>파일명 확인</span><strong class="${review.length ? "status-review" : "status-ok"}">${review.length}</strong></div>
     </div>
+    ${
+      output.preset
+        ? `<div class="result-block compact-result"><h3>${escapeHtml(output.preset.label)} 기준</h3><p>${escapeHtml(output.preset.note)} 공고문과 접수 화면이 최종 기준입니다.</p></div>`
+        : ""
+    }
     <div class="result-block">
       <h3>서류 대조 결과</h3>
       ${
         missing.length
-          ? `<ul class="warning-list">${missing.map((row) => `<li>${escapeHtml(row.title)} 파일명을 확인하세요.</li>`).join("")}</ul>`
-          : `<p class="ok-line">붙여넣은 목록 기준으로 큰 누락 신호는 보이지 않습니다. 파일 내용과 발급일은 마지막에 직접 확인하세요.</p>`
+          ? `<ul class="warning-list">${missing.map((row) => `<li>${escapeHtml(row.title)} 파일을 먼저 확인하세요.</li>`).join("")}</ul>`
+          : `<p class="ok-line">필수 서류 기준으로 큰 누락 신호는 보이지 않습니다. 파일 내용과 발급일은 마지막에 직접 확인하세요.</p>`
+      }
+      ${
+        conditional.length || review.length || output.warnings.length
+          ? `<div class="doc-attention-list">
+              ${
+                conditional.length
+                  ? `<p><strong>해당 시 확인</strong><span>${conditional.map((row) => `${escapeHtml(row.title)}${row.meta.condition ? ` (${escapeHtml(row.meta.condition)})` : ""}`).join(", ")}</span></p>`
+                  : ""
+              }
+              ${
+                review.length
+                  ? `<p><strong>파일명 확인</strong><span>${review.map((row) => `${escapeHtml(row.title)} → ${escapeHtml(row.match.name)}`).join(", ")}</span></p>`
+                  : ""
+              }
+              ${
+                output.warnings.length
+                  ? `<p><strong>파일명 주의</strong><span>${output.warnings.map((item) => escapeHtml(item)).join(" / ")}</span></p>`
+                  : ""
+              }
+            </div>`
+          : ""
       }
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>요구 서류</th><th>매칭된 파일</th><th>상태</th></tr></thead>
+        <thead><tr><th>구분</th><th>요구 서류</th><th>매칭된 파일</th><th>상태</th></tr></thead>
         <tbody>
           ${output.rows
             .map(
               (row) => `
                 <tr>
+                  <td><span class="doc-kind">${escapeHtml(row.meta.label)}</span></td>
                   <td>${escapeHtml(row.title)}</td>
                   <td>${row.match ? escapeHtml(row.match.name) : "-"}</td>
-                  <td><strong class="${row.match ? "status-ok" : "status-warn"}">${row.match ? "확인됨" : "누락 가능"}</strong></td>
+                  <td><strong class="${row.status.className}">${row.status.label}</strong></td>
                 </tr>
               `
             )

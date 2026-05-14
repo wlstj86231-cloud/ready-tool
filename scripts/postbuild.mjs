@@ -121,9 +121,9 @@ const routeMeta = {
   "/tools/required-doc-checker/": {
     title: "제출서류 누락 대조 - goatool",
     description:
-      "공고문이나 접수 화면의 제출서류 목록과 실제 파일명을 비교해 누락 가능 서류와 추가 파일을 대조표로 확인합니다.",
+      "정책자금, 고용지원, 민원, 입사지원 유형을 고르면 대표 제출서류를 자동 입력하고 필수 누락, 해당 시 서류, 파일명 주의 신호를 대조합니다.",
     type: "SoftwareApplication",
-    features: ["제출서류 누락 점검", "필수 서류 목록 대조", "파일명 비교", "대조표 TXT"]
+    features: ["신청별 제출서류 자동 입력", "필수·해당 시 서류 구분", "파일명 날짜 주의", "대조표 TXT"]
   },
   "/tools/bundle-rule-checker/": {
     title: "제출 규칙 검사 - goatool",
