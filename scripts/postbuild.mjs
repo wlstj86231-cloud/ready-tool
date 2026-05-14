@@ -13,7 +13,9 @@ const lastUpdated = "2026-05-14";
 const coreRoutes = [
   "/tools/photo-resize/",
   "/tools/pdf-organizer/",
+  "/tools/pdf-page-labeler/",
   "/tools/file-ready/",
+  "/tools/required-doc-checker/",
   "/tools/image-privacy/",
   "/tools/filename-cleaner/",
   "/tools/image-to-pdf/",
@@ -21,6 +23,7 @@ const coreRoutes = [
   "/tools/text-counter/",
   "/tools/text-cleaner/",
   "/tools/image-inspector/",
+  "/tools/scan-readability/",
   "/tools/file-list/",
   "/tools/hash-compare/",
   "/tools/data-clean/",
@@ -38,7 +41,7 @@ const routeMeta = {
   "/": {
     title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
     description:
-      "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 증명사진 규격 맞추기, 이미지 용량 정리, 파일명 정리, ZIP 점검을 브라우저에서 처리하는 실용 도구입니다."
+      "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 페이지 번호, 증명사진 규격, 제출서류 누락 대조, 스캔 가독성 점검을 브라우저에서 처리하는 실용 도구입니다."
   },
   "/tools/photo-resize/": {
     title: "증명사진 규격 맞추기 - goatool",
@@ -54,12 +57,26 @@ const routeMeta = {
     type: "SoftwareApplication",
     features: ["PDF 합치기", "PDF 페이지 추출", "제출용 PDF", "브라우저 PDF 처리"]
   },
+  "/tools/pdf-page-labeler/": {
+    title: "PDF 페이지 번호 붙이기 - goatool",
+    description:
+      "긴 사업계획서, 포트폴리오, 증빙 PDF 하단에 페이지 번호를 붙여 제출본 순서와 누락 여부를 확인하기 쉽게 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 페이지 번호", "하단 쪽수", "총쪽수 표시", "브라우저 PDF 처리"]
+  },
   "/tools/file-ready/": {
     title: "제출 파일 점검·ZIP - goatool",
     description:
       "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다.",
     type: "SoftwareApplication",
     features: ["파일명 점검", "SHA-256 해시", "제출용 ZIP", "점검표 TXT"]
+  },
+  "/tools/required-doc-checker/": {
+    title: "제출서류 누락 대조 - goatool",
+    description:
+      "공고문이나 접수 화면의 제출서류 목록과 실제 파일명을 비교해 누락 가능 서류와 추가 파일을 대조표로 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["제출서류 누락 점검", "필수 서류 목록 대조", "파일명 비교", "대조표 TXT"]
   },
   "/tools/image-privacy/": {
     title: "이미지 용량·개인정보 정리 - goatool",
@@ -109,6 +126,13 @@ const routeMeta = {
       "사진과 스캔 이미지의 픽셀 크기, 비율, 용량, 확장자를 브라우저에서 확인합니다.",
     type: "SoftwareApplication",
     features: ["이미지 픽셀 확인", "이미지 용량 확인", "비율 계산", "다중 이미지 표"]
+  },
+  "/tools/scan-readability/": {
+    title: "스캔 가독성 점검 - goatool",
+    description:
+      "스캔본과 증빙 캡처 이미지의 밝기, 대비, 흐림 가능성, 해상도를 계산해 제출 전 읽힘 위험 신호를 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["스캔 밝기 점검", "이미지 대비 계산", "흐림 가능성 확인", "해상도 점검"]
   },
   "/tools/file-list/": {
     title: "파일 목록 만들기 - goatool",
@@ -209,7 +233,9 @@ function fallbackForRoute(route, meta) {
   const links = [
     ["/tools/photo-resize/", "증명사진 규격 맞추기"],
     ["/tools/pdf-organizer/", "PDF 합치기·페이지 뽑기"],
+    ["/tools/pdf-page-labeler/", "PDF 페이지 번호"],
     ["/tools/file-ready/", "파일 준비 점검"],
+    ["/tools/required-doc-checker/", "제출서류 누락 대조"],
     ["/tools/image-privacy/", "이미지 개인정보 정리"],
     ["/tools/filename-cleaner/", "파일명 일괄 정리"],
     ["/tools/image-to-pdf/", "이미지 PDF 변환"],
@@ -217,6 +243,7 @@ function fallbackForRoute(route, meta) {
     ["/tools/text-counter/", "자소서 글자수·바이트 계산"],
     ["/tools/text-cleaner/", "텍스트 공백 정리"],
     ["/tools/image-inspector/", "이미지 규격 확인"],
+    ["/tools/scan-readability/", "스캔 가독성 점검"],
     ["/tools/file-list/", "파일 목록 만들기"],
     ["/tools/hash-compare/", "파일 해시 비교"],
     ["/tools/data-clean/", "CSV·엑셀 정리"],
@@ -284,9 +311,12 @@ function guideFallback(guide) {
           <a href="/guides/">전체 전문 가이드</a>
           <a href="/tools/photo-resize/">증명사진 규격 맞추기</a>
           <a href="/tools/pdf-organizer/">PDF 합치기·페이지 뽑기</a>
+          <a href="/tools/pdf-page-labeler/">PDF 페이지 번호</a>
+          <a href="/tools/required-doc-checker/">제출서류 누락 대조</a>
           <a href="/tools/zip-inspector/">ZIP 내용 점검</a>
           <a href="/tools/file-ready/">파일 준비 점검</a>
           <a href="/tools/image-privacy/">이미지 개인정보 정리</a>
+          <a href="/tools/scan-readability/">스캔 가독성 점검</a>
           <a href="/tools/data-clean/">CSV·엑셀 정리</a>
         </nav>
       </article>

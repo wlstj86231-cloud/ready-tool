@@ -51,6 +51,17 @@ const tools = [
     situations: ["public", "job", "school"]
   },
   {
+    id: "pdf-page-labeler",
+    path: "/tools/pdf-page-labeler/",
+    group: "PDF 보조",
+    label: "PDF 페이지 번호",
+    short: "하단 번호, 총쪽수",
+    title: "제출용 PDF에 페이지 번호를 붙이기",
+    description: "긴 사업계획서, 포트폴리오, 증빙 PDF 하단에 페이지 번호를 넣어 담당자가 누락 여부와 순서를 확인하기 쉽게 만듭니다.",
+    tags: ["PDF", "페이지 번호", "제출본"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
     id: "file-ready",
     path: "/tools/file-ready/",
     group: "제출 상위",
@@ -59,6 +70,17 @@ const tools = [
     title: "제출 전 파일을 한 번에 점검하고 묶기",
     description: "민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 확장자, 중복 파일을 확인하고 제출용 ZIP과 점검표를 만듭니다.",
     tags: ["파일명", "ZIP", "점검표"],
+    situations: ["public", "job", "school"]
+  },
+  {
+    id: "required-doc-checker",
+    path: "/tools/required-doc-checker/",
+    group: "민원 상위",
+    label: "제출서류 누락 대조",
+    short: "목록 vs 파일명",
+    title: "필수 서류 목록과 실제 파일을 대조하기",
+    description: "공고문이나 접수 화면의 제출서류 목록을 붙여넣고 파일을 고르면, 파일명 기준으로 빠진 서류와 남는 파일을 대조표로 보여줍니다.",
+    tags: ["누락 점검", "서류 목록", "파일명"],
     situations: ["public", "job", "school"]
   },
   {
@@ -139,6 +161,17 @@ const tools = [
     situations: ["public", "job", "school", "share"]
   },
   {
+    id: "scan-readability",
+    path: "/tools/scan-readability/",
+    group: "제출 상위",
+    label: "스캔 가독성 점검",
+    short: "밝기, 대비, 흐림",
+    title: "스캔본과 캡처 이미지가 읽히는지 점검하기",
+    description: "증빙 이미지의 밝기, 대비, 흐림 가능성, 최소 해상도를 계산해 글자가 안 읽히는 제출본을 미리 걸러냅니다.",
+    tags: ["스캔본", "가독성", "흐림 점검"],
+    situations: ["public", "school", "job"]
+  },
+  {
     id: "file-list",
     path: "/tools/file-list/",
     group: "제출 보조",
@@ -186,11 +219,23 @@ const simpleToolCopy = {
     title: "PDF 합치기·페이지 뽑기",
     description: "여러 PDF를 하나로 묶거나 필요한 페이지만 골라 새 PDF로 만듭니다."
   },
+  "pdf-page-labeler": {
+    label: "PDF 페이지 번호",
+    short: "하단 번호와 총쪽수 붙이기",
+    title: "PDF 페이지 번호 붙이기",
+    description: "PDF 하단에 페이지 번호를 넣어 누락과 순서를 확인하기 쉽게 만듭니다."
+  },
   "file-ready": {
     label: "제출 파일 점검",
     short: "파일명·용량·ZIP 확인",
     title: "제출 파일 점검",
     description: "파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP을 만듭니다."
+  },
+  "required-doc-checker": {
+    label: "서류 누락 대조",
+    short: "필수 목록과 파일명 비교",
+    title: "제출서류 누락 대조",
+    description: "제출서류 목록과 실제 파일명을 비교해 빠진 서류를 찾습니다."
   },
   "image-privacy": {
     label: "이미지 개인정보",
@@ -234,6 +279,12 @@ const simpleToolCopy = {
     title: "이미지 규격 확인",
     description: "이미지의 크기, 비율, 용량을 한 번에 확인합니다."
   },
+  "scan-readability": {
+    label: "스캔 가독성",
+    short: "밝기·대비·흐림 확인",
+    title: "스캔 가독성 점검",
+    description: "스캔본과 캡처 이미지가 제출 후 읽히기 좋은지 계산합니다."
+  },
   "file-list": {
     label: "파일 목록",
     short: "TXT·CSV 목록 만들기",
@@ -257,14 +308,17 @@ const simpleToolCopy = {
 const toolOrder = [
   "photo-resize",
   "pdf-organizer",
+  "pdf-page-labeler",
   "image-to-pdf",
   "file-ready",
+  "required-doc-checker",
   "filename-cleaner",
   "zip-inspector",
   "image-privacy",
   "text-counter",
   "text-cleaner",
   "image-inspector",
+  "scan-readability",
   "file-list",
   "hash-compare",
   "data-clean"
@@ -281,7 +335,7 @@ const situations = [
 const homeMeta = {
   title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
   description:
-    "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 증명사진 규격 맞추기, 이미지 용량 정리, 파일명 정리, ZIP 점검을 브라우저에서 처리하는 실용 도구입니다."
+    "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 페이지 번호, 증명사진 규격, 제출서류 누락 대조, 스캔 가독성 점검을 브라우저에서 처리하는 실용 도구입니다."
 };
 
 const expertise = {
@@ -321,6 +375,24 @@ const expertise = {
       ["PDF 용량도 줄어드나요?", "페이지 재구성 도구이므로 압축 효과는 파일 구조에 따라 다르고 보장하지 않습니다."]
     ]
   },
+  "pdf-page-labeler": {
+    summary: "PDF 페이지 번호 붙이기는 긴 제출본에서 담당자가 누락 페이지와 순서를 빠르게 확인할 수 있게 돕는 도구입니다. PDF 내용을 새로 해석하지 않고 각 페이지 하단에 번호만 추가합니다.",
+    method: [
+      "PDF를 브라우저에서 읽고 각 페이지 크기를 확인합니다.",
+      "하단 중앙에 현재 페이지 또는 전체 페이지 수 포함 번호를 그립니다.",
+      "원본 PDF는 그대로 두고 번호가 들어간 새 PDF를 내려받게 합니다."
+    ],
+    limits: [
+      "암호가 걸린 PDF나 손상된 PDF는 읽지 못할 수 있습니다.",
+      "전자서명된 PDF는 번호를 붙인 뒤 서명 상태가 달라질 수 있으므로 제출 전 확인해야 합니다.",
+      "페이지 번호가 기존 푸터와 겹칠 수 있어 결과 PDF를 반드시 열어봐야 합니다."
+    ],
+    checklist: ["결과 PDF를 열어 번호 위치 확인", "기존 하단 문구와 겹치지 않는지 확인", "제출처가 원본 그대로를 요구하지 않는지 확인"],
+    faq: [
+      ["PDF가 서버로 올라가나요?", "아니요. PDF는 브라우저에서 읽고 새 파일로 저장합니다."],
+      ["한글 페이지 문구도 넣을 수 있나요?", "현재 도구는 호환성을 위해 숫자 중심 페이지 번호를 넣습니다."]
+    ]
+  },
   "file-ready": {
     summary: "파일 준비 점검은 파일 자체를 평가하거나 합격 여부를 보장하지 않습니다. 대신 업로드 실패를 자주 만드는 이름, 용량, 확장자, 중복, 해시 기록을 제출 전에 눈으로 확인할 수 있게 만듭니다.",
     method: [
@@ -337,6 +409,24 @@ const expertise = {
     faq: [
       ["파일이 서버로 올라가나요?", "아니요. goatool은 선택한 파일을 브라우저에서 읽고 결과 파일을 생성합니다."],
       ["SHA-256은 왜 필요한가요?", "제출 전 파일과 제출 후 보관 파일이 같은지 확인할 수 있는 식별값입니다."]
+    ]
+  },
+  "required-doc-checker": {
+    summary: "제출서류 누락 대조는 공고문이나 접수 화면의 필수 서류 목록과 실제 파일명을 비교해 빠진 항목을 찾는 도구입니다. 문서 내용을 열어 판정하지 않고, 파일명에 드러난 서류명을 기준으로 점검합니다.",
+    method: [
+      "붙여넣은 제출서류 목록을 줄 단위 항목으로 나눕니다.",
+      "각 항목에서 의미 있는 키워드를 추출하고 선택한 파일명과 비교합니다.",
+      "매칭된 파일, 누락 가능 항목, 목록에 없는 추가 파일을 대조표와 TXT로 만듭니다."
+    ],
+    limits: [
+      "파일명 기준 점검이므로 파일 안의 실제 내용이 맞는지는 확인하지 않습니다.",
+      "공고문 표현과 파일명이 너무 다르면 누락으로 표시될 수 있습니다.",
+      "제출처가 요구하는 원본, 사본, 직인, 발급일 조건은 사람이 마지막에 확인해야 합니다."
+    ],
+    checklist: ["공고문 제출서류 목록을 줄 단위로 붙여넣기", "파일명에 서류명이 드러나도록 정리", "누락 항목은 실제 파일 내용까지 열어 확인"],
+    faq: [
+      ["서류 내용을 읽어서 맞는지 판단하나요?", "아니요. 개인정보 보호와 브라우저 처리 원칙상 파일명과 목록을 기준으로만 대조합니다."],
+      ["왜 파일명 정리가 중요한가요?", "서류명이 파일명에 들어가야 자동 대조와 담당자 확인이 모두 쉬워집니다."]
     ]
   },
   "image-privacy": {
@@ -465,6 +555,24 @@ const expertise = {
       ["여러 장도 되나요?", "네. 여러 이미지를 표로 비교합니다."]
     ]
   },
+  "scan-readability": {
+    summary: "스캔 가독성 점검은 증빙 이미지가 너무 어둡거나 흐리거나 대비가 낮아 제출 후 반려될 위험을 줄이기 위한 계산 도구입니다. 이미지 내용을 판독하지 않고 밝기, 대비, 선명도 신호를 수치로 봅니다.",
+    method: [
+      "이미지를 작은 캔버스에 그려 픽셀 밝기 값을 계산합니다.",
+      "평균 밝기, 대비 표준편차, 인접 픽셀 차이를 이용해 흐림 가능성을 추정합니다.",
+      "해상도와 용량까지 함께 보고 재촬영 또는 재스캔이 필요한지 표시합니다."
+    ],
+    limits: [
+      "문자 인식 OCR이나 신분증 진위 판정은 하지 않습니다.",
+      "도장, 서명, 작은 글씨의 실제 판독 가능성은 사람이 확대해 확인해야 합니다.",
+      "사진 종류에 따라 선명도 수치는 다르게 나올 수 있어 경고는 보조 기준입니다."
+    ],
+    checklist: ["작은 글씨를 150% 이상 확대해 확인", "너무 어둡거나 밝은 이미지는 다시 촬영", "스캔본은 원본과 제출본을 따로 보관"],
+    faq: [
+      ["글자를 읽어서 판단하나요?", "아니요. OCR 없이 이미지 품질 신호만 계산합니다."],
+      ["흐림 경고가 뜨면 무조건 반려되나요?", "아니요. 다만 제출 전에 다시 열어보고 필요하면 재촬영하는 것이 안전합니다."]
+    ]
+  },
   "file-list": {
     summary: "파일 목록 만들기는 제출 전후 파일 이름과 용량 기록을 빠르게 남기는 도구입니다. 해시 계산 없이 가볍게 목록만 만들고 싶을 때 사용합니다.",
     method: [
@@ -530,7 +638,7 @@ const infoPages = {
       ["운영 목적", "goatool은 민원, 입사지원, 학교와 기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 실용 도구 사이트입니다. 사용자가 파일을 서버에 올리지 않고도 사진 규격, PDF 정리, 파일명, 용량, ZIP 점검을 마칠 수 있게 설계했습니다."],
       ["goatool 신뢰 기준", "goatool의 브랜드 신뢰는 빠른 자동화보다 처리 위치와 한계 고지를 분명히 하는 데서 시작합니다. 각 도구는 브라우저 로컬 처리, 제출 전 검수, 원본 보관, 개인정보 최소화 원칙을 함께 안내합니다."],
       ["전문성 기준", "각 도구는 작동 원리, 한계, 검수 기준을 함께 제공합니다. 결과를 과장하지 않고 사용자가 마지막 판단을 할 수 있게 돕는 것을 우선합니다."],
-      ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, 이미지 PDF 변환, 파일명 정리, 해시 비교, 글자수 계산, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
+      ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, PDF 페이지 번호, 제출서류 누락 대조, 스캔 가독성 점검, 파일명 정리, 해시 비교, 글자수 계산, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
     ]
   },
   "/privacy/": {
@@ -578,10 +686,13 @@ const state = {
   lastPhotoPreviewUrl: null,
   lastPdfBlob: null,
   lastPdfName: null,
+  lastPdfLabelBlob: null,
+  lastRequiredChecklistBlob: null,
   lastRenameZipBlob: null,
   lastRenameMapBlob: null,
   lastImagePdfBlob: null,
   lastZipReportBlob: null,
+  lastScanReportBlob: null,
   lastCleanText: "",
   lastFileListTxtBlob: null,
   lastFileListCsvBlob: null,
@@ -627,6 +738,9 @@ function simpleTool(tool) {
 function toolCue(tool) {
   if (["text-counter", "text-cleaner"].includes(tool.id)) return "먼저 텍스트를 붙여넣으세요";
   if (tool.id === "data-clean") return "CSV·엑셀을 고르거나 표를 붙여넣으세요";
+  if (tool.id === "required-doc-checker") return "서류 목록을 붙여넣고 파일을 고르세요";
+  if (tool.id === "pdf-page-labeler") return "페이지 번호를 붙일 PDF를 고르세요";
+  if (tool.id === "scan-readability") return "읽힘 상태를 볼 스캔 이미지를 고르세요";
   return "먼저 파일을 고르세요";
 }
 
@@ -1363,6 +1477,8 @@ function renderToolCard(tool) {
 function renderTool(id) {
   if (id === "photo-resize") return renderPhotoResizeTool();
   if (id === "pdf-organizer") return renderPdfOrganizerTool();
+  if (id === "pdf-page-labeler") return renderPdfPageLabelerTool();
+  if (id === "required-doc-checker") return renderRequiredDocCheckerTool();
   if (id === "image-privacy") return renderImagePrivacyTool();
   if (id === "filename-cleaner") return renderFilenameCleanerTool();
   if (id === "image-to-pdf") return renderImageToPdfTool();
@@ -1370,6 +1486,7 @@ function renderTool(id) {
   if (id === "text-counter") return renderTextCounterTool();
   if (id === "text-cleaner") return renderTextCleanerTool();
   if (id === "image-inspector") return renderImageInspectorTool();
+  if (id === "scan-readability") return renderScanReadabilityTool();
   if (id === "file-list") return renderFileListTool();
   if (id === "hash-compare") return renderHashCompareTool();
   if (id === "data-clean") return renderDataCleanTool();
@@ -1477,6 +1594,49 @@ function renderPdfOrganizerTool() {
   `;
 }
 
+function renderPdfPageLabelerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfPageLabelerForm" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfLabelInput" class="file-native" type="file" accept="application/pdf,.pdf" aria-label="페이지 번호를 붙일 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfLabelCount" class="file-count">페이지 번호를 붙일 PDF를 선택하세요</em>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 번호 방식 변경</summary>
+          <div class="field two-col">
+            <label>
+              <span>표기 방식</span>
+              <select id="pdfLabelMode">
+                <option value="total" selected>1 / 전체쪽수</option>
+                <option value="single">쪽수만 표시</option>
+              </select>
+            </label>
+            <label>
+              <span>시작 번호</span>
+              <input id="pdfLabelStart" type="number" min="1" max="9999" value="1" />
+            </label>
+          </div>
+          <label class="field">
+            <span>결과 파일명</span>
+            <input id="pdfLabelName" type="text" value="goatool_numbered_pdf" maxlength="80" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${pdfIcon()} 번호 붙이기</button>
+          <button class="ghost-button" type="button" id="downloadPdfLabel" disabled>${downloadIcon()} PDF</button>
+        </div>
+        <p class="helper-text">하단 중앙에 숫자만 넣습니다. 기존 푸터나 전자서명이 있는 PDF는 결과를 열어 확인하세요.</p>
+      </form>
+      <div class="result-panel" id="pdfPageLabelerResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF를 선택하면 각 페이지 하단에 번호를 붙인 새 PDF를 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderFileReadyTool() {
   return `
     <div class="tool-grid">
@@ -1500,6 +1660,33 @@ function renderFileReadyTool() {
       </form>
       <div class="result-panel" id="fileReadyResult" role="status" aria-live="polite" aria-atomic="false">
         <p class="empty-result">파일을 선택하면 용량, 확장자, 파일명, 중복 여부를 확인합니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderRequiredDocCheckerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="requiredDocForm" novalidate>
+        <label class="field">
+          <span>제출서류 목록 붙여넣기</span>
+          <textarea id="requiredDocText" rows="9" maxlength="${LIMITS.textChars}" placeholder="예:&#10;사업자등록증 사본&#10;주민등록등본&#10;통장 사본&#10;신청서 PDF"></textarea>
+        </label>
+        <label class="field">
+          <span>실제 제출 파일 선택</span>
+          <input id="requiredDocFiles" class="file-native" type="file" multiple aria-label="제출서류와 대조할 파일 선택" />
+          <span class="file-picker">${checkIcon()} 파일 고르기</span>
+          <em id="requiredDocCount" class="file-count">목록과 비교할 파일을 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 누락 대조</button>
+          <button class="ghost-button" type="button" id="downloadRequiredDocReport" disabled>${downloadIcon()} 대조표</button>
+        </div>
+        <p class="helper-text">파일 내용은 열어 판정하지 않습니다. 파일명에 서류명이 드러날수록 더 정확하게 대조됩니다.</p>
+      </form>
+      <div class="result-panel" id="requiredDocResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">제출서류 목록과 파일을 넣으면 빠진 항목을 바로 보여줍니다.</p>
       </div>
     </div>
   `;
@@ -1749,6 +1936,29 @@ function renderImageInspectorTool() {
   `;
 }
 
+function renderScanReadabilityTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="scanReadabilityForm" novalidate>
+        <label class="field">
+          <span>스캔본·캡처 이미지 선택</span>
+          <input id="scanReadabilityInput" class="file-native" type="file" accept="image/*" multiple aria-label="가독성을 점검할 이미지 선택" />
+          <span class="file-picker">${imageIcon()} 이미지 고르기</span>
+          <em id="scanReadabilityCount" class="file-count">문서 사진, 스캔본, 캡처 이미지를 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 가독성 점검</button>
+          <button class="ghost-button" type="button" id="downloadScanReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">OCR은 하지 않습니다. 밝기, 대비, 흐림 가능성과 해상도만 계산해 재촬영 여부를 판단하게 돕습니다.</p>
+      </form>
+      <div class="result-panel" id="scanReadabilityResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">이미지를 선택하면 제출 전 읽힘 위험 신호를 계산합니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderFileListTool() {
   return `
     <div class="tool-grid">
@@ -1947,6 +2157,14 @@ function bindToolEvents(id) {
     bindPdfOrganizerEvents();
     return;
   }
+  if (id === "pdf-page-labeler") {
+    bindPdfPageLabelerEvents();
+    return;
+  }
+  if (id === "required-doc-checker") {
+    bindRequiredDocCheckerEvents();
+    return;
+  }
   if (id === "image-privacy") {
     bindImagePrivacyEvents();
     return;
@@ -1973,6 +2191,10 @@ function bindToolEvents(id) {
   }
   if (id === "image-inspector") {
     bindImageInspectorEvents();
+    return;
+  }
+  if (id === "scan-readability") {
+    bindScanReadabilityEvents();
     return;
   }
   if (id === "file-list") {
@@ -2265,6 +2487,101 @@ function renderPdfResult(output, mode) {
   `;
 }
 
+function bindPdfPageLabelerEvents() {
+  const form = document.querySelector("#pdfPageLabelerForm");
+  const input = document.querySelector("#pdfLabelInput");
+  const count = document.querySelector("#pdfLabelCount");
+  const downloadButton = document.querySelector("#downloadPdfLabel");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "페이지 번호를 붙일 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#pdfPageLabelerResult");
+    downloadButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "페이지 번호를 붙일 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "pdf") {
+      showResultMessage(result, "PDF 파일만 처리할 수 있습니다.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.singleBytes) {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.singleBytes)}를 넘습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF 페이지 번호를 붙이는 중입니다...");
+    try {
+      const output = await addPdfPageLabels(file, {
+        mode: document.querySelector("#pdfLabelMode")?.value || "total",
+        start: Math.max(1, Number(document.querySelector("#pdfLabelStart")?.value || 1))
+      });
+      const baseName = safeBaseName(document.querySelector("#pdfLabelName")?.value || "goatool_numbered_pdf");
+      state.lastPdfLabelBlob = output.blob;
+      state.lastPdfName = `${baseName}.pdf`;
+      downloadButton.disabled = false;
+      result.innerHTML = renderPdfPageLabelResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "PDF를 처리하지 못했습니다. 암호가 없는 일반 PDF인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  downloadButton?.addEventListener("click", () => {
+    if (state.lastPdfLabelBlob) downloadBlob(state.lastPdfLabelBlob, state.lastPdfName || "goatool-numbered.pdf");
+  });
+}
+
+async function addPdfPageLabels(file, options) {
+  const { PDFDocument, StandardFonts, rgb } = await loadPdfLib();
+  const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const pages = pdf.getPages();
+  const total = pages.length;
+  const start = options.start || 1;
+  pages.forEach((page, index) => {
+    const { width } = page.getSize();
+    const number = start + index;
+    const text = options.mode === "single" ? String(number) : `${number} / ${start + total - 1}`;
+    const size = 10;
+    page.drawText(text, {
+      x: Math.max(18, (width - font.widthOfTextAtSize(text, size)) / 2),
+      y: 16,
+      size,
+      font,
+      color: rgb(0.32, 0.38, 0.46)
+    });
+  });
+  const bytes = await pdf.save();
+  return { blob: new Blob([bytes], { type: "application/pdf" }), pageCount: total, originalSize: file.size };
+}
+
+function renderPdfPageLabelResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>페이지 수</span><strong>${output.pageCount}</strong></div>
+      <div><span>결과 용량</span><strong>${formatBytes(output.blob.size)}</strong></div>
+      <div><span>상태</span><strong class="status-ok">번호 완료</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>페이지 번호 처리 결과</h3>
+      <p class="ok-line">각 페이지 하단 중앙에 번호를 넣었습니다. 제출 전 기존 푸터와 겹치지 않는지 확인하세요.</p>
+    </div>
+    <div class="metric-list">
+      <p><strong>원본 용량</strong><span>${formatBytes(output.originalSize)}</span></p>
+      <p><strong>검수 포인트</strong><span>전자서명 PDF, 양식 PDF, 하단 도장이 있는 문서는 결과를 열어서 직접 확인하세요.</span></p>
+    </div>
+  `;
+}
+
 function bindFileReadyEvents() {
   const form = document.querySelector("#fileReadyForm");
   const fileInput = document.querySelector("#fileReadyInput");
@@ -2448,6 +2765,177 @@ function renderFileReadyResult(items, warnings) {
         </tbody>
       </table>
     </div>
+  `;
+}
+
+function bindRequiredDocCheckerEvents() {
+  const form = document.querySelector("#requiredDocForm");
+  const fileInput = document.querySelector("#requiredDocFiles");
+  const count = document.querySelector("#requiredDocCount");
+  const reportButton = document.querySelector("#downloadRequiredDocReport");
+
+  fileInput?.addEventListener("change", () => {
+    count.textContent = fileInput.files?.length ? `${fileInput.files.length}개 파일 선택됨` : "목록과 비교할 파일을 선택하세요";
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const text = document.querySelector("#requiredDocText")?.value || "";
+    const files = Array.from(fileInput?.files || []);
+    const result = document.querySelector("#requiredDocResult");
+    reportButton.disabled = true;
+
+    const required = parseRequiredDocuments(text);
+    if (!required.length) {
+      showResultMessage(result, "공고문이나 접수 화면의 제출서류 목록을 먼저 붙여넣으세요.", "warn");
+      return;
+    }
+    if (!files.length) {
+      showResultMessage(result, "대조할 실제 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.fileCount, allowImagesOnly: false });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    const output = matchRequiredDocuments(required, files);
+    state.lastRequiredChecklistBlob = new Blob([makeRequiredDocReport(output)], { type: "text/plain;charset=utf-8" });
+    reportButton.disabled = false;
+    result.innerHTML = renderRequiredDocResult(output);
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastRequiredChecklistBlob) downloadBlob(state.lastRequiredChecklistBlob, "goatool-required-doc-check.txt");
+  });
+}
+
+function parseRequiredDocuments(text) {
+  return String(text || "")
+    .split(/\r\n|\r|\n/)
+    .map((line) =>
+      line
+        .trim()
+        .replace(/^[\s\-*•·□■✓✔\d.)\]]+/, "")
+        .replace(/\s+/g, " ")
+        .trim()
+    )
+    .filter((line) => line.length >= 2)
+    .slice(0, 80);
+}
+
+function matchRequiredDocuments(required, files) {
+  const fileItems = files.map((file, index) => ({
+    file,
+    index,
+    name: file.name,
+    normalized: normalizeMatchText(removeExtension(file.name)),
+    size: file.size,
+    matched: false
+  }));
+
+  const rows = required.map((title) => {
+    const best = fileItems
+      .map((item) => ({ item, score: scoreRequiredMatch(title, item.normalized) }))
+      .sort((a, b) => b.score - a.score)[0];
+    const match = best?.score >= 0.5 ? best.item : null;
+    if (match) match.matched = true;
+    return { title, match, score: best?.score || 0 };
+  });
+
+  return {
+    rows,
+    extras: fileItems.filter((item) => !item.matched),
+    fileCount: files.length
+  };
+}
+
+function normalizeMatchText(value) {
+  return String(value || "")
+    .toLowerCase()
+    .replace(/[()[\]{}]/g, " ")
+    .replace(/[_\-+.,/\\:;|]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function requirementTokens(title) {
+  const stop = new Set(["사본", "원본", "제출", "첨부", "필수", "선택", "해당", "파일", "서류", "및", "또는", "각", "부", "제출용"]);
+  return normalizeMatchText(title)
+    .split(" ")
+    .map((token) => token.replace(/^\d+|\d+$/g, ""))
+    .filter((token) => token.length >= 2 && !stop.has(token));
+}
+
+function scoreRequiredMatch(title, fileNormalized) {
+  const titleNormalized = normalizeMatchText(title);
+  if (!titleNormalized || !fileNormalized) return 0;
+  const compactTitle = titleNormalized.replace(/\s/g, "");
+  const compactFile = fileNormalized.replace(/\s/g, "");
+  if (compactTitle.length >= 3 && compactFile.includes(compactTitle)) return 1;
+  const tokens = requirementTokens(title);
+  if (!tokens.length) return compactFile.includes(compactTitle) ? 1 : 0;
+  const hits = tokens.filter((token) => compactFile.includes(token.replace(/\s/g, ""))).length;
+  return hits / tokens.length;
+}
+
+function makeRequiredDocReport(output) {
+  const missing = output.rows.filter((row) => !row.match);
+  return [
+    "goatool 제출서류 누락 대조표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `요구 서류: ${output.rows.length}개`,
+    `선택 파일: ${output.fileCount}개`,
+    `누락 가능: ${missing.length}개`,
+    "",
+    "[요구 서류 대조]",
+    ...output.rows.map((row, index) => `${index + 1}. ${row.title} -> ${row.match ? row.match.name : "누락 가능"}`),
+    "",
+    "[목록에 직접 매칭되지 않은 파일]",
+    ...(output.extras.length ? output.extras.map((item) => `- ${item.name}`) : ["- 없음"])
+  ].join("\n");
+}
+
+function renderRequiredDocResult(output) {
+  const missing = output.rows.filter((row) => !row.match);
+  return `
+    <div class="stat-grid">
+      <div><span>요구 서류</span><strong>${output.rows.length}</strong></div>
+      <div><span>누락 가능</span><strong class="${missing.length ? "status-warn" : "status-ok"}">${missing.length}</strong></div>
+      <div><span>추가 파일</span><strong>${output.extras.length}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>서류 대조 결과</h3>
+      ${
+        missing.length
+          ? `<ul class="warning-list">${missing.map((row) => `<li>${escapeHtml(row.title)} 파일명을 확인하세요.</li>`).join("")}</ul>`
+          : `<p class="ok-line">붙여넣은 목록 기준으로 큰 누락 신호는 보이지 않습니다. 파일 내용과 발급일은 마지막에 직접 확인하세요.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>요구 서류</th><th>매칭된 파일</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.rows
+            .map(
+              (row) => `
+                <tr>
+                  <td>${escapeHtml(row.title)}</td>
+                  <td>${row.match ? escapeHtml(row.match.name) : "-"}</td>
+                  <td><strong class="${row.match ? "status-ok" : "status-warn"}">${row.match ? "확인됨" : "누락 가능"}</strong></td>
+                </tr>
+              `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+    ${
+      output.extras.length
+        ? `<div class="metric-list extra-list"><p><strong>목록에 없는 파일</strong><span>${output.extras.map((item) => escapeHtml(item.name)).join(", ")}</span></p></div>`
+        : ""
+    }
   `;
 }
 
@@ -3155,6 +3643,177 @@ function renderImageInspectResult(items) {
         <tbody>
           ${items
             .map((item) => `<tr><td>${escapeHtml(item.name)}</td><td>${item.width}×${item.height}</td><td>${ratioLabel(item.width, item.height)}</td><td>${formatBytes(item.size)}</td></tr>`)
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindScanReadabilityEvents() {
+  const form = document.querySelector("#scanReadabilityForm");
+  const input = document.querySelector("#scanReadabilityInput");
+  const count = document.querySelector("#scanReadabilityCount");
+  const reportButton = document.querySelector("#downloadScanReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 이미지 선택됨` : "문서 사진, 스캔본, 캡처 이미지를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#scanReadabilityResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "가독성을 점검할 이미지를 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.imageCount, allowImagesOnly: true });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "밝기와 선명도 신호를 계산하는 중입니다...");
+    try {
+      const items = [];
+      for (const file of files) {
+        items.push(await inspectScanReadability(file));
+      }
+      state.lastScanReportBlob = new Blob([makeScanReport(items)], { type: "text/plain;charset=utf-8" });
+      reportButton.disabled = false;
+      result.innerHTML = renderScanReadabilityResult(items);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "이미지 품질을 계산하지 못했습니다. 일반 JPG, PNG, WebP 파일로 다시 시도하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastScanReportBlob) downloadBlob(state.lastScanReportBlob, "goatool-scan-readability.txt");
+  });
+}
+
+async function inspectScanReadability(file) {
+  const source = await loadImageSource(file);
+  const maxSide = 360;
+  const scale = Math.min(1, maxSide / Math.max(source.width, source.height));
+  const width = Math.max(1, Math.round(source.width * scale));
+  const height = Math.max(1, Math.round(source.height * scale));
+  const canvas = document.createElement("canvas");
+  canvas.width = width;
+  canvas.height = height;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(source.image, 0, 0, width, height);
+  source.close?.();
+
+  const data = context.getImageData(0, 0, width, height).data;
+  const lum = new Float32Array(width * height);
+  let sum = 0;
+  for (let i = 0, p = 0; i < data.length; i += 4, p += 1) {
+    const value = data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114;
+    lum[p] = value;
+    sum += value;
+  }
+  const brightness = sum / lum.length;
+  let variance = 0;
+  for (let i = 0; i < lum.length; i += 1) variance += (lum[i] - brightness) ** 2;
+  const contrast = Math.sqrt(variance / lum.length);
+  let edge = 0;
+  let samples = 0;
+  for (let y = 1; y < height; y += 1) {
+    for (let x = 1; x < width; x += 1) {
+      const idx = y * width + x;
+      edge += Math.abs(lum[idx] - lum[idx - 1]) + Math.abs(lum[idx] - lum[idx - width]);
+      samples += 2;
+    }
+  }
+  const sharpness = samples ? edge / samples : 0;
+  const warnings = collectScanWarnings({
+    width: source.width,
+    height: source.height,
+    size: file.size,
+    brightness,
+    contrast,
+    sharpness
+  });
+
+  return {
+    name: file.name,
+    width: source.width,
+    height: source.height,
+    size: file.size,
+    brightness,
+    contrast,
+    sharpness,
+    warnings
+  };
+}
+
+function collectScanWarnings(item) {
+  const warnings = [];
+  if (Math.min(item.width, item.height) < 700) warnings.push("해상도 낮음");
+  if (item.brightness < 72) warnings.push("너무 어두움");
+  if (item.brightness > 222) warnings.push("너무 밝음");
+  if (item.contrast < 28) warnings.push("대비 낮음");
+  if (item.sharpness < 7) warnings.push("흐림 가능");
+  if (item.size > 10 * 1024 * 1024) warnings.push("용량 큼");
+  return warnings;
+}
+
+function makeScanReport(items) {
+  return [
+    "goatool 스캔 가독성 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `이미지 수: ${items.length}`,
+    "",
+    ...items.map((item, index) => {
+      const status = item.warnings.length ? item.warnings.join(", ") : "읽기 좋음";
+      return `${index + 1}. ${item.name} / ${item.width}x${item.height} / 밝기 ${Math.round(item.brightness)} / 대비 ${Math.round(item.contrast)} / 선명도 ${item.sharpness.toFixed(1)} / ${status}`;
+    })
+  ].join("\n");
+}
+
+function renderScanReadabilityResult(items) {
+  const warnCount = items.filter((item) => item.warnings.length).length;
+  const averageSharpness = items.length ? items.reduce((sum, item) => sum + item.sharpness, 0) / items.length : 0;
+  return `
+    <div class="stat-grid">
+      <div><span>이미지 수</span><strong>${items.length}</strong></div>
+      <div><span>확인 필요</span><strong class="${warnCount ? "status-warn" : "status-ok"}">${warnCount}</strong></div>
+      <div><span>평균 선명도</span><strong>${averageSharpness.toFixed(1)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>가독성 점검 결과</h3>
+      ${
+        warnCount
+          ? `<ul class="warning-list">${items
+              .filter((item) => item.warnings.length)
+              .map((item) => `<li>${escapeHtml(item.name)}: ${escapeHtml(item.warnings.join(", "))}</li>`)
+              .join("")}</ul>`
+          : `<p class="ok-line">밝기, 대비, 흐림 신호에서 큰 위험은 보이지 않습니다. 작은 글씨는 확대해 마지막으로 확인하세요.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>파일명</th><th>픽셀</th><th>밝기</th><th>대비</th><th>선명도</th><th>상태</th></tr></thead>
+        <tbody>
+          ${items
+            .map(
+              (item) => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${item.width}×${item.height}</td>
+                  <td>${Math.round(item.brightness)}</td>
+                  <td>${Math.round(item.contrast)}</td>
+                  <td>${item.sharpness.toFixed(1)}</td>
+                  <td><strong class="${item.warnings.length ? "status-warn" : "status-ok"}">${item.warnings.length ? escapeHtml(item.warnings.join(", ")) : "읽기 좋음"}</strong></td>
+                </tr>
+              `
+            )
             .join("")}
         </tbody>
       </table>
