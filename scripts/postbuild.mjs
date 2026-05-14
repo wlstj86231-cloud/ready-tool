@@ -13,12 +13,19 @@ const lastUpdated = "2026-05-14";
 const coreRoutes = [
   "/tools/photo-resize/",
   "/tools/pdf-organizer/",
+  "/tools/file-viewer/",
   "/tools/pdf-page-labeler/",
   "/tools/pdf-rotate/",
   "/tools/pdf-info/",
   "/tools/pdf-a4-normalizer/",
   "/tools/pdf-splitter/",
   "/tools/pdf-blank-remover/",
+  "/tools/pdf-page-delete/",
+  "/tools/pdf-metadata-cleaner/",
+  "/tools/pdf-password-checker/",
+  "/tools/pdf-repair-basic/",
+  "/tools/pdf-single-page-zip/",
+  "/tools/pdf-odd-even-splitter/",
   "/tools/file-ready/",
   "/tools/required-doc-checker/",
   "/tools/bundle-rule-checker/",
@@ -26,16 +33,41 @@ const coreRoutes = [
   "/tools/image-privacy/",
   "/tools/image-redactor/",
   "/tools/filename-cleaner/",
+  "/tools/filename-numberer/",
+  "/tools/filename-date-stamper/",
+  "/tools/extension-auto-fixer/",
   "/tools/image-to-pdf/",
   "/tools/zip-inspector/",
   "/tools/zip-repacker/",
-  "/tools/text-counter/",
-  "/tools/text-cleaner/",
+  "/tools/zip-extension-checker/",
+  "/tools/zip-repair-basic/",
+  "/tools/zip-folder-flattener/",
+  "/tools/office-zip-repair/",
   "/tools/image-inspector/",
+  "/tools/image-compressor/",
+  "/tools/image-format-converter/",
+  "/tools/image-batch-resizer/",
+  "/tools/image-white-canvas/",
+  "/tools/image-auto-enhance/",
+  "/tools/image-dpi-checker/",
+  "/tools/image-aspect-checker/",
+  "/tools/image-repair-basic/",
+  "/tools/image-background-flattener/",
+  "/tools/image-border-trimmer/",
+  "/tools/image-square-cropper/",
+  "/tools/image-contact-sheet/",
+  "/tools/image-sharpness-checker/",
+  "/tools/image-transparency-checker/",
   "/tools/scan-readability/",
   "/tools/image-duplicate-finder/",
   "/tools/file-duplicate-finder/",
   "/tools/file-list/",
+  "/tools/empty-file-finder/",
+  "/tools/temp-file-finder/",
+  "/tools/extension-mismatch-checker/",
+  "/tools/file-size-sorter/",
+  "/tools/folder-tree-exporter/",
+  "/tools/file-repair-attempt/",
   "/tools/hash-compare/",
   "/tools/data-clean/",
   "/tools/table-privacy-checker/",
@@ -68,6 +100,12 @@ const routeMeta = {
       "여러 PDF를 하나로 합치거나 긴 PDF에서 필요한 페이지만 추출해 민원·입사지원 제출용 PDF를 브라우저에서 만듭니다.",
     type: "SoftwareApplication",
     features: ["PDF 합치기", "PDF 페이지 추출", "제출용 PDF", "브라우저 PDF 처리"]
+  },
+  "/tools/file-viewer/": {
+    title: "파일 뷰어 - goatool",
+    description: "XLSX, HWPX, PDF, 이미지, ZIP 같은 제출 파일이 열리는지 브라우저에서 미리 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["파일 미리보기", "PDF 이미지 확인", "ZIP 구조 확인", "브라우저 처리"]
   },
   "/tools/pdf-page-labeler/": {
     title: "PDF 페이지 번호 붙이기 - goatool",
@@ -110,6 +148,42 @@ const routeMeta = {
       "PDF 안의 구조상 빈 페이지를 찾아 제외하고 제출용 새 PDF와 점검 보고서를 만듭니다.",
     type: "SoftwareApplication",
     features: ["PDF 빈 페이지", "빈 쪽 제거", "PDF 정리", "점검 보고서"]
+  },
+  "/tools/pdf-page-delete/": {
+    title: "PDF 페이지 삭제 - goatool",
+    description: "PDF에서 필요 없는 페이지를 제외한 새 제출용 PDF를 브라우저에서 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 페이지 삭제", "페이지 범위", "제출용 PDF", "브라우저 PDF 처리"]
+  },
+  "/tools/pdf-metadata-cleaner/": {
+    title: "PDF 메타데이터 정리 - goatool",
+    description: "PDF의 제목, 작성자, 주제, 키워드 같은 문서 속성을 비운 새 PDF를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 메타데이터", "작성자 정보 최소화", "문서 속성 정리", "브라우저 PDF 처리"]
+  },
+  "/tools/pdf-password-checker/": {
+    title: "PDF 암호 여부 점검 - goatool",
+    description: "여러 PDF가 암호 없이 열리는지 브라우저에서 확인하고 보고서로 정리합니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 암호 점검", "열림 상태 확인", "손상 가능성 확인", "점검 보고서"]
+  },
+  "/tools/pdf-repair-basic/": {
+    title: "PDF 복구 시도 - goatool",
+    description: "브라우저에서 열리는 PDF의 페이지를 새 문서로 복사해 다시 저장합니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 재저장", "페이지 복사", "복구 시도", "브라우저 처리"]
+  },
+  "/tools/pdf-single-page-zip/": {
+    title: "PDF 페이지별 분리 - goatool",
+    description: "PDF를 한 페이지씩 개별 PDF로 나눠 ZIP으로 내려받습니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 페이지 분리", "개별 PDF", "결과 ZIP", "페이지 확인"]
+  },
+  "/tools/pdf-odd-even-splitter/": {
+    title: "PDF 홀짝 분리 - goatool",
+    description: "PDF를 홀수 페이지 묶음과 짝수 페이지 묶음으로 나눕니다.",
+    type: "SoftwareApplication",
+    features: ["PDF 홀짝 분리", "스캔 정리", "결과 ZIP", "브라우저 처리"]
   },
   "/tools/file-ready/": {
     title: "제출 파일 점검·ZIP - goatool",
@@ -160,6 +234,24 @@ const routeMeta = {
     type: "SoftwareApplication",
     features: ["파일명 일괄 정리", "제출용 ZIP", "변경표 TXT", "특수문자 정리"]
   },
+  "/tools/filename-numberer/": {
+    title: "파일명 번호 붙이기 - goatool",
+    description: "선택한 파일명 앞에 01, 02 번호를 붙인 새 ZIP과 변경표를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["파일명 번호", "순서 고정", "제출용 ZIP", "변경표"]
+  },
+  "/tools/filename-date-stamper/": {
+    title: "파일명 날짜 붙이기 - goatool",
+    description: "선택한 파일명 앞에 제출일 날짜를 붙인 새 ZIP과 변경표를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["파일명 날짜", "날짜 접두어", "제출용 ZIP", "변경표"]
+  },
+  "/tools/extension-auto-fixer/": {
+    title: "확장자 자동 수정 - goatool",
+    description: "파일 서명을 확인해 새 ZIP 안에서 PDF, 이미지, ZIP 계열 파일의 확장자를 바로잡습니다.",
+    type: "SoftwareApplication",
+    features: ["파일 서명 확인", "확장자 수정", "결과 ZIP", "브라우저 처리"]
+  },
   "/tools/image-to-pdf/": {
     title: "이미지 PDF 변환 - goatool",
     description:
@@ -181,19 +273,29 @@ const routeMeta = {
     type: "SoftwareApplication",
     features: ["ZIP 재포장", "숨김파일 제거", "폴더 평탄화", "제출용 ZIP"]
   },
-  "/tools/text-counter/": {
-    title: "자소서 글자수·바이트 계산 - goatool",
-    description:
-      "자기소개서와 지원 문항의 공백 포함·제외 글자수, 줄 수, UTF-8 바이트를 브라우저에서 즉시 계산합니다.",
+  "/tools/zip-extension-checker/": {
+    title: "ZIP 확장자 검사 - goatool",
+    description: "ZIP 내부 파일 확장자를 허용 목록과 비교해 접수처에서 막힐 수 있는 파일을 찾습니다.",
     type: "SoftwareApplication",
-    features: ["글자수 계산", "공백 제외", "UTF-8 바이트", "자기소개서 제한 확인"]
+    features: ["ZIP 확장자", "허용 형식 비교", "내부 파일 점검", "점검 보고서"]
   },
-  "/tools/text-cleaner/": {
-    title: "텍스트 공백 정리 - goatool",
-    description:
-      "지원서 문항과 민원 사유문을 붙여넣기 전에 과한 공백, 탭, 빈 줄을 브라우저에서 정리합니다.",
+  "/tools/zip-repair-basic/": {
+    title: "ZIP 복구 시도 - goatool",
+    description: "브라우저에서 열리는 ZIP의 내부 항목을 새 ZIP으로 다시 포장합니다.",
     type: "SoftwareApplication",
-    features: ["공백 정리", "줄바꿈 정리", "탭 제거", "정리본 복사"]
+    features: ["ZIP 재포장", "복구 시도", "읽히는 항목 보존", "결과 ZIP"]
+  },
+  "/tools/zip-folder-flattener/": {
+    title: "ZIP 폴더 평탄화 - goatool",
+    description: "ZIP 안의 하위 폴더를 풀어 파일을 한 층으로 모은 새 ZIP을 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["ZIP 폴더 정리", "한 층 재포장", "파일명 충돌 처리", "결과 ZIP"]
+  },
+  "/tools/office-zip-repair/": {
+    title: "오피스 파일 복구 시도 - goatool",
+    description: "DOCX, XLSX, PPTX, HWPX처럼 ZIP 구조를 쓰는 파일을 다시 포장합니다.",
+    type: "SoftwareApplication",
+    features: ["DOCX 재포장", "XLSX 재포장", "PPTX 재포장", "HWPX 재포장"]
   },
   "/tools/image-inspector/": {
     title: "이미지 규격 확인 - goatool",
@@ -201,6 +303,90 @@ const routeMeta = {
       "사진과 스캔 이미지의 픽셀 크기, 비율, 용량, 확장자를 브라우저에서 확인합니다.",
     type: "SoftwareApplication",
     features: ["이미지 픽셀 확인", "이미지 용량 확인", "비율 계산", "다중 이미지 표"]
+  },
+  "/tools/image-compressor/": {
+    title: "이미지 압축 - goatool",
+    description: "사진과 캡처 이미지를 JPG로 다시 저장해 용량을 줄이고 ZIP으로 묶습니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 압축", "JPG 저장", "긴 변 축소", "결과 ZIP"]
+  },
+  "/tools/image-format-converter/": {
+    title: "이미지 형식 변환 - goatool",
+    description: "브라우저가 읽을 수 있는 이미지를 JPG, PNG, WebP 형식으로 다시 저장합니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 형식 변환", "JPG", "PNG", "WebP"]
+  },
+  "/tools/image-batch-resizer/": {
+    title: "이미지 일괄 리사이즈 - goatool",
+    description: "여러 이미지의 긴 변 크기를 기준으로 한 번에 줄여 제출용 ZIP으로 묶습니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 리사이즈", "일괄 처리", "긴 변 기준", "결과 ZIP"]
+  },
+  "/tools/image-white-canvas/": {
+    title: "흰 배경 캔버스 맞춤 - goatool",
+    description: "이미지를 정사각형 또는 A4 비율의 흰 배경 안에 잘리지 않게 배치합니다.",
+    type: "SoftwareApplication",
+    features: ["흰 배경", "정사각 캔버스", "A4 비율", "이미지 여백"]
+  },
+  "/tools/image-auto-enhance/": {
+    title: "이미지 밝기 보정 - goatool",
+    description: "어두운 스캔 이미지와 캡처의 밝기와 대비를 브라우저 캔버스에서 가볍게 보정합니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 밝기", "대비 보정", "스캔 보정", "결과 ZIP"]
+  },
+  "/tools/image-dpi-checker/": {
+    title: "이미지 DPI 점검 - goatool",
+    description: "이미지의 픽셀 크기와 JFIF, PNG 밀도 정보를 확인해 인쇄용 위험 신호를 줄입니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 DPI", "픽셀 확인", "JFIF", "PNG pHYs"]
+  },
+  "/tools/image-aspect-checker/": {
+    title: "이미지 비율 검사 - goatool",
+    description: "여러 이미지가 정사각형, 3:4, A4 같은 목표 비율과 얼마나 다른지 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 비율", "목표 비율", "규격 검사", "보고서"]
+  },
+  "/tools/image-repair-basic/": {
+    title: "이미지 복구 시도 - goatool",
+    description: "브라우저에서 열리는 이미지를 새 JPG로 다시 저장해 손상 가능성을 줄입니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 재저장", "JPG 인코딩", "복구 시도", "결과 ZIP"]
+  },
+  "/tools/image-background-flattener/": {
+    title: "투명 배경 흰색 처리 - goatool",
+    description: "투명 PNG와 WebP를 흰 배경 JPG로 합성해 제출 화면 배경 문제를 줄입니다.",
+    type: "SoftwareApplication",
+    features: ["투명 배경 처리", "흰 배경", "JPG 저장", "결과 ZIP"]
+  },
+  "/tools/image-border-trimmer/": {
+    title: "이미지 여백 자동 자르기 - goatool",
+    description: "스캔본과 캡처 이미지의 바깥 흰 여백을 찾아 잘라낸 새 이미지를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 여백", "스캔 정리", "자동 자르기", "결과 ZIP"]
+  },
+  "/tools/image-square-cropper/": {
+    title: "이미지 정사각형 크롭 - goatool",
+    description: "이미지를 가운데 기준 정사각형으로 잘라 새 JPG로 저장합니다.",
+    type: "SoftwareApplication",
+    features: ["정사각형 이미지", "가운데 크롭", "JPG 저장", "결과 ZIP"]
+  },
+  "/tools/image-contact-sheet/": {
+    title: "이미지 모아보기 시트 - goatool",
+    description: "여러 이미지를 작은 미리보기 격자로 배치한 확인용 JPG를 만듭니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 모아보기", "확인용 시트", "JPG 저장", "브라우저 처리"]
+  },
+  "/tools/image-sharpness-checker/": {
+    title: "이미지 선명도 점검 - goatool",
+    description: "스캔 이미지와 사진의 흐림 가능성을 가장자리 변화량으로 빠르게 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["이미지 선명도", "흐림 가능성", "스캔 점검", "보고서"]
+  },
+  "/tools/image-transparency-checker/": {
+    title: "투명 배경 점검 - goatool",
+    description: "PNG, WebP 이미지에 투명 영역이 남아 있는지 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["투명도 점검", "알파 채널", "이미지 점검", "보고서"]
   },
   "/tools/scan-readability/": {
     title: "스캔 가독성 점검 - goatool",
@@ -229,6 +415,42 @@ const routeMeta = {
       "선택한 파일의 이름, 확장자, 용량을 TXT와 CSV 목록으로 만들어 제출 전후 기록으로 보관합니다.",
     type: "SoftwareApplication",
     features: ["파일 목록 TXT", "파일 목록 CSV", "확장자 확인", "총 용량 계산"]
+  },
+  "/tools/empty-file-finder/": {
+    title: "빈 파일 찾기 - goatool",
+    description: "선택한 파일 묶음에서 0KB 파일과 지나치게 작은 파일을 찾아 보고서로 정리합니다.",
+    type: "SoftwareApplication",
+    features: ["0KB 파일", "빈 파일 점검", "파일 크기", "보고서"]
+  },
+  "/tools/temp-file-finder/": {
+    title: "임시 파일명 찾기 - goatool",
+    description: "파일명에 임시, 복사본, final, tmp 같은 제출 전 정리 후보 단서가 있는지 확인합니다.",
+    type: "SoftwareApplication",
+    features: ["임시 파일명", "복사본 단서", "최종본 확인", "보고서"]
+  },
+  "/tools/extension-mismatch-checker/": {
+    title: "확장자 불일치 점검 - goatool",
+    description: "파일 앞부분의 서명과 확장자를 비교해 PDF, ZIP, JPG, PNG 형식 불일치 후보를 찾습니다.",
+    type: "SoftwareApplication",
+    features: ["확장자 점검", "파일 서명", "형식 불일치", "보고서"]
+  },
+  "/tools/file-size-sorter/": {
+    title: "파일 용량 순서표 - goatool",
+    description: "선택한 파일을 용량 큰 순서로 정리해 업로드 제한에 걸릴 파일을 먼저 찾습니다.",
+    type: "SoftwareApplication",
+    features: ["파일 용량", "용량 정렬", "큰 파일 확인", "보고서"]
+  },
+  "/tools/folder-tree-exporter/": {
+    title: "폴더 구조 목록 - goatool",
+    description: "선택한 폴더의 내부 파일 경로와 용량을 목록 파일로 저장합니다.",
+    type: "SoftwareApplication",
+    features: ["폴더 구조", "파일 경로", "용량 목록", "제출 기록"]
+  },
+  "/tools/file-repair-attempt/": {
+    title: "파일 복구 시도 - goatool",
+    description: "PDF, 이미지, ZIP, 오피스 ZIP 계열 파일을 브라우저에서 열 수 있는 범위에서 다시 저장합니다.",
+    type: "SoftwareApplication",
+    features: ["파일 복구 시도", "PDF 재저장", "이미지 재저장", "ZIP 재포장"]
   },
   "/tools/hash-compare/": {
     title: "파일 해시 비교 - goatool",
@@ -329,12 +551,19 @@ function fallbackForRoute(route, meta) {
   const links = [
     ["/tools/photo-resize/", "증명사진 규격 맞추기"],
     ["/tools/pdf-organizer/", "PDF 합치기·페이지 뽑기"],
+    ["/tools/file-viewer/", "파일 뷰어"],
     ["/tools/pdf-page-labeler/", "PDF 페이지 번호"],
     ["/tools/pdf-rotate/", "PDF 페이지 회전"],
     ["/tools/pdf-info/", "PDF 구조 점검"],
     ["/tools/pdf-a4-normalizer/", "PDF A4 맞춤"],
     ["/tools/pdf-splitter/", "PDF 나누기"],
     ["/tools/pdf-blank-remover/", "PDF 빈 페이지 정리"],
+    ["/tools/pdf-page-delete/", "PDF 페이지 삭제"],
+    ["/tools/pdf-metadata-cleaner/", "PDF 메타데이터 정리"],
+    ["/tools/pdf-password-checker/", "PDF 암호 여부 점검"],
+    ["/tools/pdf-repair-basic/", "PDF 복구 시도"],
+    ["/tools/pdf-single-page-zip/", "PDF 페이지별 분리"],
+    ["/tools/pdf-odd-even-splitter/", "PDF 홀짝 분리"],
     ["/tools/file-ready/", "파일 준비 점검"],
     ["/tools/required-doc-checker/", "제출서류 누락 대조"],
     ["/tools/bundle-rule-checker/", "제출 규칙 검사"],
@@ -342,16 +571,41 @@ function fallbackForRoute(route, meta) {
     ["/tools/image-privacy/", "이미지 개인정보 정리"],
     ["/tools/image-redactor/", "이미지 민감정보 가리기"],
     ["/tools/filename-cleaner/", "파일명 일괄 정리"],
+    ["/tools/filename-numberer/", "파일명 번호 붙이기"],
+    ["/tools/filename-date-stamper/", "파일명 날짜 붙이기"],
+    ["/tools/extension-auto-fixer/", "확장자 자동 수정"],
     ["/tools/image-to-pdf/", "이미지 PDF 변환"],
     ["/tools/zip-inspector/", "ZIP 내용 점검"],
     ["/tools/zip-repacker/", "ZIP 다시 포장"],
-    ["/tools/text-counter/", "자소서 글자수·바이트 계산"],
-    ["/tools/text-cleaner/", "텍스트 공백 정리"],
+    ["/tools/zip-extension-checker/", "ZIP 확장자 검사"],
+    ["/tools/zip-repair-basic/", "ZIP 복구 시도"],
+    ["/tools/zip-folder-flattener/", "ZIP 폴더 평탄화"],
+    ["/tools/office-zip-repair/", "오피스 파일 복구 시도"],
     ["/tools/image-inspector/", "이미지 규격 확인"],
+    ["/tools/image-compressor/", "이미지 압축"],
+    ["/tools/image-format-converter/", "이미지 형식 변환"],
+    ["/tools/image-batch-resizer/", "이미지 일괄 리사이즈"],
+    ["/tools/image-white-canvas/", "흰 배경 캔버스 맞춤"],
+    ["/tools/image-auto-enhance/", "이미지 밝기 보정"],
+    ["/tools/image-dpi-checker/", "이미지 DPI 점검"],
+    ["/tools/image-aspect-checker/", "이미지 비율 검사"],
+    ["/tools/image-repair-basic/", "이미지 복구 시도"],
+    ["/tools/image-background-flattener/", "투명 배경 흰색 처리"],
+    ["/tools/image-border-trimmer/", "이미지 여백 자동 자르기"],
+    ["/tools/image-square-cropper/", "이미지 정사각형 크롭"],
+    ["/tools/image-contact-sheet/", "이미지 모아보기 시트"],
+    ["/tools/image-sharpness-checker/", "이미지 선명도 점검"],
+    ["/tools/image-transparency-checker/", "투명 배경 점검"],
     ["/tools/scan-readability/", "스캔 가독성 점검"],
     ["/tools/image-duplicate-finder/", "이미지 중복 점검"],
     ["/tools/file-duplicate-finder/", "파일 내용 중복 점검"],
     ["/tools/file-list/", "파일 목록 만들기"],
+    ["/tools/empty-file-finder/", "빈 파일 찾기"],
+    ["/tools/temp-file-finder/", "임시 파일명 찾기"],
+    ["/tools/extension-mismatch-checker/", "확장자 불일치 점검"],
+    ["/tools/file-size-sorter/", "파일 용량 순서표"],
+    ["/tools/folder-tree-exporter/", "폴더 구조 목록"],
+    ["/tools/file-repair-attempt/", "파일 복구 시도"],
     ["/tools/hash-compare/", "파일 해시 비교"],
     ["/tools/data-clean/", "CSV·엑셀 정리"],
     ["/tools/table-privacy-checker/", "표 개인정보 점검"],
@@ -419,6 +673,7 @@ function guideFallback(guide) {
           <a href="/guides/">전체 전문 가이드</a>
           <a href="/tools/photo-resize/">증명사진 규격 맞추기</a>
           <a href="/tools/pdf-organizer/">PDF 합치기·페이지 뽑기</a>
+          <a href="/tools/file-viewer/">파일 뷰어</a>
           <a href="/tools/pdf-page-labeler/">PDF 페이지 번호</a>
           <a href="/tools/pdf-rotate/">PDF 페이지 회전</a>
           <a href="/tools/pdf-info/">PDF 구조 점검</a>
