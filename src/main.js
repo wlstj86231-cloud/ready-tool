@@ -62,6 +62,61 @@ const tools = [
     situations: ["public", "job", "school", "share"]
   },
   {
+    id: "pdf-rotate",
+    path: "/tools/pdf-rotate/",
+    group: "PDF 보조",
+    label: "PDF 페이지 회전",
+    short: "90도, 180도, 일부 페이지",
+    title: "옆으로 누운 PDF 페이지 방향을 바로잡기",
+    description: "스캔본이나 증빙 PDF에서 방향이 돌아간 페이지를 전체 또는 일부 페이지만 골라 회전한 새 PDF로 만듭니다.",
+    tags: ["PDF", "회전", "스캔본"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "pdf-info",
+    path: "/tools/pdf-info/",
+    group: "PDF 점검",
+    label: "PDF 구조 점검",
+    short: "쪽수, 크기, 방향",
+    title: "PDF 쪽수와 페이지 방향을 제출 전에 점검하기",
+    description: "여러 PDF의 쪽수, 첫 페이지 크기, 가로 페이지, 서로 다른 페이지 크기 여부를 표로 확인해 업로드 전 위험 신호를 줄입니다.",
+    tags: ["PDF", "쪽수", "방향 점검"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "pdf-a4-normalizer",
+    path: "/tools/pdf-a4-normalizer/",
+    group: "PDF 보조",
+    label: "PDF A4 맞춤",
+    short: "페이지 크기 통일",
+    title: "크기가 섞인 PDF 페이지를 A4로 맞추기",
+    description: "스캔본과 이미지 PDF처럼 페이지 크기가 제각각인 PDF를 A4 여백 안에 맞춰 새 제출본으로 다시 만듭니다.",
+    tags: ["PDF", "A4", "페이지 크기"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "pdf-splitter",
+    path: "/tools/pdf-splitter/",
+    group: "PDF 보조",
+    label: "PDF 나누기",
+    short: "쪽수 단위 ZIP",
+    title: "긴 PDF를 제출 제한에 맞게 나누기",
+    description: "긴 PDF를 5쪽, 10쪽처럼 일정 쪽수 단위로 나누고 결과 PDF들을 ZIP으로 묶어 내려받습니다.",
+    tags: ["PDF", "분할", "ZIP"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "pdf-blank-remover",
+    path: "/tools/pdf-blank-remover/",
+    group: "PDF 점검",
+    label: "PDF 빈 페이지 정리",
+    short: "빈 쪽 제거",
+    title: "PDF 안의 구조상 빈 페이지를 찾아 제거하기",
+    description: "스캔이나 PDF 변환 과정에서 생긴 구조상 빈 페이지를 찾아 제외한 새 PDF를 만듭니다.",
+    tags: ["PDF", "빈 페이지", "정리"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
     id: "file-ready",
     path: "/tools/file-ready/",
     group: "제출 상위",
@@ -84,6 +139,28 @@ const tools = [
     situations: ["public", "job", "school"]
   },
   {
+    id: "bundle-rule-checker",
+    path: "/tools/bundle-rule-checker/",
+    group: "제출 상위",
+    label: "제출 규칙 검사",
+    short: "총용량, 개별용량, 확장자",
+    title: "접수처 제한에 맞게 제출 파일 묶음을 검사하기",
+    description: "접수 화면의 총용량, 파일별 용량, 허용 확장자 조건을 입력하고 선택한 파일 묶음이 조건을 넘는지 바로 확인합니다.",
+    tags: ["용량 제한", "확장자", "제출 검사"],
+    situations: ["public", "job", "school"]
+  },
+  {
+    id: "filename-privacy-checker",
+    path: "/tools/filename-privacy-checker/",
+    group: "제출 보조",
+    label: "파일명 개인정보 점검",
+    short: "전화, 이메일, 주민번호",
+    title: "파일명에 드러난 개인정보를 제출 전에 찾기",
+    description: "파일명에 전화번호, 이메일, 주민등록번호 형태, 생년월일 같은 민감 단서가 들어갔는지 확인해 공유 전 실수를 줄입니다.",
+    tags: ["파일명", "개인정보", "점검"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
     id: "image-privacy",
     path: "/tools/image-privacy/",
     group: "민원 상위",
@@ -93,6 +170,17 @@ const tools = [
     description: "이미지를 브라우저 캔버스로 다시 저장해 위치정보와 카메라 정보 같은 EXIF 노출 가능성을 줄이고 제출용 용량으로 정리합니다.",
     tags: ["EXIF", "이미지", "개인정보"],
     situations: ["public", "job", "share"]
+  },
+  {
+    id: "image-redactor",
+    path: "/tools/image-redactor/",
+    group: "민원 상위",
+    label: "이미지 민감정보 가리기",
+    short: "주소, 번호, 얼굴 가림",
+    title: "이미지에서 보이는 민감정보를 직접 가리기",
+    description: "신분증, 등본 캡처, 통장 사본 이미지에서 노출되면 안 되는 영역을 검은 박스로 가린 제출용 사본을 만듭니다.",
+    tags: ["이미지", "가림 처리", "개인정보"],
+    situations: ["public", "job", "school", "share"]
   },
   {
     id: "filename-cleaner",
@@ -125,6 +213,17 @@ const tools = [
     title: "압축파일 안에 제출 서류가 제대로 들어갔는지 확인하기",
     description: "ZIP 파일을 열어 내부 파일 수, 폴더 깊이, 총 용량, 특수문자 파일명, 숨김 파일 가능성을 빠르게 점검합니다.",
     tags: ["ZIP 점검", "누락 확인", "파일 목록"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "zip-repacker",
+    path: "/tools/zip-repacker/",
+    group: "민원 상위",
+    label: "ZIP 다시 포장",
+    short: "숨김파일 제거, 평탄화",
+    title: "제출 ZIP에서 불필요한 숨김파일을 빼고 다시 묶기",
+    description: "ZIP 안의 __MACOSX, .DS_Store 같은 숨김·시스템 파일을 빼고 필요하면 폴더를 평탄화해 새 ZIP으로 만듭니다.",
+    tags: ["ZIP", "숨김파일", "재포장"],
     situations: ["public", "job", "school", "share"]
   },
   {
@@ -172,6 +271,28 @@ const tools = [
     situations: ["public", "school", "job"]
   },
   {
+    id: "image-duplicate-finder",
+    path: "/tools/image-duplicate-finder/",
+    group: "제출 보조",
+    label: "이미지 중복 점검",
+    short: "같은 캡처, 중복 스캔",
+    title: "스캔 이미지와 캡처 파일의 중복 가능성 찾기",
+    description: "여러 이미지의 축소 해시를 비교해 같은 스캔본이나 거의 같은 캡처가 제출 묶음에 두 번 들어갔는지 확인합니다.",
+    tags: ["이미지", "중복", "스캔본"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
+    id: "file-duplicate-finder",
+    path: "/tools/file-duplicate-finder/",
+    group: "검증",
+    label: "파일 내용 중복 점검",
+    short: "SHA-256 중복 찾기",
+    title: "파일명이 달라도 내용이 같은 중복 파일 찾기",
+    description: "여러 제출 파일의 SHA-256 값을 계산해 이름은 달라도 내용이 완전히 같은 파일이 묶음에 들어갔는지 확인합니다.",
+    tags: ["SHA-256", "중복", "파일 검증"],
+    situations: ["public", "job", "school", "share"]
+  },
+  {
     id: "file-list",
     path: "/tools/file-list/",
     group: "제출 보조",
@@ -203,6 +324,17 @@ const tools = [
     description: "CSV나 XLSX 파일의 앞뒤 공백, 빈 행과 빈 열, 중복 행을 정리하고 깨끗한 CSV 또는 XLSX로 다시 받습니다.",
     tags: ["CSV", "XLSX", "중복 제거"],
     situations: ["public", "job", "share"]
+  },
+  {
+    id: "table-privacy-checker",
+    path: "/tools/table-privacy-checker/",
+    group: "자료 점검",
+    label: "표 개인정보 점검",
+    short: "CSV·엑셀 패턴 검사",
+    title: "CSV와 엑셀 표 안의 개인정보 패턴 찾기",
+    description: "CSV나 XLSX 표에서 전화번호, 이메일, 주민등록번호 형태, 생년월일 단서를 찾아 제출 전 민감정보 노출을 줄입니다.",
+    tags: ["CSV", "XLSX", "개인정보"],
+    situations: ["public", "job", "school", "share"]
   }
 ];
 
@@ -225,6 +357,36 @@ const simpleToolCopy = {
     title: "PDF 페이지 번호 붙이기",
     description: "PDF 하단에 페이지 번호를 넣어 누락과 순서를 확인하기 쉽게 만듭니다."
   },
+  "pdf-rotate": {
+    label: "PDF 회전",
+    short: "돌아간 페이지 방향 바로잡기",
+    title: "PDF 페이지 회전",
+    description: "스캔본 PDF에서 방향이 틀어진 페이지를 전체 또는 일부만 골라 회전합니다."
+  },
+  "pdf-info": {
+    label: "PDF 구조 점검",
+    short: "쪽수, 방향, 크기 확인",
+    title: "PDF 구조 점검",
+    description: "PDF 쪽수와 페이지 크기, 가로 페이지 여부를 제출 전에 한 번에 확인합니다."
+  },
+  "pdf-a4-normalizer": {
+    label: "PDF A4 맞춤",
+    short: "페이지 크기 통일",
+    title: "PDF A4 맞춤",
+    description: "크기가 섞인 PDF 페이지를 A4 여백 안에 맞춘 새 PDF로 만듭니다."
+  },
+  "pdf-splitter": {
+    label: "PDF 나누기",
+    short: "쪽수 단위로 나눠 ZIP 만들기",
+    title: "PDF 나누기",
+    description: "긴 PDF를 일정 쪽수 단위로 나누고 결과 PDF를 ZIP으로 묶습니다."
+  },
+  "pdf-blank-remover": {
+    label: "PDF 빈 페이지",
+    short: "구조상 빈 쪽 제거",
+    title: "PDF 빈 페이지 정리",
+    description: "PDF 안의 구조상 빈 페이지를 제외한 새 PDF를 만듭니다."
+  },
   "file-ready": {
     label: "제출 파일 점검",
     short: "파일명·용량·ZIP 확인",
@@ -237,11 +399,29 @@ const simpleToolCopy = {
     title: "제출서류 누락 대조",
     description: "제출서류 목록과 실제 파일명을 비교해 빠진 서류를 찾습니다."
   },
+  "bundle-rule-checker": {
+    label: "제출 규칙 검사",
+    short: "용량과 확장자 조건 확인",
+    title: "제출 규칙 검사",
+    description: "접수처의 총용량, 개별용량, 허용 확장자 조건에 파일 묶음이 맞는지 확인합니다."
+  },
+  "filename-privacy-checker": {
+    label: "파일명 개인정보",
+    short: "전화·이메일·주민번호 단서 찾기",
+    title: "파일명 개인정보 점검",
+    description: "파일명에 민감정보 단서가 들어갔는지 공유 전에 확인합니다."
+  },
   "image-privacy": {
     label: "이미지 개인정보",
     short: "EXIF 줄이고 이미지 정리",
     title: "이미지 개인정보 정리",
     description: "이미지를 다시 저장해 사진 메타데이터 노출 가능성을 줄입니다."
+  },
+  "image-redactor": {
+    label: "이미지 가림 처리",
+    short: "보이는 민감정보 직접 가리기",
+    title: "이미지 민감정보 가리기",
+    description: "이미지에서 노출되면 안 되는 영역을 직접 박스로 가린 사본을 만듭니다."
   },
   "filename-cleaner": {
     label: "파일명 정리",
@@ -260,6 +440,12 @@ const simpleToolCopy = {
     short: "압축 안 파일 목록 확인",
     title: "ZIP 내용 점검",
     description: "ZIP 안에 들어간 파일 이름, 폴더 깊이, 누락 가능성을 빠르게 확인합니다."
+  },
+  "zip-repacker": {
+    label: "ZIP 다시 포장",
+    short: "숨김파일 빼고 새 ZIP",
+    title: "ZIP 다시 포장",
+    description: "압축파일 안의 숨김·시스템 파일을 제외하고 새 제출용 ZIP을 만듭니다."
   },
   "text-counter": {
     label: "글자수 계산",
@@ -285,6 +471,18 @@ const simpleToolCopy = {
     title: "스캔 가독성 점검",
     description: "스캔본과 캡처 이미지가 제출 후 읽히기 좋은지 계산합니다."
   },
+  "image-duplicate-finder": {
+    label: "이미지 중복 점검",
+    short: "같은 스캔본과 캡처 찾기",
+    title: "이미지 중복 점검",
+    description: "이미지 축소 해시를 비교해 같은 스캔본이 두 번 들어갔는지 찾습니다."
+  },
+  "file-duplicate-finder": {
+    label: "파일 내용 중복",
+    short: "SHA-256으로 같은 파일 찾기",
+    title: "파일 내용 중복 점검",
+    description: "파일명이 달라도 내용이 같은 파일을 해시로 찾아냅니다."
+  },
   "file-list": {
     label: "파일 목록",
     short: "TXT·CSV 목록 만들기",
@@ -302,26 +500,44 @@ const simpleToolCopy = {
     short: "공백·빈 행·중복 정리",
     title: "CSV·엑셀 정리",
     description: "CSV나 XLSX 표의 공백, 빈 행, 중복 행을 정리해 다시 내려받습니다."
+  },
+  "table-privacy-checker": {
+    label: "표 개인정보 점검",
+    short: "전화·이메일·주민번호 단서",
+    title: "표 개인정보 점검",
+    description: "CSV와 XLSX 표 안의 개인정보 패턴을 제출 전에 확인합니다."
   }
 };
 
 const toolOrder = [
   "photo-resize",
   "pdf-organizer",
-  "pdf-page-labeler",
   "image-to-pdf",
   "file-ready",
   "required-doc-checker",
+  "bundle-rule-checker",
+  "pdf-page-labeler",
+  "pdf-rotate",
+  "pdf-info",
+  "pdf-a4-normalizer",
+  "pdf-splitter",
+  "pdf-blank-remover",
   "filename-cleaner",
+  "filename-privacy-checker",
   "zip-inspector",
+  "zip-repacker",
   "image-privacy",
+  "image-redactor",
   "text-counter",
   "text-cleaner",
   "image-inspector",
   "scan-readability",
+  "image-duplicate-finder",
+  "file-duplicate-finder",
   "file-list",
   "hash-compare",
-  "data-clean"
+  "data-clean",
+  "table-privacy-checker"
 ];
 
 const situations = [
@@ -335,7 +551,7 @@ const situations = [
 const homeMeta = {
   title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
   description:
-    "goatool은 민원 제출과 입사지원 전에 PDF 합치기, 페이지 번호, 증명사진 규격, 제출서류 누락 대조, 스캔 가독성 점검을 브라우저에서 처리하는 실용 도구입니다."
+    "goatool은 민원 제출과 입사지원 전에 PDF 합치기, A4 맞춤, PDF 나누기, ZIP 다시 포장, 증명사진 규격, 제출 규칙 검사, 개인정보 가림, 표 개인정보 점검을 브라우저에서 처리하는 실용 도구입니다."
 };
 
 const expertise = {
@@ -393,6 +609,96 @@ const expertise = {
       ["한글 페이지 문구도 넣을 수 있나요?", "현재 도구는 호환성을 위해 숫자 중심 페이지 번호를 넣습니다."]
     ]
   },
+  "pdf-rotate": {
+    summary: "PDF 페이지 회전은 스캔 과정에서 옆으로 누운 페이지를 제출 전에 바로잡는 도구입니다. PDF 페이지의 회전 정보를 새로 저장해 전체 문서 또는 일부 페이지 방향만 고칩니다.",
+    method: [
+      "PDF를 브라우저에서 읽고 각 페이지의 현재 회전값을 확인합니다.",
+      "전체 페이지 또는 입력한 범위의 페이지에 90도, 180도, 270도 회전을 더합니다.",
+      "원본은 유지하고 회전값이 반영된 새 PDF를 내려받게 합니다."
+    ],
+    limits: [
+      "암호가 걸린 PDF나 손상된 PDF는 읽지 못할 수 있습니다.",
+      "일부 스캐너가 이미지 자체를 비뚤게 저장한 경우 회전만으로 기울기는 보정되지 않습니다.",
+      "전자서명·양식 PDF는 결과를 반드시 열어 서명과 입력값 상태를 확인해야 합니다."
+    ],
+    checklist: ["회전할 페이지 범위 확인", "결과 PDF를 열어 모든 페이지 방향 확인", "가로 문서가 의도된 문서인지 구분"],
+    faq: [
+      ["PDF 내용이 서버로 전송되나요?", "아니요. 페이지 회전은 브라우저에서 처리됩니다."],
+      ["몇 페이지만 돌릴 수 있나요?", "예. 1-3, 5처럼 페이지 범위를 입력하면 해당 페이지만 회전합니다."]
+    ]
+  },
+  "pdf-info": {
+    summary: "PDF 구조 점검은 제출 전에 PDF의 쪽수, 방향, 페이지 크기 차이를 빠르게 확인하는 도구입니다. 업로드 실패나 누락 의심을 만드는 PDF 상태를 먼저 보는 데 초점을 둡니다.",
+    method: [
+      "PDF 파일을 브라우저에서 열고 페이지 수와 각 페이지 크기를 읽습니다.",
+      "가로 방향 페이지 수와 서로 다른 페이지 크기 여부를 계산합니다.",
+      "여러 PDF를 표로 비교하고 확인해야 할 항목을 TXT 보고서로 남깁니다."
+    ],
+    limits: [
+      "PDF 내부 글자 내용이나 서류 진위 여부는 판정하지 않습니다.",
+      "암호화되었거나 손상된 PDF는 브라우저에서 읽지 못할 수 있습니다.",
+      "기관별 요구 쪽수, 용량, 양식 기준은 접수 화면에서 마지막으로 확인해야 합니다."
+    ],
+    checklist: ["쪽수가 예상과 맞는지 확인", "가로 페이지가 의도된 것인지 확인", "서로 다른 페이지 크기가 섞였는지 확인"],
+    faq: [
+      ["왜 페이지 크기를 확인해야 하나요?", "스캔본을 합치는 과정에서 A4와 이미지 크기 페이지가 섞이면 출력이나 검토 화면에서 어색하게 보일 수 있습니다."],
+      ["PDF를 수정하나요?", "아니요. 구조 점검은 읽기 전용이며 결과 PDF를 만들지 않습니다."]
+    ]
+  },
+  "pdf-a4-normalizer": {
+    summary: "PDF A4 맞춤은 페이지 크기가 섞인 스캔본이나 이미지 PDF를 A4 한 규격으로 다시 배치하는 도구입니다. 원본 페이지를 흰 A4 페이지 안에 축소 배치해 제출 화면과 출력 화면에서 크기 튐을 줄입니다.",
+    method: [
+      "원본 PDF의 각 페이지를 브라우저에서 읽고 새 PDF에 임베드합니다.",
+      "A4 세로, A4 가로, 원본 방향 자동 중 하나를 선택해 새 페이지를 만듭니다.",
+      "여백 안에 원본 페이지가 잘리지 않도록 비율을 유지해 가운데 배치합니다."
+    ],
+    limits: [
+      "PDF 내용을 다시 OCR하거나 선명하게 보정하지 않습니다.",
+      "이미 기울어진 스캔 이미지의 기울기는 바로잡지 않습니다.",
+      "전자서명·양식 PDF는 결과를 열어 서명과 입력값 상태를 확인해야 합니다."
+    ],
+    checklist: ["A4 세로/가로 방향 선택", "결과 PDF를 열어 잘림 여부 확인", "원본 PDF를 별도로 보관"],
+    faq: [
+      ["원본 페이지가 잘리나요?", "비율을 유지해 A4 여백 안에 맞추므로 일반적으로 잘리지 않습니다. 대신 여백이 생길 수 있습니다."],
+      ["용량이 줄어드나요?", "페이지 재배치 도구라 압축 효과는 보장하지 않습니다."]
+    ]
+  },
+  "pdf-splitter": {
+    summary: "PDF 나누기는 접수처가 파일당 쪽수나 용량을 제한할 때 긴 PDF를 일정 쪽수 단위로 빠르게 나누는 도구입니다. 결과 PDF는 ZIP으로 묶어 내려받습니다.",
+    method: [
+      "PDF를 브라우저에서 읽고 전체 쪽수를 계산합니다.",
+      "입력한 쪽수 단위로 페이지 범위를 나누어 각각 새 PDF로 만듭니다.",
+      "나눠진 PDF와 작업 보고서를 하나의 ZIP으로 생성합니다."
+    ],
+    limits: [
+      "실제 용량 기준으로 자동 최적 분할하지 않고 쪽수 기준으로 나눕니다.",
+      "암호가 걸린 PDF나 손상된 PDF는 처리하지 못할 수 있습니다.",
+      "전자서명·양식 PDF는 분할 뒤 서명과 입력값 상태를 확인해야 합니다."
+    ],
+    checklist: ["접수처의 파일당 쪽수와 용량 확인", "나눌 쪽수 단위 입력", "ZIP 안 PDF 파일 수와 페이지 범위 확인"],
+    faq: [
+      ["PDF가 서버로 올라가나요?", "아니요. PDF 분할은 브라우저 안에서 진행됩니다."],
+      ["용량 기준으로 자동으로 나누나요?", "현재는 예측이 쉬운 쪽수 기준으로 나눕니다."]
+    ]
+  },
+  "pdf-blank-remover": {
+    summary: "PDF 빈 페이지 정리는 변환 과정에서 생긴 구조상 빈 페이지를 찾아 제외하는 도구입니다. 스캔 이미지가 들어 있는 흰 페이지까지 완전하게 판정하는 OCR 도구는 아니며, PDF 구조상 내용 스트림이 없는 페이지를 안전하게 정리합니다.",
+    method: [
+      "PDF 각 페이지의 내용 스트림 존재 여부를 브라우저에서 확인합니다.",
+      "내용 스트림이 없는 페이지를 빈 페이지 후보로 분류합니다.",
+      "빈 페이지 후보를 제외한 새 PDF와 점검 결과를 만듭니다."
+    ],
+    limits: [
+      "흰 종이를 스캔한 이미지처럼 실제 픽셀이 있는 빈 페이지는 빈 페이지로 잡지 않을 수 있습니다.",
+      "암호화되거나 손상된 PDF는 읽지 못할 수 있습니다.",
+      "모든 페이지가 빈 페이지로 감지되면 새 PDF를 만들지 않습니다."
+    ],
+    checklist: ["감지된 빈 페이지 번호 확인", "결과 PDF를 열어 필요한 페이지가 빠지지 않았는지 확인", "원본 PDF 별도 보관"],
+    faq: [
+      ["흰 스캔 페이지도 지워지나요?", "이미지로 들어간 흰 페이지는 내용 스트림이 있으므로 자동 제거되지 않을 수 있습니다."],
+      ["원본 PDF가 바뀌나요?", "아니요. 빈 페이지 후보를 제외한 새 PDF만 만듭니다."]
+    ]
+  },
   "file-ready": {
     summary: "파일 준비 점검은 파일 자체를 평가하거나 합격 여부를 보장하지 않습니다. 대신 업로드 실패를 자주 만드는 이름, 용량, 확장자, 중복, 해시 기록을 제출 전에 눈으로 확인할 수 있게 만듭니다.",
     method: [
@@ -429,6 +735,42 @@ const expertise = {
       ["왜 파일명 정리가 중요한가요?", "서류명이 파일명에 들어가야 자동 대조와 담당자 확인이 모두 쉬워집니다."]
     ]
   },
+  "bundle-rule-checker": {
+    summary: "제출 규칙 검사는 접수 화면에 적힌 파일 제한을 사용자가 직접 입력하고 실제 제출 파일 묶음이 그 조건을 넘는지 확인하는 도구입니다. 기관별 조건이 달라지는 부분을 하드코딩하지 않고 현장 규칙을 바로 반영합니다.",
+    method: [
+      "선택한 파일의 확장자, 개별 용량, 총용량, 파일명 위험 신호를 읽습니다.",
+      "입력한 총용량 제한, 파일별 용량 제한, 허용 확장자 목록과 비교합니다.",
+      "위반 항목과 통과 항목을 표로 보여주고 제출 전 확인 TXT를 만듭니다."
+    ],
+    limits: [
+      "파일 안의 내용이 올바른 서류인지 판정하지 않습니다.",
+      "기관별 세부 규칙은 사용자가 접수 화면에서 보고 입력해야 합니다.",
+      "브라우저 안정성을 위해 지나치게 큰 파일 묶음은 나누어 점검하는 것이 안전합니다."
+    ],
+    checklist: ["접수 화면의 총용량과 개별 용량 확인", "허용 확장자를 그대로 입력", "위반 파일은 이름·용량·형식을 고친 뒤 다시 점검"],
+    faq: [
+      ["허용 확장자를 어떻게 적나요?", "pdf,jpg,png,docx처럼 쉼표로 적으면 됩니다. 점은 붙여도 되고 빼도 됩니다."],
+      ["기관별 규칙을 자동으로 알 수 있나요?", "아니요. 접수처마다 조건이 달라 사용자가 본 규칙을 입력하는 방식으로 설계했습니다."]
+    ]
+  },
+  "filename-privacy-checker": {
+    summary: "파일명 개인정보 점검은 파일 내용이 아니라 파일명 자체에 드러난 민감 단서를 찾는 도구입니다. 공유용 ZIP이나 제출 묶음에서 전화번호, 이메일, 주민등록번호 형태가 파일명에 남아 있는 실수를 줄입니다.",
+    method: [
+      "선택한 파일의 이름만 읽고 정규식 기반 위험 단서를 찾습니다.",
+      "전화번호, 이메일, 주민등록번호 형태, 생년월일 8자리 같은 패턴을 분리해 표시합니다.",
+      "원본 파일명은 바꾸지 않고, 점검 결과를 TXT로 내려받게 합니다."
+    ],
+    limits: [
+      "파일 내용 안의 개인정보는 검사하지 않습니다.",
+      "패턴 기반 검사라 실제 개인정보가 아니어도 후보로 표시될 수 있습니다.",
+      "파일명을 안전하게 바꾸려면 파일명 일괄 정리 도구를 이어서 사용해야 합니다."
+    ],
+    checklist: ["공유 전 파일명에 연락처와 주민번호가 없는지 확인", "후보 파일은 원본을 열지 말고 이름부터 정리", "제출처가 요구하는 이름 형식과 함께 재확인"],
+    faq: [
+      ["파일을 열어서 검사하나요?", "아니요. 파일명 문자열만 확인합니다."],
+      ["파일명을 자동으로 바꾸나요?", "아니요. 이 도구는 점검 전용입니다. 변경은 파일명 일괄 정리 도구에서 처리합니다."]
+    ]
+  },
   "image-privacy": {
     summary: "이미지 개인정보 정리는 사진을 새 캔버스에 다시 그린 뒤 저장하는 방식입니다. 일반적인 EXIF 메타데이터 노출 가능성을 줄이지만, 이미지 안에 보이는 주민번호, 주소, 얼굴, 차량번호는 자동으로 가리지 않습니다.",
     method: [
@@ -445,6 +787,24 @@ const expertise = {
     faq: [
       ["EXIF가 완전히 사라지나요?", "캔버스 재저장 방식은 일반적인 EXIF를 결과 파일에 싣지 않는 데 유리하지만, 모든 파일 형식의 모든 메타데이터를 법적으로 보증하지는 않습니다."],
       ["이미지 품질은 왜 조절하나요?", "제출처 용량 제한에 맞추면서 글자가 읽히는 수준을 유지하기 위해서입니다."]
+    ]
+  },
+  "image-redactor": {
+    summary: "이미지 민감정보 가리기는 이미지 안에 실제로 보이는 주소, 주민번호 일부, 계좌번호, 얼굴 같은 영역을 사용자가 직접 박스로 덮는 도구입니다. 자동 판정 대신 사용자가 눈으로 확인하며 가리는 방식으로 오탐과 누락을 줄입니다.",
+    method: [
+      "이미지를 브라우저 캔버스에 불러온 뒤 원본 크기 기준으로 좌표를 계산합니다.",
+      "사용자가 드래그한 영역을 검은색 또는 흰색 박스로 덮습니다.",
+      "가림이 적용된 캔버스를 새 JPG 이미지로 내려받게 합니다."
+    ],
+    limits: [
+      "OCR로 개인정보를 자동 탐지하지 않습니다.",
+      "가린 뒤에도 주변 맥락으로 개인정보가 추정될 수 있으므로 결과를 확대 확인해야 합니다.",
+      "원본 파일은 바뀌지 않으며, 결과 이미지를 따로 보관해야 합니다."
+    ],
+    checklist: ["주소, 주민번호, 계좌번호, 얼굴, 서명 영역 확인", "가림 후 확대해서 빈틈 확인", "원본과 가림본을 헷갈리지 않게 파일명 정리"],
+    faq: [
+      ["자동으로 개인정보를 찾아주나요?", "아니요. 사용자가 직접 영역을 선택해 가리는 방식입니다."],
+      ["원본 이미지가 바뀌나요?", "아니요. 원본은 유지되고 가림 처리된 새 JPG를 내려받습니다."]
     ]
   },
   "filename-cleaner": {
@@ -499,6 +859,24 @@ const expertise = {
     faq: [
       ["ZIP을 서버에 올리나요?", "아니요. 브라우저에서 ZIP 목록을 읽고 결과를 표시합니다."],
       ["압축을 풀어 저장하나요?", "아니요. 사용자가 선택한 ZIP을 읽어 목록과 경고만 만듭니다."]
+    ]
+  },
+  "zip-repacker": {
+    summary: "ZIP 다시 포장은 제출 ZIP 안에 섞인 숨김 파일, 시스템 파일, 불필요한 폴더 중첩을 줄이기 위한 도구입니다. ZIP을 서버에 올리지 않고 브라우저에서 다시 묶습니다.",
+    method: [
+      "ZIP 내부 목록을 읽고 파일 항목만 새 ZIP에 복사합니다.",
+      "__MACOSX, .DS_Store, Thumbs.db 같은 시스템 파일을 제외할 수 있습니다.",
+      "필요하면 폴더 경로를 제거하고 파일명만 남겨 평탄화합니다."
+    ],
+    limits: [
+      "암호가 걸린 ZIP이나 손상된 ZIP은 읽지 못할 수 있습니다.",
+      "같은 파일명이 여러 폴더에 있으면 자동으로 번호를 붙여 충돌을 피합니다.",
+      "파일 내용이 올바른 서류인지까지 검수하지 않습니다."
+    ],
+    checklist: ["숨김 파일 제거 옵션 확인", "폴더 구조를 유지할지 평탄화할지 선택", "새 ZIP 내부 파일 수와 원본을 비교"],
+    faq: [
+      ["ZIP이 서버로 올라가나요?", "아니요. ZIP 읽기와 재포장은 브라우저에서 처리됩니다."],
+      ["폴더를 모두 없앨 수 있나요?", "네. 평탄화 옵션을 켜면 파일명만 남겨 새 ZIP에 넣습니다."]
     ]
   },
   "text-counter": {
@@ -573,6 +951,42 @@ const expertise = {
       ["흐림 경고가 뜨면 무조건 반려되나요?", "아니요. 다만 제출 전에 다시 열어보고 필요하면 재촬영하는 것이 안전합니다."]
     ]
   },
+  "image-duplicate-finder": {
+    summary: "이미지 중복 점검은 같은 스캔본이나 거의 같은 캡처가 제출 묶음에 두 번 들어가는 실수를 줄이기 위한 도구입니다. 원본 이미지를 서버로 보내지 않고 축소 해시만 브라우저에서 비교합니다.",
+    method: [
+      "각 이미지를 8×8 캔버스로 축소하고 밝기 기준의 간단한 해시를 만듭니다.",
+      "이미지끼리 해시 거리를 비교해 같은 이미지 또는 매우 비슷한 이미지 후보를 찾습니다.",
+      "중복 후보 쌍과 유사도를 표로 보여주고 TXT 보고서로 남깁니다."
+    ],
+    limits: [
+      "완전한 이미지 포렌식이나 저작권 판정 도구가 아닙니다.",
+      "밝기 보정, 자르기, 회전이 큰 이미지는 실제 중복이어도 놓칠 수 있습니다.",
+      "비슷한 서식의 서로 다른 문서가 중복 후보로 잡힐 수 있어 사람이 마지막에 확인해야 합니다."
+    ],
+    checklist: ["중복 후보 파일을 직접 열어 내용 비교", "같은 파일이면 하나만 제출 묶음에 남기기", "원본 스캔본과 정리본을 혼동하지 않게 파일명 정리"],
+    faq: [
+      ["이미지를 업로드하나요?", "아니요. 이미지를 브라우저에서 작게 읽어 비교한 뒤 결과만 표시합니다."],
+      ["완전히 같은 파일만 찾나요?", "균형 모드에서는 거의 같은 캡처나 스캔본도 후보로 보여줍니다."]
+    ]
+  },
+  "file-duplicate-finder": {
+    summary: "파일 내용 중복 점검은 파일명이 달라도 실제 바이트가 완전히 같은 파일을 찾는 도구입니다. 제출 묶음에 같은 PDF나 같은 이미지가 이름만 바뀌어 두 번 들어가는 문제를 SHA-256 해시로 확인합니다.",
+    method: [
+      "각 파일을 브라우저에서 읽어 SHA-256 해시를 계산합니다.",
+      "같은 해시를 가진 파일을 한 그룹으로 묶어 중복 후보로 표시합니다.",
+      "중복 그룹과 전체 파일 목록을 TXT 보고서로 남깁니다."
+    ],
+    limits: [
+      "내용이 조금이라도 달라진 파일은 중복으로 묶이지 않습니다.",
+      "같은 문서를 다시 저장해 메타데이터가 바뀌면 해시가 달라질 수 있습니다.",
+      "파일 내용이 올바른 서류인지까지 판단하지는 않습니다."
+    ],
+    checklist: ["중복 그룹의 파일을 직접 열어 하나만 남길지 결정", "서로 다른 서류가 같은 이름으로 저장되지 않았는지 확인", "최종 제출 ZIP 만들기 전에 다시 점검"],
+    faq: [
+      ["파일명이 달라도 찾을 수 있나요?", "네. 파일명 대신 SHA-256 해시로 비교합니다."],
+      ["비슷한 파일도 찾아주나요?", "아니요. 이 도구는 완전히 같은 파일만 찾습니다. 비슷한 이미지는 이미지 중복 점검을 사용하세요."]
+    ]
+  },
   "file-list": {
     summary: "파일 목록 만들기는 제출 전후 파일 이름과 용량 기록을 빠르게 남기는 도구입니다. 해시 계산 없이 가볍게 목록만 만들고 싶을 때 사용합니다.",
     method: [
@@ -626,6 +1040,24 @@ const expertise = {
       ["중복 행 제거는 어떻게 판단하나요?", "첫 행은 머리글로 유지하고, 나머지 행의 값을 소문자와 공백 정리 기준으로 비교합니다."],
       ["엑셀 수식은 유지되나요?", "정리본은 값 중심으로 다시 생성됩니다. 수식 보존이 필요한 원본은 별도로 보관하세요."]
     ]
+  },
+  "table-privacy-checker": {
+    summary: "표 개인정보 점검은 CSV나 XLSX 표 안에 전화번호, 이메일, 주민등록번호 형태, 생년월일 단서가 남아 있는지 찾는 도구입니다. 데이터를 외부로 보내지 않고 브라우저에서 첫 번째 시트 또는 CSV 본문을 검사합니다.",
+    method: [
+      "CSV 또는 XLSX 첫 번째 시트를 행과 열 배열로 읽습니다.",
+      "각 셀을 정규식 기반 개인정보 후보 패턴과 비교합니다.",
+      "발견 위치, 후보 유형, 마스킹된 미리보기를 표와 TXT로 남깁니다."
+    ],
+    limits: [
+      "패턴 기반 점검이라 실제 개인정보가 아닌 값도 후보로 표시될 수 있습니다.",
+      "XLSX는 첫 번째 시트만 검사합니다.",
+      "대용량 표는 브라우저 안정성을 위해 행과 셀 수 제한을 둡니다."
+    ],
+    checklist: ["검사할 시트가 첫 번째 시트인지 확인", "후보 셀을 원본에서 직접 확인", "제출 전 불필요한 개인정보 열 삭제"],
+    faq: [
+      ["표 내용을 서버로 올리나요?", "아니요. 표 파일은 브라우저 안에서 읽고 후보 위치만 표시합니다."],
+      ["개인정보를 자동 삭제하나요?", "아니요. 이 도구는 점검 전용이며 원본을 수정하지 않습니다."]
+    ]
   }
 };
 
@@ -638,7 +1070,7 @@ const infoPages = {
       ["운영 목적", "goatool은 민원, 입사지원, 학교와 기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 실용 도구 사이트입니다. 사용자가 파일을 서버에 올리지 않고도 사진 규격, PDF 정리, 파일명, 용량, ZIP 점검을 마칠 수 있게 설계했습니다."],
       ["goatool 신뢰 기준", "goatool의 브랜드 신뢰는 빠른 자동화보다 처리 위치와 한계 고지를 분명히 하는 데서 시작합니다. 각 도구는 브라우저 로컬 처리, 제출 전 검수, 원본 보관, 개인정보 최소화 원칙을 함께 안내합니다."],
       ["전문성 기준", "각 도구는 작동 원리, 한계, 검수 기준을 함께 제공합니다. 결과를 과장하지 않고 사용자가 마지막 판단을 할 수 있게 돕는 것을 우선합니다."],
-      ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, PDF 페이지 번호, 제출서류 누락 대조, 스캔 가독성 점검, 파일명 정리, 해시 비교, 글자수 계산, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
+      ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, PDF 페이지 번호, PDF 회전, PDF 구조 점검, PDF A4 맞춤, PDF 나누기, PDF 빈 페이지 정리, ZIP 다시 포장, 제출 규칙 검사, 파일명 개인정보 점검, 이미지 민감정보 가리기, 제출서류 누락 대조, 스캔 가독성 점검, 이미지 중복 점검, 파일 내용 중복 점검, 표 개인정보 점검, 파일명 정리, 해시 비교, 글자수 계산, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
     ]
   },
   "/privacy/": {
@@ -687,18 +1119,36 @@ const state = {
   lastPdfBlob: null,
   lastPdfName: null,
   lastPdfLabelBlob: null,
+  lastPdfRotateBlob: null,
+  lastPdfInfoReportBlob: null,
+  lastPdfA4Blob: null,
+  lastPdfSplitZipBlob: null,
+  lastPdfSplitReportBlob: null,
+  lastPdfBlankBlob: null,
+  lastPdfBlankReportBlob: null,
   lastRequiredChecklistBlob: null,
+  lastBundleRuleReportBlob: null,
+  lastFilenamePrivacyReportBlob: null,
   lastRenameZipBlob: null,
   lastRenameMapBlob: null,
   lastImagePdfBlob: null,
   lastZipReportBlob: null,
+  lastZipRepackBlob: null,
+  lastZipRepackName: null,
+  lastZipRepackReportBlob: null,
   lastScanReportBlob: null,
+  lastImageDuplicateReportBlob: null,
+  lastImageRedactedBlob: null,
+  lastImageRedactedName: null,
+  redactor: null,
+  lastFileDuplicateReportBlob: null,
   lastCleanText: "",
   lastFileListTxtBlob: null,
   lastFileListCsvBlob: null,
   lastHashReportBlob: null,
   lastCsvBlob: null,
   lastXlsxBlob: null,
+  lastTablePrivacyReportBlob: null,
   cleanRows: null
 };
 
@@ -740,7 +1190,19 @@ function toolCue(tool) {
   if (tool.id === "data-clean") return "CSV·엑셀을 고르거나 표를 붙여넣으세요";
   if (tool.id === "required-doc-checker") return "서류 목록을 붙여넣고 파일을 고르세요";
   if (tool.id === "pdf-page-labeler") return "페이지 번호를 붙일 PDF를 고르세요";
+  if (tool.id === "pdf-rotate") return "방향을 돌릴 PDF를 고르세요";
+  if (tool.id === "pdf-info") return "구조를 점검할 PDF를 고르세요";
+  if (tool.id === "pdf-a4-normalizer") return "A4로 맞출 PDF를 고르세요";
+  if (tool.id === "pdf-splitter") return "나눌 PDF와 쪽수 단위를 고르세요";
+  if (tool.id === "pdf-blank-remover") return "빈 페이지를 정리할 PDF를 고르세요";
+  if (tool.id === "bundle-rule-checker") return "접수 규칙을 입력하고 파일을 고르세요";
+  if (tool.id === "filename-privacy-checker") return "개인정보 단서를 찾을 파일을 고르세요";
+  if (tool.id === "image-redactor") return "가릴 정보가 보이는 이미지를 고르세요";
+  if (tool.id === "zip-repacker") return "다시 포장할 ZIP을 고르세요";
   if (tool.id === "scan-readability") return "읽힘 상태를 볼 스캔 이미지를 고르세요";
+  if (tool.id === "image-duplicate-finder") return "중복을 찾을 이미지를 고르세요";
+  if (tool.id === "file-duplicate-finder") return "내용 중복을 찾을 파일을 고르세요";
+  if (tool.id === "table-privacy-checker") return "개인정보 패턴을 찾을 표 파일을 고르세요";
   return "먼저 파일을 고르세요";
 }
 
@@ -1478,18 +1940,30 @@ function renderTool(id) {
   if (id === "photo-resize") return renderPhotoResizeTool();
   if (id === "pdf-organizer") return renderPdfOrganizerTool();
   if (id === "pdf-page-labeler") return renderPdfPageLabelerTool();
+  if (id === "pdf-rotate") return renderPdfRotateTool();
+  if (id === "pdf-info") return renderPdfInfoTool();
+  if (id === "pdf-a4-normalizer") return renderPdfA4NormalizerTool();
+  if (id === "pdf-splitter") return renderPdfSplitterTool();
+  if (id === "pdf-blank-remover") return renderPdfBlankRemoverTool();
   if (id === "required-doc-checker") return renderRequiredDocCheckerTool();
+  if (id === "bundle-rule-checker") return renderBundleRuleCheckerTool();
+  if (id === "filename-privacy-checker") return renderFilenamePrivacyCheckerTool();
   if (id === "image-privacy") return renderImagePrivacyTool();
+  if (id === "image-redactor") return renderImageRedactorTool();
   if (id === "filename-cleaner") return renderFilenameCleanerTool();
   if (id === "image-to-pdf") return renderImageToPdfTool();
   if (id === "zip-inspector") return renderZipInspectorTool();
+  if (id === "zip-repacker") return renderZipRepackerTool();
   if (id === "text-counter") return renderTextCounterTool();
   if (id === "text-cleaner") return renderTextCleanerTool();
   if (id === "image-inspector") return renderImageInspectorTool();
   if (id === "scan-readability") return renderScanReadabilityTool();
+  if (id === "image-duplicate-finder") return renderImageDuplicateFinderTool();
+  if (id === "file-duplicate-finder") return renderFileDuplicateFinderTool();
   if (id === "file-list") return renderFileListTool();
   if (id === "hash-compare") return renderHashCompareTool();
   if (id === "data-clean") return renderDataCleanTool();
+  if (id === "table-privacy-checker") return renderTablePrivacyCheckerTool();
   return renderFileReadyTool();
 }
 
@@ -1637,6 +2111,193 @@ function renderPdfPageLabelerTool() {
   `;
 }
 
+function renderPdfRotateTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfRotateForm" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfRotateInput" class="file-native" type="file" accept="application/pdf,.pdf" aria-label="회전할 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfRotateCount" class="file-count">방향을 바로잡을 PDF를 선택하세요</em>
+        </label>
+        <label class="field">
+          <span>회전 방향</span>
+          <select id="pdfRotateDegrees">
+            <option value="90" selected>오른쪽으로 90도</option>
+            <option value="270">왼쪽으로 90도</option>
+            <option value="180">180도 뒤집기</option>
+          </select>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 일부 페이지만 회전</summary>
+          <label class="field">
+            <span>회전할 페이지</span>
+            <select id="pdfRotateMode">
+              <option value="all" selected>전체 페이지</option>
+              <option value="range">입력한 페이지만</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>페이지 범위</span>
+            <input id="pdfRotateRanges" type="text" value="1" placeholder="예: 1-3, 5, 8-10" />
+          </label>
+          <label class="field">
+            <span>결과 파일명</span>
+            <input id="pdfRotateName" type="text" value="goatool_rotated_pdf" maxlength="80" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${pdfIcon()} 회전 적용</button>
+          <button class="ghost-button" type="button" id="downloadPdfRotate" disabled>${downloadIcon()} PDF</button>
+        </div>
+        <p class="helper-text">방향 정보만 수정합니다. 기울어진 촬영본의 비스듬함이나 잘림은 보정하지 않습니다.</p>
+      </form>
+      <div class="result-panel" id="pdfRotateResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF를 선택하면 전체 또는 일부 페이지 방향을 회전한 새 PDF를 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderPdfInfoTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfInfoForm" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfInfoInput" class="file-native" type="file" accept="application/pdf,.pdf" multiple aria-label="구조를 점검할 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfInfoCount" class="file-count">쪽수와 방향을 확인할 PDF를 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 구조 점검</button>
+          <button class="ghost-button" type="button" id="downloadPdfInfoReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">읽기 전용 점검입니다. PDF를 수정하지 않고 쪽수, 페이지 크기, 가로 페이지 신호만 확인합니다.</p>
+      </form>
+      <div class="result-panel" id="pdfInfoResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF를 선택하면 제출 전에 확인할 구조 정보를 표로 보여줍니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderPdfA4NormalizerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfA4Form" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfA4Input" class="file-native" type="file" accept="application/pdf,.pdf" aria-label="A4로 맞출 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfA4Count" class="file-count">크기를 통일할 PDF를 선택하세요</em>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 A4 배치 변경</summary>
+          <div class="field two-col">
+            <label>
+              <span>A4 방향</span>
+              <select id="pdfA4Orientation">
+                <option value="auto" selected>원본 방향에 맞춤</option>
+                <option value="portrait">A4 세로</option>
+                <option value="landscape">A4 가로</option>
+              </select>
+            </label>
+            <label>
+              <span>여백</span>
+              <select id="pdfA4Margin">
+                <option value="12" selected>좁게</option>
+                <option value="24">보통</option>
+                <option value="36">넓게</option>
+                <option value="0">없음</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">
+            <span>결과 파일명</span>
+            <input id="pdfA4Name" type="text" value="goatool_a4_pdf" maxlength="80" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${pdfIcon()} A4로 맞추기</button>
+          <button class="ghost-button" type="button" id="downloadPdfA4" disabled>${downloadIcon()} PDF</button>
+        </div>
+        <p class="helper-text">페이지를 A4 안에 비율 유지로 배치합니다. 잘림은 줄이고 여백이 생길 수 있습니다.</p>
+      </form>
+      <div class="result-panel" id="pdfA4Result" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF를 선택하면 페이지 크기를 A4로 통일한 새 PDF를 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderPdfSplitterTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfSplitterForm" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfSplitterInput" class="file-native" type="file" accept="application/pdf,.pdf" aria-label="나눌 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfSplitterCount" class="file-count">나눌 PDF를 선택하세요</em>
+        </label>
+        <label class="field">
+          <span>몇 쪽마다 나눌까요?</span>
+          <input id="pdfSplitChunkSize" type="number" min="1" max="200" value="10" />
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 파일명 변경</summary>
+          <label class="field">
+            <span>결과 파일 접두어</span>
+            <input id="pdfSplitPrefix" type="text" value="goatool_split" maxlength="60" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${packageIcon()} PDF 나누기</button>
+          <button class="ghost-button" type="button" id="downloadPdfSplitZip" disabled>${downloadIcon()} ZIP</button>
+          <button class="ghost-button" type="button" id="downloadPdfSplitReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">쪽수 기준으로 나눕니다. 용량 제한이 엄격한 접수처는 결과 ZIP 안의 각 PDF 용량도 확인하세요.</p>
+      </form>
+      <div class="result-panel" id="pdfSplitterResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF와 쪽수 단위를 선택하면 여러 PDF로 나누어 ZIP을 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderPdfBlankRemoverTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="pdfBlankForm" novalidate>
+        <label class="field">
+          <span>PDF 파일 선택</span>
+          <input id="pdfBlankInput" class="file-native" type="file" accept="application/pdf,.pdf" aria-label="빈 페이지를 정리할 PDF 선택" />
+          <span class="file-picker">${pdfIcon()} PDF 고르기</span>
+          <em id="pdfBlankCount" class="file-count">빈 페이지를 찾을 PDF를 선택하세요</em>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 파일명 변경</summary>
+          <label class="field">
+            <span>결과 파일명</span>
+            <input id="pdfBlankName" type="text" value="goatool_no_blank_pages" maxlength="80" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 빈 페이지 정리</button>
+          <button class="ghost-button" type="button" id="downloadPdfBlank" disabled>${downloadIcon()} PDF</button>
+          <button class="ghost-button" type="button" id="downloadPdfBlankReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">PDF 구조상 내용이 없는 페이지만 빈 페이지 후보로 봅니다. 흰 종이를 스캔한 이미지 페이지는 직접 확인하세요.</p>
+      </form>
+      <div class="result-panel" id="pdfBlankResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">PDF를 선택하면 구조상 빈 페이지를 찾아 제외한 새 PDF를 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderFileReadyTool() {
   return `
     <div class="tool-grid">
@@ -1692,6 +2353,69 @@ function renderRequiredDocCheckerTool() {
   `;
 }
 
+function renderBundleRuleCheckerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="bundleRuleForm" novalidate>
+        <label class="field">
+          <span>제출 파일 선택</span>
+          <input id="bundleRuleFiles" class="file-native" type="file" multiple aria-label="제출 규칙을 검사할 파일 선택" />
+          <span class="file-picker">${checkIcon()} 파일 고르기</span>
+          <em id="bundleRuleCount" class="file-count">검사할 파일을 선택하세요</em>
+        </label>
+        <details class="advanced-options" open>
+          <summary>접수 화면에 적힌 제한 입력</summary>
+          <div class="field two-col">
+            <label>
+              <span>총용량 제한 MB</span>
+              <input id="bundleMaxTotal" type="number" min="1" max="500" value="25" />
+            </label>
+            <label>
+              <span>파일별 제한 MB</span>
+              <input id="bundleMaxSingle" type="number" min="1" max="200" value="10" />
+            </label>
+          </div>
+          <label class="field">
+            <span>허용 확장자</span>
+            <input id="bundleAllowedExt" type="text" value="pdf,jpg,jpeg,png,doc,docx,hwp,hwpx,zip" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 규칙 검사</button>
+          <button class="ghost-button" type="button" id="downloadBundleRuleReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">기관마다 제한이 달라서 규칙을 직접 입력하는 방식입니다. 파일 내용은 열어 판정하지 않습니다.</p>
+      </form>
+      <div class="result-panel" id="bundleRuleResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">파일과 접수 제한을 넣으면 용량, 확장자, 파일명 위험 신호를 확인합니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderFilenamePrivacyCheckerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="filenamePrivacyForm" novalidate>
+        <label class="field">
+          <span>파일 선택</span>
+          <input id="filenamePrivacyFiles" class="file-native" type="file" multiple aria-label="파일명 개인정보를 점검할 파일 선택" />
+          <span class="file-picker">${shieldIcon()} 파일 고르기</span>
+          <em id="filenamePrivacyCount" class="file-count">파일명을 점검할 파일을 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${shieldIcon()} 파일명 점검</button>
+          <button class="ghost-button" type="button" id="downloadFilenamePrivacyReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">파일 내용은 열지 않고 파일명만 검사합니다. 후보가 나오면 파일명 정리 도구로 이름을 바꾸세요.</p>
+      </form>
+      <div class="result-panel" id="filenamePrivacyResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">파일을 선택하면 전화번호, 이메일, 주민번호 형태 같은 파일명 위험 단서를 찾습니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderImagePrivacyTool() {
   return `
     <div class="tool-grid">
@@ -1736,6 +2460,41 @@ function renderImagePrivacyTool() {
       </form>
       <div class="result-panel" id="imagePrivacyResult" role="status" aria-live="polite" aria-atomic="false">
         <p class="empty-result">사진이나 캡처를 선택하면 정리본과 용량 변화가 표시됩니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderImageRedactorTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="imageRedactorForm" novalidate>
+        <label class="field">
+          <span>이미지 선택</span>
+          <input id="imageRedactorInput" class="file-native" type="file" accept="image/*" aria-label="가림 처리할 이미지 선택" />
+          <span class="file-picker">${shieldIcon()} 이미지 고르기</span>
+          <em id="imageRedactorCount" class="file-count">가릴 정보가 보이는 이미지를 선택하세요</em>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 가림 색 변경</summary>
+          <label class="field">
+            <span>가림 색</span>
+            <select id="imageRedactorColor">
+              <option value="#111827" selected>검은색</option>
+              <option value="#ffffff">흰색</option>
+            </select>
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${shieldIcon()} 이미지 열기</button>
+          <button class="ghost-button" type="button" id="undoRedaction" disabled>되돌리기</button>
+          <button class="ghost-button" type="button" id="resetRedaction" disabled>초기화</button>
+          <button class="ghost-button" type="button" id="downloadRedactedImage" disabled>${downloadIcon()} JPG</button>
+        </div>
+        <p class="helper-text">이미지를 연 뒤 캔버스에서 가릴 영역을 드래그하세요. 원본 파일은 바뀌지 않습니다.</p>
+      </form>
+      <div class="result-panel" id="imageRedactorResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">이미지를 선택하면 드래그로 민감정보를 가릴 수 있는 작업 화면이 열립니다.</p>
       </div>
     </div>
   `;
@@ -1851,6 +2610,41 @@ function renderZipInspectorTool() {
   `;
 }
 
+function renderZipRepackerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="zipRepackerForm" novalidate>
+        <label class="field">
+          <span>ZIP 파일 선택</span>
+          <input id="zipRepackInput" class="file-native" type="file" accept=".zip,application/zip" aria-label="다시 포장할 ZIP 파일 선택" />
+          <span class="file-picker">${packageIcon()} ZIP 고르기</span>
+          <em id="zipRepackCount" class="file-count">다시 포장할 ZIP을 선택하세요</em>
+        </label>
+        <details class="advanced-options" open>
+          <summary>제출용 기본 정리</summary>
+          <div class="check-grid">
+            <label><input id="zipRemoveSystem" type="checkbox" checked /> 숨김·시스템 파일 제외</label>
+            <label><input id="zipFlatten" type="checkbox" /> 폴더 경로 없애기</label>
+          </div>
+          <label class="field">
+            <span>결과 ZIP 이름</span>
+            <input id="zipRepackName" type="text" value="goatool_clean_zip" maxlength="80" autocomplete="off" />
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${packageIcon()} ZIP 다시 포장</button>
+          <button class="ghost-button" type="button" id="downloadZipRepack" disabled>${downloadIcon()} ZIP</button>
+          <button class="ghost-button" type="button" id="downloadZipRepackReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">ZIP 안 파일을 새 ZIP으로 다시 묶습니다. 원본 ZIP은 바뀌지 않습니다.</p>
+      </form>
+      <div class="result-panel" id="zipRepackerResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">ZIP을 선택하면 숨김파일 제거와 폴더 평탄화 옵션으로 새 ZIP을 만듭니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderTextCounterTool() {
   return `
     <div class="tool-grid">
@@ -1959,6 +2753,63 @@ function renderScanReadabilityTool() {
   `;
 }
 
+function renderImageDuplicateFinderTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="imageDuplicateForm" novalidate>
+        <label class="field">
+          <span>이미지 선택</span>
+          <input id="imageDuplicateInput" class="file-native" type="file" accept="image/*" multiple aria-label="중복을 점검할 이미지 선택" />
+          <span class="file-picker">${imageIcon()} 이미지 고르기</span>
+          <em id="imageDuplicateCount" class="file-count">스캔본이나 캡처 이미지를 선택하세요</em>
+        </label>
+        <details class="advanced-options">
+          <summary>필요할 때만 민감도 변경</summary>
+          <label class="field">
+            <span>중복 후보 기준</span>
+            <select id="imageDuplicateSensitivity">
+              <option value="strict">같은 이미지 중심</option>
+              <option value="balanced" selected>균형</option>
+              <option value="loose">비슷한 이미지까지 넓게</option>
+            </select>
+          </label>
+        </details>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 중복 점검</button>
+          <button class="ghost-button" type="button" id="downloadImageDuplicateReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">이미지 축소 해시를 비교합니다. 비슷한 서식의 서로 다른 문서가 후보로 잡힐 수 있어 마지막 확인은 직접 열어보세요.</p>
+      </form>
+      <div class="result-panel" id="imageDuplicateResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">이미지를 선택하면 같은 스캔본이나 비슷한 캡처 후보를 찾습니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderFileDuplicateFinderTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="fileDuplicateForm" novalidate>
+        <label class="field">
+          <span>파일 선택</span>
+          <input id="fileDuplicateFiles" class="file-native" type="file" multiple aria-label="내용 중복을 점검할 파일 선택" />
+          <span class="file-picker">${checkIcon()} 파일 고르기</span>
+          <em id="fileDuplicateCount" class="file-count">내용 중복을 찾을 파일을 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${checkIcon()} 중복 점검</button>
+          <button class="ghost-button" type="button" id="downloadFileDuplicateReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">파일명을 보지 않고 SHA-256 해시로 완전히 같은 파일만 찾습니다.</p>
+      </form>
+      <div class="result-panel" id="fileDuplicateResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">파일을 선택하면 이름이 달라도 내용이 같은 파일 후보를 찾아줍니다.</p>
+      </div>
+    </div>
+  `;
+}
+
 function renderFileListTool() {
   return `
     <div class="tool-grid">
@@ -2041,6 +2892,29 @@ function renderDataCleanTool() {
       </form>
       <div class="result-panel" id="dataCleanResult" role="status" aria-live="polite" aria-atomic="false">
         <p class="empty-result">CSV를 붙여넣거나 XLSX 파일을 선택하면 빈 행, 중복 행, 공백을 정리합니다.</p>
+      </div>
+    </div>
+  `;
+}
+
+function renderTablePrivacyCheckerTool() {
+  return `
+    <div class="tool-grid">
+      <form class="control-panel" id="tablePrivacyForm" novalidate>
+        <label class="field">
+          <span>CSV 또는 XLSX 파일</span>
+          <input id="tablePrivacyInput" class="file-native" type="file" accept=".csv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" aria-label="개인정보 패턴을 점검할 표 파일 선택" />
+          <span class="file-picker">${tableIcon()} 표 파일 고르기</span>
+          <em id="tablePrivacyCount" class="file-count">개인정보 패턴을 찾을 표 파일을 선택하세요</em>
+        </label>
+        <div class="control-row single-action">
+          <button class="primary-button" type="submit">${shieldIcon()} 표 점검</button>
+          <button class="ghost-button" type="button" id="downloadTablePrivacyReport" disabled>${downloadIcon()} 결과 TXT</button>
+        </div>
+        <p class="helper-text">CSV와 XLSX 첫 번째 시트 기준입니다. 원본은 수정하지 않고 후보 위치만 보여줍니다.</p>
+      </form>
+      <div class="result-panel" id="tablePrivacyResult" role="status" aria-live="polite" aria-atomic="false">
+        <p class="empty-result">표 파일을 선택하면 전화번호, 이메일, 주민등록번호 형태, 생년월일 단서를 찾습니다.</p>
       </div>
     </div>
   `;
@@ -2161,12 +3035,44 @@ function bindToolEvents(id) {
     bindPdfPageLabelerEvents();
     return;
   }
+  if (id === "pdf-rotate") {
+    bindPdfRotateEvents();
+    return;
+  }
+  if (id === "pdf-info") {
+    bindPdfInfoEvents();
+    return;
+  }
+  if (id === "pdf-a4-normalizer") {
+    bindPdfA4NormalizerEvents();
+    return;
+  }
+  if (id === "pdf-splitter") {
+    bindPdfSplitterEvents();
+    return;
+  }
+  if (id === "pdf-blank-remover") {
+    bindPdfBlankRemoverEvents();
+    return;
+  }
   if (id === "required-doc-checker") {
     bindRequiredDocCheckerEvents();
     return;
   }
+  if (id === "bundle-rule-checker") {
+    bindBundleRuleCheckerEvents();
+    return;
+  }
+  if (id === "filename-privacy-checker") {
+    bindFilenamePrivacyCheckerEvents();
+    return;
+  }
   if (id === "image-privacy") {
     bindImagePrivacyEvents();
+    return;
+  }
+  if (id === "image-redactor") {
+    bindImageRedactorEvents();
     return;
   }
   if (id === "filename-cleaner") {
@@ -2179,6 +3085,10 @@ function bindToolEvents(id) {
   }
   if (id === "zip-inspector") {
     bindZipInspectorEvents();
+    return;
+  }
+  if (id === "zip-repacker") {
+    bindZipRepackerEvents();
     return;
   }
   if (id === "text-counter") {
@@ -2197,6 +3107,14 @@ function bindToolEvents(id) {
     bindScanReadabilityEvents();
     return;
   }
+  if (id === "image-duplicate-finder") {
+    bindImageDuplicateFinderEvents();
+    return;
+  }
+  if (id === "file-duplicate-finder") {
+    bindFileDuplicateFinderEvents();
+    return;
+  }
   if (id === "file-list") {
     bindFileListEvents();
     return;
@@ -2207,6 +3125,10 @@ function bindToolEvents(id) {
   }
   if (id === "data-clean") {
     bindDataCleanEvents();
+    return;
+  }
+  if (id === "table-privacy-checker") {
+    bindTablePrivacyCheckerEvents();
     return;
   }
   bindFileReadyEvents();
@@ -2582,6 +3504,634 @@ function renderPdfPageLabelResult(output) {
   `;
 }
 
+function bindPdfRotateEvents() {
+  const form = document.querySelector("#pdfRotateForm");
+  const input = document.querySelector("#pdfRotateInput");
+  const count = document.querySelector("#pdfRotateCount");
+  const downloadButton = document.querySelector("#downloadPdfRotate");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "방향을 바로잡을 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#pdfRotateResult");
+    downloadButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "회전할 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "pdf") {
+      showResultMessage(result, "PDF 파일만 회전할 수 있습니다.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.singleBytes) {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.singleBytes)}를 넘습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF 페이지 방향을 적용하는 중입니다...");
+    try {
+      const output = await rotatePdfPages(file, {
+        degrees: Number(document.querySelector("#pdfRotateDegrees")?.value || 90),
+        mode: document.querySelector("#pdfRotateMode")?.value || "all",
+        ranges: document.querySelector("#pdfRotateRanges")?.value || "1"
+      });
+      const baseName = safeBaseName(document.querySelector("#pdfRotateName")?.value || "goatool_rotated_pdf");
+      state.lastPdfRotateBlob = output.blob;
+      state.lastPdfName = `${baseName}.pdf`;
+      downloadButton.disabled = false;
+      result.innerHTML = renderPdfRotateResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "PDF 회전에 실패했습니다. 암호가 없는 일반 PDF인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  downloadButton?.addEventListener("click", () => {
+    if (state.lastPdfRotateBlob) downloadBlob(state.lastPdfRotateBlob, state.lastPdfName || "goatool-rotated.pdf");
+  });
+}
+
+async function rotatePdfPages(file, options) {
+  const { PDFDocument, degrees } = await loadPdfLib();
+  const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+  const pages = pdf.getPages();
+  const indices = options.mode === "range" ? parsePageRanges(options.ranges, pages.length) : pages.map((_, index) => index);
+  const amount = Number(options.degrees || 90);
+
+  indices.forEach((index) => {
+    const page = pages[index];
+    const current = page.getRotation().angle || 0;
+    page.setRotation(degrees((current + amount + 360) % 360));
+  });
+
+  const bytes = await pdf.save();
+  return {
+    blob: new Blob([bytes], { type: "application/pdf" }),
+    originalSize: file.size,
+    pageCount: pages.length,
+    rotatedCount: indices.length,
+    rotatedPages: indices.map((index) => index + 1),
+    degrees: amount
+  };
+}
+
+function renderPdfRotateResult(output) {
+  const previewPages = output.rotatedPages.slice(0, 12).join(", ");
+  const more = output.rotatedPages.length > 12 ? ` 외 ${output.rotatedPages.length - 12}쪽` : "";
+  return `
+    <div class="stat-grid">
+      <div><span>전체 쪽수</span><strong>${output.pageCount}</strong></div>
+      <div><span>회전 쪽수</span><strong>${output.rotatedCount}</strong></div>
+      <div><span>결과 용량</span><strong>${formatBytes(output.blob.size)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>PDF 회전 결과</h3>
+      <p class="ok-line">${output.degrees}도 회전을 적용했습니다. 내려받은 PDF를 열어 페이지 방향을 확인하세요.</p>
+    </div>
+    <div class="metric-list">
+      <p><strong>회전 페이지</strong><span>${escapeHtml(previewPages || "-")}${escapeHtml(more)}</span></p>
+      <p><strong>원본 용량</strong><span>${formatBytes(output.originalSize)}</span></p>
+    </div>
+  `;
+}
+
+function bindPdfInfoEvents() {
+  const form = document.querySelector("#pdfInfoForm");
+  const input = document.querySelector("#pdfInfoInput");
+  const count = document.querySelector("#pdfInfoCount");
+  const reportButton = document.querySelector("#downloadPdfInfoReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 PDF 선택됨` : "쪽수와 방향을 확인할 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#pdfInfoResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "구조를 점검할 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (files.length > LIMITS.pdfCount) {
+      showResultMessage(result, `한 번에 ${LIMITS.pdfCount}개 이하의 PDF만 점검하세요.`, "warn");
+      return;
+    }
+    const invalid = files.find((file) => extensionOf(file.name) !== "pdf");
+    if (invalid) {
+      showResultMessage(result, `${invalid.name} 파일은 PDF로 인식되지 않습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF 쪽수와 페이지 방향을 읽는 중입니다...");
+    try {
+      const output = await inspectPdfStructure(files);
+      state.lastPdfInfoReportBlob = new Blob([makePdfInfoReport(output)], { type: "text/plain;charset=utf-8" });
+      reportButton.disabled = false;
+      result.innerHTML = renderPdfInfoResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "PDF 구조를 읽지 못했습니다. 암호가 없는 일반 PDF인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastPdfInfoReportBlob) downloadBlob(state.lastPdfInfoReportBlob, "goatool-pdf-structure.txt");
+  });
+}
+
+async function inspectPdfStructure(files) {
+  const { PDFDocument } = await loadPdfLib();
+  const items = [];
+  for (const file of files) {
+    const pdf = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+    const pages = pdf.getPages().map((page, index) => {
+      const { width, height } = page.getSize();
+      const angle = page.getRotation().angle || 0;
+      const landscape = angle % 180 === 0 ? width > height : height > width;
+      return {
+        index: index + 1,
+        width,
+        height,
+        angle,
+        landscape
+      };
+    });
+    const uniqueSizes = [...new Set(pages.map((page) => `${Math.round(page.width)}×${Math.round(page.height)}`))];
+    const landscapePages = pages.filter((page) => page.landscape).map((page) => page.index);
+    const warnings = collectPdfStructureWarnings(file, pages, uniqueSizes, landscapePages);
+    const first = pages[0] || { width: 0, height: 0, angle: 0 };
+    items.push({
+      name: file.name,
+      size: file.size,
+      pageCount: pdf.getPageCount(),
+      firstSize: `${Math.round(first.width)}×${Math.round(first.height)}`,
+      firstAngle: first.angle,
+      uniqueSizes,
+      landscapePages,
+      warnings
+    });
+  }
+  return { items, totalPages: items.reduce((sum, item) => sum + item.pageCount, 0) };
+}
+
+function collectPdfStructureWarnings(file, pages, uniqueSizes, landscapePages) {
+  const warnings = [];
+  if (!pages.length) warnings.push("페이지 없음");
+  if (file.size > 25 * 1024 * 1024) warnings.push("25MB 초과");
+  if (uniqueSizes.length > 1) warnings.push("페이지 크기 섞임");
+  if (landscapePages.length) warnings.push("가로 페이지 있음");
+  if (pages.some((page) => page.angle !== 0)) warnings.push("회전값 있음");
+  return warnings;
+}
+
+function makePdfInfoReport(output) {
+  return [
+    "goatool PDF 구조 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `PDF 수: ${output.items.length}`,
+    `총 쪽수: ${output.totalPages}`,
+    "",
+    ...output.items.map((item, index) => {
+      const status = item.warnings.length ? item.warnings.join(", ") : "확인 완료";
+      return `${index + 1}. ${item.name} / ${item.pageCount}쪽 / 첫 페이지 ${item.firstSize} / 가로 ${item.landscapePages.length}쪽 / ${status}`;
+    })
+  ].join("\n");
+}
+
+function renderPdfInfoResult(output) {
+  const warnCount = output.items.filter((item) => item.warnings.length).length;
+  return `
+    <div class="stat-grid">
+      <div><span>PDF 수</span><strong>${output.items.length}</strong></div>
+      <div><span>총 쪽수</span><strong>${output.totalPages}</strong></div>
+      <div><span>확인 필요</span><strong class="${warnCount ? "status-warn" : "status-ok"}">${warnCount}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>PDF 구조 점검 결과</h3>
+      ${
+        warnCount
+          ? `<ul class="warning-list">${output.items
+              .filter((item) => item.warnings.length)
+              .map((item) => `<li>${escapeHtml(item.name)}: ${escapeHtml(item.warnings.join(", "))}</li>`)
+              .join("")}</ul>`
+          : `<p class="ok-line">쪽수, 방향, 페이지 크기에서 큰 위험 신호가 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>PDF</th><th>쪽수</th><th>첫 페이지</th><th>가로 쪽</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.items
+            .map(
+              (item) => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${item.pageCount}</td>
+                  <td>${escapeHtml(item.firstSize)}</td>
+                  <td>${item.landscapePages.length ? escapeHtml(item.landscapePages.slice(0, 8).join(", ")) : "-"}</td>
+                  <td><strong class="${item.warnings.length ? "status-warn" : "status-ok"}">${item.warnings.length ? escapeHtml(item.warnings.join(", ")) : "확인 완료"}</strong></td>
+                </tr>
+              `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindPdfA4NormalizerEvents() {
+  const form = document.querySelector("#pdfA4Form");
+  const input = document.querySelector("#pdfA4Input");
+  const count = document.querySelector("#pdfA4Count");
+  const downloadButton = document.querySelector("#downloadPdfA4");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "크기를 통일할 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#pdfA4Result");
+    downloadButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "A4로 맞출 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "pdf") {
+      showResultMessage(result, "PDF 파일만 A4로 맞출 수 있습니다.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.singleBytes) {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.singleBytes)}를 넘습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF 페이지를 A4로 다시 배치하는 중입니다...");
+    try {
+      const output = await normalizePdfToA4(file, {
+        orientation: document.querySelector("#pdfA4Orientation")?.value || "auto",
+        margin: Number(document.querySelector("#pdfA4Margin")?.value || 12)
+      });
+      const baseName = safeBaseName(document.querySelector("#pdfA4Name")?.value || "goatool_a4_pdf");
+      state.lastPdfA4Blob = output.blob;
+      state.lastPdfName = `${baseName}.pdf`;
+      downloadButton.disabled = false;
+      result.innerHTML = renderPdfA4Result(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "PDF를 A4로 다시 배치하지 못했습니다. 암호가 없는 일반 PDF인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  downloadButton?.addEventListener("click", () => {
+    if (state.lastPdfA4Blob) downloadBlob(state.lastPdfA4Blob, state.lastPdfName || "goatool-a4.pdf");
+  });
+}
+
+async function normalizePdfToA4(file, options) {
+  const { PDFDocument } = await loadPdfLib();
+  const source = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+  const output = await PDFDocument.create();
+  const a4Portrait = { width: 595.28, height: 841.89 };
+  const a4Landscape = { width: 841.89, height: 595.28 };
+  const pages = source.getPages();
+  const summary = [];
+
+  for (const page of pages) {
+    const { width, height } = page.getSize();
+    const target =
+      options.orientation === "portrait"
+        ? a4Portrait
+        : options.orientation === "landscape"
+          ? a4Landscape
+          : width > height
+            ? a4Landscape
+            : a4Portrait;
+    const margin = Math.max(0, Math.min(72, Number(options.margin || 0)));
+    const contentWidth = Math.max(1, target.width - margin * 2);
+    const contentHeight = Math.max(1, target.height - margin * 2);
+    const scale = Math.min(contentWidth / width, contentHeight / height);
+    const newPage = output.addPage([target.width, target.height]);
+    const drawWidth = width * scale;
+    const drawHeight = height * scale;
+    let drawn = true;
+    const hasDrawableContents = Boolean(page.node?.Contents?.());
+    if (hasDrawableContents) {
+      try {
+        const embedded = await output.embedPage(page);
+        newPage.drawPage(embedded, {
+          x: (target.width - drawWidth) / 2,
+          y: (target.height - drawHeight) / 2,
+          width: drawWidth,
+          height: drawHeight
+        });
+      } catch (error) {
+        drawn = false;
+        console.warn("PDF page could not be embedded and was kept as a blank A4 page.", error);
+      }
+    } else {
+      drawn = false;
+    }
+    summary.push({
+      sourceSize: `${Math.round(width)}×${Math.round(height)}`,
+      targetSize: `${Math.round(target.width)}×${Math.round(target.height)}`,
+      scale,
+      drawn
+    });
+  }
+
+  const bytes = await output.save();
+  return {
+    blob: new Blob([bytes], { type: "application/pdf" }),
+    originalSize: file.size,
+    pageCount: output.getPageCount(),
+    summary
+  };
+}
+
+function renderPdfA4Result(output) {
+  const changed = output.summary.filter((item) => item.sourceSize !== item.targetSize).length;
+  return `
+    <div class="stat-grid">
+      <div><span>쪽수</span><strong>${output.pageCount}</strong></div>
+      <div><span>A4 배치</span><strong class="status-ok">${changed}</strong></div>
+      <div><span>결과 용량</span><strong>${formatBytes(output.blob.size)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>PDF A4 맞춤 결과</h3>
+      <p class="ok-line">모든 페이지를 A4 페이지 안에 다시 배치했습니다. 결과 PDF를 열어 잘림과 여백을 확인하세요.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>쪽</th><th>원본 크기</th><th>결과 크기</th><th>배율</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.summary
+            .map(
+              (item, index) =>
+                `<tr><td>${index + 1}</td><td>${escapeHtml(item.sourceSize)}</td><td>${escapeHtml(item.targetSize)}</td><td>${Math.round(item.scale * 100)}%</td><td><strong class="${item.drawn ? "status-ok" : "status-warn"}">${item.drawn ? "배치 완료" : "빈 페이지 처리"}</strong></td></tr>`
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindPdfSplitterEvents() {
+  const form = document.querySelector("#pdfSplitterForm");
+  const input = document.querySelector("#pdfSplitterInput");
+  const count = document.querySelector("#pdfSplitterCount");
+  const zipButton = document.querySelector("#downloadPdfSplitZip");
+  const reportButton = document.querySelector("#downloadPdfSplitReport");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "나눌 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#pdfSplitterResult");
+    zipButton.disabled = true;
+    reportButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "나눌 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "pdf") {
+      showResultMessage(result, "PDF 파일만 나눌 수 있습니다.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.singleBytes) {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.singleBytes)}를 넘습니다.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF를 쪽수 단위로 나누는 중입니다...");
+    try {
+      const output = await splitPdfIntoZip(file, {
+        chunkSize: Math.max(1, Math.min(200, Number(document.querySelector("#pdfSplitChunkSize")?.value || 10))),
+        prefix: safeBaseName(document.querySelector("#pdfSplitPrefix")?.value || "goatool_split")
+      });
+      state.lastPdfSplitZipBlob = output.zipBlob;
+      state.lastPdfSplitReportBlob = new Blob([makePdfSplitReport(output)], { type: "text/plain;charset=utf-8" });
+      zipButton.disabled = false;
+      reportButton.disabled = false;
+      result.innerHTML = renderPdfSplitResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "PDF를 나누지 못했습니다. 암호가 없는 일반 PDF인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  zipButton?.addEventListener("click", () => {
+    if (state.lastPdfSplitZipBlob) downloadBlob(state.lastPdfSplitZipBlob, "goatool-split-pdf.zip");
+  });
+  reportButton?.addEventListener("click", () => {
+    if (state.lastPdfSplitReportBlob) downloadBlob(state.lastPdfSplitReportBlob, "goatool-pdf-split-report.txt");
+  });
+}
+
+async function splitPdfIntoZip(file, options) {
+  const { PDFDocument } = await loadPdfLib();
+  const source = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+  const totalPages = source.getPageCount();
+  const chunkSize = Math.max(1, options.chunkSize);
+  const chunks = [];
+  const zip = new JSZip();
+  for (let start = 0; start < totalPages; start += chunkSize) {
+    const end = Math.min(totalPages - 1, start + chunkSize - 1);
+    const output = await PDFDocument.create();
+    const indices = [];
+    for (let index = start; index <= end; index += 1) indices.push(index);
+    const copied = await output.copyPages(source, indices);
+    copied.forEach((page) => output.addPage(page));
+    const bytes = await output.save();
+    const fileName = `${options.prefix}_${String(chunks.length + 1).padStart(2, "0")}_p${start + 1}-${end + 1}.pdf`;
+    zip.file(fileName, bytes);
+    chunks.push({ fileName, from: start + 1, to: end + 1, pages: end - start + 1, size: bytes.length });
+  }
+  zip.file(`${options.prefix}_split_report.txt`, makePdfSplitReport({ sourceName: file.name, totalPages, chunkSize, chunks }));
+  return {
+    sourceName: file.name,
+    totalPages,
+    chunkSize,
+    chunks,
+    zipBlob: await zip.generateAsync({ type: "blob" })
+  };
+}
+
+function makePdfSplitReport(output) {
+  return [
+    "goatool PDF 나누기 결과",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `원본 PDF: ${output.sourceName}`,
+    `전체 쪽수: ${output.totalPages}`,
+    `나눔 단위: ${output.chunkSize}쪽`,
+    `결과 PDF: ${output.chunks.length}개`,
+    "",
+    ...output.chunks.map((chunk, index) => `${index + 1}. ${chunk.fileName} / ${chunk.from}-${chunk.to}쪽 / ${formatBytes(chunk.size)}`)
+  ].join("\n");
+}
+
+function renderPdfSplitResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>전체 쪽수</span><strong>${output.totalPages}</strong></div>
+      <div><span>결과 PDF</span><strong>${output.chunks.length}</strong></div>
+      <div><span>ZIP 용량</span><strong>${formatBytes(output.zipBlob.size)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>PDF 나누기 결과</h3>
+      <p class="ok-line">${output.chunkSize}쪽 단위로 PDF를 나누어 ZIP을 만들었습니다.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>결과 PDF</th><th>페이지</th><th>쪽수</th><th>용량</th></tr></thead>
+        <tbody>
+          ${output.chunks.map((chunk) => `<tr><td>${escapeHtml(chunk.fileName)}</td><td>${chunk.from}-${chunk.to}</td><td>${chunk.pages}</td><td>${formatBytes(chunk.size)}</td></tr>`).join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindPdfBlankRemoverEvents() {
+  const form = document.querySelector("#pdfBlankForm");
+  const input = document.querySelector("#pdfBlankInput");
+  const count = document.querySelector("#pdfBlankCount");
+  const pdfButton = document.querySelector("#downloadPdfBlank");
+  const reportButton = document.querySelector("#downloadPdfBlankReport");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "빈 페이지를 찾을 PDF를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#pdfBlankResult");
+    pdfButton.disabled = true;
+    reportButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "빈 페이지를 정리할 PDF를 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "pdf") {
+      showResultMessage(result, "PDF 파일만 정리할 수 있습니다.", "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "PDF 빈 페이지 후보를 찾는 중입니다...");
+    try {
+      const output = await removeBlankPdfPages(file);
+      const baseName = safeBaseName(document.querySelector("#pdfBlankName")?.value || "goatool_no_blank_pages");
+      state.lastPdfBlankBlob = output.blob;
+      state.lastPdfName = `${baseName}.pdf`;
+      state.lastPdfBlankReportBlob = new Blob([makePdfBlankReport(output)], { type: "text/plain;charset=utf-8" });
+      pdfButton.disabled = false;
+      reportButton.disabled = false;
+      result.innerHTML = renderPdfBlankResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "PDF 빈 페이지를 정리하지 못했습니다.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  pdfButton?.addEventListener("click", () => {
+    if (state.lastPdfBlankBlob) downloadBlob(state.lastPdfBlankBlob, state.lastPdfName || "goatool-no-blank-pages.pdf");
+  });
+  reportButton?.addEventListener("click", () => {
+    if (state.lastPdfBlankReportBlob) downloadBlob(state.lastPdfBlankReportBlob, "goatool-pdf-blank-pages.txt");
+  });
+}
+
+async function removeBlankPdfPages(file) {
+  const { PDFDocument } = await loadPdfLib();
+  const source = await PDFDocument.load(await file.arrayBuffer(), { ignoreEncryption: false });
+  const output = await PDFDocument.create();
+  const pages = source.getPages();
+  const blankPages = [];
+  const keptPages = [];
+
+  for (let index = 0; index < pages.length; index += 1) {
+    const page = pages[index];
+    const hasContents = Boolean(page.node?.Contents?.());
+    if (!hasContents) {
+      blankPages.push(index + 1);
+      continue;
+    }
+    const [copied] = await output.copyPages(source, [index]);
+    output.addPage(copied);
+    keptPages.push(index + 1);
+  }
+
+  if (!keptPages.length) throw new Error("모든 페이지가 구조상 빈 페이지로 감지되어 새 PDF를 만들지 않았습니다.");
+  const bytes = await output.save();
+  return {
+    sourceName: file.name,
+    blob: new Blob([bytes], { type: "application/pdf" }),
+    originalPages: pages.length,
+    keptPages,
+    blankPages
+  };
+}
+
+function makePdfBlankReport(output) {
+  return [
+    "goatool PDF 빈 페이지 정리 결과",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `원본 PDF: ${output.sourceName}`,
+    `원본 쪽수: ${output.originalPages}`,
+    `제거 후보: ${output.blankPages.length ? output.blankPages.join(", ") : "없음"}`,
+    `남긴 쪽: ${output.keptPages.join(", ")}`
+  ].join("\n");
+}
+
+function renderPdfBlankResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>원본 쪽수</span><strong>${output.originalPages}</strong></div>
+      <div><span>빈 페이지 후보</span><strong class="${output.blankPages.length ? "status-warn" : "status-ok"}">${output.blankPages.length}</strong></div>
+      <div><span>결과 쪽수</span><strong>${output.keptPages.length}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>PDF 빈 페이지 정리 결과</h3>
+      ${
+        output.blankPages.length
+          ? `<p class="ok-line">${output.blankPages.join(", ")}쪽을 구조상 빈 페이지 후보로 제외했습니다. 결과 PDF를 열어 필요한 페이지가 빠지지 않았는지 확인하세요.</p>`
+          : `<p class="ok-line">구조상 빈 페이지 후보가 보이지 않습니다. 동일한 페이지 구성으로 새 PDF를 만들었습니다.</p>`
+      }
+    </div>
+    <div class="metric-list">
+      <p><strong>남긴 페이지</strong><span>${output.keptPages.join(", ")}</span></p>
+      <p><strong>주의</strong><span>흰 종이를 스캔한 이미지 페이지는 내용 스트림이 있어 자동 제거되지 않을 수 있습니다.</span></p>
+    </div>
+  `;
+}
+
 function bindFileReadyEvents() {
   const form = document.querySelector("#fileReadyForm");
   const fileInput = document.querySelector("#fileReadyInput");
@@ -2939,6 +4489,272 @@ function renderRequiredDocResult(output) {
   `;
 }
 
+function bindBundleRuleCheckerEvents() {
+  const form = document.querySelector("#bundleRuleForm");
+  const input = document.querySelector("#bundleRuleFiles");
+  const count = document.querySelector("#bundleRuleCount");
+  const reportButton = document.querySelector("#downloadBundleRuleReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 파일 선택됨` : "검사할 파일을 선택하세요";
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#bundleRuleResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "규칙을 검사할 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.fileCount, allowImagesOnly: false });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    const options = {
+      maxTotalBytes: Math.max(1, Number(document.querySelector("#bundleMaxTotal")?.value || 25)) * 1024 * 1024,
+      maxSingleBytes: Math.max(1, Number(document.querySelector("#bundleMaxSingle")?.value || 10)) * 1024 * 1024,
+      allowed: parseAllowedExtensions(document.querySelector("#bundleAllowedExt")?.value || "")
+    };
+    const output = checkBundleRules(files, options);
+    state.lastBundleRuleReportBlob = new Blob([makeBundleRuleReport(output)], { type: "text/plain;charset=utf-8" });
+    reportButton.disabled = false;
+    result.innerHTML = renderBundleRuleResult(output);
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastBundleRuleReportBlob) downloadBlob(state.lastBundleRuleReportBlob, "goatool-bundle-rule-check.txt");
+  });
+}
+
+function parseAllowedExtensions(value) {
+  return new Set(
+    String(value || "")
+      .split(/[,\s]+/)
+      .map((item) => item.trim().replace(/^\./, "").toLowerCase())
+      .filter(Boolean)
+  );
+}
+
+function checkBundleRules(files, options) {
+  const totalSize = files.reduce((sum, file) => sum + file.size, 0);
+  const duplicateNames = new Map();
+  files.forEach((file) => {
+    const key = file.name.toLowerCase();
+    duplicateNames.set(key, (duplicateNames.get(key) || 0) + 1);
+  });
+
+  const items = files.map((file) => {
+    const extension = extensionOf(file.name);
+    const warnings = [];
+    if (!extension) warnings.push("확장자 없음");
+    if (options.allowed.size && !options.allowed.has(extension)) warnings.push("허용되지 않은 확장자");
+    if (file.size > options.maxSingleBytes) warnings.push("파일별 용량 초과");
+    if (file.name.length > 80) warnings.push("파일명 김");
+    if (/\s{2,}/.test(file.name)) warnings.push("연속 공백");
+    if (/[\\/:*?"<>|]/.test(file.name)) warnings.push("특수문자");
+    if ((duplicateNames.get(file.name.toLowerCase()) || 0) > 1) warnings.push("중복 파일명");
+    return {
+      name: file.name,
+      size: file.size,
+      extension,
+      warnings
+    };
+  });
+
+  const globalWarnings = [];
+  if (totalSize > options.maxTotalBytes) globalWarnings.push(`총용량 ${formatBytes(totalSize)}가 제한 ${formatBytes(options.maxTotalBytes)}를 넘습니다.`);
+  if (!options.allowed.size) globalWarnings.push("허용 확장자 목록이 비어 있어 확장자 검사를 건너뛰었습니다.");
+
+  return {
+    items,
+    totalSize,
+    maxTotalBytes: options.maxTotalBytes,
+    maxSingleBytes: options.maxSingleBytes,
+    allowed: [...options.allowed],
+    globalWarnings
+  };
+}
+
+function makeBundleRuleReport(output) {
+  const problemItems = output.items.filter((item) => item.warnings.length);
+  return [
+    "goatool 제출 규칙 검사표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `파일 수: ${output.items.length}`,
+    `총 용량: ${formatBytes(output.totalSize)} / 제한 ${formatBytes(output.maxTotalBytes)}`,
+    `파일별 제한: ${formatBytes(output.maxSingleBytes)}`,
+    `허용 확장자: ${output.allowed.length ? output.allowed.join(", ") : "미입력"}`,
+    "",
+    "[전체 경고]",
+    ...(output.globalWarnings.length ? output.globalWarnings.map((item) => `- ${item}`) : ["- 없음"]),
+    "",
+    "[파일별 검사]",
+    ...output.items.map((item, index) => `${index + 1}. ${item.name} / ${formatBytes(item.size)} / .${item.extension || "-"} / ${item.warnings.length ? item.warnings.join(", ") : "통과"}`),
+    "",
+    `확인 필요 파일: ${problemItems.length}개`
+  ].join("\n");
+}
+
+function renderBundleRuleResult(output) {
+  const problemItems = output.items.filter((item) => item.warnings.length);
+  const hasWarnings = Boolean(problemItems.length || output.globalWarnings.length);
+  return `
+    <div class="stat-grid">
+      <div><span>파일 수</span><strong>${output.items.length}</strong></div>
+      <div><span>총 용량</span><strong class="${output.totalSize > output.maxTotalBytes ? "status-warn" : "status-ok"}">${formatBytes(output.totalSize)}</strong></div>
+      <div><span>확인 필요</span><strong class="${hasWarnings ? "status-warn" : "status-ok"}">${problemItems.length + output.globalWarnings.length}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>제출 규칙 검사 결과</h3>
+      ${
+        hasWarnings
+          ? `<ul class="warning-list">${[...output.globalWarnings, ...problemItems.map((item) => `${item.name}: ${item.warnings.join(", ")}`)].map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`
+          : `<p class="ok-line">입력한 규칙 기준으로 용량, 확장자, 파일명 위험 신호가 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>파일명</th><th>확장자</th><th>용량</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.items
+            .map(
+              (item) => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${escapeHtml(item.extension || "-")}</td>
+                  <td>${formatBytes(item.size)}</td>
+                  <td><strong class="${item.warnings.length ? "status-warn" : "status-ok"}">${item.warnings.length ? escapeHtml(item.warnings.join(", ")) : "통과"}</strong></td>
+                </tr>
+              `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindFilenamePrivacyCheckerEvents() {
+  const form = document.querySelector("#filenamePrivacyForm");
+  const input = document.querySelector("#filenamePrivacyFiles");
+  const count = document.querySelector("#filenamePrivacyCount");
+  const reportButton = document.querySelector("#downloadFilenamePrivacyReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 파일 선택됨` : "파일명을 점검할 파일을 선택하세요";
+  });
+
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#filenamePrivacyResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "파일명을 점검할 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.fileCount, allowImagesOnly: false });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    const output = inspectFilenamePrivacy(files);
+    state.lastFilenamePrivacyReportBlob = new Blob([makeFilenamePrivacyReport(output)], { type: "text/plain;charset=utf-8" });
+    reportButton.disabled = false;
+    result.innerHTML = renderFilenamePrivacyResult(output);
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastFilenamePrivacyReportBlob) downloadBlob(state.lastFilenamePrivacyReportBlob, "goatool-filename-privacy.txt");
+  });
+}
+
+function filenamePrivacyRules() {
+  return [
+    { label: "이메일", pattern: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi },
+    { label: "전화번호", pattern: /(?:01[016789]|02|0[3-6]\d)[-.\s]?\d{3,4}[-.\s]?\d{4}/g },
+    { label: "주민등록번호 형태", pattern: /\d{6}[-\s]?[1-4]\d{6}/g },
+    { label: "생년월일 8자리", pattern: /(?:19|20)\d{2}[-._]?(?:0[1-9]|1[0-2])[-._]?(?:0[1-9]|[12]\d|3[01])/g }
+  ];
+}
+
+function inspectFilenamePrivacy(files) {
+  const rules = filenamePrivacyRules();
+  const items = files.map((file) => {
+    const hits = [];
+    rules.forEach((rule) => {
+      const matches = file.name.match(rule.pattern) || [];
+      if (matches.length) hits.push({ label: rule.label, count: matches.length });
+    });
+    return {
+      name: file.name,
+      extension: extensionOf(file.name),
+      size: file.size,
+      hits
+    };
+  });
+  return { items, problemCount: items.filter((item) => item.hits.length).length };
+}
+
+function makeFilenamePrivacyReport(output) {
+  return [
+    "goatool 파일명 개인정보 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `파일 수: ${output.items.length}`,
+    `확인 필요: ${output.problemCount}개`,
+    "",
+    ...output.items.map((item, index) => {
+      const status = item.hits.length ? item.hits.map((hit) => hit.label).join(", ") : "위험 단서 없음";
+      return `${index + 1}. ${item.name} / ${status}`;
+    })
+  ].join("\n");
+}
+
+function renderFilenamePrivacyResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>파일 수</span><strong>${output.items.length}</strong></div>
+      <div><span>확인 필요</span><strong class="${output.problemCount ? "status-warn" : "status-ok"}">${output.problemCount}</strong></div>
+      <div><span>검사 기준</span><strong>4</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>파일명 개인정보 점검 결과</h3>
+      ${
+        output.problemCount
+          ? `<ul class="warning-list">${output.items
+              .filter((item) => item.hits.length)
+              .map((item) => `<li>${escapeHtml(item.name)}: ${escapeHtml(item.hits.map((hit) => hit.label).join(", "))}</li>`)
+              .join("")}</ul>`
+          : `<p class="ok-line">파일명에서 전화번호, 이메일, 주민등록번호 형태, 생년월일 8자리 단서가 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>파일명</th><th>확장자</th><th>용량</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.items
+            .map(
+              (item) => `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${escapeHtml(item.extension || "-")}</td>
+                  <td>${formatBytes(item.size)}</td>
+                  <td><strong class="${item.hits.length ? "status-warn" : "status-ok"}">${item.hits.length ? escapeHtml(item.hits.map((hit) => hit.label).join(", ")) : "위험 단서 없음"}</strong></td>
+                </tr>
+              `
+            )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
 function bindImagePrivacyEvents() {
   const form = document.querySelector("#imagePrivacyForm");
   const imageInput = document.querySelector("#imageInput");
@@ -3100,6 +4916,193 @@ function renderImageResult(outputs) {
       </table>
     </div>
   `;
+}
+
+function bindImageRedactorEvents() {
+  const form = document.querySelector("#imageRedactorForm");
+  const input = document.querySelector("#imageRedactorInput");
+  const count = document.querySelector("#imageRedactorCount");
+  const undoButton = document.querySelector("#undoRedaction");
+  const resetButton = document.querySelector("#resetRedaction");
+  const downloadButton = document.querySelector("#downloadRedactedImage");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "가릴 정보가 보이는 이미지를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#imageRedactorResult");
+    undoButton.disabled = true;
+    resetButton.disabled = true;
+    downloadButton.disabled = true;
+    state.lastImageRedactedBlob = null;
+    if (!file) {
+      showResultMessage(result, "가림 처리할 이미지를 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles([file], { maxCount: 1, allowImagesOnly: true });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "이미지를 작업 화면에 여는 중입니다...");
+    try {
+      const source = await loadImageSource(file);
+      result.innerHTML = renderImageRedactorWorkspace(file, source);
+      state.redactor = {
+        file,
+        source,
+        rects: [],
+        color: document.querySelector("#imageRedactorColor")?.value || "#111827",
+        dragStart: null,
+        previewRect: null
+      };
+      setupRedactorCanvas();
+      document.querySelector("#imageRedactorCanvas")?.scrollIntoView({ block: "center" });
+      undoButton.disabled = false;
+      resetButton.disabled = false;
+      downloadButton.disabled = false;
+      updateRedactorButtons();
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "이미지를 열지 못했습니다. 일반 JPG, PNG, WebP 파일로 다시 시도하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  document.querySelector("#imageRedactorColor")?.addEventListener("change", (event) => {
+    if (!state.redactor) return;
+    state.redactor.color = event.target.value;
+    drawRedactorCanvas();
+  });
+
+  undoButton?.addEventListener("click", () => {
+    if (!state.redactor?.rects.length) return;
+    state.redactor.rects.pop();
+    drawRedactorCanvas();
+    updateRedactorButtons();
+  });
+
+  resetButton?.addEventListener("click", () => {
+    if (!state.redactor) return;
+    state.redactor.rects = [];
+    drawRedactorCanvas();
+    updateRedactorButtons();
+  });
+
+  downloadButton?.addEventListener("click", async () => {
+    const canvas = document.querySelector("#imageRedactorCanvas");
+    if (!canvas) return;
+    const blob = await canvasToBlob(canvas, "image/jpeg", 0.92);
+    state.lastImageRedactedBlob = blob;
+    state.lastImageRedactedName = `${removeExtension(safeBaseName(state.redactor?.file?.name || "image"))}_redacted.jpg`;
+    downloadBlob(blob, state.lastImageRedactedName);
+  });
+}
+
+function renderImageRedactorWorkspace(file, source) {
+  return `
+    <div class="stat-grid">
+      <div><span>원본 픽셀</span><strong>${source.width}×${source.height}</strong></div>
+      <div><span>가림 영역</span><strong id="redactorRectCount">0</strong></div>
+      <div><span>원본 용량</span><strong>${formatBytes(file.size)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>가림 작업</h3>
+      <p class="ok-line">아래 이미지에서 숨길 부분을 드래그하세요. 드래그를 끝내면 바로 박스가 적용됩니다.</p>
+    </div>
+    <div class="redactor-stage">
+      <canvas id="imageRedactorCanvas" class="redactor-canvas" width="${source.width}" height="${source.height}" aria-label="이미지 민감정보 가림 캔버스"></canvas>
+    </div>
+  `;
+}
+
+function setupRedactorCanvas() {
+  const canvas = document.querySelector("#imageRedactorCanvas");
+  if (!canvas || !state.redactor) return;
+  drawRedactorCanvas();
+
+  canvas.addEventListener("pointerdown", (event) => {
+    if (!state.redactor) return;
+    canvas.setPointerCapture?.(event.pointerId);
+    state.redactor.dragStart = redactorPoint(event, canvas);
+    state.redactor.previewRect = null;
+  });
+
+  canvas.addEventListener("pointermove", (event) => {
+    if (!state.redactor?.dragStart) return;
+    state.redactor.previewRect = rectFromPoints(state.redactor.dragStart, redactorPoint(event, canvas));
+    drawRedactorCanvas();
+  });
+
+  canvas.addEventListener("pointerup", (event) => {
+    if (!state.redactor?.dragStart) return;
+    const rect = rectFromPoints(state.redactor.dragStart, redactorPoint(event, canvas));
+    if (rect.width >= 6 && rect.height >= 6) state.redactor.rects.push(rect);
+    state.redactor.dragStart = null;
+    state.redactor.previewRect = null;
+    drawRedactorCanvas();
+    updateRedactorButtons();
+  });
+
+  canvas.addEventListener("pointercancel", () => {
+    if (!state.redactor) return;
+    state.redactor.dragStart = null;
+    state.redactor.previewRect = null;
+    drawRedactorCanvas();
+  });
+}
+
+function redactorPoint(event, canvas) {
+  const bounds = canvas.getBoundingClientRect();
+  return {
+    x: Math.max(0, Math.min(canvas.width, ((event.clientX - bounds.left) / bounds.width) * canvas.width)),
+    y: Math.max(0, Math.min(canvas.height, ((event.clientY - bounds.top) / bounds.height) * canvas.height))
+  };
+}
+
+function rectFromPoints(a, b) {
+  return {
+    x: Math.min(a.x, b.x),
+    y: Math.min(a.y, b.y),
+    width: Math.abs(a.x - b.x),
+    height: Math.abs(a.y - b.y)
+  };
+}
+
+function drawRedactorCanvas() {
+  const canvas = document.querySelector("#imageRedactorCanvas");
+  if (!canvas || !state.redactor) return;
+  const context = canvas.getContext("2d");
+  context.clearRect(0, 0, canvas.width, canvas.height);
+  context.drawImage(state.redactor.source.image, 0, 0, canvas.width, canvas.height);
+  context.fillStyle = state.redactor.color;
+  state.redactor.rects.forEach((rect) => context.fillRect(rect.x, rect.y, rect.width, rect.height));
+  if (state.redactor.previewRect) {
+    context.save();
+    context.globalAlpha = 0.72;
+    context.fillStyle = state.redactor.color;
+    context.fillRect(state.redactor.previewRect.x, state.redactor.previewRect.y, state.redactor.previewRect.width, state.redactor.previewRect.height);
+    context.strokeStyle = "#ffffff";
+    context.lineWidth = Math.max(2, Math.round(canvas.width / 360));
+    context.strokeRect(state.redactor.previewRect.x, state.redactor.previewRect.y, state.redactor.previewRect.width, state.redactor.previewRect.height);
+    context.restore();
+  }
+}
+
+function updateRedactorButtons() {
+  const count = state.redactor?.rects.length || 0;
+  const counter = document.querySelector("#redactorRectCount");
+  const undoButton = document.querySelector("#undoRedaction");
+  const resetButton = document.querySelector("#resetRedaction");
+  if (counter) counter.textContent = String(count);
+  if (undoButton) undoButton.disabled = count === 0;
+  if (resetButton) resetButton.disabled = count === 0;
 }
 
 function bindFilenameCleanerEvents() {
@@ -3451,6 +5454,161 @@ function renderZipInspectResult(file, items, warnings) {
       <table>
         <thead><tr><th>ZIP 내부 파일명</th><th>확장자</th><th>깊이</th></tr></thead>
         <tbody>${items.slice(0, 80).map((item) => `<tr><td>${escapeHtml(item.name)}</td><td>${escapeHtml(item.extension || "-")}</td><td>${item.depth}</td></tr>`).join("")}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindZipRepackerEvents() {
+  const form = document.querySelector("#zipRepackerForm");
+  const input = document.querySelector("#zipRepackInput");
+  const count = document.querySelector("#zipRepackCount");
+  const zipButton = document.querySelector("#downloadZipRepack");
+  const reportButton = document.querySelector("#downloadZipRepackReport");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "다시 포장할 ZIP을 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#zipRepackerResult");
+    zipButton.disabled = true;
+    reportButton.disabled = true;
+    state.lastZipRepackName = null;
+    if (!file) {
+      showResultMessage(result, "다시 포장할 ZIP을 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (extensionOf(file.name) !== "zip") {
+      showResultMessage(result, "ZIP 파일만 다시 포장할 수 있습니다.", "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "ZIP을 읽고 새 ZIP으로 다시 묶는 중입니다...");
+    try {
+      const output = await repackZip(file, {
+        removeSystem: document.querySelector("#zipRemoveSystem")?.checked ?? true,
+        flatten: document.querySelector("#zipFlatten")?.checked ?? false,
+        baseName: safeBaseName(document.querySelector("#zipRepackName")?.value || "goatool_clean_zip")
+      });
+      state.lastZipRepackBlob = output.blob;
+      state.lastZipRepackName = output.fileName;
+      state.lastZipRepackReportBlob = new Blob([makeZipRepackReport(output)], { type: "text/plain;charset=utf-8" });
+      zipButton.disabled = false;
+      reportButton.disabled = false;
+      result.innerHTML = renderZipRepackResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "ZIP을 다시 포장하지 못했습니다. 암호가 걸렸거나 손상된 ZIP인지 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  zipButton?.addEventListener("click", () => {
+    if (state.lastZipRepackBlob) downloadBlob(state.lastZipRepackBlob, state.lastZipRepackName || "goatool-clean.zip");
+  });
+  reportButton?.addEventListener("click", () => {
+    if (state.lastZipRepackReportBlob) downloadBlob(state.lastZipRepackReportBlob, "goatool-zip-repack-report.txt");
+  });
+}
+
+async function repackZip(file, options) {
+  const source = await JSZip.loadAsync(await file.arrayBuffer());
+  const output = new JSZip();
+  const usedNames = new Set();
+  const items = [];
+  const skipped = [];
+  const entries = Object.values(source.files).filter((entry) => !entry.dir);
+
+  for (const entry of entries) {
+    if (options.removeSystem && isSystemZipEntry(entry.name)) {
+      skipped.push(entry.name);
+      continue;
+    }
+    const rawName = options.flatten ? entry.name.split("/").filter(Boolean).pop() || "file" : entry.name;
+    const safeName = uniqueZipName(safeZipEntryName(rawName), usedNames);
+    const blob = await entry.async("blob");
+    output.file(safeName, blob);
+    items.push({ originalName: entry.name, newName: safeName, size: blob.size });
+  }
+
+  output.file(`${options.baseName}_report.txt`, makeZipRepackReport({ sourceName: file.name, items, skipped, blob: { size: 0 } }));
+  return {
+    sourceName: file.name,
+    fileName: `${options.baseName}.zip`,
+    items,
+    skipped,
+    blob: await output.generateAsync({ type: "blob" })
+  };
+}
+
+function isSystemZipEntry(name) {
+  const parts = String(name).split("/").filter(Boolean);
+  return parts.some((part) => part === "__MACOSX" || part === ".DS_Store" || part === "Thumbs.db" || part.startsWith("._"));
+}
+
+function safeZipEntryName(name) {
+  const cleaned = String(name || "file")
+    .split("/")
+    .map((part) => safeBaseName(part))
+    .filter(Boolean)
+    .join("/");
+  return cleaned || "file";
+}
+
+function uniqueZipName(name, used) {
+  const ext = extensionOf(name);
+  const stem = removeExtension(name);
+  let next = name;
+  let index = 2;
+  while (used.has(next.toLowerCase())) {
+    next = ext ? `${stem}_${index}.${ext}` : `${stem}_${index}`;
+    index += 1;
+  }
+  used.add(next.toLowerCase());
+  return next;
+}
+
+function makeZipRepackReport(output) {
+  return [
+    "goatool ZIP 다시 포장 결과",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `원본 ZIP: ${output.sourceName}`,
+    `포함 파일: ${output.items.length}`,
+    `제외 파일: ${output.skipped.length}`,
+    output.blob?.size ? `결과 ZIP 용량: ${formatBytes(output.blob.size)}` : "",
+    "",
+    "[포함 파일]",
+    ...(output.items.length ? output.items.map((item, index) => `${index + 1}. ${item.originalName} -> ${item.newName}`) : ["- 없음"]),
+    "",
+    "[제외 파일]",
+    ...(output.skipped.length ? output.skipped.map((item) => `- ${item}`) : ["- 없음"])
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function renderZipRepackResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>포함 파일</span><strong>${output.items.length}</strong></div>
+      <div><span>제외 파일</span><strong class="${output.skipped.length ? "status-warn" : "status-ok"}">${output.skipped.length}</strong></div>
+      <div><span>결과 ZIP</span><strong>${formatBytes(output.blob.size)}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>ZIP 다시 포장 결과</h3>
+      ${output.items.length ? `<p class="ok-line">선택한 기준으로 새 ZIP을 만들었습니다. 접수 전 내부 파일 수를 다시 확인하세요.</p>` : `<p class="warning-line">새 ZIP에 포함할 파일이 없습니다. 옵션과 원본 ZIP을 확인하세요.</p>`}
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>원본 경로</th><th>새 ZIP 안 파일명</th><th>용량</th></tr></thead>
+        <tbody>
+          ${output.items.length ? output.items.map((item) => `<tr><td>${escapeHtml(item.originalName)}</td><td>${escapeHtml(item.newName)}</td><td>${formatBytes(item.size)}</td></tr>`).join("") : `<tr><td colspan="3">포함된 파일이 없습니다.</td></tr>`}
+        </tbody>
       </table>
     </div>
   `;
@@ -3814,6 +5972,288 @@ function renderScanReadabilityResult(items) {
                 </tr>
               `
             )
+            .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindImageDuplicateFinderEvents() {
+  const form = document.querySelector("#imageDuplicateForm");
+  const input = document.querySelector("#imageDuplicateInput");
+  const count = document.querySelector("#imageDuplicateCount");
+  const reportButton = document.querySelector("#downloadImageDuplicateReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 이미지 선택됨` : "스캔본이나 캡처 이미지를 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#imageDuplicateResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "중복을 점검할 이미지를 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.imageCount, allowImagesOnly: true });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "이미지 중복 후보를 계산하는 중입니다...");
+    try {
+      const sensitivity = document.querySelector("#imageDuplicateSensitivity")?.value || "balanced";
+      const output = await findImageDuplicates(files, sensitivity);
+      state.lastImageDuplicateReportBlob = new Blob([makeImageDuplicateReport(output)], { type: "text/plain;charset=utf-8" });
+      reportButton.disabled = false;
+      result.innerHTML = renderImageDuplicateResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "이미지 중복을 계산하지 못했습니다. 일반 JPG, PNG, WebP 파일로 다시 시도하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastImageDuplicateReportBlob) downloadBlob(state.lastImageDuplicateReportBlob, "goatool-image-duplicates.txt");
+  });
+}
+
+async function findImageDuplicates(files, sensitivity) {
+  const thresholds = { strict: 0, balanced: 5, loose: 10 };
+  const threshold = thresholds[sensitivity] ?? thresholds.balanced;
+  const items = [];
+  for (const file of files) {
+    items.push(await imageAverageHash(file));
+  }
+
+  const pairs = [];
+  for (let i = 0; i < items.length; i += 1) {
+    for (let j = i + 1; j < items.length; j += 1) {
+      const distance = hammingDistance(items[i].hash, items[j].hash);
+      if (distance <= threshold) {
+        pairs.push({
+          a: items[i],
+          b: items[j],
+          distance,
+          similarity: Math.round((1 - distance / 64) * 100)
+        });
+      }
+    }
+  }
+  pairs.sort((a, b) => a.distance - b.distance || a.a.name.localeCompare(b.a.name));
+  return { items, pairs, threshold, sensitivity };
+}
+
+async function imageAverageHash(file) {
+  const source = await loadImageSource(file);
+  const canvas = document.createElement("canvas");
+  canvas.width = 8;
+  canvas.height = 8;
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.drawImage(source.image, 0, 0, 8, 8);
+  source.close?.();
+
+  const data = context.getImageData(0, 0, 8, 8).data;
+  const values = [];
+  for (let i = 0; i < data.length; i += 4) {
+    values.push(data[i] * 0.299 + data[i + 1] * 0.587 + data[i + 2] * 0.114);
+  }
+  const average = values.reduce((sum, value) => sum + value, 0) / values.length;
+  return {
+    name: file.name,
+    size: file.size,
+    width: source.width,
+    height: source.height,
+    hash: values.map((value) => (value >= average ? "1" : "0")).join("")
+  };
+}
+
+function hammingDistance(a, b) {
+  let distance = 0;
+  for (let index = 0; index < Math.min(a.length, b.length); index += 1) {
+    if (a[index] !== b[index]) distance += 1;
+  }
+  return distance + Math.abs(a.length - b.length);
+}
+
+function makeImageDuplicateReport(output) {
+  return [
+    "goatool 이미지 중복 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `이미지 수: ${output.items.length}`,
+    `중복 후보: ${output.pairs.length}쌍`,
+    `기준 거리: ${output.threshold}`,
+    "",
+    "[중복 후보]",
+    ...(output.pairs.length
+      ? output.pairs.map((pair, index) => `${index + 1}. ${pair.a.name} <-> ${pair.b.name} / 유사도 ${pair.similarity}% / 거리 ${pair.distance}`)
+      : ["- 없음"]),
+    "",
+    "[검사 이미지]",
+    ...output.items.map((item, index) => `${index + 1}. ${item.name} / ${item.width}x${item.height} / ${formatBytes(item.size)}`)
+  ].join("\n");
+}
+
+function renderImageDuplicateResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>이미지 수</span><strong>${output.items.length}</strong></div>
+      <div><span>중복 후보</span><strong class="${output.pairs.length ? "status-warn" : "status-ok"}">${output.pairs.length}</strong></div>
+      <div><span>기준 거리</span><strong>${output.threshold}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>이미지 중복 점검 결과</h3>
+      ${
+        output.pairs.length
+          ? `<ul class="warning-list">${output.pairs.slice(0, 8).map((pair) => `<li>${escapeHtml(pair.a.name)} ↔ ${escapeHtml(pair.b.name)} · 유사도 ${pair.similarity}%</li>`).join("")}</ul>`
+          : `<p class="ok-line">선택한 기준에서는 뚜렷한 중복 후보가 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>이미지 A</th><th>이미지 B</th><th>유사도</th><th>거리</th></tr></thead>
+        <tbody>
+          ${
+            output.pairs.length
+              ? output.pairs
+                  .map(
+                    (pair) => `
+                      <tr>
+                        <td>${escapeHtml(pair.a.name)}</td>
+                        <td>${escapeHtml(pair.b.name)}</td>
+                        <td><strong class="status-warn">${pair.similarity}%</strong></td>
+                        <td>${pair.distance}</td>
+                      </tr>
+                    `
+                  )
+                  .join("")
+              : `<tr><td colspan="4">중복 후보가 없습니다.</td></tr>`
+          }
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindFileDuplicateFinderEvents() {
+  const form = document.querySelector("#fileDuplicateForm");
+  const input = document.querySelector("#fileDuplicateFiles");
+  const count = document.querySelector("#fileDuplicateCount");
+  const reportButton = document.querySelector("#downloadFileDuplicateReport");
+
+  input?.addEventListener("change", () => {
+    count.textContent = input.files?.length ? `${input.files.length}개 파일 선택됨` : "내용 중복을 찾을 파일을 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const files = Array.from(input?.files || []);
+    const result = document.querySelector("#fileDuplicateResult");
+    reportButton.disabled = true;
+    if (!files.length) {
+      showResultMessage(result, "내용 중복을 점검할 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    const validation = validateFiles(files, { maxCount: LIMITS.fileCount, allowImagesOnly: false });
+    if (!validation.ok) {
+      showResultMessage(result, validation.message, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "파일 해시를 계산해 중복 그룹을 찾는 중입니다...");
+    try {
+      const output = await findFileDuplicates(files);
+      state.lastFileDuplicateReportBlob = new Blob([makeFileDuplicateReport(output)], { type: "text/plain;charset=utf-8" });
+      reportButton.disabled = false;
+      result.innerHTML = renderFileDuplicateResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, "파일 해시를 계산하지 못했습니다. 대용량 파일은 나누어 다시 시도하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastFileDuplicateReportBlob) downloadBlob(state.lastFileDuplicateReportBlob, "goatool-file-duplicates.txt");
+  });
+}
+
+async function findFileDuplicates(files) {
+  const items = [];
+  for (const file of files) {
+    items.push({
+      name: file.name,
+      size: file.size,
+      extension: extensionOf(file.name),
+      hash: await hashFile(file)
+    });
+  }
+  const groupsMap = new Map();
+  items.forEach((item) => {
+    const group = groupsMap.get(item.hash) || [];
+    group.push(item);
+    groupsMap.set(item.hash, group);
+  });
+  const duplicateGroups = [...groupsMap.values()].filter((group) => group.length > 1);
+  return { items, duplicateGroups };
+}
+
+function makeFileDuplicateReport(output) {
+  return [
+    "goatool 파일 내용 중복 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `파일 수: ${output.items.length}`,
+    `중복 그룹: ${output.duplicateGroups.length}개`,
+    "",
+    "[중복 그룹]",
+    ...(output.duplicateGroups.length
+      ? output.duplicateGroups.map((group, index) => `${index + 1}. ${group.map((item) => item.name).join(" / ")} / SHA-256 ${group[0].hash}`)
+      : ["- 없음"]),
+    "",
+    "[전체 파일]",
+    ...output.items.map((item, index) => `${index + 1}. ${item.name} / ${formatBytes(item.size)} / SHA-256 ${item.hash}`)
+  ].join("\n");
+}
+
+function renderFileDuplicateResult(output) {
+  const duplicateFileCount = output.duplicateGroups.reduce((sum, group) => sum + group.length, 0);
+  return `
+    <div class="stat-grid">
+      <div><span>파일 수</span><strong>${output.items.length}</strong></div>
+      <div><span>중복 그룹</span><strong class="${output.duplicateGroups.length ? "status-warn" : "status-ok"}">${output.duplicateGroups.length}</strong></div>
+      <div><span>중복 파일</span><strong>${duplicateFileCount}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>파일 내용 중복 점검 결과</h3>
+      ${
+        output.duplicateGroups.length
+          ? `<ul class="warning-list">${output.duplicateGroups.map((group) => `<li>${group.map((item) => escapeHtml(item.name)).join(" / ")}</li>`).join("")}</ul>`
+          : `<p class="ok-line">SHA-256 기준으로 완전히 같은 파일은 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>파일명</th><th>용량</th><th>SHA-256 앞 12자리</th><th>상태</th></tr></thead>
+        <tbody>
+          ${output.items
+            .map((item) => {
+              const duplicated = output.duplicateGroups.some((group) => group.some((groupItem) => groupItem.hash === item.hash));
+              return `
+                <tr>
+                  <td>${escapeHtml(item.name)}</td>
+                  <td>${formatBytes(item.size)}</td>
+                  <td><code>${item.hash.slice(0, 12)}</code></td>
+                  <td><strong class="${duplicated ? "status-warn" : "status-ok"}">${duplicated ? "중복" : "단일"}</strong></td>
+                </tr>
+              `;
+            })
             .join("")}
         </tbody>
       </table>
@@ -4188,6 +6628,154 @@ function renderDataResult(beforeRows, afterRows) {
           ${preview
             .map((row) => `<tr>${row.map((cell) => `<td>${escapeHtml(cell)}</td>`).join("")}</tr>`)
             .join("")}
+        </tbody>
+      </table>
+    </div>
+  `;
+}
+
+function bindTablePrivacyCheckerEvents() {
+  const form = document.querySelector("#tablePrivacyForm");
+  const input = document.querySelector("#tablePrivacyInput");
+  const count = document.querySelector("#tablePrivacyCount");
+  const reportButton = document.querySelector("#downloadTablePrivacyReport");
+
+  input?.addEventListener("change", () => {
+    const file = input.files?.[0];
+    count.textContent = file ? `${file.name} · ${formatBytes(file.size)}` : "개인정보 패턴을 찾을 표 파일을 선택하세요";
+  });
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const file = input?.files?.[0];
+    const result = document.querySelector("#tablePrivacyResult");
+    reportButton.disabled = true;
+    if (!file) {
+      showResultMessage(result, "점검할 CSV 또는 XLSX 파일을 먼저 선택하세요.", "warn");
+      return;
+    }
+    if (!["csv", "txt", "xlsx"].includes(extensionOf(file.name))) {
+      showResultMessage(result, "CSV, TXT, XLSX 파일만 점검할 수 있습니다.", "warn");
+      return;
+    }
+    if (file.size > LIMITS.csvTextBytes && extensionOf(file.name) !== "xlsx") {
+      showResultMessage(result, `${file.name} 파일이 ${formatBytes(LIMITS.csvTextBytes)}를 넘습니다. 필요한 행만 남긴 뒤 다시 시도하세요.`, "warn");
+      return;
+    }
+
+    setResultBusy(result, true, "표 안의 개인정보 패턴을 찾는 중입니다...");
+    try {
+      const rows = await readTableFile(file);
+      validateTableSize(rows);
+      const output = inspectTablePrivacy(file, rows);
+      state.lastTablePrivacyReportBlob = new Blob([makeTablePrivacyReport(output)], { type: "text/plain;charset=utf-8" });
+      reportButton.disabled = false;
+      result.innerHTML = renderTablePrivacyResult(output);
+    } catch (error) {
+      console.error(error);
+      showResultMessage(result, error.message || "표 파일을 점검하지 못했습니다. CSV 형식 또는 XLSX 첫 번째 시트를 확인하세요.", "warn");
+    } finally {
+      result.removeAttribute("aria-busy");
+    }
+  });
+
+  reportButton?.addEventListener("click", () => {
+    if (state.lastTablePrivacyReportBlob) downloadBlob(state.lastTablePrivacyReportBlob, "goatool-table-privacy-check.txt");
+  });
+}
+
+function privacyPatternRules() {
+  return [
+    { label: "이메일", pattern: /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/gi },
+    { label: "전화번호", pattern: /(?:01[016789]|02|0[3-6]\d)[-.\s]?\d{3,4}[-.\s]?\d{4}/g },
+    { label: "주민등록번호 형태", pattern: /\d{6}[-\s]?[1-4]\d{6}/g },
+    { label: "생년월일 8자리", pattern: /(?:19|20)\d{2}[-._]?(?:0[1-9]|1[0-2])[-._]?(?:0[1-9]|[12]\d|3[01])/g }
+  ];
+}
+
+function inspectTablePrivacy(file, rows) {
+  const rules = privacyPatternRules();
+  const hits = [];
+  rows.forEach((row, rowIndex) => {
+    row.forEach((cell, colIndex) => {
+      const value = String(cell ?? "");
+      if (!value.trim()) return;
+      rules.forEach((rule) => {
+        const matches = [...value.matchAll(rule.pattern)];
+        matches.forEach((match) => {
+          hits.push({
+            row: rowIndex + 1,
+            col: colIndex + 1,
+            type: rule.label,
+            preview: maskPrivacyPreview(match[0]),
+            cellPreview: maskPrivacyPreview(value)
+          });
+        });
+      });
+    });
+  });
+  return {
+    fileName: file.name,
+    rows: rows.length,
+    cols: Math.max(0, ...rows.map((row) => row.length)),
+    hits: hits.slice(0, 200),
+    hitOverflow: Math.max(0, hits.length - 200),
+    totalHits: hits.length
+  };
+}
+
+function maskPrivacyPreview(value) {
+  const text = String(value ?? "");
+  if (text.length <= 4) return "*".repeat(text.length);
+  const masked = `${text.slice(0, 2)}${"*".repeat(Math.min(12, Math.max(3, text.length - 4)))}${text.slice(-2)}`;
+  return masked.length > 40 ? `${masked.slice(0, 18)}...${masked.slice(-12)}` : masked;
+}
+
+function makeTablePrivacyReport(output) {
+  return [
+    "goatool 표 개인정보 점검표",
+    `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
+    `파일명: ${output.fileName}`,
+    `행/열: ${output.rows}/${output.cols}`,
+    `후보 수: ${output.totalHits}`,
+    output.hitOverflow ? `표시 제외 후보: ${output.hitOverflow}` : "",
+    "",
+    ...(
+      output.hits.length
+        ? output.hits.map((hit, index) => `${index + 1}. ${hit.row}행 ${hit.col}열 / ${hit.type} / ${hit.preview}`)
+        : ["후보 없음"]
+    )
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+function renderTablePrivacyResult(output) {
+  return `
+    <div class="stat-grid">
+      <div><span>행/열</span><strong>${output.rows}/${output.cols}</strong></div>
+      <div><span>후보 수</span><strong class="${output.totalHits ? "status-warn" : "status-ok"}">${output.totalHits}</strong></div>
+      <div><span>표시</span><strong>${output.hits.length}</strong></div>
+    </div>
+    <div class="result-block">
+      <h3>표 개인정보 점검 결과</h3>
+      ${
+        output.totalHits
+          ? `<ul class="warning-list">${output.hits.slice(0, 8).map((hit) => `<li>${hit.row}행 ${hit.col}열: ${escapeHtml(hit.type)} 후보</li>`).join("")}</ul>`
+          : `<p class="ok-line">검사 기준에서 개인정보 패턴 후보가 보이지 않습니다.</p>`
+      }
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>위치</th><th>유형</th><th>후보</th><th>셀 미리보기</th></tr></thead>
+        <tbody>
+          ${
+            output.hits.length
+              ? output.hits
+                  .map((hit) => `<tr><td>${hit.row}행 ${hit.col}열</td><td>${escapeHtml(hit.type)}</td><td>${escapeHtml(hit.preview)}</td><td>${escapeHtml(hit.cellPreview)}</td></tr>`)
+                  .join("")
+              : `<tr><td colspan="4">후보가 없습니다.</td></tr>`
+          }
         </tbody>
       </table>
     </div>

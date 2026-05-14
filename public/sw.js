@@ -1,4 +1,4 @@
-const CACHE_NAME = "goatool-v3";
+const CACHE_NAME = "goatool-v6";
 const SHELL_URLS = [
   "/",
   "/guides/",
