@@ -8,7 +8,7 @@ const dist = join(root, "../dist");
 const base = "https://goatool.com";
 const brandIcon = `${base}/brand/goatool-icon-512.png`;
 const brandImage = `${base}/brand/goatool-og.png`;
-const lastUpdated = "2026-05-14";
+const lastUpdated = "2026-05-29";
 
 const coreRoutes = [
   "/tools/photo-resize/",
@@ -80,6 +80,85 @@ const coreRoutes = [
 
 const routes = [...coreRoutes, ...guidePages.map((guide) => guide.path)];
 const guideByPath = new Map(guidePages.map((guide) => [guide.path, guide]));
+const guideCategories = [...new Set(guidePages.map((guide) => guide.category))];
+
+const infoFallbackSections = {
+  "/about/": [
+    ["운영 목적", "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 브라우저 도구 모음입니다. PDF, 사진 규격, ZIP, 파일명, 이미지 개인정보, 표 개인정보처럼 제출 직전 확인해야 하는 항목을 한곳에 모았습니다."],
+    ["처리 방식", "대부분의 도구는 파일을 서버로 업로드하지 않고 현재 브라우저 안에서 처리합니다. 결과 파일도 브라우저에서 생성되며, 사용자는 원본과 정리본을 직접 비교한 뒤 제출할 수 있습니다."],
+    ["전문가이드", "가이드는 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 설명합니다. 단순 기능 나열이 아니라 제출자가 마지막에 무엇을 확인해야 하는지에 초점을 둡니다."]
+  ],
+  "/privacy/": [
+    ["브라우저 처리", "사진 규격 맞추기, PDF 정리, 파일 준비, 이미지 정리, 데이터 정리 도구는 사용자의 브라우저 안에서 실행됩니다. 현재 구현은 선택한 파일을 별도 서버에 업로드하거나 저장하지 않습니다."],
+    ["로컬 저장", "최근 사용한 도구, 저장한 가이드, 읽던 위치 같은 편의 정보는 브라우저 로컬 저장소에 남을 수 있습니다. 파일 원본이나 결과 파일을 저장하는 기능은 아닙니다."],
+    ["민감 파일 문의 금지", "오류 제보나 문의를 보낼 때 주민등록번호, 신분증, 통장 사본, 계약서, 민원 서류 같은 민감한 원본 파일을 첨부하지 않는 것을 원칙으로 합니다."]
+  ],
+  "/terms/": [
+    ["보조 도구", "goatool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 법적 효력, 데이터 정확성을 보장하지 않습니다."],
+    ["원본 보관", "정리 전 원본 파일은 따로 보관하고, 결과 파일은 제출 전 사람이 직접 열어 쪽수, 글자 식별성, 파일명, 용량, 개인정보 노출 여부를 확인해야 합니다."],
+    ["기관별 조건", "접수처마다 허용 확장자, 최대 용량, 파일 개수, PDF 조건이 다를 수 있습니다. goatool 결과가 만들어졌더라도 접수처 안내를 마지막에 다시 확인하세요."]
+  ],
+  "/contact/": [
+    ["오류 제보", "어떤 도구에서 어떤 파일 형식으로 문제가 생겼는지, 브라우저 종류와 화면 상태를 함께 기록하면 개선에 도움이 됩니다."],
+    ["개선 제안", "공공기관 제출, 입사지원, 학교 제출, 서류 보완처럼 반복되는 파일 준비 문제가 있으면 새 도구 후보로 검토할 수 있습니다."],
+    ["민감 파일 금지", "주민등록번호, 신분증, 통장 사본, 계약서, 민원 서류, 채용 서류처럼 민감한 원본 파일은 문의나 제보에 첨부하지 마세요."]
+  ]
+};
+
+const toolFallbackGuidance = {
+  "photo-resize": {
+    context: "이력서 사진, 응시원서 사진, 민원 첨부 사진은 픽셀 크기와 비율이 어긋나면 업로드 단계에서 막히거나 사진이 눌려 보일 수 있습니다.",
+    checks: ["원본 사진을 따로 보관", "제출처가 요구한 픽셀 또는 cm 기준 확인", "줄인 뒤 얼굴과 배경이 과하게 잘리지 않았는지 확인"]
+  },
+  "pdf-organizer": {
+    context: "여러 증빙 PDF를 합치거나 필요한 페이지만 뽑을 때는 쪽수와 순서가 가장 중요합니다. 합친 뒤 바로 제출하지 말고 첫 페이지와 마지막 페이지를 다시 확인해야 합니다.",
+    checks: ["합치기 전 파일 순서 확인", "추출할 페이지 범위 재확인", "결과 PDF를 다시 열어 쪽수와 방향 확인"]
+  },
+  "file-ready": {
+    context: "제출 파일 묶음은 파일명, 용량, 확장자, 중복 여부가 함께 맞아야 합니다. 내용이 맞아도 이름이 흐리면 담당자가 보완 요청을 할 수 있습니다.",
+    checks: ["서류명 중심의 파일명 사용", "파일별 용량과 전체 용량 확인", "결과 ZIP을 다시 열어 내부 파일 수 확인"]
+  },
+  "required-doc-checker": {
+    context: "신청별 제출서류는 필수 서류와 해당 시 서류가 섞여 있어 빠뜨리기 쉽습니다. 파일명만으로도 어떤 서류가 들어갔는지 대조할 수 있어야 합니다.",
+    checks: ["신청 유형 선택", "필수 서류와 해당 시 서류 구분", "파일명에 날짜와 용도 단서가 있는지 확인"]
+  },
+  "bundle-rule-checker": {
+    context: "접수처 제한은 전체 용량, 파일별 용량, 허용 확장자가 동시에 적용되는 경우가 많습니다. 하나만 맞추면 충분하다고 보면 마감 직전에 막힐 수 있습니다.",
+    checks: ["전체 용량 제한 입력", "파일별 최대 용량 입력", "허용 확장자 목록을 접수처 안내와 비교"]
+  },
+  "filename-privacy-checker": {
+    context: "파일 내용이 안전해도 파일명에 전화번호, 이메일, 생년월일 같은 단서가 남을 수 있습니다. 공유 전에는 파일명 자체를 별도로 점검해야 합니다.",
+    checks: ["전화번호·이메일 패턴 확인", "주민등록번호 형태와 생년월일 단서 확인", "파일명을 용도 중심으로 다시 정리"]
+  },
+  "image-privacy": {
+    context: "이미지 재저장은 EXIF 노출 가능성을 줄이는 데 도움이 되지만, 화면에 찍힌 주소나 주민번호까지 자동으로 지우지는 않습니다.",
+    checks: ["원본 보관", "정리본 확대 확인", "화면 속 민감정보는 별도 가림 처리"]
+  },
+  "image-redactor": {
+    context: "신분증, 등본 캡처, 통장 사본처럼 보이는 정보가 중요한 이미지는 가림 영역이 충분히 불투명하고 넓어야 합니다.",
+    checks: ["가릴 항목 목록 작성", "반투명 표시 대신 불투명 박스 사용", "결과 이미지를 확대해서 남은 글자 확인"]
+  },
+  "zip-inspector": {
+    context: "ZIP 안에 폴더가 너무 깊거나 숨김 파일이 섞이면 접수처나 담당자가 필요한 파일을 찾기 어렵습니다.",
+    checks: ["내부 파일 수 확인", "숨김·시스템 파일 확인", "폴더 깊이와 파일명 특수문자 확인"]
+  },
+  "zip-repacker": {
+    context: "다른 운영체제에서 만든 ZIP에는 숨김 파일이나 불필요한 폴더가 들어갈 수 있습니다. 제출 전 새 ZIP으로 다시 포장하면 구조를 단순하게 만들 수 있습니다.",
+    checks: ["원본 ZIP 보관", "숨김 파일 제외", "다시 포장한 ZIP을 열어 내부 목록 확인"]
+  },
+  "scan-readability": {
+    context: "스캔본은 용량만 맞아도 글자가 흐리면 증빙으로 쓰기 어렵습니다. 밝기, 대비, 흐림 가능성을 제출 전에 한 번 더 확인해야 합니다.",
+    checks: ["최소 해상도 확인", "작은 글자 확대 확인", "어두운 영역과 흐림 가능성 점검"]
+  },
+  "data-clean": {
+    context: "CSV와 엑셀 표는 사람이 보는 화면과 시스템이 읽는 구조가 다를 수 있습니다. 빈 행, 빈 열, 중복 행, 앞뒤 공백을 정리하되 원본은 따로 보관해야 합니다.",
+    checks: ["원본 파일 보관", "첫 시트와 첫 행 확인", "정리 후 행 수와 핵심 값 비교"]
+  },
+  "table-privacy-checker": {
+    context: "표 파일에는 전화번호, 이메일, 생년월일, 주민등록번호 형태가 열 안쪽에 숨어 있을 수 있습니다. 공유 전에는 후보 위치를 보고 직접 판단해야 합니다.",
+    checks: ["검사할 시트가 첫 번째 시트인지 확인", "후보 셀을 원본에서 직접 확인", "불필요한 개인정보 열 삭제"]
+  }
+};
 
 const routeMeta = {
   "/": {
@@ -475,11 +554,11 @@ const routeMeta = {
   },
   "/about/": {
     title: "소개 - goatool",
-    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 브라우저 도구 모음입니다."
+    description: "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 형식과 개인정보 노출 문제를 브라우저에서 점검하는 실용 도구 모음입니다."
   },
   "/privacy/": {
     title: "개인정보 처리방침 - goatool",
-    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다."
+    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선하며, 민감한 원본 파일 제보를 요청하지 않습니다."
   },
   "/terms/": {
     title: "이용안내 - goatool",
@@ -547,6 +626,8 @@ function metaForRoute(route) {
 function fallbackForRoute(route, meta) {
   if (meta.guide) return guideFallback(meta.guide);
   if (route === guideIndexMeta.path) return guideIndexFallback();
+  if (infoFallbackSections[route]) return infoPageFallback(route, meta);
+  if (route.startsWith("/tools/")) return toolPageFallback(route, meta);
 
   const links = [
     ["/tools/photo-resize/", "증명사진 규격 맞추기"],
@@ -634,12 +715,94 @@ function fallbackForRoute(route, meta) {
   `;
 }
 
+function infoPageFallback(route, meta) {
+  const sections = infoFallbackSections[route] || [];
+  return `
+    <main class="static-fallback static-info-page" aria-label="${escapeAttr(meta.title)} 정적 안내">
+      <p class="static-kicker">goatool trust</p>
+      <h1>${escapeHtml(meta.title.replace(" - goatool", ""))}</h1>
+      <p>${escapeHtml(meta.description)}</p>
+      ${sections
+        .map(
+          ([title, body]) => `
+            <section>
+              <h2>${escapeHtml(title)}</h2>
+              <p>${escapeHtml(body)}</p>
+            </section>
+          `
+        )
+        .join("")}
+      <nav aria-label="goatool 신뢰 페이지">
+        <a href="/about/"${route === "/about/" ? ' aria-current="page"' : ""}>소개</a>
+        <a href="/privacy/"${route === "/privacy/" ? ' aria-current="page"' : ""}>개인정보 처리방침</a>
+        <a href="/terms/"${route === "/terms/" ? ' aria-current="page"' : ""}>이용안내</a>
+        <a href="/contact/"${route === "/contact/" ? ' aria-current="page"' : ""}>문의</a>
+        <a href="/guides/">전문 가이드</a>
+      </nav>
+    </main>
+  `;
+}
+
+function toolPageFallback(route, meta) {
+  const toolId = toolIdFromRoute(route);
+  const guidance = toolFallbackGuidance[toolId] || {
+    context: "이 도구는 제출 전 파일 상태를 사용자가 직접 확인하도록 돕는 브라우저 기반 보조 도구입니다. 결과를 만든 뒤 원본과 정리본을 다시 비교하는 과정이 중요합니다.",
+    checks: ["원본 파일을 따로 보관", "결과 파일을 다시 열어 확인", "접수처의 용량과 확장자 조건 재확인"]
+  };
+  const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
+  return `
+    <main class="static-fallback static-tool-page" aria-label="${escapeAttr(meta.title)} 정적 안내">
+      <p class="static-kicker">goatool browser tool</p>
+      <h1>${escapeHtml(meta.title.replace(" - goatool", ""))}</h1>
+      <p>${escapeHtml(meta.description)}</p>
+      <section>
+        <h2>언제 필요한가</h2>
+        <p>${escapeHtml(guidance.context)}</p>
+      </section>
+      ${meta.features?.length ? `<section><h2>주요 처리 기준</h2><ul>${meta.features.map((feature) => `<li>${escapeHtml(feature)}</li>`).join("")}</ul></section>` : ""}
+      <section>
+        <h2>제출 전 확인</h2>
+        <ul>${guidance.checks.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+      </section>
+      <section>
+        <h2>파일 처리 안내</h2>
+        <p>goatool의 파일 도구는 브라우저 안에서 처리하는 것을 우선합니다. 민감한 자료는 원본을 따로 보관하고, 내려받은 결과 파일을 직접 열어 확인한 뒤 제출하세요.</p>
+      </section>
+      ${
+        relatedGuides.length
+          ? `<section><h2>관련 전문 가이드</h2><ul>${relatedGuides
+              .map((guide) => `<li><a href="${guide.path}">${escapeHtml(guide.title)}</a> - ${escapeHtml(guide.keyword)}</li>`)
+              .join("")}</ul></section>`
+          : ""
+      }
+      <nav aria-label="goatool 주요 이동">
+        <a href="/">도구 선택</a>
+        <a href="/guides/">전체 전문 가이드</a>
+        <a href="/privacy/">개인정보 처리방침</a>
+        <a href="/terms/">이용안내</a>
+      </nav>
+    </main>
+  `;
+}
+
 function guideIndexFallback() {
   return `
     <main class="static-fallback static-guide-index" aria-label="goatool 전문 가이드 목록">
       <p class="static-kicker">goatool guide</p>
       <h1>${escapeHtml(guideIndexMeta.title)}</h1>
       <p>${escapeHtml(guideIndexMeta.description)}</p>
+      <section>
+        <h2>가이드 작성 기준</h2>
+        <p>각 문서는 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 다룹니다. 단순 변환법보다 마지막 제출 전에 사람이 무엇을 확인해야 하는지에 초점을 둡니다.</p>
+      </section>
+      <section>
+        <h2>주제군</h2>
+        <ul>
+          ${guideCategories
+            .map((category) => `<li>${escapeHtml(category)} - ${guidePages.filter((guide) => guide.category === category).length}개 가이드</li>`)
+            .join("")}
+        </ul>
+      </section>
       <section>
         <h2>전체 가이드 ${guidePages.length}개</h2>
         <ul>
@@ -651,6 +814,7 @@ function guideIndexFallback() {
 }
 
 function guideFallback(guide) {
+  const linkedTool = guide.toolId ? `/tools/${guide.toolId}/` : "/guides/";
   return `
     <main class="static-fallback static-guide-article" aria-label="${escapeAttr(guide.title)} 정적 본문">
       <article>
@@ -671,6 +835,7 @@ function guideFallback(guide) {
           .join("")}
         <nav aria-label="관련 페이지">
           <a href="/guides/">전체 전문 가이드</a>
+          <a href="${linkedTool}">연결 도구 열기</a>
           <a href="/tools/photo-resize/">증명사진 규격 맞추기</a>
           <a href="/tools/pdf-organizer/">PDF 합치기·페이지 뽑기</a>
           <a href="/tools/file-viewer/">파일 뷰어</a>
@@ -697,6 +862,11 @@ function guideFallback(guide) {
       </article>
     </main>
   `;
+}
+
+function toolIdFromRoute(route) {
+  const match = route.match(/^\/tools\/([^/]+)\//);
+  return match ? match[1] : "";
 }
 
 function schemaForRoute(route, meta, url) {
@@ -754,6 +924,28 @@ function schemaForRoute(route, meta, url) {
       offers: { "@type": "Offer", price: "0", priceCurrency: "KRW" },
       publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon },
       featureList: meta.features || []
+    };
+  }
+
+  if (route === "/about/" || route === "/privacy/" || route === "/terms/" || route === "/contact/") {
+    const pageType =
+      route === "/about/"
+        ? "AboutPage"
+        : route === "/privacy/"
+          ? "PrivacyPolicy"
+          : route === "/contact/"
+            ? "ContactPage"
+            : "WebPage";
+    return {
+      "@context": "https://schema.org",
+      "@type": pageType,
+      name: meta.title,
+      url,
+      inLanguage: "ko-KR",
+      description: meta.description,
+      image: brandImage,
+      dateModified: lastUpdated,
+      publisher: { "@type": "Organization", name: "goatool", url: base, logo: brandIcon }
     };
   }
 

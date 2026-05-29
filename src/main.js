@@ -7,7 +7,7 @@ const baseDomain = "https://goatool.com";
 const brandLogoPath = "/brand/goatool-logo.png";
 const brandOgPath = "/brand/goatool-og.png";
 const brandIconPath = "/brand/goatool-icon-512.png";
-const lastUpdated = "2026-05-14";
+const lastUpdated = "2026-05-29";
 const LIMITS = {
   fileCount: 80,
   imageCount: 60,
@@ -1790,22 +1790,26 @@ const infoPages = {
   "/about/": {
     title: "소개",
     metaTitle: "소개 - goatool",
-    description: "goatool은 제출 전 파일 준비와 개인정보 정리를 돕는 브라우저 도구 모음입니다.",
+    description: "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 형식과 개인정보 노출 문제를 브라우저에서 점검하는 실용 도구 모음입니다.",
     body: [
-      ["운영 목적", "goatool은 민원, 입사지원, 학교와 기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 실용 도구 사이트입니다. 사용자가 파일을 서버에 올리지 않고도 사진 규격, PDF 정리, 파일명, 용량, ZIP 점검을 마칠 수 있게 설계했습니다."],
-      ["goatool 신뢰 기준", "goatool의 브랜드 신뢰는 빠른 자동화보다 처리 위치와 한계 고지를 분명히 하는 데서 시작합니다. 각 도구는 브라우저 로컬 처리, 제출 전 검수, 원본 보관, 개인정보 최소화 원칙을 함께 안내합니다."],
-      ["전문성 기준", "각 도구는 작동 원리, 한계, 검수 기준을 함께 제공합니다. 결과를 과장하지 않고 사용자가 마지막 판단을 할 수 있게 돕는 것을 우선합니다."],
+      ["운영 목적", "goatool은 제출 직전에 자주 생기는 작은 실패를 줄이기 위해 만들었습니다. PDF 쪽수와 방향, 사진 규격, 파일명, ZIP 내부 구조, 표 개인정보처럼 접수 화면에서 바로 막히거나 보완 요청으로 이어질 수 있는 항목을 사용자가 직접 확인하게 돕습니다."],
+      ["처리 방식", "대부분의 도구는 사용자가 고른 파일을 서버로 업로드하지 않고 브라우저 안에서 처리합니다. 결과 파일도 현재 브라우저에서 만들어지며, 새로고침하면 선택한 원본과 작업 상태는 사라집니다. 도구별 설명에는 처리 범위와 한계를 함께 적어 과장된 자동화를 피합니다."],
+      ["goatool 신뢰 기준", "goatool의 신뢰 기준은 빠른 변환보다 설명 가능한 결과입니다. 원본 보관, 정리본 분리, 제출 전 다시 열어보기, 개인정보 최소화, 기관별 제한 재확인이라는 다섯 가지 원칙을 모든 도구와 가이드에 반복해서 연결합니다."],
+      ["전문가이드 기준", "전문가이드는 일반 정보글이 아니라 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 담습니다. 민원 제출, 입사지원, 학교·기관 제출, 이미지 개인정보, 데이터 정리처럼 사용자가 바로 겪는 상황별로 묶어 다시 찾기 쉽게 구성했습니다."],
       ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, PDF 페이지 번호, PDF 회전, PDF 구조 점검, PDF A4 맞춤, PDF 나누기, PDF 빈 페이지 정리, ZIP 다시 포장, 제출 규칙 검사, 파일명 개인정보 점검, 이미지 민감정보 가리기, 제출서류 누락 대조, 스캔 가독성 점검, 이미지 중복 점검, 파일 내용 중복 점검, 표 개인정보 점검, 파일명 정리, 해시 비교, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
     ]
   },
   "/privacy/": {
     title: "개인정보 처리방침",
     metaTitle: "개인정보 처리방침 - goatool",
-    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선합니다.",
+    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선하며, 개인정보가 포함된 원본 파일 제보를 요청하지 않습니다.",
     body: [
-      ["브라우저 처리", "사진 규격 맞추기, PDF 정리, 파일 준비, 이미지 정리, 데이터 정리는 사용자의 브라우저 안에서 실행됩니다. 결과 파일도 브라우저에서 생성됩니다."],
-      ["보관하지 않는 정보", "현재 구현은 사용자가 선택한 파일을 별도 서버로 업로드하거나 저장하지 않습니다. 페이지를 새로고침하면 선택 파일과 결과 상태는 사라집니다."],
-      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 공유 폴더 같은 외부 환경은 goatool이 통제하지 않습니다. 민감한 자료는 내려받은 결과를 직접 확인한 뒤 사용하세요."]
+      ["브라우저 처리", "사진 규격 맞추기, PDF 정리, 파일 준비, 이미지 정리, 데이터 정리 도구는 사용자의 브라우저 안에서 실행됩니다. 사용자가 선택한 파일은 변환과 점검을 위해 현재 페이지 메모리에서 읽히며, 결과 파일도 브라우저에서 생성됩니다."],
+      ["보관하지 않는 정보", "현재 구현은 사용자가 선택한 파일 원본, 결과 파일, 표 내용, 이미지 내용을 goatool 서버에 업로드하거나 저장하지 않습니다. 페이지를 새로고침하거나 닫으면 선택 파일과 결과 상태는 사라집니다."],
+      ["브라우저 저장 정보", "최근 사용한 도구, 최근 본 가이드, 저장한 가이드, 읽던 위치처럼 사이트 이용 편의를 위한 정보는 브라우저 로컬 저장소에 남을 수 있습니다. 이 정보는 파일 원본이 아니며, 사용자가 브라우저 데이터 삭제 기능으로 지울 수 있습니다."],
+      ["광고와 외부 리소스", "공개 사이트에서는 운영비 마련을 위해 광고 스크립트가 로드될 수 있습니다. 광고 네트워크는 자체 정책에 따라 쿠키나 유사 식별자를 사용할 수 있으므로, 광고 관련 선택은 브라우저와 광고 제공자의 설정을 따릅니다."],
+      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 클라우드 동기화 폴더, 화면 녹화 프로그램 같은 외부 환경은 goatool이 통제하지 않습니다. 민감한 자료는 원본을 따로 보관하고, 내려받은 정리본을 직접 열어 확인한 뒤 제출하세요."],
+      ["문의 원칙", "오류 제보나 개선 제안 시 주민등록번호, 통장 사본, 신분증, 계약서, 민원 서류처럼 민감한 원본 파일을 첨부하지 않는 것을 원칙으로 합니다. 필요한 경우 파일 형식, 브라우저 종류, 오류 상황만 설명해 주세요."]
     ]
   },
   "/terms/": {
@@ -1813,9 +1817,11 @@ const infoPages = {
     metaTitle: "이용안내 - goatool",
     description: "goatool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다.",
     body: [
-      ["보조 도구", "goatool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 데이터 정확성을 보장하지 않습니다."],
-      ["원본 보관", "정리 전 원본 파일은 반드시 따로 보관하세요. 결과 파일은 제출 전 사람이 직접 열어 확인해야 합니다."],
-      ["제한", "대용량 파일과 대용량 표는 브라우저 성능 보호를 위해 처리 제한이 있습니다."]
+      ["보조 도구", "goatool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 문서 법적 효력, 데이터 정확성을 보장하지 않습니다. 최종 제출 가능 여부는 접수처 안내와 사용자의 확인을 기준으로 판단해야 합니다."],
+      ["원본 보관", "정리 전 원본 파일은 반드시 따로 보관하세요. goatool에서 만든 결과 파일은 제출 전 사람이 직접 열어 쪽수, 글자 식별성, 파일명, 용량, 개인정보 노출 여부를 확인해야 합니다."],
+      ["처리 제한", "대용량 파일과 대용량 표는 브라우저 성능 보호를 위해 처리 제한이 있습니다. 기기 성능, 브라우저 메모리, 파일 손상 상태에 따라 일부 파일은 열리지 않거나 결과 생성이 실패할 수 있습니다."],
+      ["개인정보 주의", "이미지 재저장, 파일명 점검, 표 개인정보 점검은 위험 후보를 줄이는 기능입니다. 화면에 보이는 주민번호, 주소, 연락처, 얼굴, 계좌번호 등은 사용자가 직접 확인하고 필요한 범위에서 가려야 합니다."],
+      ["기관별 조건", "정부24, 학교, 채용 사이트, 공공기관, 민간 접수처는 각자 허용 확장자, 최대 용량, 파일 개수, PDF 조건이 다를 수 있습니다. goatool의 결과가 만들어졌더라도 접수처 조건을 마지막에 다시 확인하세요."]
     ]
   },
   "/contact/": {
@@ -1823,9 +1829,10 @@ const infoPages = {
     metaTitle: "문의 - goatool",
     description: "goatool 개선 제안과 오류 제보를 위한 안내 페이지입니다.",
     body: [
-      ["오류 제보", "어떤 도구에서 어떤 파일 형식으로 문제가 생겼는지, 브라우저 종류와 화면 상태를 함께 기록하면 개선에 도움이 됩니다."],
-      ["개선 제안", "공공기관 제출, 입사지원, 학교 제출처럼 반복되는 파일 준비 문제가 있으면 새 도구 후보로 검토할 수 있습니다."],
-      ["주의", "민감한 원본 파일은 문의나 제보에 첨부하지 않는 것을 원칙으로 합니다."]
+      ["오류 제보", "어떤 도구에서 어떤 파일 형식으로 문제가 생겼는지, 브라우저 종류와 화면 상태를 함께 기록하면 개선에 도움이 됩니다. 예를 들어 PDF A4 맞춤, ZIP 다시 포장, 증명사진 규격 맞추기처럼 도구명을 먼저 적어주세요."],
+      ["개선 제안", "공공기관 제출, 입사지원, 학교 제출, 서류 보완, 이미지 개인정보 가림처럼 반복되는 파일 준비 문제가 있으면 새 도구 후보로 검토할 수 있습니다. 실제 제출 상황과 막힌 지점을 구체적으로 알려주면 우선순위를 정하기 쉽습니다."],
+      ["민감 파일 금지", "주민등록번호, 신분증, 통장 사본, 계약서, 민원 서류, 채용 서류처럼 민감한 원본 파일은 문의나 제보에 첨부하지 않는 것을 원칙으로 합니다. 문제 재현이 필요할 때도 같은 형식의 샘플 파일을 새로 만들어 사용하는 편이 안전합니다."],
+      ["답변 범위", "goatool은 도구 개선과 사이트 오류 제보를 중심으로 운영됩니다. 개별 기관의 심사 결과, 법적 효력, 개인정보 법률 판단, 채용 결과에 대한 보장은 제공하지 않습니다."]
     ]
   }
 };
@@ -2606,6 +2613,7 @@ function render() {
         }
 
         ${shouldShowWorkbench ? renderExpertisePanel(selected) : ""}
+        ${shouldShowWorkbench ? renderToolGuideBridge(selected) : ""}
 
         <section class="tool-list ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="toolListTitle">
           <div class="section-head tool-list-head">
@@ -2907,6 +2915,8 @@ function renderGuideIndexPage() {
         <span><strong>${guidePages.length}</strong>개 가이드</span>
         <span><strong>${groups.length}</strong>개 주제군</span>
       </div>
+      ${renderGuideTrustPanel()}
+      ${renderGuideCategoryOverview(groups)}
       ${renderGuideMemoryPanel()}
       <div class="guide-filter-panel" aria-label="전문 가이드 찾기">
         <label class="compact-search guide-search">
@@ -2952,6 +2962,41 @@ function renderGuideIndexCard(guide) {
         </button>
       </div>
     </article>
+  `;
+}
+
+function renderGuideTrustPanel() {
+  return `
+    <section class="guide-trust-panel" aria-label="goatool 가이드 작성 기준">
+      <div>
+        <strong>가이드 작성 기준</strong>
+        <p>각 문서는 실제 제출 상황, 실패 원인, 검수 기준, 도구 사용 순서를 함께 다룹니다. 단순 변환법보다 마지막 제출 전에 사람이 무엇을 확인해야 하는지에 초점을 둡니다.</p>
+      </div>
+      <div>
+        <strong>도구와 함께 읽기</strong>
+        <p>가이드마다 연결된 도구가 있으며, 도구 페이지에서도 관련 가이드를 바로 이어볼 수 있습니다. 읽고 끝나는 글이 아니라 제출 파일을 직접 점검하는 흐름으로 이어집니다.</p>
+      </div>
+    </section>
+  `;
+}
+
+function renderGuideCategoryOverview(groups) {
+  return `
+    <section class="guide-category-overview" aria-label="전문 가이드 주제군">
+      ${groups
+        .map((category) => {
+          const items = guidePages.filter((guide) => guide.category === category);
+          const first = items[0];
+          return `
+            <button type="button" class="guide-category-card" data-guide-category="${escapeAttr(category)}">
+              <span>${category}</span>
+              <strong>${items.length}개</strong>
+              <small>${first ? first.keyword : "제출 전 점검"}</small>
+            </button>
+          `;
+        })
+        .join("")}
+    </section>
   `;
 }
 
@@ -3078,11 +3123,24 @@ function renderGuideRelated(guide) {
         ${guide.related.map((item) => `<span>${item}</span>`).join("")}
       </div>
       <div class="guide-next-grid">
+        ${guide.toolId ? renderGuideToolCard(guide) : ""}
         ${sameCategory ? renderGuideNextCard("같은 주제", sameCategory) : ""}
         ${next ? renderGuideNextCard("다음 가이드", next) : ""}
       </div>
       <a href="/guides/" data-link>전체 전문 가이드 보기</a>
     </footer>
+  `;
+}
+
+function renderGuideToolCard(guide) {
+  const tool = tools.find((item) => item.id === guide.toolId);
+  if (!tool) return "";
+  return `
+    <a class="guide-next-card tool-card-mini" href="${tool.path}" data-link>
+      <span>연결 도구</span>
+      <strong>${tool.label}</strong>
+      <small>${tool.short}</small>
+    </a>
   `;
 }
 
@@ -3109,7 +3167,7 @@ function filteredGuidePages() {
       guide.audience,
       guide.risk,
       ...guide.related,
-      ...guide.sections.flatMap((section) => [section.heading, section.body])
+      ...guide.sections.flatMap((section) => [section.title, ...(section.paragraphs || []), ...(section.items || [])])
     ]);
     return byCategory && matchesSearchTokens(haystack, tokens);
   });
@@ -3175,6 +3233,40 @@ function renderExpertisePanel(tool) {
       </div>
     </details>
   `;
+}
+
+function renderToolGuideBridge(tool) {
+  const relatedGuides = guidesForTool(tool.id).slice(0, 4);
+  if (!relatedGuides.length) return "";
+  return `
+    <section class="tool-guide-bridge" aria-labelledby="toolGuideBridgeTitle">
+      <div class="tool-guide-bridge-head">
+        <div>
+          <p class="notice-kicker">관련 전문 가이드</p>
+          <h2 id="toolGuideBridgeTitle">${tool.label}를 쓰기 전에 같이 보면 좋은 글</h2>
+          <p>도구 사용법만 따로 두지 않고, 실제 제출 상황에서 왜 실패하는지와 결과를 어떻게 검수해야 하는지까지 이어서 볼 수 있게 묶었습니다.</p>
+        </div>
+        <a href="/guides/" data-link>전체 가이드</a>
+      </div>
+      <div class="tool-guide-list">
+        ${relatedGuides
+          .map(
+            (guide) => `
+              <a href="${guide.path}" data-link>
+                <span>${guide.category}</span>
+                <strong>${guide.title}</strong>
+                <small>${guide.keyword} · ${readingMinutes(guide)}분 읽기</small>
+              </a>
+            `
+          )
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
+function guidesForTool(toolId) {
+  return guidePages.filter((guide) => guide.toolId === toolId);
 }
 
 function renderExpertList(title, items) {

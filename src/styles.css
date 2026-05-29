@@ -2325,6 +2325,81 @@ code {
   color: var(--blue);
 }
 
+.guide-trust-panel {
+  margin: 0 0 18px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.guide-trust-panel > div {
+  padding: 17px 18px;
+  background: #f8fbff;
+  border: 1px solid rgba(36, 87, 166, 0.14);
+  border-left: 3px solid var(--blue);
+  border-radius: var(--radius);
+}
+
+.guide-trust-panel strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 950;
+}
+
+.guide-trust-panel p {
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.guide-category-overview {
+  margin: 0 0 18px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.guide-category-card {
+  min-width: 0;
+  padding: 14px;
+  display: grid;
+  gap: 4px;
+  color: var(--ink-2);
+  background: #fbfbfa;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  text-align: left;
+  cursor: pointer;
+}
+
+.guide-category-card:hover,
+.guide-category-card:focus-visible {
+  border-color: rgba(36, 87, 166, 0.34);
+  box-shadow: 0 10px 26px rgba(36, 87, 166, 0.08);
+}
+
+.guide-category-card span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.guide-category-card strong {
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1.15;
+}
+
+.guide-category-card small {
+  color: var(--ink-4);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .guide-memory-panel,
 .guide-filter-panel {
   margin: 0 0 18px;
@@ -2755,6 +2830,98 @@ code {
   font-weight: 800;
 }
 
+.tool-card-mini {
+  background: var(--blue-2);
+  border-color: #bfd7ff;
+}
+
+.tool-guide-bridge {
+  margin-bottom: 24px;
+  padding: 26px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 44px rgba(17, 24, 39, 0.05);
+}
+
+.tool-guide-bridge-head {
+  margin-bottom: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: start;
+}
+
+.tool-guide-bridge h2 {
+  margin: 0 0 8px;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1.35;
+  word-break: keep-all;
+}
+
+.tool-guide-bridge p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--ink-2);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.tool-guide-bridge-head > a {
+  min-height: 36px;
+  padding: 7px 12px;
+  display: inline-flex;
+  align-items: center;
+  color: var(--blue);
+  background: var(--blue-2);
+  border: 1px solid #bfd7ff;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  white-space: nowrap;
+}
+
+.tool-guide-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.tool-guide-list a {
+  min-width: 0;
+  padding: 16px;
+  display: grid;
+  gap: 6px;
+  background: #fbfbfa;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.tool-guide-list a:hover {
+  border-color: rgba(36, 87, 166, 0.34);
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+}
+
+.tool-guide-list span {
+  color: var(--blue);
+  font-size: 12px;
+  font-weight: 950;
+}
+
+.tool-guide-list strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+
+.tool-guide-list small {
+  color: var(--ink-4);
+  font-size: 12px;
+  font-weight: 800;
+}
+
 .guide-related > a {
   color: var(--blue);
   font-size: 14px;
@@ -3076,9 +3243,13 @@ body:has(.tool-shell) .site-footer {
 
   .expert-grid,
   .faq-grid,
+  .guide-category-overview,
+  .guide-trust-panel,
   .guide-index-grid,
   .guide-memory-panel,
-  .guide-next-grid {
+  .guide-next-grid,
+  .tool-guide-list,
+  .tool-guide-bridge-head {
     grid-template-columns: 1fr;
   }
 
