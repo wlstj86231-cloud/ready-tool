@@ -318,8 +318,8 @@ const routeMeta = {
     features: ["파일명 일괄 정리", "제출용 ZIP", "변경표 TXT", "특수문자 정리"]
   },
   "/tools/filename-numberer/": {
-    title: "파일명 번호 붙이기 - goatool",
-    description: "선택한 파일명 앞에 01, 02 번호를 붙인 새 ZIP과 변경표를 만듭니다.",
+    title: "파일명 앞에 번호 붙이기·일괄 순서 정리 무료 도구 - goatool",
+    description: "여러 파일 앞에 01, 02 번호를 붙여 선택 순서를 고정한 ZIP과 변경표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     type: "SoftwareApplication",
     features: ["파일명 번호", "순서 고정", "제출용 ZIP", "변경표"]
   },
@@ -756,7 +756,16 @@ function toolPageFallback(route, meta) {
   };
   const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
   const agriculturalBridge =
-    toolId === "image-privacy"
+    toolId === "filename-numberer"
+      ? `<section>
+          <h2>농산물 판매 사진 순서를 정리한다면</h2>
+          <p>대표 사진부터 번호를 붙인 뒤 각 사진이 실제 상품 상태·크기 편차·등급·중량·출고 포장 중 무엇을 보여 주는지 판매 글 설명과 맞춥니다.</p>
+          <ul>
+            <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 판매 사진 용량과 선명도 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=filename-numberer-product-photo-search-bridge">보리장터 농산물 판매글 사진·가격·포장 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "image-privacy"
       ? `<section>
           <h2>농산물 판매 사진을 공개한다면</h2>
           <p>EXIF 노출 가능성을 줄인 뒤에도 상품·포장·송장 사진 화면에 주소·연락처·농장 위치 단서가 남았는지 따로 확인합니다.</p>

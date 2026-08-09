@@ -519,6 +519,8 @@ const tools = [
     short: "01·02 순서 고정",
     title: "선택한 파일명 앞에 번호를 붙여 ZIP으로 묶기",
     description: "여러 파일의 읽는 순서를 01, 02, 03 번호로 고정한 새 ZIP과 변경표를 만듭니다.",
+    metaTitle: "파일명 앞에 번호 붙이기·일괄 순서 정리 무료 도구 - goatool",
+    metaDescription: "여러 파일 앞에 01, 02 번호를 붙여 선택 순서를 고정한 ZIP과 변경표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     tags: ["파일명", "번호", "ZIP"],
     situations: ["public", "job", "school", "share"]
   },
@@ -3327,6 +3329,32 @@ function renderToolGuideBridge(tool) {
 }
 
 function renderAgriculturalBridge(tool) {
+  if (tool.id === "filename-numberer") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriFilenameBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 판매 사진 순서 정리 예</p>
+            <h2 id="agriFilenameBridgeTitle">대표 사진부터 01·02 번호를 붙이고 품목·등급·중량 설명을 맞추세요</h2>
+            <p>파일명 번호는 사진의 표시 순서만 고정합니다. 각 사진이 실제 상품 상태·크기 편차·등급·중량·출고 포장 중 무엇을 보여 주는지 판매 글 설명과 다시 맞춰야 합니다.</p>
+          </div>
+          <a href="/guides/smartphone-photo-size-submit/">판매 사진 파일 확인 기준</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/guides/smartphone-photo-size-submit/">
+            <span>goatool 사진</span>
+            <strong>판매 사진 순서·용량·선명도 확인</strong>
+            <small>원본 보관·대표 사진·글자 판독성 점검</small>
+          </a>
+          <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=filename-numberer-product-photo-search-bridge">
+            <span>보리장터</span>
+            <strong>농산물 판매글 사진·가격·포장 기준 확인</strong>
+            <small>품목·등급·중량·실제 상품·출고 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
   if (tool.id === "image-privacy") {
     return `
       <section class="tool-guide-bridge" aria-labelledby="agriPrivacyBridgeTitle">
