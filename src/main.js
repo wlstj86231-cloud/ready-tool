@@ -2615,6 +2615,7 @@ function render() {
 
         ${shouldShowWorkbench ? renderExpertisePanel(selected) : ""}
         ${shouldShowWorkbench ? renderToolGuideBridge(selected) : ""}
+        ${shouldShowWorkbench ? renderAgriculturalDataBridge(selected) : ""}
 
         <section class="tool-list ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="toolListTitle">
           <div class="section-head tool-list-head">
@@ -3262,6 +3263,34 @@ function renderToolGuideBridge(tool) {
             `
           )
           .join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderAgriculturalDataBridge(tool) {
+  if (tool.id !== "data-clean") return "";
+  return `
+    <section class="tool-guide-bridge" aria-labelledby="agriDataBridgeTitle">
+      <div class="tool-guide-bridge-head">
+        <div>
+          <p class="notice-kicker">농산물 정산표 사용 예</p>
+          <h2 id="agriDataBridgeTitle">판매 수량·단가·포장비·배송비를 정리하고 실제 입금액을 맞추세요</h2>
+          <p>CSV·엑셀의 공백과 중복을 정리한 뒤에는 원본을 보관하고, 수수료·포장·배송·반품처럼 판매대금에서 빠지는 항목을 별도 열로 남겨야 정산 차이를 다시 확인할 수 있습니다.</p>
+        </div>
+        <a href="/agri/guides/direct-sale-settlement-files/">정산 파일 준비 순서</a>
+      </div>
+      <div class="tool-guide-list">
+        <a href="/agri/guides/direct-sale-settlement-files/">
+          <span>goatool 농업</span>
+          <strong>농산물 직거래 정산 파일 준비법</strong>
+          <small>판매 조건표·출고 증빙·입금 내역 정리</small>
+        </a>
+        <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=data-clean-search-bridge">
+          <span>보리장터</span>
+          <strong>농산물 위탁판매 정산·공제 항목 확인</strong>
+          <small>수수료·포장·배송·반품 공제 기준</small>
+        </a>
       </div>
     </section>
   `;
