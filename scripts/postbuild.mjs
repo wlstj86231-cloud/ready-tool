@@ -751,6 +751,17 @@ function toolPageFallback(route, meta) {
     checks: ["원본 파일을 따로 보관", "결과 파일을 다시 열어 확인", "접수처의 용량과 확장자 조건 재확인"]
   };
   const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
+  const agriculturalDataBridge =
+    toolId === "data-clean"
+      ? `<section>
+          <h2>농산물 정산표를 정리한다면</h2>
+          <p>판매 수량·단가·포장비·배송비와 실제 입금액을 맞추고, 수수료·반품 공제 항목을 별도 열로 남깁니다.</p>
+          <ul>
+            <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
+            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=data-clean-search-bridge">보리장터 농산물 위탁판매 정산·공제 항목 확인</a></li>
+          </ul>
+        </section>`
+      : "";
   return `
     <main class="static-fallback static-tool-page" aria-label="${escapeAttr(meta.title)} 정적 안내">
       <p class="static-kicker">goatool browser tool</p>
@@ -776,6 +787,7 @@ function toolPageFallback(route, meta) {
               .join("")}</ul></section>`
           : ""
       }
+      ${agriculturalDataBridge}
       <nav aria-label="goatool 주요 이동">
         <a href="/">도구 선택</a>
         <a href="/guides/">전체 전문 가이드</a>
