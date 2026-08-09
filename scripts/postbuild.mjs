@@ -514,8 +514,8 @@ const routeMeta = {
     features: ["확장자 점검", "파일 서명", "형식 불일치", "보고서"]
   },
   "/tools/file-size-sorter/": {
-    title: "파일 용량 순서표 - goatool",
-    description: "선택한 파일을 용량 큰 순서로 정리해 업로드 제한에 걸릴 파일을 먼저 찾습니다.",
+    title: "파일 용량 순서 정렬·큰 파일 찾기 무료 도구 - goatool",
+    description: "여러 파일을 용량 큰 순서로 바로 정렬해 업로드 제한에 걸릴 큰 파일을 먼저 찾습니다. 파일은 서버에 올리지 않고 브라우저에서 무료로 확인합니다.",
     type: "SoftwareApplication",
     features: ["파일 용량", "용량 정렬", "큰 파일 확인", "보고서"]
   },

@@ -491,8 +491,10 @@ const tools = [
     group: "파일 점검",
     label: "파일 용량 순서표",
     short: "큰 파일부터 확인",
-    title: "제출 파일을 용량 큰 순서로 정렬하기",
+    title: "여러 파일을 용량 큰 순서로 정렬하기",
     description: "선택한 파일을 용량 큰 순서로 정리해 압축하거나 나눠야 할 파일을 먼저 찾습니다.",
+    metaTitle: "파일 용량 순서 정렬·큰 파일 찾기 무료 도구 - goatool",
+    metaDescription: "여러 파일을 용량 큰 순서로 바로 정렬해 업로드 제한에 걸릴 큰 파일을 먼저 찾습니다. 파일은 서버에 올리지 않고 브라우저에서 무료로 확인합니다.",
     tags: ["파일 용량", "정렬", "점검"],
     situations: ["public", "job", "school", "share"]
   },
@@ -2748,8 +2750,8 @@ function infoPageFromRoute(pathname) {
 
 function updateDocumentMeta(tool, page = null, guide = null, isGuideIndex = false) {
   const isHome = normalizePath(location.pathname) === "/";
-  const title = guide?.metaTitle || (isGuideIndex ? guideIndexMeta.metaTitle : page?.metaTitle || (isHome ? homeMeta.title : `${tool.label} - ${BRAND}`));
-  const description = guide?.description || (isGuideIndex ? guideIndexMeta.description : page?.description || (isHome ? homeMeta.description : `${tool.label}: ${tool.description}`));
+  const title = guide?.metaTitle || (isGuideIndex ? guideIndexMeta.metaTitle : page?.metaTitle || (isHome ? homeMeta.title : tool.metaTitle || `${tool.label} - ${BRAND}`));
+  const description = guide?.description || (isGuideIndex ? guideIndexMeta.description : page?.description || (isHome ? homeMeta.description : tool.metaDescription || `${tool.label}: ${tool.description}`));
   const path = guide?.path || (isGuideIndex ? guideIndexMeta.path : page ? normalizePath(location.pathname) : isHome ? "/" : tool.path);
   document.title = title;
   setMeta("description", description);
