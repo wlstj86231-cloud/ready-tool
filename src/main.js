@@ -2615,7 +2615,7 @@ function render() {
 
         ${shouldShowWorkbench ? renderExpertisePanel(selected) : ""}
         ${shouldShowWorkbench ? renderToolGuideBridge(selected) : ""}
-        ${shouldShowWorkbench ? renderAgriculturalDataBridge(selected) : ""}
+        ${shouldShowWorkbench ? renderAgriculturalBridge(selected) : ""}
 
         <section class="tool-list ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="toolListTitle">
           <div class="section-head tool-list-head">
@@ -3268,7 +3268,33 @@ function renderToolGuideBridge(tool) {
   `;
 }
 
-function renderAgriculturalDataBridge(tool) {
+function renderAgriculturalBridge(tool) {
+  if (tool.id === "file-size-sorter") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriPhotoBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 판매 사진 사용 예</p>
+            <h2 id="agriPhotoBridgeTitle">실물·포장 사진을 큰 파일부터 확인하고 대표 사진 후보를 골라 두세요</h2>
+            <p>판매 글에 올릴 사진 묶음을 용량순으로 확인한 뒤에는 원본을 보관하고, 실제 상품 상태·크기 편차·출고 포장이 잘 보이는 사진을 골라야 구매자가 조건을 정확히 비교할 수 있습니다.</p>
+          </div>
+          <a href="/guides/smartphone-photo-size-submit/">사진 파일 확인 기준</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/guides/smartphone-photo-size-submit/">
+            <span>goatool 사진</span>
+            <strong>스마트폰 사진 용량과 선명도 확인</strong>
+            <small>원본 보관·용량·글자 판독성 점검</small>
+          </a>
+          <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-size-photo-search-bridge">
+            <span>보리장터</span>
+            <strong>농산물 판매글 사진·포장 기준 확인</strong>
+            <small>실제 상품·출고 포장·가격 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
   if (tool.id !== "data-clean") return "";
   return `
     <section class="tool-guide-bridge" aria-labelledby="agriDataBridgeTitle">

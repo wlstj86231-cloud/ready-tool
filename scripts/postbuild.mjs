@@ -751,8 +751,17 @@ function toolPageFallback(route, meta) {
     checks: ["원본 파일을 따로 보관", "결과 파일을 다시 열어 확인", "접수처의 용량과 확장자 조건 재확인"]
   };
   const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
-  const agriculturalDataBridge =
-    toolId === "data-clean"
+  const agriculturalBridge =
+    toolId === "file-size-sorter"
+      ? `<section>
+          <h2>농산물 판매 사진 파일을 확인한다면</h2>
+          <p>실제 상품 상태·크기 편차·출고 포장이 보이는 사진을 큰 파일부터 확인하고, 원본을 보관한 뒤 대표 사진 후보를 고릅니다.</p>
+          <ul>
+            <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 사진 용량과 선명도 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-size-photo-search-bridge">보리장터 농산물 판매글 사진·포장 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "data-clean"
       ? `<section>
           <h2>농산물 정산표를 정리한다면</h2>
           <p>판매 수량·단가·포장비·배송비와 실제 입금액을 맞추고, 수수료·반품 공제 항목을 별도 열로 남깁니다.</p>
@@ -787,7 +796,7 @@ function toolPageFallback(route, meta) {
               .join("")}</ul></section>`
           : ""
       }
-      ${agriculturalDataBridge}
+      ${agriculturalBridge}
       <nav aria-label="goatool 주요 이동">
         <a href="/">도구 선택</a>
         <a href="/guides/">전체 전문 가이드</a>
