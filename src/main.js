@@ -627,9 +627,11 @@ const tools = [
     group: "이미지 복구",
     label: "이미지 복구 시도",
     short: "열리는 이미지 재저장",
-    title: "열리는 이미지를 새 이미지로 다시 저장하기",
-    description: "브라우저에서 읽히는 JPG, PNG, WebP 이미지를 다시 인코딩해 깨진 헤더나 과한 메타데이터 영향을 줄입니다.",
-    tags: ["이미지", "복구 시도", "재저장"],
+    title: "깨진 이미지를 새 JPG로 다시 저장해 복구 시도하기",
+    description: "브라우저에서 읽히는 JPG, PNG, WebP 이미지를 다시 인코딩해 깨진 헤더나 과한 메타데이터 영향을 줄입니다. 읽히지 않는 파일은 복구할 수 없습니다.",
+    metaTitle: "깨진 이미지 복구 시도·JPG 재저장 무료 도구 - goatool",
+    metaDescription: "브라우저에서 열리는 JPG·PNG·WebP 이미지를 새 JPG로 다시 저장해 깨진 헤더나 과한 메타데이터 영향을 줄입니다. 읽히지 않는 파일은 복구할 수 없습니다.",
+    tags: ["이미지 복구", "깨진 이미지 복구", "JPG 재저장"],
     situations: ["public", "job", "school", "share"]
   },
   {
@@ -784,6 +786,12 @@ const simpleToolCopy = {
     short: "EXIF 줄이고 이미지 정리",
     title: "이미지 관리·EXIF 개인정보 정리",
     description: "사진과 캡처 이미지를 브라우저에서 다시 저장해 EXIF 노출 가능성을 줄이고 용량을 정리합니다."
+  },
+  "image-repair-basic": {
+    label: "이미지 복구 시도",
+    short: "열리는 깨진 이미지 JPG 재저장",
+    title: "깨진 이미지 복구 시도·JPG 재저장",
+    description: "브라우저에서 열리는 이미지를 새 JPG로 다시 저장해 깨진 헤더나 과한 메타데이터 영향을 줄입니다."
   },
   "image-redactor": {
     label: "이미지 가림 처리",
@@ -1552,6 +1560,24 @@ const expertise = {
     faq: [
       ["EXIF가 완전히 사라지나요?", "캔버스 재저장 방식은 일반적인 EXIF를 결과 파일에 싣지 않는 데 유리하지만, 모든 파일 형식의 모든 메타데이터를 법적으로 보증하지는 않습니다."],
       ["이미지 품질은 왜 조절하나요?", "제출처 용량 제한에 맞추면서 글자가 읽히는 수준을 유지하기 위해서입니다."]
+    ]
+  },
+  "image-repair-basic": {
+    summary: "이미지 복구 시도는 브라우저가 읽을 수 있는 JPG, PNG, WebP를 새 JPG로 다시 인코딩하는 방식입니다. 깨진 헤더나 과한 메타데이터 영향은 줄일 수 있지만, 픽셀 데이터 자체가 사라진 파일을 되살리지는 못합니다.",
+    method: [
+      "브라우저가 이미지를 디코딩할 수 있는지 먼저 확인합니다.",
+      "읽힌 화면을 새 캔버스에 그린 뒤 JPG로 다시 인코딩합니다.",
+      "여러 결과는 ZIP으로 묶어 원본과 분리해 내려받습니다."
+    ],
+    limits: [
+      "브라우저에서 전혀 열리지 않는 파일은 이 방식으로 복구할 수 없습니다.",
+      "사라진 픽셀, 잘린 영역, 원래 색상을 추정해 복원하지 않습니다.",
+      "결과 JPG는 투명 배경과 일부 메타데이터를 유지하지 않습니다."
+    ],
+    checklist: ["원본 파일을 덮어쓰지 않고 별도로 보관", "결과의 방향·색상·잘림·글자 판독성 확인", "공유나 판매 글에 쓰기 전 원본과 다시 비교"],
+    faq: [
+      ["열리지 않는 사진도 복구되나요?", "아니요. 브라우저가 화면을 읽을 수 있어야 새 JPG로 다시 저장할 수 있습니다."],
+      ["원본 화질이 돌아오나요?", "아니요. 읽힌 픽셀을 다시 저장하는 방식이라 이미 손실된 세부 정보는 복원하지 못합니다."]
     ]
   },
   "image-redactor": {
@@ -3293,6 +3319,32 @@ function renderAgriculturalBridge(tool) {
           <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">
             <span>보리장터</span>
             <strong>농산물 판매글 사진·포장 기준 확인</strong>
+            <small>실제 상품·출고 포장·가격 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
+  if (tool.id === "image-repair-basic") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriImageRepairBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 판매 사진 복구 후</p>
+            <h2 id="agriImageRepairBridgeTitle">상품 사진의 실물 상태와 포장 글자를 원본과 다시 비교하세요</h2>
+            <p>새 JPG가 만들어졌더라도 색상·방향·잘림·글자 판독성이 달라질 수 있습니다. 실제 상품 상태와 크기 편차, 라벨, 출고 포장이 정확히 보이는 결과만 판매 글에 사용하세요.</p>
+          </div>
+          <a href="/guides/smartphone-photo-size-submit/">판매 사진 파일 확인 기준</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/guides/smartphone-photo-size-submit/">
+            <span>goatool 사진</span>
+            <strong>스마트폰 사진 용량과 선명도 확인</strong>
+            <small>원본 보관·글자 판독성·제출 품질 점검</small>
+          </a>
+          <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-repair-product-photo-search-bridge">
+            <span>보리장터</span>
+            <strong>농산물 판매글 사진·가격·포장 기준 확인</strong>
             <small>실제 상품·출고 포장·가격 조건 준비</small>
           </a>
         </div>

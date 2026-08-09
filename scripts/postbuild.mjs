@@ -134,6 +134,10 @@ const toolFallbackGuidance = {
     context: "이미지 재저장은 EXIF 노출 가능성을 줄이는 데 도움이 되지만, 화면에 찍힌 주소나 주민번호까지 자동으로 지우지는 않습니다.",
     checks: ["원본 보관", "정리본 확대 확인", "화면 속 민감정보는 별도 가림 처리"]
   },
+  "image-repair-basic": {
+    context: "깨진 이미지 복구 시도는 브라우저에서 열리는 화면을 새 JPG로 다시 저장하는 방식입니다. 깨진 헤더나 과한 메타데이터 영향은 줄일 수 있지만 사라진 픽셀을 되살리지는 못합니다.",
+    checks: ["원본 파일을 별도로 보관", "결과의 방향·색상·잘림 확인", "공유 전 글자와 실물 상태를 원본과 비교"]
+  },
   "image-redactor": {
     context: "신분증, 등본 캡처, 통장 사본처럼 보이는 정보가 중요한 이미지는 가림 영역이 충분히 불투명하고 넓어야 합니다.",
     checks: ["가릴 항목 목록 작성", "반투명 표시 대신 불투명 박스 사용", "결과 이미지를 확대해서 남은 글자 확인"]
@@ -426,8 +430,8 @@ const routeMeta = {
     features: ["이미지 비율", "목표 비율", "규격 검사", "보고서"]
   },
   "/tools/image-repair-basic/": {
-    title: "이미지 복구 시도 - goatool",
-    description: "브라우저에서 열리는 이미지를 새 JPG로 다시 저장해 손상 가능성을 줄입니다.",
+    title: "깨진 이미지 복구 시도·JPG 재저장 무료 도구 - goatool",
+    description: "브라우저에서 열리는 JPG·PNG·WebP 이미지를 새 JPG로 다시 저장해 깨진 헤더나 과한 메타데이터 영향을 줄입니다. 읽히지 않는 파일은 복구할 수 없습니다.",
     type: "SoftwareApplication",
     features: ["이미지 재저장", "JPG 인코딩", "복구 시도", "결과 ZIP"]
   },
@@ -759,6 +763,15 @@ function toolPageFallback(route, meta) {
           <ul>
             <li><a href="/guides/photo-exif-personal-info/">사진 EXIF와 화면 속 개인정보 확인</a></li>
             <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">보리장터 농산물 판매글 사진·포장 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "image-repair-basic"
+      ? `<section>
+          <h2>농산물 판매 사진을 복구했다면</h2>
+          <p>새 JPG의 색상·방향·잘림·글자 판독성을 원본과 비교하고, 실제 상품 상태와 크기 편차, 라벨, 출고 포장이 정확히 보이는 결과만 판매 글에 사용합니다.</p>
+          <ul>
+            <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 사진 용량과 선명도 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-repair-product-photo-search-bridge">보리장터 농산물 판매글 사진·가격·포장 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "file-size-sorter"
