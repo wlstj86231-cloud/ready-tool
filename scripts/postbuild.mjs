@@ -550,9 +550,9 @@ const routeMeta = {
     features: ["CSV 정리", "XLSX 첫 번째 시트 읽기", "빈 행 제거", "중복 행 제거"]
   },
   "/tools/table-privacy-checker/": {
-    title: "표 개인정보 점검 - goatool",
+    title: "엑셀·CSV 개인정보 점검 무료 도구 - goatool",
     description:
-      "CSV와 XLSX 표에서 전화번호, 이메일, 주민등록번호 형태, 생년월일 단서를 찾아 제출 전 민감정보 노출을 줄입니다.",
+      "CSV와 XLSX 표에서 전화번호, 이메일, 주민등록번호 형태와 생년월일 단서를 찾아 공유 전 개인정보 노출을 점검합니다. 파일은 브라우저에서 처리합니다.",
     type: "SoftwareApplication",
     features: ["표 개인정보 점검", "CSV 개인정보", "엑셀 개인정보", "전화번호 이메일 패턴"]
   },
@@ -763,6 +763,15 @@ function toolPageFallback(route, meta) {
           <ul>
             <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
             <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">보리장터 농수산물 위탁판매 공급·정산·반품 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "table-privacy-checker"
+      ? `<section>
+          <h2>농산물 거래 정산표를 공유한다면</h2>
+          <p>구매자 연락처·상세 주소가 든 원본과 공유용 정산표를 분리하고, 후보 셀을 직접 확인한 뒤 판매 수량·단가·배송비처럼 거래에 필요한 항목만 남깁니다.</p>
+          <ul>
+            <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산표와 증빙 파일 준비법</a></li>
+            <li><a href="https://boribay.com/guides/agricultural-direct-market-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">보리장터 농산물 직거래 판매자·상품정보 확인</a></li>
           </ul>
         </section>`
       : toolId === "filename-numberer"

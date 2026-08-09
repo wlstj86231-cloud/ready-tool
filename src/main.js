@@ -327,6 +327,8 @@ const tools = [
   {
     id: "table-privacy-checker",
     path: "/tools/table-privacy-checker/",
+    metaTitle: "엑셀·CSV 개인정보 점검 무료 도구 - goatool",
+    metaDescription: "CSV와 XLSX 표에서 전화번호, 이메일, 주민등록번호 형태와 생년월일 단서를 찾아 공유 전 개인정보 노출을 점검합니다. 파일은 브라우저에서 처리합니다.",
     group: "자료 점검",
     label: "표 개인정보 점검",
     short: "CSV·엑셀 패턴 검사",
@@ -872,8 +874,8 @@ const simpleToolCopy = {
   "table-privacy-checker": {
     label: "표 개인정보 점검",
     short: "전화·이메일·주민번호 단서",
-    title: "표 개인정보 점검",
-    description: "CSV와 XLSX 표 안의 개인정보 패턴을 제출 전에 확인합니다."
+    title: "엑셀·CSV 개인정보 점검",
+    description: "CSV와 XLSX 표 안의 전화번호·이메일·주민등록번호 형태·생년월일 단서를 공유 전에 확인합니다."
   }
 };
 
@@ -3352,6 +3354,32 @@ function renderAgriculturalBridge(tool) {
             <span>보리장터</span>
             <strong>농수산물 위탁판매 공급·정산·반품 기준 확인</strong>
             <small>판매자·공급자 역할과 비용·배송 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
+  if (tool.id === "table-privacy-checker") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriTablePrivacyBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 거래 정산표 공유 전</p>
+            <h2 id="agriTablePrivacyBridgeTitle">구매자 연락처·상세 주소가 든 원본과 공유용 정산표를 분리하세요</h2>
+            <p>이 도구는 전화번호·이메일·주민등록번호 형태·생년월일 단서가 있는 셀을 찾아줍니다. 탐지 결과가 개인정보 여부를 확정하지는 않으므로 후보 셀을 직접 확인하고, 판매 수량·단가·배송비처럼 거래에 필요한 항목만 남긴 공유용 사본을 만드세요.</p>
+          </div>
+          <a href="/agri/guides/direct-sale-settlement-files/">직거래 정산 파일 준비 순서</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/agri/guides/direct-sale-settlement-files/">
+            <span>goatool 농업</span>
+            <strong>농산물 직거래 정산표와 증빙 파일 나누기</strong>
+            <small>원본·공유본·입금 내역과 출고 증빙 분리</small>
+          </a>
+          <a href="https://boribay.com/guides/agricultural-direct-market-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">
+            <span>보리장터</span>
+            <strong>농산물 직거래 사이트에서 판매자·상품정보 확인</strong>
+            <small>불필요한 상세 주소 대신 판매자·원산지·중량·배송 조건 비교</small>
           </a>
         </div>
       </section>
