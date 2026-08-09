@@ -2520,6 +2520,7 @@ function render() {
           <a href="/guides/" data-link class="${isGuideIndex || guidePage ? "on" : ""}" ${isGuideIndex || guidePage ? 'aria-current="page"' : ""}>
             가이드
           </a>
+          <a href="/agri/">농업 서류</a>
           <a class="nav-sibling" href="https://policyfundpedia.com/" target="_blank" rel="noopener">
             정책자금 백과
           </a>
@@ -2711,6 +2712,7 @@ function render() {
       <nav aria-label="하단 링크">
         <a href="/about/" data-link>소개</a>
         <a href="/guides/" data-link>전문 가이드</a>
+        <a href="/agri/">농업 서류</a>
         <a href="https://policyfundpedia.com/" target="_blank" rel="noopener">정책자금 백과</a>
         <a href="/privacy/" data-link>개인정보 처리방침</a>
         <a href="/terms/" data-link>이용안내</a>

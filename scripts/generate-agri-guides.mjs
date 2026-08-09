@@ -73,9 +73,8 @@ await fs.writeFile(path.join(root, "public", "agri", "guide.css"), css, "utf8");
 
 const hubPath = path.join(root, "public", "agri", "index.html");
 let home = await fs.readFile(hubPath, "utf8");
-if (!home.includes('href="/agri/guides/"')) {
-  const promo = `<section class="recommended"><div><p>거래 전에 읽는 짧은 기준</p><h2>농업 거래 서류 파일 준비 가이드</h2></div><div class="tool-grid"><a href="/agri/guides/direct-sale-settlement-files/"><i data-lucide="receipt-text"></i><strong>직거래 정산 파일</strong><span>판매·출고·입금 내역 묶기</span></a><a href="/agri/guides/used-machinery-handover-files/"><i data-lucide="tractor"></i><strong>농기계 인도 파일</strong><span>명판·정비·상차 상태 기록</span></a><a href="/agri/guides/farm-supplies-disposal-records/"><i data-lucide="recycle"></i><strong>폐농자재 처분 기록</strong><span>품목·표시·인계 경로 정리</span></a></div></section>`;
-  home = home.replace('<section class="boribay-next">', `${promo}<section class="boribay-next">`);
-  await fs.writeFile(hubPath, home, "utf8");
-}
+home = home.replace(/<section class="recommended"><div><p>거래 전에 읽는 짧은 기준<\/p>[\s\S]*?<\/section>/g, "");
+const promo = `<section class="recommended"><div><p>거래 전에 읽는 짧은 기준</p><h2><a href="/agri/guides/">농업 거래 서류 파일 준비 가이드</a></h2></div><div class="tool-grid"><a href="/agri/guides/direct-sale-settlement-files/"><i data-lucide="receipt-text"></i><strong>직거래 정산 파일</strong><span>판매·출고·입금 내역 묶기</span></a><a href="/agri/guides/used-machinery-handover-files/"><i data-lucide="tractor"></i><strong>농기계 인도 파일</strong><span>명판·정비·상차 상태 기록</span></a><a href="/agri/guides/farm-supplies-disposal-records/"><i data-lucide="recycle"></i><strong>폐농자재 처분 기록</strong><span>품목·표시·인계 경로 정리</span></a></div></section>`;
+home = home.replace('<section class="boribay-next">', `${promo}<section class="boribay-next">`);
+await fs.writeFile(hubPath, home, "utf8");
 console.log(`generated ${guides.length} agricultural document guides`);

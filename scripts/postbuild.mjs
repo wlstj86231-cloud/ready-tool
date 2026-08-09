@@ -691,6 +691,7 @@ function fallbackForRoute(route, meta) {
     ["/tools/data-clean/", "CSV·엑셀 정리"],
     ["/tools/table-privacy-checker/", "표 개인정보 점검"],
     ["/guides/", "전문 가이드"],
+    ["/agri/", "농업 거래 서류"],
     ["https://policyfundpedia.com/", "정책자금 백과"],
     ["/about/", "소개"],
     ["/privacy/", "개인정보 처리방침"]
