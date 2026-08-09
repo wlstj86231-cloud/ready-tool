@@ -183,8 +183,10 @@ const tools = [
     group: "민원 상위",
     label: "이미지 용량·개인정보 정리",
     short: "EXIF, 리사이즈, 압축",
-    title: "사진과 캡처 이미지를 개인정보 적은 복사본으로 만들기",
+    title: "사진·캡처 이미지의 용량과 EXIF 개인정보 정리하기",
     description: "이미지를 브라우저 캔버스로 다시 저장해 위치정보와 카메라 정보 같은 EXIF 노출 가능성을 줄이고 제출용 용량으로 정리합니다.",
+    metaTitle: "이미지 관리·EXIF 개인정보 정리 무료 도구 - goatool",
+    metaDescription: "사진과 캡처 이미지를 브라우저에서 다시 저장해 EXIF 위치·카메라 정보 노출 가능성을 줄이고 용량과 형식을 정리합니다. 화면에 보이는 주소는 직접 가려야 합니다.",
     tags: ["EXIF", "이미지", "개인정보"],
     situations: ["public", "job", "share"]
   },
@@ -780,8 +782,8 @@ const simpleToolCopy = {
   "image-privacy": {
     label: "이미지 개인정보",
     short: "EXIF 줄이고 이미지 정리",
-    title: "이미지 개인정보 정리",
-    description: "이미지를 다시 저장해 사진 메타데이터 노출 가능성을 줄입니다."
+    title: "이미지 관리·EXIF 개인정보 정리",
+    description: "사진과 캡처 이미지를 브라우저에서 다시 저장해 EXIF 노출 가능성을 줄이고 용량을 정리합니다."
   },
   "image-redactor": {
     label: "이미지 가림 처리",
@@ -3271,6 +3273,32 @@ function renderToolGuideBridge(tool) {
 }
 
 function renderAgriculturalBridge(tool) {
+  if (tool.id === "image-privacy") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriPrivacyBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 판매 사진 공개 전</p>
+            <h2 id="agriPrivacyBridgeTitle">상품·포장 사진의 위치정보와 화면 속 주소를 따로 확인하세요</h2>
+            <p>이미지를 새로 저장해 EXIF 노출 가능성을 줄여도 상자 라벨·송장·연락처·농장 위치 단서는 화면에 남을 수 있습니다. 공개용 사본만 판매 글에 사용하세요.</p>
+          </div>
+          <a href="/guides/photo-exif-personal-info/">사진 개인정보 확인 기준</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/guides/photo-exif-personal-info/">
+            <span>goatool 사진</span>
+            <strong>사진 EXIF와 화면 속 개인정보 구분</strong>
+            <small>위치·촬영정보·주소·연락처 점검</small>
+          </a>
+          <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">
+            <span>보리장터</span>
+            <strong>농산물 판매글 사진·포장 기준 확인</strong>
+            <small>실제 상품·출고 포장·가격 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
   if (tool.id === "file-size-sorter") {
     return `
       <section class="tool-guide-bridge" aria-labelledby="agriPhotoBridgeTitle">

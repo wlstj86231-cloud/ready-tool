@@ -293,9 +293,9 @@ const routeMeta = {
     features: ["파일명 개인정보 점검", "전화번호 패턴", "이메일 패턴", "주민등록번호 형태"]
   },
   "/tools/image-privacy/": {
-    title: "이미지 용량·개인정보 정리 - goatool",
+    title: "이미지 관리·EXIF 개인정보 정리 무료 도구 - goatool",
     description:
-      "사진과 캡처 이미지를 캔버스로 다시 저장해 EXIF 노출 가능성을 줄이고 제출용 이미지 ZIP을 만듭니다.",
+      "사진과 캡처 이미지를 브라우저에서 다시 저장해 EXIF 위치·카메라 정보 노출 가능성을 줄이고 용량과 형식을 정리합니다. 화면에 보이는 주소는 직접 가려야 합니다.",
     type: "SoftwareApplication",
       features: ["캔버스 재저장", "EXIF 노출 가능성 감소", "이미지 리사이즈", "결과 ZIP"]
   },
@@ -752,7 +752,16 @@ function toolPageFallback(route, meta) {
   };
   const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
   const agriculturalBridge =
-    toolId === "file-size-sorter"
+    toolId === "image-privacy"
+      ? `<section>
+          <h2>농산물 판매 사진을 공개한다면</h2>
+          <p>EXIF 노출 가능성을 줄인 뒤에도 상품·포장·송장 사진 화면에 주소·연락처·농장 위치 단서가 남았는지 따로 확인합니다.</p>
+          <ul>
+            <li><a href="/guides/photo-exif-personal-info/">사진 EXIF와 화면 속 개인정보 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">보리장터 농산물 판매글 사진·포장 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "file-size-sorter"
       ? `<section>
           <h2>농산물 판매 사진 파일을 확인한다면</h2>
           <p>실제 상품 상태·크기 편차·출고 포장이 보이는 사진을 큰 파일부터 확인하고, 원본을 보관한 뒤 대표 사진 후보를 고릅니다.</p>
