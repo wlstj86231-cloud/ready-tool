@@ -2949,6 +2949,7 @@ function renderGuideIndexPage() {
         <span><strong>${groups.length}</strong>개 주제군</span>
       </div>
       ${renderGuideTrustPanel()}
+      ${renderGuideAgriculturalBridge()}
       ${renderGuideCategoryOverview(groups)}
       ${renderGuideMemoryPanel()}
       <div class="guide-filter-panel" aria-label="전문 가이드 찾기">
@@ -3008,6 +3009,33 @@ function renderGuideTrustPanel() {
       <div>
         <strong>도구와 함께 읽기</strong>
         <p>가이드마다 연결된 도구가 있으며, 도구 페이지에서도 관련 가이드를 바로 이어볼 수 있습니다. 읽고 끝나는 글이 아니라 제출 파일을 직접 점검하는 흐름으로 이어집니다.</p>
+      </div>
+    </section>
+  `;
+}
+
+function renderGuideAgriculturalBridge() {
+  return `
+    <section class="tool-guide-bridge" aria-labelledby="guideAgriBridgeTitle">
+      <div class="tool-guide-bridge-head">
+        <div>
+          <p class="notice-kicker">CSV·XLSX를 거래 정산에 쓰는 경우</p>
+          <h2 id="guideAgriBridgeTitle">농산물 판매 정산표를 정리한 뒤 실제 공제 기준까지 확인하세요</h2>
+          <p>CSV는 한 장의 단순 표를 주고받기 쉽고, XLSX는 여러 시트·서식·수식을 담을 수 있습니다. 판매 수량·단가·포장비·배송비·수수료 열을 정리한 뒤 실제 입금액과 공제 조건을 함께 비교해야 합니다.</p>
+        </div>
+        <a href="/guides/csv-to-excel-before-check/" data-link>CSV·엑셀 변환 전 검수</a>
+      </div>
+      <div class="tool-guide-list">
+        <a href="/agri/guides/direct-sale-settlement-files/">
+          <span>goatool 농업</span>
+          <strong>농산물 직거래 정산 파일 준비법</strong>
+          <small>판매 조건표·출고 증빙·입금 내역 정리</small>
+        </a>
+        <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=guide-hub-csv-xlsx-settlement-bridge">
+          <span>보리장터</span>
+          <strong>농산물 위탁판매 정산·공제 기준 확인</strong>
+          <small>수수료·포장·배송·반품 공제 비교</small>
+        </a>
       </div>
     </section>
   `;

@@ -1,9 +1,9 @@
 export const guideIndexMeta = {
   path: "/guides/",
-  title: "goatool 전문 가이드",
-  metaTitle: "goatool 전문 가이드 - 제출 파일, 이미지 개인정보, CSV 정리",
+  title: "CSV·XLSX 차이부터 제출 파일까지",
+  metaTitle: "CSV·XLSX 차이·엑셀 정리와 제출 파일 가이드 - goatool",
   description:
-    "민원 제출, 입사지원, 학교 과제, 공공기관 첨부파일, 이미지 개인정보, CSV와 엑셀 정리를 실제 제출 상황 중심으로 설명한 goatool 장문 가이드 모음입니다."
+    "CSV와 XLSX 차이, 엑셀 첫 시트와 한글 인코딩, 민원·입사지원 제출 파일, 이미지 개인정보를 실제 검수 상황 중심으로 설명한 goatool 전문 가이드입니다."
 };
 
 export const guideTopics = [

@@ -840,6 +840,15 @@ function guideIndexFallback() {
         <p>각 문서는 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 다룹니다. 단순 변환법보다 마지막 제출 전에 사람이 무엇을 확인해야 하는지에 초점을 둡니다.</p>
       </section>
       <section>
+        <h2>CSV·XLSX 농산물 판매 정산표를 정리한다면</h2>
+        <p>CSV는 한 장의 단순 표를 주고받기 쉽고, XLSX는 여러 시트·서식·수식을 담을 수 있습니다. 판매 수량·단가·포장비·배송비·수수료 열을 정리한 뒤 실제 입금액과 공제 조건을 함께 비교합니다.</p>
+        <ul>
+          <li><a href="/guides/csv-to-excel-before-check/">CSV를 엑셀로 변환하기 전 검수 기준</a></li>
+          <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
+          <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=guide-hub-csv-xlsx-settlement-bridge">보리장터 농산물 위탁판매 정산·공제 기준 확인</a></li>
+        </ul>
+      </section>
+      <section>
         <h2>주제군</h2>
         <ul>
           ${guideCategories
