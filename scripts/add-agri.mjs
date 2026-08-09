@@ -1,1 +1,22 @@
-import{readFileSync,writeFileSync}from'node:fs';import{join}from'node:path';const dist=join(process.cwd(),'dist'),file=join(dist,'sitemap.xml'),url='https://goatool.com/agri/';let xml=readFileSync(file,'utf8');if(!xml.includes(url))xml=xml.replace('</urlset>',`  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>2026-08-09</lastmod><priority>0.9</priority></url>\n</urlset>`);writeFileSync(file,xml);console.log('added goatool agricultural file hub');
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+
+const dist = join(process.cwd(), "dist");
+const file = join(dist, "sitemap.xml");
+const date = "2026-08-10";
+const urls = [
+  "https://goatool.com/agri/",
+  "https://goatool.com/agri/guides/",
+  "https://goatool.com/agri/guides/direct-sale-settlement-files/",
+  "https://goatool.com/agri/guides/used-machinery-handover-files/",
+  "https://goatool.com/agri/guides/farm-supplies-disposal-records/",
+];
+
+let xml = readFileSync(file, "utf8");
+const entries = urls
+  .filter((url) => !xml.includes(`<loc>${url}</loc>`))
+  .map((url, index) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>${date}</lastmod><priority>${index === 0 ? "0.9" : "0.8"}</priority></url>`)
+  .join("\n");
+if (entries) xml = xml.replace("</urlset>", `${entries}\n</urlset>`);
+writeFileSync(file, xml);
+console.log(`added ${urls.length} goatool agricultural URLs`);

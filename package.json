@@ -6,7 +6,7 @@
   "description": "goatool browser tools for Korean public submission, job application files, PDFs, photo resizing, and cleanup.",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "vite build && node scripts/postbuild.mjs && node scripts/add-agri.mjs",
+    "build": "node scripts/generate-agri-guides.mjs && vite build && node scripts/postbuild.mjs && node scripts/add-agri.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
