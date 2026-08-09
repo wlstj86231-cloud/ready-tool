@@ -269,9 +269,9 @@ const routeMeta = {
     features: ["PDF 홀짝 분리", "스캔 정리", "결과 ZIP", "브라우저 처리"]
   },
   "/tools/file-ready/": {
-    title: "제출 파일 점검·ZIP - goatool",
+    title: "제출 파일 점검·ZIP 만들기 무료 도구 - goatool",
     description:
-      "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다.",
+      "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     type: "SoftwareApplication",
     features: ["파일명 점검", "SHA-256 해시", "제출용 ZIP", "점검표 TXT"]
   },
@@ -756,7 +756,16 @@ function toolPageFallback(route, meta) {
   };
   const relatedGuides = guidePages.filter((guide) => guide.toolId === toolId).slice(0, 4);
   const agriculturalBridge =
-    toolId === "filename-numberer"
+    toolId === "file-ready"
+      ? `<section>
+          <h2>농산물 판매 준비 파일을 묶는다면</h2>
+          <p>판매 사진·정산표·거래 증빙의 원본을 나눠 보관하고, 파일 점검 결과와 별개로 원산지·등급·중량·정산 조건을 실제 판매 내용과 다시 맞춥니다.</p>
+          <ul>
+            <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
+            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">보리장터 농수산물 위탁판매 공급·정산·반품 기준 확인</a></li>
+          </ul>
+        </section>`
+      : toolId === "filename-numberer"
       ? `<section>
           <h2>농산물 판매 사진 순서를 정리한다면</h2>
           <p>대표 사진부터 번호를 붙인 뒤 각 사진이 실제 상품 상태·크기 편차·등급·중량·출고 포장 중 무엇을 보여 주는지 판매 글 설명과 맞춥니다.</p>

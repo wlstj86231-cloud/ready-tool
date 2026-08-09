@@ -141,6 +141,8 @@ const tools = [
     short: "파일명, 용량, ZIP",
     title: "제출 전 파일을 한 번에 점검하고 묶기",
     description: "민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 확장자, 중복 파일을 확인하고 제출용 ZIP과 점검표를 만듭니다.",
+    metaTitle: "제출 파일 점검·ZIP 만들기 무료 도구 - goatool",
+    metaDescription: "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     tags: ["파일명", "ZIP", "점검표"],
     situations: ["public", "job", "school"]
   },
@@ -3329,6 +3331,32 @@ function renderToolGuideBridge(tool) {
 }
 
 function renderAgriculturalBridge(tool) {
+  if (tool.id === "file-ready") {
+    return `
+      <section class="tool-guide-bridge" aria-labelledby="agriFileReadyBridgeTitle">
+        <div class="tool-guide-bridge-head">
+          <div>
+            <p class="notice-kicker">농산물 판매 준비 파일 예</p>
+            <h2 id="agriFileReadyBridgeTitle">판매 사진·정산표·거래 증빙을 묶기 전에 내용별 원본을 나누세요</h2>
+            <p>이 도구는 파일명·용량·확장자·중복 여부를 점검하지만 원산지·등급·중량·정산 조건의 사실 여부는 판정하지 않습니다. 원본과 제출용 묶음을 따로 보관하고 실제 판매 조건을 다시 확인하세요.</p>
+          </div>
+          <a href="/agri/guides/direct-sale-settlement-files/">정산 파일 준비 순서</a>
+        </div>
+        <div class="tool-guide-list">
+          <a href="/agri/guides/direct-sale-settlement-files/">
+            <span>goatool 농업</span>
+            <strong>농산물 직거래 정산 파일 준비법</strong>
+            <small>판매 조건표·출고 증빙·입금 내역 정리</small>
+          </a>
+          <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">
+            <span>보리장터</span>
+            <strong>농수산물 위탁판매 공급·정산·반품 기준 확인</strong>
+            <small>판매자·공급자 역할과 비용·배송 조건 준비</small>
+          </a>
+        </div>
+      </section>
+    `;
+  }
   if (tool.id === "filename-numberer") {
     return `
       <section class="tool-guide-bridge" aria-labelledby="agriFilenameBridgeTitle">
