@@ -4,6 +4,7 @@ import { join } from "node:path";
 const dist = join(process.cwd(), "dist");
 const file = join(dist, "sitemap.xml");
 const date = "2026-08-10";
+const modified = "2026-09-16";
 const urls = [
   "https://goatool.com/agri/",
   "https://goatool.com/agri/guides/",
@@ -15,7 +16,7 @@ const urls = [
 let xml = readFileSync(file, "utf8");
 const entries = urls
   .filter((url) => !xml.includes(`<loc>${url}</loc>`))
-  .map((url, index) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>${date}</lastmod><priority>${index === 0 ? "0.9" : "0.8"}</priority></url>`)
+  .map((url, index) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>${index === 0 ? date : modified}</lastmod><priority>${index === 0 ? "0.9" : "0.8"}</priority></url>`)
   .join("\n");
 if (entries) xml = xml.replace("</urlset>", `${entries}\n</urlset>`);
 writeFileSync(file, xml);
