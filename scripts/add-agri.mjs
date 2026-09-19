@@ -10,6 +10,8 @@ const urls = [
   "https://goatool.com/agri/guides/",
   "https://goatool.com/agri/guides/direct-sale-settlement-files/",
   "https://goatool.com/agri/guides/pack-unit-kg-files/",
+  "https://goatool.com/agri/guides/fruit-box-kg-files/",
+  "https://goatool.com/agri/guides/produce-box-kg-files/",
   "https://goatool.com/agri/guides/used-machinery-handover-files/",
   "https://goatool.com/agri/guides/farm-supplies-disposal-records/",
 ];
