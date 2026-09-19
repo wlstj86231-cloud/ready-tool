@@ -3038,7 +3038,7 @@ function renderGuideAgriculturalBridge() {
           <small>판매 조건표·출고 증빙·입금 내역 정리</small>
         </a>
         <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=guide-hub-csv-xlsx-settlement-bridge">
-          <span>보리장터</span>
+          <span>거래 기준</span>
           <strong>농산물 위탁판매 정산·공제 기준 확인</strong>
           <small>수수료·포장·배송·반품 공제 비교</small>
         </a>
@@ -3351,7 +3351,7 @@ function renderAgriculturalBridge(tool) {
             <small>판매 조건표·출고 증빙·입금 내역 정리</small>
           </a>
           <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">
-            <span>보리장터</span>
+            <span>거래 기준</span>
             <strong>농수산물 위탁판매 공급·정산·반품 기준 확인</strong>
             <small>판매자·공급자 역할과 비용·배송 조건 준비</small>
           </a>
@@ -3376,8 +3376,8 @@ function renderAgriculturalBridge(tool) {
             <strong>농산물 직거래 정산표와 증빙 파일 나누기</strong>
             <small>원본·공유본·입금 내역과 출고 증빙 분리</small>
           </a>
-          <a href="https://boribay.com/guides/agricultural-direct-market-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">
-            <span>보리장터</span>
+          <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">
+            <span>거래 기준</span>
             <strong>농산물 직거래 사이트에서 판매자·상품정보 확인</strong>
             <small>불필요한 상세 주소 대신 판매자·원산지·중량·배송 조건 비교</small>
           </a>
@@ -3403,7 +3403,7 @@ function renderAgriculturalBridge(tool) {
             <small>원본 보관·대표 사진·글자 판독성 점검</small>
           </a>
           <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=filename-numberer-product-photo-search-bridge">
-            <span>보리장터</span>
+            <span>거래 기준</span>
             <strong>농산물 판매글 사진·가격·포장 기준 확인</strong>
             <small>품목·등급·중량·실제 상품·출고 조건 준비</small>
           </a>
@@ -3429,7 +3429,7 @@ function renderAgriculturalBridge(tool) {
             <small>위치·촬영정보·주소·연락처 점검</small>
           </a>
           <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">
-            <span>보리장터</span>
+            <span>거래 기준</span>
             <strong>농산물 판매글 사진·포장 기준 확인</strong>
             <small>실제 상품·출고 포장·가격 조건 준비</small>
           </a>
@@ -3455,7 +3455,7 @@ function renderAgriculturalBridge(tool) {
             <small>원본 보관·글자 판독성·제출 품질 점검</small>
           </a>
           <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-repair-product-photo-search-bridge">
-            <span>보리장터</span>
+            <span>거래 기준</span>
             <strong>농산물 판매글 사진·가격·포장 기준 확인</strong>
             <small>실제 상품·출고 포장·가격 조건 준비</small>
           </a>
@@ -3481,7 +3481,7 @@ function renderAgriculturalBridge(tool) {
             <small>원본 보관·용량·글자 판독성 점검</small>
           </a>
           <a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-size-photo-search-bridge">
-            <span>보리장터</span>
+            <span>거래 기준</span>
             <strong>농산물 판매글 사진·포장 기준 확인</strong>
             <small>실제 상품·출고 포장·가격 조건 준비</small>
           </a>
@@ -3507,7 +3507,7 @@ function renderAgriculturalBridge(tool) {
           <small>판매 조건표·출고 증빙·입금 내역 정리</small>
         </a>
         <a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=data-clean-search-bridge">
-          <span>보리장터</span>
+          <span>거래 기준</span>
           <strong>농산물 위탁판매 정산·공제 항목 확인</strong>
           <small>수수료·포장·배송·반품 공제 기준</small>
         </a>

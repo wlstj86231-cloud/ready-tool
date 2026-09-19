@@ -762,7 +762,7 @@ function toolPageFallback(route, meta) {
           <p>판매 사진·정산표·거래 증빙의 원본을 나눠 보관하고, 파일 점검 결과와 별개로 원산지·등급·중량·정산 조건을 실제 판매 내용과 다시 맞춥니다.</p>
           <ul>
             <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
-            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">보리장터 농수산물 위탁판매 공급·정산·반품 기준 확인</a></li>
+            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-ready-farm-sales-documents-search-bridge">농수산물 위탁판매 공급·정산·반품 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "table-privacy-checker"
@@ -771,7 +771,7 @@ function toolPageFallback(route, meta) {
           <p>구매자 연락처·상세 주소가 든 원본과 공유용 정산표를 분리하고, 후보 셀을 직접 확인한 뒤 판매 수량·단가·배송비처럼 거래에 필요한 항목만 남깁니다.</p>
           <ul>
             <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산표와 증빙 파일 준비법</a></li>
-            <li><a href="https://boribay.com/guides/agricultural-direct-market-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">보리장터 농산물 직거래 판매자·상품정보 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=table-privacy-farm-settlement-search-bridge">농산물 직거래 판매자·상품정보 확인</a></li>
           </ul>
         </section>`
       : toolId === "filename-numberer"
@@ -780,7 +780,7 @@ function toolPageFallback(route, meta) {
           <p>대표 사진부터 번호를 붙인 뒤 각 사진이 실제 상품 상태·크기 편차·등급·중량·출고 포장 중 무엇을 보여 주는지 판매 글 설명과 맞춥니다.</p>
           <ul>
             <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 판매 사진 용량과 선명도 확인</a></li>
-            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=filename-numberer-product-photo-search-bridge">보리장터 농산물 판매글 사진·가격·포장 기준 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=filename-numberer-product-photo-search-bridge">농산물 판매글 사진·가격·포장 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "image-privacy"
@@ -789,7 +789,7 @@ function toolPageFallback(route, meta) {
           <p>EXIF 노출 가능성을 줄인 뒤에도 상품·포장·송장 사진 화면에 주소·연락처·농장 위치 단서가 남았는지 따로 확인합니다.</p>
           <ul>
             <li><a href="/guides/photo-exif-personal-info/">사진 EXIF와 화면 속 개인정보 확인</a></li>
-            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">보리장터 농산물 판매글 사진·포장 기준 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-privacy-photo-search-bridge">농산물 판매글 사진·포장 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "image-repair-basic"
@@ -798,7 +798,7 @@ function toolPageFallback(route, meta) {
           <p>새 JPG의 색상·방향·잘림·글자 판독성을 원본과 비교하고, 실제 상품 상태와 크기 편차, 라벨, 출고 포장이 정확히 보이는 결과만 판매 글에 사용합니다.</p>
           <ul>
             <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 사진 용량과 선명도 확인</a></li>
-            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-repair-product-photo-search-bridge">보리장터 농산물 판매글 사진·가격·포장 기준 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=image-repair-product-photo-search-bridge">농산물 판매글 사진·가격·포장 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "file-size-sorter"
@@ -807,7 +807,7 @@ function toolPageFallback(route, meta) {
           <p>실제 상품 상태·크기 편차·출고 포장이 보이는 사진을 큰 파일부터 확인하고, 원본을 보관한 뒤 대표 사진 후보를 고릅니다.</p>
           <ul>
             <li><a href="/guides/smartphone-photo-size-submit/">스마트폰 사진 용량과 선명도 확인</a></li>
-            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-size-photo-search-bridge">보리장터 농산물 판매글 사진·포장 기준 확인</a></li>
+            <li><a href="https://boribay.com/guides/produce-direct-sale-pricing-packaging?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=file-size-photo-search-bridge">농산물 판매글 사진·포장 기준 확인</a></li>
           </ul>
         </section>`
       : toolId === "data-clean"
@@ -816,7 +816,7 @@ function toolPageFallback(route, meta) {
           <p>판매 수량·단가·포장비·배송비와 실제 입금액을 맞추고, 수수료·반품 공제 항목을 별도 열로 남깁니다.</p>
           <ul>
             <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
-            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=data-clean-search-bridge">보리장터 농산물 위탁판매 정산·공제 항목 확인</a></li>
+            <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=data-clean-search-bridge">농산물 위탁판매 정산·공제 항목 확인</a></li>
           </ul>
         </section>`
       : "";
@@ -872,7 +872,7 @@ function guideIndexFallback() {
         <ul>
           <li><a href="/guides/csv-to-excel-before-check/">CSV를 엑셀로 변환하기 전 검수 기준</a></li>
           <li><a href="/agri/guides/direct-sale-settlement-files/">농산물 직거래 정산 파일 준비법</a></li>
-          <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=guide-hub-csv-xlsx-settlement-bridge">보리장터 농산물 위탁판매 정산·공제 기준 확인</a></li>
+          <li><a href="https://boribay.com/guides/agricultural-products-consignment-sales-guide?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_file_tools&amp;utm_content=guide-hub-csv-xlsx-settlement-bridge">농산물 위탁판매 정산·공제 기준 확인</a></li>
         </ul>
       </section>
       <section>

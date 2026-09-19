@@ -27,6 +27,7 @@ const guides = [
     related: ["used-machinery-handover-files", "pack-unit-kg-files", "fruit-box-kg-files"],
     links: [
       ["농산물 직거래 가격·포장 원리", "produce-direct-sale-pricing-packaging"],
+      ["내 공제액으로 경매 수취금액 계산", "agricultural-auction-net-calculator"],
       ["배송비 포함 kg당 가격 비교", "produce-price-calculator"],
     ],
   },
@@ -101,6 +102,8 @@ const guides = [
       ["서울가락 토마토 5kg kg당", "garak-tomato-price-lookup"],
       ["서울가락 하우스감귤 3kg kg당", "garak-citrus-price-lookup"],
       ["서울가락 수박 통·상자 kg당", "garak-watermelon-price-lookup"],
+      ["서울가락 대추방울 3kg kg당", "garak-cherry-tomato-price-lookup"],
+      ["서울가락 생대추 2kg kg당", "garak-jujube-price-lookup"],
       ["서울가락 송본 단감 10kg kg당", "garak-persimmon-price-lookup"],
     ],
   },
