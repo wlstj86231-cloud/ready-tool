@@ -4,11 +4,12 @@ import { join } from "node:path";
 const dist = join(process.cwd(), "dist");
 const file = join(dist, "sitemap.xml");
 const date = "2026-08-10";
-const modified = "2026-09-19";
+const modified = "2026-09-20";
 const urls = [
   "https://goatool.com/agri/",
   "https://goatool.com/agri/guides/",
   "https://goatool.com/agri/guides/direct-sale-settlement-files/",
+  "https://goatool.com/agri/guides/pack-unit-kg-files/",
   "https://goatool.com/agri/guides/used-machinery-handover-files/",
   "https://goatool.com/agri/guides/farm-supplies-disposal-records/",
 ];

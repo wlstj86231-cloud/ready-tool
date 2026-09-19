@@ -5,7 +5,7 @@ const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "public", "agri", "guides");
 const base = "https://goatool.com";
 const date = "2026-08-10";
-const modified = "2026-09-16";
+const modified = "2026-09-20";
 const guides = [
   {
     slug: "direct-sale-settlement-files",
@@ -24,10 +24,34 @@ const guides = [
       ["직거래 정산표를 CSV로 저장해도 되나요?", "표 전달에 사용할 수 있지만 수식·서식·여러 시트는 그대로 유지되지 않을 수 있습니다. 원본 XLSX를 별도로 남기고, 내보낸 파일을 다시 열어 수량·금액·합계가 맞는지 확인하세요."],
     ],
     tools: [["판매 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"], ["정산표의 공백·중복 행 정리", "/tools/data-clean/"]],
-    related: ["used-machinery-handover-files"],
+    related: ["used-machinery-handover-files", "pack-unit-kg-files"],
     links: [
       ["농산물 직거래 가격·포장 원리", "produce-direct-sale-pricing-packaging"],
       ["배송비 포함 kg당 가격 비교", "produce-price-calculator"],
+    ],
+  },
+  {
+    slug: "pack-unit-kg-files",
+    title: "출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법",
+    description: "배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.",
+    steps: [
+      ["포장 단위 열 만들기", "품목, 포장 이름(망·단·상자), 표시 중량, 실중량, 포장 개수를 한 행에 적습니다. 표시 10kg와 실측 무게가 다르면 둘 다 남깁니다."],
+      ["kg 환산 열 계산", "실중량 × 포장 개수로 총 kg을 만들고, 포장 단가가 있으면 단가 ÷ 실중량으로 kg당을 적습니다. 수식은 설명용이며 시세 입력이 아닙니다."],
+      ["김장 출하 사진과 중량 사진 맞추기", "그물망·상자 전체, 저울, 표시 라벨을 같은 번호로 묶습니다. 예: 2026-09-20_배추망_01_전체.jpg. 사진 번호는 중량을 증명하지 않으므로 저울 눈금이 읽히는지 확인합니다."],
+      ["품목별로 시세 대조 칸 비우기", "배추·대파·양파·무를 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 해당 품목 표에서 다시 확인합니다."],
+      ["보내기 전 단위 혼선 점검", "정산표에 망 개수와 kg이 한 열에 섞이지 않았는지, 쪽파와 대파 품목명이 바뀌지 않았는지 원본 복사본과 대조합니다."],
+    ],
+    faqs: [
+      ["망 개수만 있으면 kg 열을 비워도 되나요?", "시세·정산 비교에는 kg이 필요합니다. 실중량을 아직 모르면 미확인으로 적고 표시 중량만으로 채우지 않습니다."],
+      ["여러 품목을 한 정산표에 넣어도 되나요?", "한 파일에 넣더라도 품목·포장 단위 열을 분리하세요. 배추 망과 양파 망을 같은 단가로 복사하지 않습니다."],
+    ],
+    tools: [["정산표의 공백·중복 행 정리", "/tools/data-clean/"], ["출하 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"]],
+    related: ["direct-sale-settlement-files"],
+    links: [
+      ["서울가락 배추 10kg 그물망 kg당", "garak-cabbage-price-lookup"],
+      ["서울가락 대파 kg·망", "garak-daepa-price-lookup"],
+      ["서울가락 양파 15kg 망 kg당", "garak-onion-price-lookup"],
+      ["서울가락 김장무 20kg 상자 kg당", "garak-radish-price-lookup"],
     ],
   },
   {
@@ -108,7 +132,7 @@ await fs.writeFile(path.join(root, "public", "agri", "guide.css"), css, "utf8");
 const hubPath = path.join(root, "public", "agri", "index.html");
 let home = await fs.readFile(hubPath, "utf8");
 home = home.replace(/<section class="recommended"><div><p>거래 전에 읽는 짧은 기준<\/p>[\s\S]*?<\/section>/g, "");
-const promo = `<section class="recommended"><div><p>거래 전에 읽는 짧은 기준</p><h2><a href="/agri/guides/">농업 거래 서류 파일 준비 가이드</a></h2></div><div class="tool-grid"><a href="/agri/guides/direct-sale-settlement-files/"><i data-lucide="receipt-text"></i><strong>직거래 정산 파일</strong><span>판매·출고·입금 내역 묶기</span></a><a href="/agri/guides/used-machinery-handover-files/"><i data-lucide="tractor"></i><strong>농기계 인도 파일</strong><span>명판·정비·상차 상태 기록</span></a><a href="/agri/guides/farm-supplies-disposal-records/"><i data-lucide="recycle"></i><strong>폐농자재 처분 기록</strong><span>품목·표시·인계 경로 정리</span></a></div></section>`;
+const promo = `<section class="recommended"><div><p>거래 전에 읽는 짧은 기준</p><h2><a href="/agri/guides/">농업 거래 서류 파일 준비 가이드</a></h2></div><div class="tool-grid"><a href="/agri/guides/direct-sale-settlement-files/"><i data-lucide="receipt-text"></i><strong>직거래 정산 파일</strong><span>판매·출고·입금 내역 묶기</span></a><a href="/agri/guides/pack-unit-kg-files/"><i data-lucide="scale"></i><strong>망·단·상자 kg 열</strong><span>출하 단위를 정산표 kg로</span></a><a href="/agri/guides/used-machinery-handover-files/"><i data-lucide="tractor"></i><strong>농기계 인도 파일</strong><span>명판·정비·상차 상태 기록</span></a><a href="/agri/guides/farm-supplies-disposal-records/"><i data-lucide="recycle"></i><strong>폐농자재 처분 기록</strong><span>품목·표시·인계 경로 정리</span></a></div></section>`;
 home = home.replace('<section class="boribay-next">', `${promo}<section class="boribay-next">`);
 await fs.writeFile(hubPath, home, "utf8");
 console.log(`generated ${guides.length} agricultural document guides`);
