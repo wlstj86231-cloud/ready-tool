@@ -14,6 +14,9 @@ const urls = [
   "https://goatool.com/agri/guides/produce-box-kg-files/",
   "https://goatool.com/agri/guides/used-machinery-handover-files/",
   "https://goatool.com/agri/guides/farm-supplies-disposal-records/",
+  "https://goatool.com/agri/guides/listing-photo-files/",
+  "https://goatool.com/agri/guides/machinery-listing-files/",
+  "https://goatool.com/agri/guides/listing-date-columns/",
 ];
 
 let xml = readFileSync(file, "utf8");

@@ -150,6 +150,66 @@ const guides = [
     related: ["direct-sale-settlement-files", "used-machinery-handover-files"],
     links: [["폐농자재 처리·나눔 확인 가이드", "farm-supplies-disposal-guide"]],
   },
+  {
+    slug: "listing-photo-files",
+    title: "판매글 사진 순번·원본·공개본 묶기",
+    description: "농산물 판매글에 올릴 사진을 전체·실중량·수확 표시 순번으로 묶고, 원본과 공개본을 나눠 보관하는 파일 준비 순서입니다.",
+    campaign: "c2c_howto_202609",
+    nextLead: "사진을 묶었다면 같은 칸으로 판매글을 올리세요.",
+    steps: [
+      ["원본과 공개본 폴더 나누기", "촬영 원본은 별도 폴더에 두고 판매글에는 공개본만 고릅니다. 원본을 덮어쓰지 않습니다."],
+      ["세 칸 사진 순번 붙이기", "전체 상품, 실중량·저울, 수확일 표시를 01·02·03으로 묶습니다. 예: 2026-09-20_품종_01_전체.jpg. 번호는 등급을 증명하지 않습니다."],
+      ["품종·실중량·수확일이 읽히는지 확인", "공개본을 줄인 뒤 저울 눈금과 날짜 글자가 읽히는지 직접 엽니다. 통칭만 있는 사진은 칸이 비어 있습니다."],
+      ["보내기 전 다른 물량 사진 빼기", "어제 상자나 다른 품종 사진이 섞이지 않았는지 원본 목록과 대조합니다."],
+    ],
+    faqs: [
+      ["사진 번호가 있으면 실중량을 생략해도 되나요?", "번호는 순서만 표시합니다. 실중량 칸은 저울 사진과 숫자로 따로 적습니다."],
+      ["원본을 그대로 올려도 되나요?", "공개본만 고릅니다. 원본에는 주소·연락처가 찍힐 수 있습니다."],
+    ],
+    tools: [["판매 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"], ["공유 사본의 민감한 부분 가리기", "/tools/image-redactor/"]],
+    related: ["machinery-listing-files", "listing-date-columns"],
+    links: [["품종·중량·수확일 칸을 채워 판매글 올리기", "produce-listing-three-fields"]],
+  },
+  {
+    slug: "machinery-listing-files",
+    title: "명판·시간계·작업기 사진 파일 묶기",
+    description: "중고 농기계 판매글에 올릴 명판, 시간계, 포함 작업기 사진을 순번으로 묶고 공개본에서 제조번호 일부를 가리는 파일 준비 순서입니다.",
+    campaign: "c2c_howto_202609",
+    nextLead: "세 칸 사진을 묶었다면 같은 칸으로 기계 글을 올리세요.",
+    steps: [
+      ["명판 사진과 공개본 나누기", "형식명이 읽히는 공개본을 만들고, 전체 제조번호는 원본에만 남깁니다. 공개본에서는 일부를 가립니다."],
+      ["시간계·작업기 순번 붙이기", "시동 전 시간계, 포함 작업기를 명판 다음 번호로 묶습니다. 예: 2026-09-20_형식명_02_시간계.jpg."],
+      ["생활가전 칸 사진과 섞지 않기", "가전·기타중고 폴더의 한 줄 사진을 농기계 칸 묶음에 넣지 않습니다. 명판이 없는 사진은 비교 파일이 아닙니다."],
+      ["보내기 전 다른 기계 사진 빼기", "설명문의 번호와 파일 번호가 같은지, 다른 기종의 명판이 섞이지 않았는지 확인합니다."],
+    ],
+    faqs: [
+      ["마력 사진만 있으면 명판을 생략해도 되나요?", "마력대는 출력을 가리킵니다. 형식명 사진이 없으면 묶음을 완성하지 않습니다."],
+      ["작업기 사진을 나중에 추가해도 포함인가요?", "파일에 없는 작업기는 포함이 아닙니다."],
+    ],
+    tools: [["사진과 설명의 순서 번호 맞추기", "/tools/filename-numberer/"], ["공유 사본의 민감한 부분 가리기", "/tools/image-redactor/"], ["인도 사진을 검토용 PDF로 묶기", "/tools/image-to-pdf/"]],
+    related: ["listing-photo-files", "listing-date-columns"],
+    links: [["명판·시간·작업기 칸을 채워 기계 글 올리기", "used-machinery-listing-nameplate"]],
+  },
+  {
+    slug: "listing-date-columns",
+    title: "출하가능일·도정일 열 만들기",
+    description: "김장·햅쌀 정산표와 판매글에 쓸 출하 가능일, 수확일, 도정일 열을 나눠 만들고 사진 촬영일과 섞지 않는 파일 준비 순서입니다.",
+    campaign: "c2c_howto_202609",
+    nextLead: "날짜 열을 나눴다면 시즌 판매글에 그 날짜를 적으세요.",
+    steps: [
+      ["날짜 열을 세 칸으로 나누기", "출하 가능일, 수확일, 도정일을 한 열에 넣지 않습니다. 모르면 미확인으로 두고 촬영일로 채우지 않습니다."],
+      ["사진 파일명에 날짜 종류 적기", "예: 2026-09-20_햅쌀_도정일_01_표시.jpg. 절임 도착일을 수확일 파일명에 넣지 않습니다."],
+      ["양곡 표시 사진과 정산 열 맞추기", "생산연도와 도정연월일이 같은 사진에 있으면 열을 둘로 옮깁니다. 당일도정 문구만 있는 파일은 도정일 열이 아닙니다."],
+      ["보내기 전 유효일 지난 행 빼기", "출하 가능일이 지난 행의 단가를 이번 물량 파일에 복사하지 않습니다."],
+    ],
+    faqs: [
+      ["사진 촬영일을 수확일 열에 넣어도 되나요?", "촬영일과 수확일은 다릅니다. 수확일 열은 실제로 딴 날만 적습니다."],
+      ["도정일만 있으면 생산연도 열을 지워도 되나요?", "양곡 표시는 둘을 나눕니다. 열도 나눕니다."],
+    ],
+    tools: [["정산표의 공백·중복 행 정리", "/tools/data-clean/"], ["출하 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["품목별 사진 목록 만들기", "/tools/file-list/"]],
+    related: ["listing-photo-files", "machinery-listing-files"],
+    links: [["출하일·도정일을 칸에 적어 시즌 글 올리기", "kimjang-rice-listing-dates"]],
+  },
 ];
 
 const esc = (value) => String(value).replace(/[&<>"']/g, (char) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char]);
@@ -173,9 +233,10 @@ for (const guide of guides) {
     const item = guides.find((entry) => entry.slug === slug);
     return `<li><a href="/agri/guides/${item.slug}/">${esc(item.title)}</a></li>`;
   }).join("")}</ul></div></section>`;
-  const links = guide.links.map(([text, slug]) => `<a href="https://boribay.com/guides/${slug}?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_document_guides&amp;utm_content=${guide.slug}">${esc(text)} <i data-lucide="arrow-right"></i></a>`).join("");
+  const campaign = guide.campaign ?? "agri_document_guides";
+  const links = guide.links.map(([text, slug]) => `<a href="https://boribay.com/guides/${slug}?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=${esc(campaign)}&amp;utm_content=${guide.slug}">${esc(text)} <i data-lucide="arrow-right"></i></a>`).join("");
   const schema = JSON.stringify({ "@context": "https://schema.org", "@type": "Article", headline: guide.title, description: guide.description, datePublished: date, dateModified: modified, inLanguage: "ko-KR", mainEntityOfPage: canonical, author: { "@type": "Organization", name: "goatool 편집팀" }, publisher: { "@type": "Organization", name: "goatool", url: base } }).replace(/</g, "\\u003c");
-  const html = `${head(guide.title, guide.description, canonical)}<script type="application/ld+json">${schema}</script><main class="guide-main"><nav class="crumb"><a href="/agri/">농업 파일 도구</a><span>›</span><a href="/agri/guides/">서류 가이드</a></nav><article class="guide-article"><header><p>파일 준비 가이드 · 수정 ${modified}</p><h1>${esc(guide.title)}</h1><span>${esc(guide.description)}</span></header><div class="guide-layout"><div>${steps}${faqs}${related}<aside class="privacy-note"><strong>개인정보 주의</strong><p>원본은 안전하게 보관하고 외부 공유본에서는 주민번호·계좌·전화번호·정확한 주소와 제조번호 일부를 가립니다.</p></aside></div><aside class="next">${tools}<h2>거래 조건도 확인하세요</h2><p>실제 가격·거래·인도 기준을 이어서 확인하세요.</p>${links}</aside></div></article></main>${foot}`;
+  const html = `${head(guide.title, guide.description, canonical)}<script type="application/ld+json">${schema}</script><main class="guide-main"><nav class="crumb"><a href="/agri/">농업 파일 도구</a><span>›</span><a href="/agri/guides/">서류 가이드</a></nav><article class="guide-article"><header><p>파일 준비 가이드 · 수정 ${modified}</p><h1>${esc(guide.title)}</h1><span>${esc(guide.description)}</span></header><div class="guide-layout"><div>${steps}${faqs}${related}<aside class="privacy-note"><strong>개인정보 주의</strong><p>원본은 안전하게 보관하고 외부 공유본에서는 주민번호·계좌·전화번호·정확한 주소와 제조번호 일부를 가립니다.</p></aside></div><aside class="next">${tools}<h2>거래 조건도 확인하세요</h2><p>${esc(guide.nextLead ?? "실제 가격·거래·인도 기준을 이어서 확인하세요.")}</p>${links}</aside></div></article></main>${foot}`;
   await fs.writeFile(path.join(dir, "index.html"), html, "utf8");
 }
 
