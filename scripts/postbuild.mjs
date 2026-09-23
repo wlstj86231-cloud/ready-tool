@@ -589,9 +589,10 @@ for (const route of routes) {
   writeFileSync(join(dir, "index.html"), htmlForRoute(route, indexHtml), "utf8");
 }
 
-const urls = ["/", ...routes];
+const mnRoutes = ["/mn/", "/mn/cashmere-evidence/", "/mn/tractor-evidence/"];
+const urls = ["/", ...routes, ...mnRoutes];
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls
-  .map((path) => `  <url><loc>${base}${path}</loc><changefreq>monthly</changefreq><lastmod>${lastUpdated}</lastmod></url>`)
+  .map((path) => `  <url><loc>${base}${path}</loc><changefreq>monthly</changefreq><lastmod>${mnRoutes.includes(path) ? "2026-09-24" : lastUpdated}</lastmod></url>`)
   .join("\n")}\n</urlset>\n`;
 
 writeFileSync(join(dist, "sitemap.xml"), sitemap, "utf8");
