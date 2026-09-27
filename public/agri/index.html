@@ -3,14 +3,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>농업 거래·지원 서류 파일 도구 | goatool</title>
+    <title>농기계·농산물 거래 증빙 파일 점검 | goatool</title>
     <meta
       name="description"
-      content="농산물 직거래 증빙, 농기계 명판·정비 사진, 출하·판매자 등록 서류의 파일명과 제출 묶음을 브라우저에서 정리합니다."
+      content="농기계 인도·농산물 직거래의 사진·계약서·정산 파일을 브라우저에서 분류하고 SHA-256 목록을 저장합니다. 파일은 서버에 올리지 않습니다."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://goatool.com/agri/" />
     <link rel="stylesheet" href="/agri/agri.css" />
+    <link rel="stylesheet" href="/agri/agri-enhancements.css" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -31,7 +32,7 @@
       >
       <nav>
         <a href="#bundle">거래 증빙</a><a href="#filename">파일명 정리</a
-        ><a href="#tools">전체 도구</a><a href="/">goatool 홈</a>
+        ><a href="#tools">관련 도구</a><a href="/about/">작업 기준</a><a href="/">전체 도구</a>
       </nav>
     </header>
     <main>
@@ -39,12 +40,12 @@
         <p>파일은 서버로 올리지 않고 이 브라우저에서만 정리합니다</p>
         <h1>농업 거래에 필요한 파일,<br /><em>제출 순서까지 한 번에</em></h1>
         <span
-          >농산물 출하 사진, 농기계 명판·정비 기록, 판매자 등록 서류를<br />나중에
+          >농산물 출하 사진, 농기계 명판·정비 기록, 판매자 등록 서류를<br /> 나중에
           찾기 쉬운 이름과 순서로 준비하세요.</span
         >
         <div class="privacy">
           <i data-lucide="shield-check"></i><strong>로컬 처리 우선</strong
-          ><span>선택한 파일의 이름과 크기만 읽으며 업로드하지 않습니다.</span>
+          ><span>선택한 파일의 이름·크기·내용을 이 브라우저에서 읽어 해시를 계산합니다. 파일은 업로드하지 않습니다.</span>
         </div>
       </section>
       <section class="workspace" id="bundle">
@@ -55,10 +56,10 @@
           </div>
           <span>TXT로 저장</span>
         </div>
-        <p class="help">
-          사진·계약서·송금내역 파일을 선택하면 제출용 순서와 빠진 항목을
-          정리합니다. 원본 파일은 변경하지 않습니다.
-        </p>
+        <p class="help">사진·계약서·송금내역 파일의 SHA-256과 크기를 기록합니다. 인도 전후에 같은 파일인지 대조할 때 쓰며, 촬영일·진위나 거래 안전을 증명하지는 않습니다. 원본은 변경하지 않습니다.</p>
+        <label class="trade-kind">거래 유형
+          <select id="trade-kind"><option value="machinery">중고 농기계 인도</option><option value="produce">농산물 직거래 출하</option></select>
+        </label>
         <label class="drop"
           ><input id="evidence-files" type="file" multiple /><i
             data-lucide="files"
@@ -69,8 +70,9 @@
         <div class="evidence-result" id="evidence-result">
           <p>아직 선택한 파일이 없습니다.</p>
         </div>
+        <div class="evidence-check" id="evidence-check" aria-live="polite"></div>
         <button class="download" id="download-evidence" disabled>
-          <i data-lucide="download"></i>증빙 목록 TXT 저장
+          <i data-lucide="download"></i>파일 해시·확인표 TXT 저장
         </button>
       </section>
       <section class="workspace" id="filename">
@@ -93,7 +95,7 @@
             >촬영일<input
               id="machine-date"
               type="date"
-              value="2026-08-09" /></label
+              /></label
           ><label
             >사진 종류<select id="machine-shot">
               <option>명판</option>
@@ -107,7 +109,7 @@
         </div>
         <div class="filename-output">
           <code id="filename-output"
-            >2026-08-09_트랙터_모델미입력_명판_01.jpg</code
+            >날짜미입력_트랙터_모델미입력_명판_01.jpg</code
           ><button id="copy-filename"><i data-lucide="copy"></i>복사</button>
         </div>
         <ul>

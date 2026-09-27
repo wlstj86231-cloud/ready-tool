@@ -84,7 +84,8 @@ const guideCategories = [...new Set(guidePages.map((guide) => guide.category))];
 
 const infoFallbackSections = {
   "/about/": [
-    ["운영 목적", "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 준비 문제를 줄이기 위한 브라우저 도구 모음입니다. PDF, 사진 규격, ZIP, 파일명, 이미지 개인정보, 표 개인정보처럼 제출 직전 확인해야 하는 항목을 한곳에 모았습니다."],
+    ["농업 거래 증빙", "중고 농기계의 명판·시운전·인도 사진과 농산물 직거래의 출하·정산 파일을 브라우저에서 정리합니다. SHA-256은 동일 파일 대조용이며 촬영일·소유권·원본 진위나 거래 안전을 증명하지 않습니다."],
+    ["기존 파일 도구", "PDF, ZIP, 사진과 표를 다루는 민원·입사지원·학교 제출 도구도 계속 제공합니다. 농업 거래에 필요한 경우 해당 도구로 이어집니다."],
     ["처리 방식", "대부분의 도구는 파일을 서버로 업로드하지 않고 현재 브라우저 안에서 처리합니다. 결과 파일도 브라우저에서 생성되며, 사용자는 원본과 정리본을 직접 비교한 뒤 제출할 수 있습니다."],
     ["전문가이드", "가이드는 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 설명합니다. 단순 기능 나열이 아니라 제출자가 마지막에 무엇을 확인해야 하는지에 초점을 둡니다."]
   ],
@@ -166,9 +167,9 @@ const toolFallbackGuidance = {
 
 const routeMeta = {
   "/": {
-    title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
+    title: "농기계·농산물 거래 증빙 파일 도구 - goatool",
     description:
-      "goatool은 민원 제출과 입사지원 전에 PDF 합치기, A4 맞춤, PDF 나누기, ZIP 다시 포장, 증명사진 규격, 제출 규칙 검사, 개인정보 가림, 표 개인정보 점검을 브라우저에서 처리하는 실용 도구입니다."
+      "농기계 명판·인도 사진과 농산물 직거래 출하·정산 파일을 브라우저에서 점검합니다. SHA-256 증빙 목록과 파일명 정리, 기존 PDF·사진·ZIP 도구를 제공합니다."
   },
   "/tools/photo-resize/": {
     title: "증명사진 규격 맞추기 - goatool",
@@ -558,7 +559,7 @@ const routeMeta = {
   },
   "/about/": {
     title: "소개 - goatool",
-    description: "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 형식과 개인정보 노출 문제를 브라우저에서 점검하는 실용 도구 모음입니다."
+    description: "goatool은 농기계 인도와 농산물 직거래의 사진·서류 증빙 정리를 중심으로 파일을 브라우저에서 점검하는 도구입니다."
   },
   "/privacy/": {
     title: "개인정보 처리방침 - goatool",
@@ -635,6 +636,9 @@ function fallbackForRoute(route, meta) {
   if (route.startsWith("/tools/")) return toolPageFallback(route, meta);
 
   const links = [
+    ["/agri/", "농업 거래 증빙 파일 도구"],
+    ["/agri/guides/used-machinery-handover-files/", "농기계 인도 파일 순서"],
+    ["/agri/guides/direct-sale-settlement-files/", "농산물 정산 파일 순서"],
     ["/tools/photo-resize/", "증명사진 규격 맞추기"],
     ["/tools/pdf-organizer/", "PDF 합치기·페이지 뽑기"],
     ["/tools/file-viewer/", "파일 뷰어"],
@@ -696,7 +700,6 @@ function fallbackForRoute(route, meta) {
     ["/tools/data-clean/", "CSV·엑셀 정리"],
     ["/tools/table-privacy-checker/", "표 개인정보 점검"],
     ["/guides/", "전문 가이드"],
-    ["/agri/", "농업 거래 서류"],
     ["/mn/", "몽골 농업 증빙 파일 도구"],
     ["https://policyfundpedia.com/", "정책자금 백과"],
     ["/about/", "소개"],
@@ -864,6 +867,10 @@ function guideIndexFallback() {
       <p class="static-kicker">goatool guide</p>
       <h1>${escapeHtml(guideIndexMeta.title)}</h1>
       <p>${escapeHtml(guideIndexMeta.description)}</p>
+      <section>
+        <h2>농업 거래 파일 가이드</h2>
+        <ul><li><a href="/agri/guides/">농업 거래 가이드 전체</a></li><li><a href="/agri/guides/used-machinery-handover-files/">농기계 인도 증빙</a></li><li><a href="/agri/guides/direct-sale-settlement-files/">농산물 정산 증빙</a></li></ul>
+      </section>
       <section>
         <h2>가이드 작성 기준</h2>
         <p>각 문서는 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 다룹니다. 단순 변환법보다 마지막 제출 전에 사람이 무엇을 확인해야 하는지에 초점을 둡니다.</p>

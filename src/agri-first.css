@@ -1,0 +1,9 @@
+.agri-entry{border:1px solid #c7ddd0;border-radius:18px;background:#f2f8f3;padding:clamp(22px,4vw,42px);margin:16px 0 26px}
+.agri-entry>p:first-child{font-size:13px;font-weight:800;color:#1c6840;letter-spacing:.02em}
+.agri-entry h1{font-size:clamp(28px,3.4vw,44px);line-height:1.22;letter-spacing:-.035em;margin:8px 0 14px;word-break:keep-all}
+.agri-entry>p:not(:first-child){max-width:760px;line-height:1.7;color:#3e5947}
+.agri-entry-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.agri-entry-links a{display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border:1px solid #6da985;border-radius:9px;color:#174e31;background:#fff;font-weight:800;text-decoration:none}
+.agri-entry-links a:first-child{background:#18663d;color:#fff}
+.agri-entry-links a:focus-visible{outline:3px solid #1d70a2;outline-offset:2px}
+@media(max-width:620px){.agri-entry-links{display:grid}.agri-entry-links a{width:100%}}

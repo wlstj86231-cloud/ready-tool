@@ -1,9 +1,9 @@
 export const guideIndexMeta = {
   path: "/guides/",
-  title: "CSV·XLSX 차이부터 제출 파일까지",
-  metaTitle: "CSV·XLSX 차이·엑셀 정리와 제출 파일 가이드 - goatool",
+  title: "농업 거래 파일과 일반 제출 가이드",
+  metaTitle: "농업 거래 증빙·CSV 정산과 제출 파일 가이드 - goatool",
   description:
-    "CSV와 XLSX 차이, 엑셀 첫 시트와 한글 인코딩, 민원·입사지원 제출 파일, 이미지 개인정보를 실제 검수 상황 중심으로 설명한 goatool 전문 가이드입니다."
+    "농기계 인도·농산물 정산 파일부터 CSV·XLSX, PDF·ZIP, 이미지 개인정보까지 실제 검수 순서를 설명합니다. 기존 일반 제출 가이드도 함께 찾을 수 있습니다."
 };
 
 export const guideTopics = [

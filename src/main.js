@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 import { getGuideByPath, guideIndexMeta, guidePages } from "./guides.js";
 import "./styles.css";
+import "./agri-first.css";
 
 const BRAND = "goatool";
 const baseDomain = "https://goatool.com";
@@ -1304,9 +1305,9 @@ const situations = [
 ];
 
 const homeMeta = {
-  title: "goatool - 민원·입사지원 파일 변환, PDF, 사진 규격 도구",
+  title: "농기계·농산물 거래 증빙 파일 도구 - goatool",
   description:
-    "goatool은 민원 제출과 입사지원 전에 파일 뷰어, PDF 합치기, A4 맞춤, PDF 나누기, ZIP 다시 포장, 증명사진 규격, 제출 규칙 검사, 개인정보 가림, 표 개인정보 점검을 브라우저에서 처리하는 실용 도구입니다."
+    "농기계 명판·인도 사진과 농산물 직거래 출하·정산 파일을 브라우저에서 점검합니다. SHA-256 증빙 목록과 파일명 정리, 기존 PDF·사진·ZIP 도구를 제공합니다."
 };
 
 const expertise = {
@@ -1826,9 +1827,10 @@ const infoPages = {
   "/about/": {
     title: "소개",
     metaTitle: "소개 - goatool",
-    description: "goatool은 민원, 입사지원, 학교·기관 제출 전에 생기는 파일 형식과 개인정보 노출 문제를 브라우저에서 점검하는 실용 도구 모음입니다.",
+    description: "goatool은 농기계 인도와 농산물 직거래의 사진·서류 증빙 정리를 중심으로 파일을 브라우저에서 점검하는 도구입니다.",
     body: [
-      ["운영 목적", "goatool은 제출 직전에 자주 생기는 작은 실패를 줄이기 위해 만들었습니다. PDF 쪽수와 방향, 사진 규격, 파일명, ZIP 내부 구조, 표 개인정보처럼 접수 화면에서 바로 막히거나 보완 요청으로 이어질 수 있는 항목을 사용자가 직접 확인하게 돕습니다."],
+      ["농업 거래 증빙", "goatool 농업 도구는 중고 농기계의 명판·시운전·정비·인도 사진과 농산물 직거래의 출하·정산 파일을 본인이 찾기 쉬운 순서로 정리합니다. 선택 파일의 SHA-256을 브라우저에서 계산해 목록으로 남길 수 있습니다. 해시는 동일 파일 대조용이며 촬영일, 소유권, 원본 진위나 거래 안전을 증명하지 않습니다."],
+      ["기존 파일 도구", "일반 민원·입사지원·학교 제출용 PDF, ZIP, 사진, 표 도구도 계속 제공합니다. 농업 거래에서 필요한 경우에만 이 도구들을 증빙 흐름에 연결합니다."],
       ["처리 방식", "대부분의 도구는 사용자가 고른 파일을 서버로 업로드하지 않고 브라우저 안에서 처리합니다. 결과 파일도 현재 브라우저에서 만들어지며, 새로고침하면 선택한 원본과 작업 상태는 사라집니다. 도구별 설명에는 처리 범위와 한계를 함께 적어 과장된 자동화를 피합니다."],
       ["goatool 신뢰 기준", "goatool의 신뢰 기준은 빠른 변환보다 설명 가능한 결과입니다. 원본 보관, 정리본 분리, 제출 전 다시 열어보기, 개인정보 최소화, 기관별 제한 재확인이라는 다섯 가지 원칙을 모든 도구와 가이드에 반복해서 연결합니다."],
       ["전문가이드 기준", "전문가이드는 일반 정보글이 아니라 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 담습니다. 민원 제출, 입사지원, 학교·기관 제출, 이미지 개인정보, 데이터 정리처럼 사용자가 바로 겪는 상황별로 묶어 다시 찾기 쉽게 구성했습니다."],
@@ -2546,17 +2548,15 @@ function render() {
         <a class="brand" href="/" data-link aria-label="goatool 홈">
           <span class="brand-logo-frame">
             <img class="brand-logo" src="${brandLogoPath}" alt="" width="188" height="45" decoding="async" />
-            <small>브라우저 제출 도구</small>
+            <small>농업 거래 파일 증빙</small>
           </span>
         </a>
         <nav class="header-nav" aria-label="주요 이동">
-          <a href="/" data-link class="${!isReferencePage ? "on" : ""}" ${!isReferencePage ? 'aria-current="page"' : ""}>
-            도구 선택
-          </a>
+          <a href="/agri/">농업 거래 증빙</a>
+          <a href="/" data-link class="${!isReferencePage ? "on" : ""}" ${!isReferencePage ? 'aria-current="page"' : ""}>전체 파일 도구</a>
           <a href="/guides/" data-link class="${isGuideIndex || guidePage ? "on" : ""}" ${isGuideIndex || guidePage ? 'aria-current="page"' : ""}>
             가이드
           </a>
-          <a href="/agri/">농업 서류</a>
           <a href="/mn/" lang="mn">Монгол</a>
           <a class="nav-sibling" href="https://policyfundpedia.com/" target="_blank" rel="noopener">
             정책자금 백과
@@ -2570,9 +2570,15 @@ function render() {
         ${infoPage ? renderInfoPage(infoPage) : ""}
         ${isGuideIndex ? renderGuideIndexPage() : ""}
         ${guidePage ? renderGuidePage(guidePage) : ""}
+        <section class="agri-entry ${isReferencePage || shouldShowWorkbench ? "is-hidden" : ""}" aria-labelledby="agriEntryTitle">
+          <p>농업 거래 파일 증빙 · 브라우저 안에서 처리</p>
+          <h1 id="agriEntryTitle">기계 인도와 농산물 출하 파일을 거래 단계별로 남기세요</h1>
+          <p>명판·시운전·정비 사진과 출하·정산 서류를 고른 뒤 파일 해시와 직접 확인한 항목을 TXT로 저장합니다. 해시는 파일 동일성 대조용이며 거래 안전이나 사진 진위를 보증하지 않습니다.</p>
+          <div class="agri-entry-links"><a href="/agri/">농업 거래 증빙 도구 열기</a><a href="/agri/guides/used-machinery-handover-files/">농기계 인도 파일 순서</a><a href="/agri/guides/direct-sale-settlement-files/">농산물 정산 파일 순서</a></div>
+        </section>
         <section class="workspace-intro simple-intro ${isReferencePage || shouldShowWorkbench ? "is-hidden" : ""}" aria-labelledby="workspaceTitle">
           <div class="intro-copy">
-            <h1 id="workspaceTitle">필요한 도구를 하나만 고르세요</h1>
+            <h2 id="workspaceTitle">기존 파일 도구에서 필요한 작업을 고르세요</h2>
             <p>버튼을 누르면 아래 설정 화면으로 바로 이동합니다.</p>
             <div class="intro-points" aria-label="goatool 처리 기준">
               <span>브라우저 처리</span>
@@ -2601,7 +2607,7 @@ function render() {
         <section class="priority-lanes ${isReferencePage ? "is-hidden" : ""}" aria-label="상황별 상위 도구">
           <article class="lane-card">
           <div>
-            <h2>민원 제출 상위</h2>
+              <h2>기존 민원 제출 도구</h2>
               <p>PDF, ZIP, 이미지, 파일명, 증빙 묶음부터 먼저 처리합니다.</p>
             </div>
             <div class="lane-links">
@@ -2610,7 +2616,7 @@ function render() {
           </article>
           <article class="lane-card accent">
             <div>
-              <h2>입사지원 상위</h2>
+              <h2>기존 입사지원 도구</h2>
               <p>사진 규격, 포트폴리오 ZIP, 파일명과 이미지 상태를 빠르게 확인합니다.</p>
             </div>
             <div class="lane-links">
@@ -2745,12 +2751,12 @@ function render() {
     <footer class="site-footer">
       <div>
         <img class="footer-logo" src="${brandLogoPath}" alt="goatool" width="156" height="37" loading="lazy" decoding="async" />
-        <p>민원 제출, 입사지원, 학교·기관 첨부파일을 브라우저에서 정리하는 실용 도구 모음입니다.</p>
+        <p>농기계·농산물 거래 증빙 파일을 중심으로 브라우저에서 정리합니다. 민원·입사지원 도구도 계속 제공합니다.</p>
       </div>
       <nav aria-label="하단 링크">
         <a href="/about/" data-link>소개</a>
         <a href="/guides/" data-link>전문 가이드</a>
-        <a href="/agri/">농업 서류</a>
+        <a href="/agri/">농업 거래 증빙</a>
         <a href="/mn/" lang="mn">Монгол</a>
         <a href="https://policyfundpedia.com/" target="_blank" rel="noopener">정책자금 백과</a>
         <a href="/privacy/" data-link>개인정보 처리방침</a>
@@ -2952,6 +2958,11 @@ function renderGuideIndexPage() {
     <section class="guide-index-page" aria-labelledby="guideIndexTitle">
       <h1 id="guideIndexTitle">${guideIndexMeta.title}</h1>
       <p class="guide-lead">${guideIndexMeta.description}</p>
+      <div class="agri-entry-links" aria-label="농업 거래 전문 가이드">
+        <a href="/agri/guides/">농업 거래 가이드 전체</a>
+        <a href="/agri/guides/used-machinery-handover-files/">농기계 인도 증빙</a>
+        <a href="/agri/guides/direct-sale-settlement-files/">농산물 정산 증빙</a>
+      </div>
       <div class="guide-index-stats" aria-label="가이드 통계">
         <span><strong>${guidePages.length}</strong>개 가이드</span>
         <span><strong>${groups.length}</strong>개 주제군</span>
