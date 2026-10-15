@@ -5,6 +5,7 @@ const dist = join(process.cwd(), "dist");
 const file = join(dist, "sitemap.xml");
 const modified = "2026-09-20";
 const agriHubModified = "2026-09-27";
+const lastmodFor = (url) => url === "https://goatool.com/agri/guides/direct-sale-settlement-files/" ? "2026-10-15" : url === urls[0] ? agriHubModified : modified;
 const urls = [
   "https://goatool.com/agri/",
   "https://goatool.com/agri/guides/",
@@ -22,12 +23,16 @@ const urls = [
 let xml = readFileSync(file, "utf8");
 const entries = urls
   .filter((url) => !xml.includes(`<loc>${url}</loc>`))
-  .map((url) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>${url === urls[0] ? agriHubModified : modified}</lastmod><priority>${url === urls[0] ? "0.9" : "0.8"}</priority></url>`)
+  .map((url) => `  <url><loc>${url}</loc><changefreq>monthly</changefreq><lastmod>${lastmodFor(url)}</lastmod><priority>${url === urls[0] ? "0.9" : "0.8"}</priority></url>`)
   .join("\n");
 if (entries) xml = xml.replace("</urlset>", `${entries}\n</urlset>`);
 xml = xml.replace(
   /(<loc>https:\/\/goatool.com\/agri\/<\/loc><changefreq>monthly<\/changefreq><lastmod>)[^<]+/,
   (_match, prefix) => `${prefix}${agriHubModified}`,
+);
+xml = xml.replace(
+  /(<loc>https:\/\/goatool.com\/agri\/guides\/direct-sale-settlement-files\/<\/loc><changefreq>monthly<\/changefreq><lastmod>)[^<]+/,
+  (_match, prefix) => `${prefix}${lastmodFor("https://goatool.com/agri/guides/direct-sale-settlement-files/")}`,
 );
 writeFileSync(file, xml);
 console.log(`added ${urls.length} goatool agricultural URLs`);
