@@ -24,7 +24,8 @@ for (const [slug, dest, h1] of expected) {
 
 const pack = await fs.readFile(path.join(root, "public", "agri", "guides", "pack-unit-kg-files", "index.html"), "utf8");
 if (!pack.includes("utm_campaign=agri_document_guides")) errors.push("pack-unit campaign rewritten");
-if (!pack.includes("garak-cabbage-price-lookup")) errors.push("pack-unit cabbage dest missing");
+if ((pack.match(/boribay\.com\/guides\/agricultural-price-lookup/g) || []).length !== 1) errors.push("pack-unit price lookup dest");
+if (/garak-[a-z-]+-price-lookup/.test(pack)) errors.push("pack-unit retired Garak dest");
 
 const agriHome = await fs.readFile(path.join(root, "public", "agri", "index.html"), "utf8");
 if (!agriHome.includes("/agri/guides/pack-unit-kg-files/")) errors.push("agri home pack-unit card missing");

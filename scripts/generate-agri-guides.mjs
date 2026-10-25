@@ -35,13 +35,14 @@ const guides = [
   },
   {
     slug: "pack-unit-kg-files",
+    modified: "2026-10-26",
     title: "출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법",
     description: "배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.",
     steps: [
       ["포장 단위 열 만들기", "품목, 포장 이름(망·단·상자), 표시 중량, 실중량, 포장 개수를 한 행에 적습니다. 표시 10kg와 실측 무게가 다르면 둘 다 남깁니다."],
       ["kg 환산 열 계산", "실중량 × 포장 개수로 총 kg을 만들고, 포장 단가가 있으면 단가 ÷ 실중량으로 kg당을 적습니다. 수식은 설명용이며 시세 입력이 아닙니다."],
       ["김장 출하 사진과 중량 사진 맞추기", "그물망·상자 전체, 저울, 표시 라벨을 같은 번호로 묶습니다. 예: 2026-09-20_배추망_01_전체.jpg. 사진 번호는 중량을 증명하지 않으므로 저울 눈금이 읽히는지 확인합니다."],
-      ["품목별로 시세 대조 칸 비우기", "배추·대파·양파·무를 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 해당 품목 표에서 다시 확인합니다."],
+      ["품목별로 시세 대조 칸 비우기", "배추·대파·양파·무를 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 공식 가격정보의 같은 품목·등급·단위에서 다시 확인합니다."],
       ["보내기 전 단위 혼선 점검", "정산표에 망 개수와 kg이 한 열에 섞이지 않았는지, 쪽파와 대파 품목명이 바뀌지 않았는지 원본 복사본과 대조합니다."],
     ],
     faqs: [
@@ -50,22 +51,18 @@ const guides = [
     ],
     tools: [["정산표의 공백·중복 행 정리", "/tools/data-clean/"], ["출하 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"]],
     related: ["direct-sale-settlement-files", "fruit-box-kg-files"],
-    links: [
-      ["서울가락 배추 10kg 그물망 kg당", "garak-cabbage-price-lookup"],
-      ["서울가락 대파 kg·망", "garak-daepa-price-lookup"],
-      ["서울가락 양파 15kg 망 kg당", "garak-onion-price-lookup"],
-      ["서울가락 김장무 20kg 상자 kg당", "garak-radish-price-lookup"],
-    ],
+    links: [["품목·등급·단위를 맞춰 공식 가격 조회하는 법", "agricultural-price-lookup"]],
   },
   {
     slug: "fruit-box-kg-files",
+    modified: "2026-10-26",
     title: "제철 과일 정산표에서 4kg·7.5kg·10kg 상자를 kg 열로 맞추는 법",
     description: "샤인마스캇 4kg, 신고배 7.5kg, 홍로 10kg, 복숭아 4kg, 추희자두 5kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.",
     steps: [
       ["과일 상자 열 만들기", "품목, 품종명, 상자 이름(4kg·7.5kg·10kg·5kg), 표시 중량, 실중량, 상자 개수를 한 행에 적습니다. 표시 4kg와 실측 무게가 다르면 둘 다 남깁니다."],
       ["kg 환산 열 계산", "실중량 × 상자 개수로 총 kg을 만들고, 상자 단가가 있으면 단가 ÷ 실중량으로 kg당을 적습니다. 수식은 설명용이며 시세 입력이 아닙니다."],
       ["송이·과실 사진과 중량 사진 맞추기", "상자 전체, 저울, 품종 라벨, 송이 또는 과실 상태를 같은 번호로 묶습니다. 예: 2026-09-20_샤인마스캇4kg_01_전체.jpg. 사진 번호는 중량을 증명하지 않으므로 저울 눈금이 읽히는지 확인합니다."],
-      ["품종별로 시세 대조 칸 비우기", "샤인마스캇·신고·홍로·복숭아·추희를 한 평균 kg당으로 합치지 않습니다. 각 품종 행에 조회일과 대조한 출처 URL만 적고 숫자는 해당 품목 표에서 다시 확인합니다."],
+      ["품종별로 시세 대조 칸 비우기", "샤인마스캇·신고·홍로·복숭아·추희를 한 평균 kg당으로 합치지 않습니다. 각 품종 행에 조회일과 대조한 출처 URL만 적고 숫자는 공식 가격정보의 같은 품목·등급·단위에서 다시 확인합니다."],
       ["보내기 전 단위 혼선 점검", "정산표에 상자 개수와 kg이 한 열에 섞이지 않았는지, 캠벨과 샤인마스캇 품종명이 바뀌지 않았는지 원본 복사본과 대조합니다."],
     ],
     faqs: [
@@ -74,23 +71,18 @@ const guides = [
     ],
     tools: [["정산표의 공백·중복 행 정리", "/tools/data-clean/"], ["출하 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"]],
     related: ["pack-unit-kg-files", "direct-sale-settlement-files", "produce-box-kg-files"],
-    links: [
-      ["서울가락 샤인마스캇 4kg kg당", "garak-grape-price-lookup"],
-      ["서울가락 신고배 7.5kg kg당", "garak-pear-price-lookup"],
-      ["서울가락 홍로 10kg kg당", "garak-apple-price-lookup"],
-      ["서울가락 복숭아 4kg kg당", "garak-peach-price-lookup"],
-      ["서울가락 추희자두 5kg kg당", "garak-plum-price-lookup"],
-    ],
+    links: [["품목·등급·단위를 맞춰 공식 가격 조회하는 법", "agricultural-price-lookup"]],
   },
   {
     slug: "produce-box-kg-files",
+    modified: "2026-10-26",
     title: "가을 과채 정산표에서 8kg·5kg·3kg·통을 kg 열로 맞추는 법",
     description: "네트계 멜론 8kg, 토마토 5kg, 하우스감귤 3kg, 수박 통, 대추방울 3kg, 생대추 2kg, 송본 단감 10kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.",
     steps: [
       ["과채 상자·통 열 만들기", "품목, 작형·품종, 상자 이름(8kg·5kg·3kg·통), 표시 중량, 실중량, 개수를 한 행에 적습니다. 표시 8kg와 실측 무게가 다르면 둘 다 남깁니다."],
       ["kg 환산 열 계산", "실중량 × 개수로 총 kg을 만들고, 상자·통 단가가 있으면 단가 ÷ 실중량으로 kg당을 적습니다. 수식은 설명용이며 시세 입력이 아닙니다."],
       ["작형 사진과 중량 사진 맞추기", "상자 또는 통 전체, 저울, 품목 라벨을 같은 번호로 묶습니다. 예: 2026-09-20_네트계8kg_01_전체.jpg. 사진 번호는 중량을 증명하지 않으므로 저울 눈금이 읽히는지 확인합니다."],
-      ["품목별로 시세 대조 칸 비우기", "멜론·토마토·감귤·수박·단감을 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 해당 품목 표에서 다시 확인합니다."],
+      ["품목별로 시세 대조 칸 비우기", "멜론·토마토·감귤·수박·단감을 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 공식 가격정보의 같은 품목·등급·단위에서 다시 확인합니다."],
       ["보내기 전 단위 혼선 점검", "정산표에 통 개수와 kg이 한 열에 섞이지 않았는지, 참외와 멜론·꼭지절단 수박과 일반 통 품목명이 바뀌지 않았는지 원본 복사본과 대조합니다."],
     ],
     faqs: [
@@ -99,15 +91,7 @@ const guides = [
     ],
     tools: [["정산표의 공백·중복 행 정리", "/tools/data-clean/"], ["출하 사진에 순서 번호 붙이기", "/tools/filename-numberer/"], ["큰 사진 파일 먼저 확인하기", "/tools/file-size-sorter/"]],
     related: ["fruit-box-kg-files", "pack-unit-kg-files"],
-    links: [
-      ["서울가락 네트계 멜론 8kg kg당", "garak-melon-price-lookup"],
-      ["서울가락 토마토 5kg kg당", "garak-tomato-price-lookup"],
-      ["서울가락 하우스감귤 3kg kg당", "garak-citrus-price-lookup"],
-      ["서울가락 수박 통·상자 kg당", "garak-watermelon-price-lookup"],
-      ["서울가락 대추방울 3kg kg당", "garak-cherry-tomato-price-lookup"],
-      ["서울가락 생대추 2kg kg당", "garak-jujube-price-lookup"],
-      ["서울가락 송본 단감 10kg kg당", "garak-persimmon-price-lookup"],
-    ],
+    links: [["품목·등급·단위를 맞춰 공식 가격 조회하는 법", "agricultural-price-lookup"]],
   },
   {
     slug: "used-machinery-handover-files",

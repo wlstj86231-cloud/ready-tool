@@ -5,7 +5,8 @@ const dist = join(process.cwd(), "dist");
 const file = join(dist, "sitemap.xml");
 const modified = "2026-09-20";
 const agriHubModified = "2026-09-27";
-const lastmodFor = (url) => url === "https://goatool.com/agri/guides/direct-sale-settlement-files/" ? "2026-10-15" : url === urls[0] ? agriHubModified : modified;
+const rewrittenBoxGuides = ["pack-unit-kg-files", "fruit-box-kg-files", "produce-box-kg-files"].map((slug) => `https://goatool.com/agri/guides/${slug}/`);
+const lastmodFor = (url) => rewrittenBoxGuides.includes(url) ? "2026-10-26" : url === "https://goatool.com/agri/guides/direct-sale-settlement-files/" ? "2026-10-15" : url === urls[0] ? agriHubModified : modified;
 const urls = [
   "https://goatool.com/agri/",
   "https://goatool.com/agri/guides/",
