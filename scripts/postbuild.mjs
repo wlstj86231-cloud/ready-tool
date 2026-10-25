@@ -599,7 +599,7 @@ const sitemap = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://w
   .join("\n")}\n</urlset>\n`;
 
 writeFileSync(join(dist, "sitemap.xml"), sitemap, "utf8");
-writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`, "utf8");
+writeFileSync(join(dist, "robots.txt"), `User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n#DaumWebMasterTool:0af7bc53e83dfbe74ea2705325e06258126ee9e8044810a6eaa044087cbd3a42:dSlZXvWuL7UAVoESNn1QCg==\n`, "utf8");
 
 function htmlForRoute(route, html) {
   const meta = metaForRoute(route);
