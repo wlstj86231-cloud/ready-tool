@@ -104,6 +104,10 @@ export function siteHeader(active = "") {
     </header>`;
 }
 
+// Cloudflare's email obfuscation would replace the address with "[email protected]" for anyone
+// without JavaScript; the email_off markers keep the contact address readable.
+export const EMAIL_LINK = `<!--email_off--><a href="mailto:${ORG.email}">${ORG.email}</a><!--/email_off-->`;
+
 // One line, identical on every page; postbuild.mjs checks that each built page carries it.
 const operatorParts = [ORG.name, `대표 ${ORG.representative}`, `사업자등록번호 ${ORG.bizNo}`, `고객센터 ${ORG.phone}`];
 export const OPERATOR_TEXT = operatorParts.join(" · ");
@@ -122,7 +126,7 @@ export function siteFooter() {
           <a href="/privacy/">개인정보처리방침</a>
           <a href="/terms/">이용약관</a>
         </nav>
-        <p class="footer-op">${OPERATOR_LINE}<br>${ORG.address} · <a href="mailto:${ORG.email}">${ORG.email}</a></p>
+        <p class="footer-op">${OPERATOR_LINE}<br>${ORG.address} · ${EMAIL_LINK}</p>
         <p class="footer-note">이 사이트의 도구와 안내는 거래 준비를 돕는 참고 자료이며 법적 효력이나 거래 안전을 보장하지 않습니다. 보리장터는 같은 운영사(${ORG.name})의 서비스입니다.</p>
       </div>
     </footer>`;

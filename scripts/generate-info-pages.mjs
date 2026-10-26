@@ -6,6 +6,7 @@ import {
   ADSENSE_ACCOUNT,
   BYLINE,
   CONSUMER_URL,
+  EMAIL_LINK,
   ECRM_URL,
   KLAC_URL,
   ORG,
@@ -48,7 +49,7 @@ const operatorTable = `<div class="table-scroll"><table class="info-table">
           <tr><th scope="row">사업자등록번호</th><td>${ORG.bizNo}</td></tr>
           <tr><th scope="row">주소</th><td>${ORG.address}</td></tr>
           <tr><th scope="row">고객센터</th><td><a href="tel:${ORG.phone.replace(/-/g, "")}">${ORG.phone}</a></td></tr>
-          <tr><th scope="row">이메일</th><td><a href="mailto:${ORG.email}">${ORG.email}</a></td></tr>
+          <tr><th scope="row">이메일</th><td>${EMAIL_LINK}</td></tr>
           <tr><th scope="row">카카오톡 오픈채팅</th><td><a href="${ORG.kakaoGeneral}">제휴·일반 문의</a> · <a href="${ORG.kakaoBoribay}">보리장터 이용 문의</a></td></tr>
           <tr><th scope="row">회사 소개</th><td><a href="${ORG.companyUrl}">jnewmedia.com/company</a></td></tr>
           <tr><th scope="row">공식 채널</th><td><a href="https://boribay.com/">보리장터</a> · <a href="${ORG.sameAs[0]}">인스타그램</a> · <a href="${ORG.sameAs[1]}">네이버 블로그</a></td></tr>
@@ -290,7 +291,7 @@ const pages = {
       <p>전화·이메일·카카오톡으로 문의하시면 답변에 필요한 범위에서 연락처와 문의 내용을 받게 됩니다. 이 정보는 답변과 오류 수정에만 쓰고 다른 곳에 제공하지 않습니다. 오류를 알려 주실 때 주민등록번호, 신분증, 통장 사본, 계약서처럼 개인정보가 담긴 원본 파일은 보내지 마세요.</p>
 
       <h2>개인정보 문의처</h2>
-      <p>${ORG.displayName} · 대표 ${ORG.representative} · 고객센터 <a href="tel:${ORG.phone.replace(/-/g, "")}">${ORG.phone}</a> · <a href="mailto:${ORG.email}">${ORG.email}</a><br>${ORG.address}</p>
+      <p>${ORG.displayName} · 대표 ${ORG.representative} · 고객센터 <a href="tel:${ORG.phone.replace(/-/g, "")}">${ORG.phone}</a> · ${EMAIL_LINK}<br>${ORG.address}</p>
       <p>방침을 바꾸면 이 페이지의 시행일을 새로 적고, 바뀐 내용을 <a href="/corrections/">정정·수정 기록</a>에 남깁니다.</p>`,
   },
   terms: {
