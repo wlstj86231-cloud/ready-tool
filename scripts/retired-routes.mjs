@@ -133,6 +133,9 @@ const guides = {
 
 export const retired = {
   "/agri/": "/",
+  // 2026-10-26 review: three near-identical kg-column guides merged into one.
+  "/agri/guides/fruit-box-kg-files/": g("pack-unit-kg-files"),
+  "/agri/guides/produce-box-kg-files/": g("pack-unit-kg-files"),
   "/guides/": GUIDES,
   ...Object.fromEntries(Object.entries(tools).map(([id, to]) => [`/tools/${id}/`, to])),
   ...Object.fromEntries(Object.entries(guides).map(([slug, to]) => [`/guides/${slug}/`, to])),

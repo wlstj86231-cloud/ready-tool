@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>출하가능일·도정일 열 만들기 - 거래 증빙 도우미</title>
-    <meta name="description" content="김장·햅쌀 정산표와 판매글에 쓸 출하 가능일, 수확일, 도정일 열을 나눠 만들고 사진 촬영일과 섞지 않는 파일 준비 순서입니다." />
+    <meta name="description" content="김장 배추·햅쌀처럼 날짜가 중요한 상품의 정산표와 판매글에서 출하 가능일, 수확일, 도정일을 나눠 적고 사진 찍은 날짜와 섞지 않는 방법입니다." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://goatool.com/agri/guides/listing-date-columns/" />
     <meta name="theme-color" content="#1f5da8" />
@@ -12,7 +12,7 @@
     <link rel="icon" href="/favicon.png?v=20261026" type="image/png" />
     <link rel="apple-touch-icon" href="/brand/goatool-apple-touch.png?v=20261026" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="/css/site.css?v=20261026" />
+    <link rel="stylesheet" href="/css/site.css?v=20261026-2" />
     <script>
       if (!["localhost", "127.0.0.1"].includes(location.hostname)) {
         const adScript = document.createElement("script");
@@ -26,7 +26,7 @@
     <meta property="og:site_name" content="거래 증빙 도우미" />
     <meta property="og:locale" content="ko_KR" />
     <meta property="og:title" content="출하가능일·도정일 열 만들기 - 거래 증빙 도우미" />
-    <meta property="og:description" content="김장·햅쌀 정산표와 판매글에 쓸 출하 가능일, 수확일, 도정일 열을 나눠 만들고 사진 촬영일과 섞지 않는 파일 준비 순서입니다." />
+    <meta property="og:description" content="김장 배추·햅쌀처럼 날짜가 중요한 상품의 정산표와 판매글에서 출하 가능일, 수확일, 도정일을 나눠 적고 사진 찍은 날짜와 섞지 않는 방법입니다." />
     <meta property="og:url" content="https://goatool.com/agri/guides/listing-date-columns/" />
     <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
     <meta property="og:image:width" content="1200" />
@@ -34,7 +34,7 @@
     <meta property="og:image:alt" content="거래 증빙 도우미" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"출하가능일·도정일 열 만들기","description":"김장·햅쌀 정산표와 판매글에 쓸 출하 가능일, 수확일, 도정일 열을 나눠 만들고 사진 촬영일과 섞지 않는 파일 준비 순서입니다.","inLanguage":"ko-KR","datePublished":"2026-08-10","dateModified":"2026-09-20","mainEntityOfPage":"https://goatool.com/agri/guides/listing-date-columns/","image":"https://goatool.com/brand/goatool-og.png?v=20261026","author":{"@type":"Organization","name":"거래 증빙 도우미","url":"https://goatool.com/"},"publisher":{"@type":"Organization","name":"제이 미디어(J MEDIA)","url":"https://jnewmedia.com/","logo":{"@type":"ImageObject","url":"https://goatool.com/brand/goatool-logo.png?v=20261026"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"처음","item":"https://goatool.com/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://goatool.com/agri/guides/"},{"@type":"ListItem","position":3,"name":"출하가능일·도정일 열 만들기","item":"https://goatool.com/agri/guides/listing-date-columns/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"출하가능일·도정일 열 만들기","description":"김장 배추·햅쌀처럼 날짜가 중요한 상품의 정산표와 판매글에서 출하 가능일, 수확일, 도정일을 나눠 적고 사진 찍은 날짜와 섞지 않는 방법입니다.","inLanguage":"ko-KR","datePublished":"2026-08-10","dateModified":"2026-10-26","mainEntityOfPage":"https://goatool.com/agri/guides/listing-date-columns/","image":"https://goatool.com/brand/goatool-og.png?v=20261026","author":{"@type":"Organization","name":"거래 증빙 도우미","url":"https://goatool.com/"},"publisher":{"@type":"Organization","name":"제이 미디어(J MEDIA)","url":"https://jnewmedia.com/","logo":{"@type":"ImageObject","url":"https://goatool.com/brand/goatool-logo.png?v=20261026"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"처음","item":"https://goatool.com/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://goatool.com/agri/guides/"},{"@type":"ListItem","position":3,"name":"출하가능일·도정일 열 만들기","item":"https://goatool.com/agri/guides/listing-date-columns/"}]}]}</script>
   </head>
   <body>
     <a class="skip-link" href="#main">본문 바로가기</a>
@@ -54,19 +54,19 @@
           <header class="page-head">
             <p class="eyebrow">농산물 출하·판매글</p>
             <h1>출하가능일·도정일 열 만들기</h1>
-            <p class="lead">김장·햅쌀 정산표와 판매글에 쓸 출하 가능일, 수확일, 도정일 열을 나눠 만들고 사진 촬영일과 섞지 않는 파일 준비 순서입니다.</p>
-            <p class="article-meta">작성·관리: 거래 증빙 도우미 운영자, 제이 미디어(J MEDIA) · 최종 수정 <time datetime="2026-09-20">2026-09-20</time></p>
+            <p class="lead">김장 배추·햅쌀처럼 날짜가 중요한 상품의 정산표와 판매글에서 출하 가능일, 수확일, 도정일을 나눠 적고 사진 찍은 날짜와 섞지 않는 방법입니다.</p>
+            <p class="article-meta">작성·관리: 거래 증빙 도우미 운영자, 제이 미디어(J MEDIA) · 최종 수정 <time datetime="2026-10-26">2026-10-26</time></p>
           </header>
-          
-          
-          <h2>날짜 열을 세 칸으로 나누기</h2><p>출하 가능일, 수확일, 도정일을 한 열에 넣지 않습니다. 모르면 미확인으로 두고 촬영일로 채우지 않습니다.</p><h2>사진 파일명에 날짜 종류 적기</h2><p>예: 2026-09-20_햅쌀_도정일_01_표시.jpg. 절임 도착일을 수확일 파일명에 넣지 않습니다.</p><h2>양곡 표시 사진과 정산 열 맞추기</h2><p>생산연도와 도정연월일이 같은 사진에 있으면 열을 둘로 옮깁니다. 당일도정 문구만 있는 파일은 도정일 열이 아닙니다.</p><h2>보내기 전 유효일 지난 행 빼기</h2><p>출하 가능일이 지난 행의 단가를 이번 물량 파일에 복사하지 않습니다.</p>
+          <p>김장 배추나 햅쌀처럼 시기가 중요한 상품은 날짜가 여러 종류 나옵니다. 언제 보낼 수 있는지(출하 가능일), 언제 땄는지(수확일), 쌀이라면 언제 찧었는지(도정일)를 한 칸에 섞어 적으면 구매자와 서로 다른 날짜를 두고 이야기하게 됩니다. 사진을 찍은 날짜도 이 셋과는 다른 날짜입니다.</p>
+          <div class="cta-box"><p><strong>정산표 빈 칸·계산 확인하기</strong><br>정산표를 넣으면 빈 날짜 칸, 계산이 맞지 않는 줄, 중복으로 적힌 주문을 찾아 줍니다.</p><a class="btn primary" href="/tools/settlement-csv/">정산표 빈 칸·계산 확인하기</a></div>
+          <h2>날짜 열을 세 칸으로 나누기</h2><p>출하 가능일, 수확일, 도정일(쌀) 열을 따로 둡니다. 모르는 날짜는 “미확인”으로 두고, 사진 찍은 날짜로 채우지 않습니다.</p><h2>사진 파일 이름에 날짜 종류 적기</h2><p>파일 이름에 어떤 날짜인지 함께 적습니다. 예: 2026-09-20_햅쌀_도정일_01_표시.jpg. 절임배추 도착일을 수확일 파일 이름에 쓰지 않습니다.</p><h2>포장 표시 사진과 열 맞추기</h2><p>쌀 포장 표시에 생산연도와 도정 날짜가 함께 있으면 정산표에서도 두 칸으로 나눠 옮겨 적습니다. “당일 도정” 같은 문구만 있고 날짜가 없으면 도정일 칸은 비워 두고 메모에 그 문구를 적습니다.</p><h2>지난 날짜의 줄 정리</h2><p>출하 가능일이 지난 줄의 단가를 새 물량 줄에 복사하지 않습니다. 새 물량은 새 줄로 적습니다.</p>
           <h2>지금 파일 정리하기</h2><ul class="link-list"><li><a href="/tools/settlement-csv/">정산표의 빈 칸·계산 확인하기</a></li><li><a href="/tools/photo-rename/">사진에 날짜·순서 번호 붙이기</a></li><li><a href="/tools/evidence-pack/?type=produce">출하 사진을 항목별로 묶기</a></li></ul>
-          <h2>자주 묻는 질문</h2><div class="faq"><details><summary>사진 촬영일을 수확일 열에 넣어도 되나요?</summary><p>촬영일과 수확일은 다릅니다. 수확일 열은 실제로 딴 날만 적습니다.</p></details><details><summary>도정일만 있으면 생산연도 열을 지워도 되나요?</summary><p>양곡 표시는 둘을 나눕니다. 열도 나눕니다.</p></details></div>
+          <h2>자주 묻는 질문</h2><div class="faq"><details><summary>사진 찍은 날짜를 수확일 칸에 적어도 되나요?</summary><p>사진은 수확한 날 찍지 않았을 수도 있습니다. 수확일 칸에는 실제로 딴 날만 적고, 모르면 “미확인”으로 둡니다.</p></details><details><summary>도정일만 있으면 생산연도 칸은 지워도 되나요?</summary><p>생산연도와 도정일은 서로 다른 정보입니다. 포장 표시에 둘 다 있으면 두 칸 모두 남겨 두세요.</p></details></div>
           
           
           <div class="boribay-box"><p>날짜 열을 나눴다면 시즌 판매글에 그 날짜를 적으세요.</p><p><a href="https://boribay.com/guides/kimjang-rice-listing-dates?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=c2c_howto_202609&amp;utm_content=listing-date-columns">출하일·도정일을 칸에 적어 시즌 글 올리기</a></p><p class="muted">보리장터는 이 사이트와 같은 운영사의 지역 직거래 장터입니다.</p></div>
           <aside class="notice"><p><strong>개인정보 주의</strong> 원본은 따로 안전하게 보관하고, 남에게 보내는 사본에서는 주민번호·계좌번호·전화번호·정확한 주소와 제조번호 일부를 가리세요.</p></aside>
-          <h2>함께 읽으면 좋은 안내</h2><div class="guide-cards"><a class="guide-card" href="/agri/guides/listing-photo-files/"><strong>판매글 사진 순번·원본·공개본 묶기</strong><span>전체·실중량·수확 표시 순번과 원본·공개본 나누기</span></a><a class="guide-card" href="/agri/guides/machinery-listing-files/"><strong>명판·시간계·작업기 사진 파일 묶기</strong><span>구매자가 먼저 묻는 사진부터, 공개할 때 가릴 번호까지</span></a></div>
+          <h2>함께 읽으면 좋은 안내</h2><div class="guide-cards"><a class="guide-card" href="/agri/guides/listing-photo-files/"><strong>판매글 사진 순번·원본·공개본 묶기</strong><span>전체·실중량·수확 표시 순번과 원본·공개본 나누기</span></a><a class="guide-card" href="/agri/guides/photo-date-exif/"><strong>사진 촬영 날짜 확인하는 법과 한계</strong><span>촬영 정보가 사라지는 경우와 원본을 지키는 방법</span></a><a class="guide-card" href="/agri/guides/direct-sale-settlement-files/"><strong>직거래 정산표 만드는 법: 주문·배송비·수수료·입금을 한 표로</strong><span>주문·배송비·수수료·입금을 한 표로, 열 구성과 예시</span></a></div>
         </article>
       </div>
     </main>

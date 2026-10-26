@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법 - 거래 증빙 도우미</title>
-    <meta name="description" content="배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다." />
+    <title>출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법 - 거래 증빙 도우미</title>
+    <meta name="description" content="양파 망, 대파 단, 사과·배 상자, 수박 통처럼 포장 단위가 섞인 출하 수량을 실중량 kg 열로 바꿔 적는 정산표 열 구성, 엑셀 계산식, 계산 예시와 저울 사진 남기는 순서를 정리했습니다." />
     <meta name="robots" content="index, follow, max-image-preview:large" />
     <link rel="canonical" href="https://goatool.com/agri/guides/pack-unit-kg-files/" />
     <meta name="theme-color" content="#1f5da8" />
@@ -12,7 +12,7 @@
     <link rel="icon" href="/favicon.png?v=20261026" type="image/png" />
     <link rel="apple-touch-icon" href="/brand/goatool-apple-touch.png?v=20261026" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="stylesheet" href="/css/site.css?v=20261026" />
+    <link rel="stylesheet" href="/css/site.css?v=20261026-2" />
     <script>
       if (!["localhost", "127.0.0.1"].includes(location.hostname)) {
         const adScript = document.createElement("script");
@@ -25,8 +25,8 @@
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="거래 증빙 도우미" />
     <meta property="og:locale" content="ko_KR" />
-    <meta property="og:title" content="출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법 - 거래 증빙 도우미" />
-    <meta property="og:description" content="배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다." />
+    <meta property="og:title" content="출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법 - 거래 증빙 도우미" />
+    <meta property="og:description" content="양파 망, 대파 단, 사과·배 상자, 수박 통처럼 포장 단위가 섞인 출하 수량을 실중량 kg 열로 바꿔 적는 정산표 열 구성, 엑셀 계산식, 계산 예시와 저울 사진 남기는 순서를 정리했습니다." />
     <meta property="og:url" content="https://goatool.com/agri/guides/pack-unit-kg-files/" />
     <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
     <meta property="og:image:width" content="1200" />
@@ -34,7 +34,7 @@
     <meta property="og:image:alt" content="거래 증빙 도우미" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
-    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법","description":"배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.","inLanguage":"ko-KR","datePublished":"2026-08-10","dateModified":"2026-10-26","mainEntityOfPage":"https://goatool.com/agri/guides/pack-unit-kg-files/","image":"https://goatool.com/brand/goatool-og.png?v=20261026","author":{"@type":"Organization","name":"거래 증빙 도우미","url":"https://goatool.com/"},"publisher":{"@type":"Organization","name":"제이 미디어(J MEDIA)","url":"https://jnewmedia.com/","logo":{"@type":"ImageObject","url":"https://goatool.com/brand/goatool-logo.png?v=20261026"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"처음","item":"https://goatool.com/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://goatool.com/agri/guides/"},{"@type":"ListItem","position":3,"name":"출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법","item":"https://goatool.com/agri/guides/pack-unit-kg-files/"}]}]}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Article","headline":"출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법","description":"양파 망, 대파 단, 사과·배 상자, 수박 통처럼 포장 단위가 섞인 출하 수량을 실중량 kg 열로 바꿔 적는 정산표 열 구성, 엑셀 계산식, 계산 예시와 저울 사진 남기는 순서를 정리했습니다.","inLanguage":"ko-KR","datePublished":"2026-08-10","dateModified":"2026-10-26","mainEntityOfPage":"https://goatool.com/agri/guides/pack-unit-kg-files/","image":"https://goatool.com/brand/goatool-og.png?v=20261026","author":{"@type":"Organization","name":"거래 증빙 도우미","url":"https://goatool.com/"},"publisher":{"@type":"Organization","name":"제이 미디어(J MEDIA)","url":"https://jnewmedia.com/","logo":{"@type":"ImageObject","url":"https://goatool.com/brand/goatool-logo.png?v=20261026"}}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"처음","item":"https://goatool.com/"},{"@type":"ListItem","position":2,"name":"가이드","item":"https://goatool.com/agri/guides/"},{"@type":"ListItem","position":3,"name":"출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법","item":"https://goatool.com/agri/guides/pack-unit-kg-files/"}]}]}</script>
   </head>
   <body>
     <a class="skip-link" href="#main">본문 바로가기</a>
@@ -53,20 +53,69 @@
         <article class="article">
           <header class="page-head">
             <p class="eyebrow">정산</p>
-            <h1>출하 정산표에서 그물망·단·상자를 kg 열로 맞추는 법</h1>
-            <p class="lead">배추 10kg 망, 대파 단, 양파 15kg 망, 김장무 20kg 상자 수량을 실중량 kg 열로 바꿔 정산표와 시세를 같은 단위로 보관하는 파일 준비 순서입니다.</p>
+            <h1>출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법</h1>
+            <p class="lead">양파 망, 대파 단, 사과·배 상자, 수박 통처럼 포장 단위가 섞인 출하 수량을 실중량 kg 열로 바꿔 적는 정산표 열 구성, 엑셀 계산식, 계산 예시와 저울 사진 남기는 순서를 정리했습니다.</p>
             <p class="article-meta">작성·관리: 거래 증빙 도우미 운영자, 제이 미디어(J MEDIA) · 최종 수정 <time datetime="2026-10-26">2026-10-26</time></p>
           </header>
+          <p>직거래 정산표에 “양파 4망”, “대파 10단”, “사과 3상자”처럼 포장 단위로만 적어 두면, 품목끼리 kg당 가격을 비교하거나 무게가 모자란다는 이야기가 나왔을 때 확인하기 어렵습니다. 포장 단위는 그대로 두고 옆에 실제로 잰 무게(kg) 열을 하나 더 두면 두 가지가 모두 해결됩니다.</p>
+          <div class="cta-box"><p><strong>정산표 계산 점검하기</strong><br>정산표를 넣으면 수량×단가, 받을 금액과 입금액 차이, 빈 칸과 중복을 찾아 줍니다. 빈 서식도 받을 수 있습니다.</p><a class="btn primary" href="/tools/settlement-csv/">정산표 계산 점검하기</a></div>
           
+      <h2>왜 실중량 열이 따로 필요한가요</h2>
+      <p>상자에 적힌 “10kg”은 포장에 표시한 무게이고, 실제로 들어간 양은 상자마다 조금씩 다릅니다. 국립농산물품질관리원의 「농산물 표준규격」도 거래단위를 <strong>포장 용기의 무게를 뺀 내용물의 무게 또는 개수</strong>로 정하고 있습니다. 그래서 정산표에는 표시 중량과 저울로 잰 실중량을 나눠 적어 두는 편이 정확합니다. (확인일 2026-10-26)</p>
+      <p>단·통처럼 무게가 적혀 있지 않은 포장은 한두 개를 직접 달아 실중량을 적고, 달지 못했다면 빈칸이나 다른 숫자 대신 “미확인”이라고 적어 둡니다.</p>
+
+      <h2>열은 이렇게 둡니다</h2>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">열</th><th scope="col">적는 내용</th></tr></thead>
+        <tbody>
+          <tr><td>품목 · 품종(작형)</td><td>예: 양파, 사과(홍로), 방울토마토(대추형). 비슷한 품목도 따로 적습니다</td></tr>
+          <tr><td>포장 이름</td><td>15kg 망, 단, 10kg 상자, 통처럼 실제 포장</td></tr>
+          <tr><td>표시 중량(kg)</td><td>포장에 적은 무게. 없으면 비움</td></tr>
+          <tr><td>실중량(kg)</td><td>포장 하나를 저울에 달아 용기 무게를 뺀 값. 못 달았으면 “미확인”</td></tr>
+          <tr><td>포장 수</td><td>망·단·상자·통 개수</td></tr>
+          <tr><td>총 kg</td><td>실중량 × 포장 수</td></tr>
+          <tr><td>포장 단가 · kg당 가격</td><td>포장 하나의 가격, 그리고 포장 단가 ÷ 실중량</td></tr>
+        </tbody>
+      </table></div>
+      <p>엑셀이라면 실중량이 E열, 포장 수가 F열, 포장 단가가 H열일 때 총 kg은 <code>=E2*F2</code>, kg당 가격은 <code>=ROUND(H2/E2,0)</code>으로 계산할 수 있습니다.</p>
+
+      <h2>계산 예시</h2>
+      <p>아래 숫자는 계산 방법을 보여 주기 위한 <strong>설명용 예시</strong>이며 실제 시세나 실제 거래가 아닙니다.</p>
+      <div class="table-scroll"><table>
+        <thead><tr><th scope="col">품목</th><th scope="col">포장</th><th scope="col">표시</th><th scope="col">실중량</th><th scope="col">수</th><th scope="col">총 kg</th><th scope="col">포장 단가</th><th scope="col">kg당</th></tr></thead>
+        <tbody>
+          <tr><td>사과(홍로)</td><td>10kg 상자</td><td class="num">10</td><td class="num">10.3</td><td class="num">3</td><td class="num">30.9</td><td class="num">45,000원</td><td class="num">4,369원</td></tr>
+          <tr><td>양파</td><td>15kg 망</td><td class="num">15</td><td class="num">14.6</td><td class="num">4</td><td class="num">58.4</td><td class="num">18,000원</td><td class="num">1,233원</td></tr>
+          <tr><td>대파</td><td>단</td><td>-</td><td class="num">1.2</td><td class="num">10</td><td class="num">12.0</td><td class="num">3,000원</td><td class="num">2,500원</td></tr>
+          <tr><td>수박</td><td>통</td><td>-</td><td class="num">7.8</td><td class="num">1</td><td class="num">7.8</td><td class="num">20,000원</td><td class="num">2,564원</td></tr>
+        </tbody>
+      </table></div>
+      <p>예를 들어 사과는 10.3kg × 3상자 = 30.9kg이고, kg당 가격은 45,000원 ÷ 10.3kg ≈ 4,369원입니다. 표시 중량 10kg으로 나누면 4,500원이 되어 실제보다 비싸 보입니다. 수박처럼 통마다 무게가 크게 다른 품목은 통마다 한 줄씩 적는 편이 정확합니다.</p>
+
+      <h2>무게 사진은 같은 번호로</h2>
+      <ol>
+        <li>정산표의 줄 번호나 날짜를 사진 파일 이름에도 붙입니다. 예: <code>2026-10-20_양파15kg망_01_중량.jpg</code></li>
+        <li>저울이 0을 가리키는 화면, 빈 용기, 내용물을 담은 포장 순서로 찍어 두면 실중량을 다시 계산할 수 있습니다. 자세한 순서는 <a href="/agri/guides/produce-shipping-evidence/">농산물 보낼 때 남길 사진</a>에 있습니다.</li>
+        <li>사진 번호는 순서를 표시할 뿐 무게를 증명하지 않습니다. 저울 숫자가 사진에서 읽히는지 확대해 확인하세요.</li>
+      </ol>
+      <p>여러 장의 이름은 <a href="/tools/photo-rename/">사진 날짜순 이름 바꾸기</a>로 한 번에 붙이고, 저울 사진과 정산표를 함께 보관하려면 <a href="/tools/evidence-pack/?type=produce">출하 증빙 묶음 만들기</a>를 쓰세요.</p>
+
+      <h2>공식 가격과 비교할 때</h2>
+      <ul>
+        <li>품목·품종마다 따로 비교합니다. 배추·양파·대파나 사과·배·포도를 한 평균 kg당 가격으로 합치지 않습니다.</li>
+        <li>공식 가격정보는 품목·등급·단위(예: 10kg 상자, 1kg)가 정해져 있으니, 내 정산표의 kg당 가격과 같은 단위로 맞춘 뒤 비교합니다.</li>
+        <li>정산표에는 조회한 날짜와 출처 주소를 함께 적어 두면 나중에 다시 확인할 수 있습니다.</li>
+      </ul>
+
+      <h2>보내기 전 점검</h2>
+      <ul class="checkbox-list"><li>포장 개수와 kg이 한 열에 섞이지 않았다</li><li>표시 중량만으로 실중량 칸을 채우지 않았다 (모르면 “미확인”)</li><li>쪽파와 대파, 토마토와 방울토마토처럼 비슷한 품목 이름이 바뀌지 않았다</li><li>다른 날·다른 물량의 단가를 이번 줄에 복사하지 않았다</li><li>구매자 연락처·주소는 정산표가 아닌 다른 파일에 두었다</li></ul>
           
-          <h2>포장 단위 열 만들기</h2><p>품목, 포장 이름(망·단·상자), 표시 중량, 실중량, 포장 개수를 한 행에 적습니다. 표시 10kg와 실측 무게가 다르면 둘 다 남깁니다.</p><h2>kg 환산 열 계산</h2><p>실중량 × 포장 개수로 총 kg을 만들고, 포장 단가가 있으면 단가 ÷ 실중량으로 kg당을 적습니다. 수식은 설명용이며 시세 입력이 아닙니다.</p><h2>김장 출하 사진과 중량 사진 맞추기</h2><p>그물망·상자 전체, 저울, 표시 라벨을 같은 번호로 묶습니다. 예: 2026-09-20_배추망_01_전체.jpg. 사진 번호는 중량을 증명하지 않으므로 저울 눈금이 읽히는지 확인합니다.</p><h2>품목별로 시세 대조 칸 비우기</h2><p>배추·대파·양파·무를 한 평균 kg당으로 합치지 않습니다. 각 품목 행에 조회일과 대조한 출처 URL만 적고 숫자는 공식 가격정보의 같은 품목·등급·단위에서 다시 확인합니다.</p><h2>보내기 전 단위 혼선 점검</h2><p>정산표에 망 개수와 kg이 한 열에 섞이지 않았는지, 쪽파와 대파 품목명이 바뀌지 않았는지 원본 복사본과 대조합니다.</p>
-          <h2>지금 파일 정리하기</h2><ul class="link-list"><li><a href="/tools/settlement-csv/">정산표의 계산·빈 칸 확인하기</a></li><li><a href="/tools/photo-rename/">출하 사진에 날짜·순서 번호 붙이기</a></li><li><a href="/tools/evidence-pack/?type=produce">출하 사진을 항목별로 묶기</a></li></ul>
-          <h2>자주 묻는 질문</h2><div class="faq"><details><summary>망 개수만 있으면 kg 열을 비워도 되나요?</summary><p>시세·정산 비교에는 kg이 필요합니다. 실중량을 아직 모르면 미확인으로 적고 표시 중량만으로 채우지 않습니다.</p></details><details><summary>여러 품목을 한 정산표에 넣어도 되나요?</summary><p>한 파일에 넣더라도 품목·포장 단위 열을 분리하세요. 배추 망과 양파 망을 같은 단가로 복사하지 않습니다.</p></details></div>
-          
+          <h2>자주 묻는 질문</h2><div class="faq"><details><summary>망이나 상자 개수만 알면 kg 열은 비워도 되나요?</summary><p>정산은 개수로도 할 수 있지만, kg당 가격을 비교하거나 무게 문의에 답하려면 실중량이 필요합니다. 아직 달아 보지 못했다면 표시 중량을 옮겨 적지 말고 “미확인”으로 남기세요.</p></details><details><summary>여러 품목을 한 정산표에 넣어도 되나요?</summary><p>넣어도 됩니다. 다만 품목·포장 이름 열을 나누고, 한 품목의 단가를 다른 품목 줄에 복사하지 않도록 주의하세요.</p></details><details><summary>선물 상자처럼 개수로 파는 것도 kg으로 바꿔야 하나요?</summary><p>개수로 판 상품은 개수 열을 그대로 두고, 무게를 달았다면 kg 열에 따로 적습니다. 개당 가격을 kg당 칸에 옮겨 적지 않습니다.</p></details></div>
+          <h2>근거로 삼은 자료</h2><ul class="source-list"><li><a href="https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000262624">국립농산물품질관리원 고시 「농산물 표준규격」 (제2025-6호, 2025-08-04 시행) — 국가법령정보센터</a> (확인일 2026-10-26)</li></ul><p class="source-list">법령·고시·약관은 바뀔 수 있습니다. 중요한 판단 전에는 링크한 원문과 담당 기관 안내를 다시 확인하세요. 이 안내는 법률 자문이 아닙니다.</p>
           
           <div class="boribay-box"><p>실제 가격·거래 기준을 이어서 확인하세요.</p><p><a href="https://boribay.com/guides/agricultural-price-lookup?utm_source=goatool.com&amp;utm_medium=owned_referral&amp;utm_campaign=agri_document_guides&amp;utm_content=pack-unit-kg-files">품목·등급·단위를 맞춰 공식 가격 조회하는 법</a></p><p class="muted">보리장터는 이 사이트와 같은 운영사의 지역 직거래 장터입니다.</p></div>
           <aside class="notice"><p><strong>개인정보 주의</strong> 원본은 따로 안전하게 보관하고, 남에게 보내는 사본에서는 주민번호·계좌번호·전화번호·정확한 주소와 제조번호 일부를 가리세요.</p></aside>
-          <h2>함께 읽으면 좋은 안내</h2><div class="guide-cards"><a class="guide-card" href="/agri/guides/direct-sale-settlement-files/"><strong>직거래 정산표 만드는 법: 주문·배송비·수수료·입금을 한 표로</strong><span>주문·배송비·수수료·입금을 한 표로, 열 구성과 예시</span></a><a class="guide-card" href="/agri/guides/fruit-box-kg-files/"><strong>제철 과일 정산표에서 4kg·7.5kg·10kg 상자를 kg 열로 맞추는 법</strong><span>과일 상자 수량을 실중량 kg 열로</span></a></div>
+          <h2>함께 읽으면 좋은 안내</h2><div class="guide-cards"><a class="guide-card" href="/agri/guides/direct-sale-settlement-files/"><strong>직거래 정산표 만드는 법: 주문·배송비·수수료·입금을 한 표로</strong><span>주문·배송비·수수료·입금을 한 표로, 열 구성과 예시</span></a><a class="guide-card" href="/agri/guides/produce-shipping-evidence/"><strong>농산물 보낼 때 남길 사진: 출하 전 상태·중량·포장·운송장</strong><span>출하 전 상태·실중량·포장·운송장, 문제가 생겼을 때</span></a><a class="guide-card" href="/agri/guides/evidence-pack-final-checklist/"><strong>거래 마무리 전 최종 증빙 점검표</strong><span>인쇄해서 하나씩 체크하는 마지막 확인 목록</span></a></div>
         </article>
       </div>
     </main>
