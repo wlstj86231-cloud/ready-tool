@@ -59,6 +59,10 @@ const operatorTable = `<div class="table-scroll"><table class="info-table">
 // Public change log. Entries come from the repository history (git log) and are written for
 // readers: what changed and, for corrections, what was wrong before. Newest first.
 const changeLog = [
+  ["2026-10-26", "가이드 2편 보강", [
+    "「판매글 사진 순번·원본·공개본 묶기」에 사진마다 보여 줄 것과, 인터넷 판매글에 원산지를 적는 위치·크기·색(「농수산물의 원산지 표시 등에 관한 법률 시행규칙」 별표 3)을 원문에서 확인해 더했습니다.",
+    "「출하가능일·도정일 열 만들기」에 쌀 포장의 의무표시사항(「양곡관리법 시행규칙」 별표 4)을 정산표 열과 맞춘 표와, 세 날짜를 나눠 적은 설명용 예시를 더했습니다.",
+  ]],
   ["2026-10-26", "신뢰 정보 보강", [
     "운영자 정보(상호·대표·사업자등록번호·주소·고객센터·이메일)를 <a href=\"/about/\">소개</a>·<a href=\"/contact/\">문의</a> 페이지와 모든 페이지 아래쪽에 적었습니다.",
     "<a href=\"/editorial/\">편집 원칙</a>과 이 정정·수정 기록 페이지를 새로 만들었습니다.",
