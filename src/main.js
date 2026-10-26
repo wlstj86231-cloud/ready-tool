@@ -3,7 +3,7 @@ import { getGuideByPath, guideIndexMeta, guidePages } from "./guides.js";
 import "./styles.css";
 import "./agri-first.css";
 
-const BRAND = "goatool";
+const BRAND = "거래 증빙 도우미";
 const baseDomain = "https://goatool.com";
 const brandLogoPath = "/brand/goatool-logo.png";
 const brandOgPath = "/brand/goatool-og.png";
@@ -142,7 +142,7 @@ const tools = [
     short: "파일명, 용량, ZIP",
     title: "제출 전 파일을 한 번에 점검하고 묶기",
     description: "민원, 입사지원, 학교와 기관 제출 전에 파일명, 용량, 확장자, 중복 파일을 확인하고 제출용 ZIP과 점검표를 만듭니다.",
-    metaTitle: "제출 파일 점검·ZIP 만들기 무료 도구 - goatool",
+    metaTitle: "제출 파일 점검·ZIP 만들기 무료 도구 - 거래 증빙 도우미",
     metaDescription: "여러 파일의 파일명, 용량, 확장자, 중복 여부를 확인하고 제출용 ZIP과 점검표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     tags: ["파일명", "ZIP", "점검표"],
     situations: ["public", "job", "school"]
@@ -188,7 +188,7 @@ const tools = [
     short: "EXIF, 리사이즈, 압축",
     title: "사진·캡처 이미지의 용량과 EXIF 개인정보 정리하기",
     description: "이미지를 브라우저 캔버스로 다시 저장해 위치정보와 카메라 정보 같은 EXIF 노출 가능성을 줄이고 제출용 용량으로 정리합니다.",
-    metaTitle: "이미지 관리·EXIF 개인정보 정리 무료 도구 - goatool",
+    metaTitle: "이미지 관리·EXIF 개인정보 정리 무료 도구 - 거래 증빙 도우미",
     metaDescription: "사진과 캡처 이미지를 브라우저에서 다시 저장해 EXIF 위치·카메라 정보 노출 가능성을 줄이고 용량과 형식을 정리합니다. 화면에 보이는 주소는 직접 가려야 합니다.",
     tags: ["EXIF", "이미지", "개인정보"],
     situations: ["public", "job", "share"]
@@ -328,7 +328,7 @@ const tools = [
   {
     id: "table-privacy-checker",
     path: "/tools/table-privacy-checker/",
-    metaTitle: "엑셀·CSV 개인정보 점검 무료 도구 - goatool",
+    metaTitle: "엑셀·CSV 개인정보 점검 무료 도구 - 거래 증빙 도우미",
     metaDescription: "CSV와 XLSX 표에서 전화번호, 이메일, 주민등록번호 형태와 생년월일 단서를 찾아 공유 전 개인정보 노출을 점검합니다. 파일은 브라우저에서 처리합니다.",
     group: "자료 점검",
     label: "표 개인정보 점검",
@@ -500,7 +500,7 @@ const tools = [
     short: "큰 파일부터 확인",
     title: "여러 파일을 용량 큰 순서로 정렬하기",
     description: "선택한 파일을 용량 큰 순서로 정리해 압축하거나 나눠야 할 파일을 먼저 찾습니다.",
-    metaTitle: "파일 용량 순서 정렬·큰 파일 찾기 무료 도구 - goatool",
+    metaTitle: "파일 용량 순서 정렬·큰 파일 찾기 무료 도구 - 거래 증빙 도우미",
     metaDescription: "여러 파일을 용량 큰 순서로 바로 정렬해 업로드 제한에 걸릴 큰 파일을 먼저 찾습니다. 파일은 서버에 올리지 않고 브라우저에서 무료로 확인합니다.",
     tags: ["파일 용량", "정렬", "점검"],
     situations: ["public", "job", "school", "share"]
@@ -524,7 +524,7 @@ const tools = [
     short: "01·02 순서 고정",
     title: "선택한 파일명 앞에 번호를 붙여 ZIP으로 묶기",
     description: "여러 파일의 읽는 순서를 01, 02, 03 번호로 고정한 새 ZIP과 변경표를 만듭니다.",
-    metaTitle: "파일명 앞에 번호 붙이기·일괄 순서 정리 무료 도구 - goatool",
+    metaTitle: "파일명 앞에 번호 붙이기·일괄 순서 정리 무료 도구 - 거래 증빙 도우미",
     metaDescription: "여러 파일 앞에 01, 02 번호를 붙여 선택 순서를 고정한 ZIP과 변경표를 브라우저에서 만듭니다. 원본 파일은 바꾸지 않습니다.",
     tags: ["파일명", "번호", "ZIP"],
     situations: ["public", "job", "school", "share"]
@@ -636,7 +636,7 @@ const tools = [
     short: "열리는 이미지 재저장",
     title: "깨진 이미지를 새 JPG로 다시 저장해 복구 시도하기",
     description: "브라우저에서 읽히는 JPG, PNG, WebP 이미지를 다시 인코딩해 깨진 헤더나 과한 메타데이터 영향을 줄입니다. 읽히지 않는 파일은 복구할 수 없습니다.",
-    metaTitle: "깨진 이미지 복구 시도·JPG 재저장 무료 도구 - goatool",
+    metaTitle: "깨진 이미지 복구 시도·JPG 재저장 무료 도구 - 거래 증빙 도우미",
     metaDescription: "브라우저에서 열리는 JPG·PNG·WebP 이미지를 새 JPG로 다시 저장해 깨진 헤더나 과한 메타데이터 영향을 줄입니다. 읽히지 않는 파일은 복구할 수 없습니다.",
     tags: ["이미지 복구", "깨진 이미지 복구", "JPG 재저장"],
     situations: ["public", "job", "school", "share"]
@@ -1305,7 +1305,7 @@ const situations = [
 ];
 
 const homeMeta = {
-  title: "농기계·농산물 거래 증빙 파일 도구 - goatool",
+  title: "농기계·농산물 사진·서류 파일 정리 - 거래 증빙 도우미",
   description:
     "농기계 명판·인도 사진과 농산물 직거래 출하·정산 파일을 브라우저에서 점검합니다. SHA-256 증빙 목록과 파일명 정리, 기존 PDF·사진·ZIP 도구를 제공합니다."
 };
@@ -1490,7 +1490,7 @@ const expertise = {
     ],
     checklist: ["파일명이 제출자와 용도를 설명하는지 확인", "접수 페이지의 최대 용량과 확장자 조건 확인", "ZIP을 내려받은 뒤 원본 파일 수와 비교"],
     faq: [
-      ["파일이 서버로 올라가나요?", "아니요. goatool은 선택한 파일을 브라우저에서 읽고 결과 파일을 생성합니다."],
+      ["파일이 서버로 올라가나요?", "아니요. 거래 증빙 도우미는 선택한 파일을 브라우저에서 읽고 결과 파일을 생성합니다."],
       ["SHA-256은 왜 필요한가요?", "제출 전 파일과 제출 후 보관 파일이 같은지 확인할 수 있는 식별값입니다."]
     ]
   },
@@ -1510,7 +1510,7 @@ const expertise = {
     ],
     checklist: ["신청 유형을 먼저 선택해 기본 서류 자동 입력", "공고문과 다른 서류명은 목록에서 바로 수정", "파일명에 서류명이 드러나도록 정리", "누락 항목은 실제 파일 내용까지 열어 확인"],
     faq: [
-      ["자동으로 뜨는 제출서류가 최종 기준인가요?", "아니요. goatool은 사용자가 빠르게 준비를 시작하도록 대표 목록을 제공합니다. 실제 제출은 해당 공고문과 접수 화면이 최종 기준입니다."],
+      ["자동으로 뜨는 제출서류가 최종 기준인가요?", "아니요. 거래 증빙 도우미는 사용자가 빠르게 준비를 시작하도록 대표 목록을 제공합니다. 실제 제출은 해당 공고문과 접수 화면이 최종 기준입니다."],
       ["서류 내용을 읽어서 맞는지 판단하나요?", "아니요. 개인정보 보호와 브라우저 처리 원칙상 파일명과 목록을 기준으로만 대조합니다."],
       ["왜 파일명 정리가 중요한가요?", "서류명이 파일명에 들어가야 자동 대조와 담당자 확인이 모두 쉬워집니다."]
     ]
@@ -1826,52 +1826,52 @@ const expertise = {
 const infoPages = {
   "/about/": {
     title: "소개",
-    metaTitle: "소개 - goatool",
-    description: "goatool은 농기계 인도와 농산물 직거래의 사진·서류 증빙 정리를 중심으로 파일을 브라우저에서 점검하는 도구입니다.",
+    metaTitle: "소개 - 거래 증빙 도우미",
+    description: "거래 증빙 도우미는 농기계 인도와 농산물 직거래의 사진·서류 증빙 정리를 중심으로 파일을 브라우저에서 점검하는 도구입니다.",
     body: [
-      ["농업 거래 증빙", "goatool 농업 도구는 중고 농기계의 명판·시운전·정비·인도 사진과 농산물 직거래의 출하·정산 파일을 본인이 찾기 쉬운 순서로 정리합니다. 선택 파일의 SHA-256을 브라우저에서 계산해 목록으로 남길 수 있습니다. 해시는 동일 파일 대조용이며 촬영일, 소유권, 원본 진위나 거래 안전을 증명하지 않습니다."],
+      ["농업 거래 증빙", "거래 증빙 도우미 농업 도구는 중고 농기계의 명판·시운전·정비·인도 사진과 농산물 직거래의 출하·정산 파일을 본인이 찾기 쉬운 순서로 정리합니다. 선택 파일의 SHA-256을 브라우저에서 계산해 목록으로 남길 수 있습니다. 해시는 동일 파일 대조용이며 촬영일, 소유권, 원본 진위나 거래 안전을 증명하지 않습니다."],
       ["기존 파일 도구", "일반 민원·입사지원·학교 제출용 PDF, ZIP, 사진, 표 도구도 계속 제공합니다. 농업 거래에서 필요한 경우에만 이 도구들을 증빙 흐름에 연결합니다."],
       ["처리 방식", "대부분의 도구는 사용자가 고른 파일을 서버로 업로드하지 않고 브라우저 안에서 처리합니다. 결과 파일도 현재 브라우저에서 만들어지며, 새로고침하면 선택한 원본과 작업 상태는 사라집니다. 도구별 설명에는 처리 범위와 한계를 함께 적어 과장된 자동화를 피합니다."],
-      ["goatool 신뢰 기준", "goatool의 신뢰 기준은 빠른 변환보다 설명 가능한 결과입니다. 원본 보관, 정리본 분리, 제출 전 다시 열어보기, 개인정보 최소화, 기관별 제한 재확인이라는 다섯 가지 원칙을 모든 도구와 가이드에 반복해서 연결합니다."],
-      ["전문가이드 기준", "전문가이드는 일반 정보글이 아니라 실제 제출 상황, 실패 원인, 검수 기준, goatool 활용 순서를 함께 담습니다. 민원 제출, 입사지원, 학교·기관 제출, 이미지 개인정보, 데이터 정리처럼 사용자가 바로 겪는 상황별로 묶어 다시 찾기 쉽게 구성했습니다."],
+      ["거래 증빙 도우미 신뢰 기준", "거래 증빙 도우미의 신뢰 기준은 빠른 변환보다 설명 가능한 결과입니다. 원본 보관, 정리본 분리, 제출 전 다시 열어보기, 개인정보 최소화, 기관별 제한 재확인이라는 다섯 가지 원칙을 모든 도구와 가이드에 반복해서 연결합니다."],
+      ["전문가이드 기준", "전문가이드는 일반 정보글이 아니라 실제 제출 상황, 실패 원인, 검수 기준, 거래 증빙 도우미 활용 순서를 함께 담습니다. 민원 제출, 입사지원, 학교·기관 제출, 이미지 개인정보, 데이터 정리처럼 사용자가 바로 겪는 상황별로 묶어 다시 찾기 쉽게 구성했습니다."],
       ["운영", "운영: 제이 미디어(Media) · <a href=\"https://boribay.com/\">보리장터(boribay.com)</a> 운영사. 농업 가이드에서 보리장터 안내로 연결할 때는 같은 운영자의 서비스라는 점을 밝히며, 독립된 외부 추천으로 표시하지 않습니다."],
       ["최종 업데이트", `${lastUpdated} 기준으로 증명사진 규격, PDF 정리, PDF 페이지 번호, PDF 회전, PDF 구조 점검, PDF A4 맞춤, PDF 나누기, PDF 빈 페이지 정리, ZIP 다시 포장, 제출 규칙 검사, 파일명 개인정보 점검, 이미지 민감정보 가리기, 제출서류 누락 대조, 스캔 가독성 점검, 이미지 중복 점검, 파일 내용 중복 점검, 표 개인정보 점검, 파일명 정리, 해시 비교, CSV·엑셀 정리 기능과 설명을 검수했습니다.`]
     ]
   },
   "/privacy/": {
     title: "개인정보 처리방침",
-    metaTitle: "개인정보 처리방침 - goatool",
-    description: "goatool은 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선하며, 개인정보가 포함된 원본 파일 제보를 요청하지 않습니다.",
+    metaTitle: "개인정보 처리방침 - 거래 증빙 도우미",
+    description: "거래 증빙 도우미는 파일을 서버로 업로드하지 않고 브라우저 안에서 처리하는 것을 우선하며, 개인정보가 포함된 원본 파일 제보를 요청하지 않습니다.",
     body: [
       ["브라우저 처리", "사진 규격 맞추기, PDF 정리, 파일 준비, 이미지 정리, 데이터 정리 도구는 사용자의 브라우저 안에서 실행됩니다. 사용자가 선택한 파일은 변환과 점검을 위해 현재 페이지 메모리에서 읽히며, 결과 파일도 브라우저에서 생성됩니다."],
-      ["보관하지 않는 정보", "현재 구현은 사용자가 선택한 파일 원본, 결과 파일, 표 내용, 이미지 내용을 goatool 서버에 업로드하거나 저장하지 않습니다. 페이지를 새로고침하거나 닫으면 선택 파일과 결과 상태는 사라집니다."],
+      ["보관하지 않는 정보", "현재 구현은 사용자가 선택한 파일 원본, 결과 파일, 표 내용, 이미지 내용을 거래 증빙 도우미 서버에 업로드하거나 저장하지 않습니다. 페이지를 새로고침하거나 닫으면 선택 파일과 결과 상태는 사라집니다."],
       ["브라우저 저장 정보", "최근 사용한 도구, 최근 본 가이드, 저장한 가이드, 읽던 위치처럼 사이트 이용 편의를 위한 정보는 브라우저 로컬 저장소에 남을 수 있습니다. 이 정보는 파일 원본이 아니며, 사용자가 브라우저 데이터 삭제 기능으로 지울 수 있습니다."],
       ["광고와 외부 리소스", "공개 사이트에서는 운영비 마련을 위해 광고 스크립트가 로드될 수 있습니다. 광고 네트워크는 자체 정책에 따라 쿠키나 유사 식별자를 사용할 수 있으므로, 광고 관련 선택은 브라우저와 광고 제공자의 설정을 따릅니다."],
-      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 클라우드 동기화 폴더, 화면 녹화 프로그램 같은 외부 환경은 goatool이 통제하지 않습니다. 민감한 자료는 원본을 따로 보관하고, 내려받은 정리본을 직접 열어 확인한 뒤 제출하세요."],
+      ["사용자 주의", "브라우저 확장 프로그램, 운영체제, 클라우드 동기화 폴더, 화면 녹화 프로그램 같은 외부 환경은 거래 증빙 도우미가 통제하지 않습니다. 민감한 자료는 원본을 따로 보관하고, 내려받은 정리본을 직접 열어 확인한 뒤 제출하세요."],
       ["문의 원칙", "오류 제보나 개선 제안 시 주민등록번호, 통장 사본, 신분증, 계약서, 민원 서류처럼 민감한 원본 파일을 첨부하지 않는 것을 원칙으로 합니다. 필요한 경우 파일 형식, 브라우저 종류, 오류 상황만 설명해 주세요."]
     ]
   },
   "/terms/": {
     title: "이용안내",
-    metaTitle: "이용안내 - goatool",
-    description: "goatool의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다.",
+    metaTitle: "이용안내 - 거래 증빙 도우미",
+    description: "거래 증빙 도우미의 브라우저 기반 파일 준비 도구 이용 기준과 주의사항을 안내합니다.",
     body: [
-      ["보조 도구", "goatool은 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 문서 법적 효력, 데이터 정확성을 보장하지 않습니다. 최종 제출 가능 여부는 접수처 안내와 사용자의 확인을 기준으로 판단해야 합니다."],
-      ["원본 보관", "정리 전 원본 파일은 반드시 따로 보관하세요. goatool에서 만든 결과 파일은 제출 전 사람이 직접 열어 쪽수, 글자 식별성, 파일명, 용량, 개인정보 노출 여부를 확인해야 합니다."],
+      ["보조 도구", "거래 증빙 도우미는 제출 준비를 돕는 보조 도구입니다. 기관 접수 성공, 개인정보 완전 제거, 문서 법적 효력, 데이터 정확성을 보장하지 않습니다. 최종 제출 가능 여부는 접수처 안내와 사용자의 확인을 기준으로 판단해야 합니다."],
+      ["원본 보관", "정리 전 원본 파일은 반드시 따로 보관하세요. 거래 증빙 도우미에서 만든 결과 파일은 제출 전 사람이 직접 열어 쪽수, 글자 식별성, 파일명, 용량, 개인정보 노출 여부를 확인해야 합니다."],
       ["처리 제한", "대용량 파일과 대용량 표는 브라우저 성능 보호를 위해 처리 제한이 있습니다. 기기 성능, 브라우저 메모리, 파일 손상 상태에 따라 일부 파일은 열리지 않거나 결과 생성이 실패할 수 있습니다."],
       ["개인정보 주의", "이미지 재저장, 파일명 점검, 표 개인정보 점검은 위험 후보를 줄이는 기능입니다. 화면에 보이는 주민번호, 주소, 연락처, 얼굴, 계좌번호 등은 사용자가 직접 확인하고 필요한 범위에서 가려야 합니다."],
-      ["기관별 조건", "정부24, 학교, 채용 사이트, 공공기관, 민간 접수처는 각자 허용 확장자, 최대 용량, 파일 개수, PDF 조건이 다를 수 있습니다. goatool의 결과가 만들어졌더라도 접수처 조건을 마지막에 다시 확인하세요."]
+      ["기관별 조건", "정부24, 학교, 채용 사이트, 공공기관, 민간 접수처는 각자 허용 확장자, 최대 용량, 파일 개수, PDF 조건이 다를 수 있습니다. 거래 증빙 도우미의 결과가 만들어졌더라도 접수처 조건을 마지막에 다시 확인하세요."]
     ]
   },
   "/contact/": {
     title: "문의",
-    metaTitle: "문의 - goatool",
-    description: "goatool 개선 제안과 오류 제보를 위한 안내 페이지입니다.",
+    metaTitle: "문의 - 거래 증빙 도우미",
+    description: "거래 증빙 도우미 개선 제안과 오류 제보를 위한 안내 페이지입니다.",
     body: [
       ["오류 제보", "어떤 도구에서 어떤 파일 형식으로 문제가 생겼는지, 브라우저 종류와 화면 상태를 함께 기록하면 개선에 도움이 됩니다. 예를 들어 PDF A4 맞춤, ZIP 다시 포장, 증명사진 규격 맞추기처럼 도구명을 먼저 적어주세요."],
       ["개선 제안", "공공기관 제출, 입사지원, 학교 제출, 서류 보완, 이미지 개인정보 가림처럼 반복되는 파일 준비 문제가 있으면 새 도구 후보로 검토할 수 있습니다. 실제 제출 상황과 막힌 지점을 구체적으로 알려주면 우선순위를 정하기 쉽습니다."],
       ["민감 파일 금지", "주민등록번호, 신분증, 통장 사본, 계약서, 민원 서류, 채용 서류처럼 민감한 원본 파일은 문의나 제보에 첨부하지 않는 것을 원칙으로 합니다. 문제 재현이 필요할 때도 같은 형식의 샘플 파일을 새로 만들어 사용하는 편이 안전합니다."],
-      ["답변 범위", "goatool은 도구 개선과 사이트 오류 제보를 중심으로 운영됩니다. 개별 기관의 심사 결과, 법적 효력, 개인정보 법률 판단, 채용 결과에 대한 보장은 제공하지 않습니다."]
+      ["답변 범위", "거래 증빙 도우미는 도구 개선과 사이트 오류 제보를 중심으로 운영됩니다. 개별 기관의 심사 결과, 법적 효력, 개인정보 법률 판단, 채용 결과에 대한 보장은 제공하지 않습니다."]
     ]
   }
 };
@@ -2546,7 +2546,7 @@ function render() {
     <a class="skip-link" href="#mainContent">본문 바로가기</a>
     <header class="site-header">
       <div class="header-main">
-        <a class="brand" href="/" data-link aria-label="goatool 홈">
+        <a class="brand" href="/" data-link aria-label="거래 증빙 도우미 홈">
           <span class="brand-logo-frame">
             <img class="brand-logo" src="${brandLogoPath}" alt="" width="188" height="45" decoding="async" />
             <small>농업 거래 파일 증빙</small>
@@ -2560,7 +2560,7 @@ function render() {
           </a>
           <a href="/mn/" lang="mn">Монгол</a>
           <a class="nav-sibling" href="https://policyfundpedia.com/" target="_blank" rel="noopener">
-            정책자금 백과
+            농업 정책자금 백과
           </a>
         </nav>
       </div>
@@ -2581,7 +2581,7 @@ function render() {
           <div class="intro-copy">
             <h2 id="workspaceTitle">기존 파일 도구에서 필요한 작업을 고르세요</h2>
             <p>버튼을 누르면 아래 설정 화면으로 바로 이동합니다.</p>
-            <div class="intro-points" aria-label="goatool 처리 기준">
+            <div class="intro-points" aria-label="거래 증빙 도우미 처리 기준">
               <span>브라우저 처리</span>
               <span>정리본 다운로드</span>
               <span>제출 전 검수</span>
@@ -2674,7 +2674,7 @@ function render() {
         </section>
 
         <section class="guide-copy ${isReferencePage ? "is-hidden" : ""}" aria-labelledby="guideTitle">
-          <h2 id="guideTitle">goatool 사용 기준</h2>
+          <h2 id="guideTitle">거래 증빙 도우미 사용 기준</h2>
           <div class="guide-grid">
             <article>
               <h3>파일 제출 전</h3>
@@ -2751,7 +2751,7 @@ function render() {
 
     <footer class="site-footer">
       <div>
-        <img class="footer-logo" src="${brandLogoPath}" alt="goatool" width="156" height="37" loading="lazy" decoding="async" />
+        <img class="footer-logo" src="${brandLogoPath}" alt="거래 증빙 도우미" width="156" height="37" loading="lazy" decoding="async" />
         <p>농기계·농산물 거래 증빙 파일을 중심으로 브라우저에서 정리합니다. 민원·입사지원 도구도 계속 제공합니다.</p>
       </div>
       <nav aria-label="하단 링크">
@@ -2759,7 +2759,7 @@ function render() {
         <a href="/guides/" data-link>전문 가이드</a>
         <a href="/agri/">농업 거래 증빙</a>
         <a href="/mn/" lang="mn">Монгол</a>
-        <a href="https://policyfundpedia.com/" target="_blank" rel="noopener">정책자금 백과</a>
+        <a href="https://policyfundpedia.com/" target="_blank" rel="noopener">농업 정책자금 백과</a>
         <a href="/privacy/" data-link>개인정보 처리방침</a>
         <a href="/terms/" data-link>이용안내</a>
         <a href="/contact/" data-link>문의</a>
@@ -2778,9 +2778,9 @@ function renderSiblingSidePanel() {
     <section class="side-panel sibling-side">
       <span>policyfundpedia.com</span>
       <h2>지원제도도 같이 확인</h2>
-      <p>정책자금 백과에서 맞는 자금을 고르고, goatool에서 제출 파일을 바로 정리하세요.</p>
+      <p>농업 정책자금 백과에서 맞는 자금을 고르고, 거래 증빙 도우미에서 제출 파일을 바로 정리하세요.</p>
       <a href="https://policyfundpedia.com/" target="_blank" rel="noopener">
-        정책자금 백과로 이동
+        농업 정책자금 백과로 이동
         ${arrowIcon()}
       </a>
     </section>
@@ -2804,7 +2804,7 @@ function updateDocumentMeta(tool, page = null, guide = null, isGuideIndex = fals
   setMeta("og:image", `${baseDomain}${brandOgPath}`, "property");
   setMeta("og:image:width", "1200", "property");
   setMeta("og:image:height", "630", "property");
-  setMeta("og:image:alt", "GOATool logo", "property");
+  setMeta("og:image:alt", "거래 증빙 도우미 로고", "property");
   setMeta("twitter:card", "summary_large_image");
   setMeta("twitter:image", `${baseDomain}${brandOgPath}`);
   setCanonical(`${baseDomain}${path}`);
@@ -2849,7 +2849,7 @@ function websiteSchema(url) {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: homeMeta.title,
+    name: BRAND,
     url,
     inLanguage: "ko-KR",
     description: homeMeta.description,
@@ -3021,7 +3021,7 @@ function renderGuideIndexCard(guide) {
 
 function renderGuideTrustPanel() {
   return `
-    <section class="guide-trust-panel" aria-label="goatool 가이드 작성 기준">
+    <section class="guide-trust-panel" aria-label="거래 증빙 도우미 가이드 작성 기준">
       <div>
         <strong>가이드 작성 기준</strong>
         <p>각 문서는 실제 제출 상황, 실패 원인, 검수 기준, 도구 사용 순서를 함께 다룹니다. 단순 변환법보다 마지막 제출 전에 사람이 무엇을 확인해야 하는지에 초점을 둡니다.</p>
@@ -3047,7 +3047,7 @@ function renderGuideAgriculturalBridge() {
       </div>
       <div class="tool-guide-list">
         <a href="/agri/guides/direct-sale-settlement-files/">
-          <span>goatool 농업</span>
+          <span>거래 증빙 도우미 · 농업</span>
           <strong>농산물 직거래 정산 파일 준비법</strong>
           <small>판매 조건표·출고 증빙·입금 내역 정리</small>
         </a>
@@ -3087,7 +3087,7 @@ function renderGuidePage(guide) {
   return `
     <article class="guide-page" aria-labelledby="guidePageTitle">
       <nav class="breadcrumb" aria-label="현재 위치">
-        <a href="/" data-link>goatool</a>
+        <a href="/" data-link>거래 증빙 도우미</a>
         <span aria-hidden="true">/</span>
         <a href="/guides/" data-link>전문 가이드</a>
       </nav>
@@ -3360,7 +3360,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/agri/guides/direct-sale-settlement-files/">
-            <span>goatool 농업</span>
+            <span>거래 증빙 도우미 · 농업</span>
             <strong>농산물 직거래 정산 파일 준비법</strong>
             <small>판매 조건표·출고 증빙·입금 내역 정리</small>
           </a>
@@ -3386,7 +3386,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/agri/guides/direct-sale-settlement-files/">
-            <span>goatool 농업</span>
+            <span>거래 증빙 도우미 · 농업</span>
             <strong>농산물 직거래 정산표와 증빙 파일 나누기</strong>
             <small>원본·공유본·입금 내역과 출고 증빙 분리</small>
           </a>
@@ -3412,7 +3412,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/guides/smartphone-photo-size-submit/">
-            <span>goatool 사진</span>
+            <span>거래 증빙 도우미 · 사진</span>
             <strong>판매 사진 순서·용량·선명도 확인</strong>
             <small>원본 보관·대표 사진·글자 판독성 점검</small>
           </a>
@@ -3438,7 +3438,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/guides/photo-exif-personal-info/">
-            <span>goatool 사진</span>
+            <span>거래 증빙 도우미 · 사진</span>
             <strong>사진 EXIF와 화면 속 개인정보 구분</strong>
             <small>위치·촬영정보·주소·연락처 점검</small>
           </a>
@@ -3464,7 +3464,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/guides/smartphone-photo-size-submit/">
-            <span>goatool 사진</span>
+            <span>거래 증빙 도우미 · 사진</span>
             <strong>스마트폰 사진 용량과 선명도 확인</strong>
             <small>원본 보관·글자 판독성·제출 품질 점검</small>
           </a>
@@ -3490,7 +3490,7 @@ function renderAgriculturalBridge(tool) {
         </div>
         <div class="tool-guide-list">
           <a href="/guides/smartphone-photo-size-submit/">
-            <span>goatool 사진</span>
+            <span>거래 증빙 도우미 · 사진</span>
             <strong>스마트폰 사진 용량과 선명도 확인</strong>
             <small>원본 보관·용량·글자 판독성 점검</small>
           </a>
@@ -3516,7 +3516,7 @@ function renderAgriculturalBridge(tool) {
       </div>
       <div class="tool-guide-list">
         <a href="/agri/guides/direct-sale-settlement-files/">
-          <span>goatool 농업</span>
+          <span>거래 증빙 도우미 · 농업</span>
           <strong>농산물 직거래 정산 파일 준비법</strong>
           <small>판매 조건표·출고 증빙·입금 내역 정리</small>
         </a>
@@ -5593,7 +5593,7 @@ function collectPdfStructureWarnings(file, pages, uniqueSizes, landscapePages) {
 
 function makePdfInfoReport(output) {
   return [
-    "goatool PDF 구조 점검표",
+    "거래 증빙 도우미 PDF 구조 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `PDF 수: ${output.items.length}`,
     `총 쪽수: ${output.totalPages}`,
@@ -6860,7 +6860,7 @@ function addViewerTextNotes(base, output) {
 function renderViewerFontPreview(family, loaded, fileName) {
   const fontFamily = loaded ? `"${family}", "Noto Sans KR", sans-serif` : `"Noto Sans KR", system-ui, sans-serif`;
   const samples = [
-    "goatool 제출 파일 미리보기",
+    "거래 증빙 도우미 제출 파일 미리보기",
     "가나다라마바사 ABCDEFG 1234567890",
     "The quick brown fox jumps over the lazy dog."
   ];
@@ -8096,7 +8096,7 @@ async function splitPdfIntoZip(file, options) {
 
 function makePdfSplitReport(output) {
   return [
-    "goatool PDF 나누기 결과",
+    "거래 증빙 도우미 PDF 나누기 결과",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `원본 PDF: ${output.sourceName}`,
     `전체 쪽수: ${output.totalPages}`,
@@ -8215,7 +8215,7 @@ async function removeBlankPdfPages(file) {
 
 function makePdfBlankReport(output) {
   return [
-    "goatool PDF 빈 페이지 정리 결과",
+    "거래 증빙 도우미 PDF 빈 페이지 정리 결과",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `원본 PDF: ${output.sourceName}`,
     `원본 쪽수: ${output.originalPages}`,
@@ -8383,7 +8383,7 @@ function collectFileWarnings(items) {
 
 function makeManifest(prefix, items, warnings) {
   const lines = [
-    "goatool 제출 파일 점검표",
+    "거래 증빙 도우미 제출 파일 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `묶음 이름: ${prefix}`,
     `파일 수: ${items.length}`,
@@ -8706,7 +8706,7 @@ function makeRequiredDocReport(output) {
   const conditional = output.rows.filter((row) => row.status.key === "conditional");
   const review = output.rows.filter((row) => row.status.key === "review");
   return [
-    "goatool 제출서류 누락 대조표",
+    "거래 증빙 도우미 제출서류 누락 대조표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `선택 유형: ${output.preset ? `${output.preset.group} - ${output.preset.label}` : "직접 입력"}`,
     ...(output.preset ? [`주의: ${output.preset.note}`, "자동 목록은 준비용 기준이며 공고문과 접수 화면이 최종 기준입니다."] : []),
@@ -8897,7 +8897,7 @@ function checkBundleRules(files, options) {
 function makeBundleRuleReport(output) {
   const problemItems = output.items.filter((item) => item.warnings.length);
   return [
-    "goatool 제출 규칙 검사표",
+    "거래 증빙 도우미 제출 규칙 검사표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일 수: ${output.items.length}`,
     `총 용량: ${formatBytes(output.totalSize)} / 제한 ${formatBytes(output.maxTotalBytes)}`,
@@ -9018,7 +9018,7 @@ function inspectFilenamePrivacy(files) {
 
 function makeFilenamePrivacyReport(output) {
   return [
-    "goatool 파일명 개인정보 점검표",
+    "거래 증빙 도우미 파일명 개인정보 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일 수: ${output.items.length}`,
     `확인 필요: ${output.problemCount}개`,
@@ -9521,7 +9521,7 @@ function sanitizeNamePart(value, keepKorean = true) {
 
 function makeRenameMap(items) {
   return [
-    "goatool 파일명 변경표",
+    "거래 증빙 도우미 파일명 변경표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일 수: ${items.length}`,
     "",
@@ -9740,7 +9740,7 @@ function collectZipWarnings(items) {
 
 function makeZipReport(file, items, warnings) {
   return [
-    "goatool ZIP 내용 점검표",
+    "거래 증빙 도우미 ZIP 내용 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `ZIP 파일: ${file.name}`,
     `ZIP 용량: ${formatBytes(file.size)}`,
@@ -9890,7 +9890,7 @@ function uniqueZipName(name, used) {
 
 function makeZipRepackReport(output) {
   return [
-    "goatool ZIP 다시 포장 결과",
+    "거래 증빙 도우미 ZIP 다시 포장 결과",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `원본 ZIP: ${output.sourceName}`,
     `포함 파일: ${output.items.length}`,
@@ -10116,7 +10116,7 @@ function collectScanWarnings(item) {
 
 function makeScanReport(items) {
   return [
-    "goatool 스캔 가독성 점검표",
+    "거래 증빙 도우미 스캔 가독성 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `이미지 수: ${items.length}`,
     "",
@@ -10276,7 +10276,7 @@ function hammingDistance(a, b) {
 
 function makeImageDuplicateReport(output) {
   return [
-    "goatool 이미지 중복 점검표",
+    "거래 증빙 도우미 이미지 중복 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `이미지 수: ${output.items.length}`,
     `중복 후보: ${output.pairs.length}쌍`,
@@ -10399,7 +10399,7 @@ async function findFileDuplicates(files) {
 
 function makeFileDuplicateReport(output) {
   return [
-    "goatool 파일 내용 중복 점검표",
+    "거래 증빙 도우미 파일 내용 중복 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일 수: ${output.items.length}`,
     `중복 그룹: ${output.duplicateGroups.length}개`,
@@ -10500,7 +10500,7 @@ function bindFileListEvents() {
 
 function makeFileListText(items) {
   return [
-    "goatool 파일 목록",
+    "거래 증빙 도우미 파일 목록",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일 수: ${items.length}`,
     `총 용량: ${formatBytes(items.reduce((sum, item) => sum + item.size, 0))}`,
@@ -10581,7 +10581,7 @@ function bindHashCompareEvents() {
 
 function makeHashReport(a, b, hashA, hashB, same) {
   return [
-    "goatool SHA-256 파일 비교 결과",
+    "거래 증빙 도우미 SHA-256 파일 비교 결과",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `결과: ${same ? "같음" : "다름"}`,
     "",
@@ -10925,7 +10925,7 @@ function maskPrivacyPreview(value) {
 
 function makeTablePrivacyReport(output) {
   return [
-    "goatool 표 개인정보 점검표",
+    "거래 증빙 도우미 표 개인정보 점검표",
     `생성 시각: ${new Date().toLocaleString("ko-KR")}`,
     `파일명: ${output.fileName}`,
     `행/열: ${output.rows}/${output.cols}`,
@@ -11084,7 +11084,7 @@ async function runPdfPasswordChecker(files) {
       items.push({ name: file.name, status: "열림 실패", detail: "암호, 손상, 보안 설정 가능성" });
     }
   }
-  const report = makeSimpleReport("goatool PDF 암호 여부 점검", items.map((item) => `${item.name} / ${item.status} / ${item.detail}`));
+  const report = makeSimpleReport("거래 증빙 도우미 PDF 암호 여부 점검", items.map((item) => `${item.name} / ${item.status} / ${item.detail}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-pdf-open-check.txt",
@@ -11178,7 +11178,7 @@ async function runImageDpiChecker(files) {
     });
     source.close?.();
   }
-  const report = makeSimpleReport("goatool 이미지 DPI 점검", items.map((item) => `${item.name} / ${item.pixels} / ${item.dpi} / ${item.note}`));
+  const report = makeSimpleReport("거래 증빙 도우미 이미지 DPI 점검", items.map((item) => `${item.name} / ${item.pixels} / ${item.dpi} / ${item.note}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-image-dpi-check.txt",
@@ -11212,7 +11212,7 @@ async function runImageAspectChecker(files, options) {
     });
     source.close?.();
   }
-  const report = makeSimpleReport("goatool 이미지 비율 검사", items.map((item) => `${item.name} / ${item.pixels} / ${item.ratio} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 이미지 비율 검사", items.map((item) => `${item.name} / ${item.pixels} / ${item.ratio} / ${item.status}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-image-aspect-check.txt",
@@ -11244,7 +11244,7 @@ async function runZipExtensionChecker(files, options) {
         status: allowed.has(ext) ? "통과" : "확인 필요"
       };
     });
-  const report = makeSimpleReport("goatool ZIP 확장자 검사", items.map((item) => `${item.name} / .${item.ext} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 ZIP 확장자 검사", items.map((item) => `${item.name} / .${item.ext} / ${item.status}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-zip-extension-check.txt",
@@ -11268,7 +11268,7 @@ async function runEmptyFileFinder(files) {
     size: file.size,
     status: file.size === 0 ? "0KB" : file.size < 1024 ? "1KB 미만" : "통과"
   }));
-  const report = makeSimpleReport("goatool 빈 파일 찾기", items.map((item) => `${item.name} / ${formatBytes(item.size)} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 빈 파일 찾기", items.map((item) => `${item.name} / ${formatBytes(item.size)} / ${item.status}`));
   return reportOutput("빈 파일 찾기 결과", "0KB 또는 지나치게 작은 파일은 실제 첨부가 비어 있을 수 있습니다.", items, report, "goatool-empty-file-check.txt");
 }
 
@@ -11279,7 +11279,7 @@ async function runTempFileFinder(files) {
     size: file.size,
     status: pattern.test(file.name) ? "확인 필요" : "통과"
   }));
-  const report = makeSimpleReport("goatool 임시 파일명 찾기", items.map((item) => `${item.name} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 임시 파일명 찾기", items.map((item) => `${item.name} / ${item.status}`));
   return reportOutput("임시 파일명 점검 결과", "임시본처럼 보이는 파일명은 제출 전 최종본인지 확인하세요.", items, report, "goatool-temp-filename-check.txt");
 }
 
@@ -11296,7 +11296,7 @@ async function runExtensionMismatchChecker(files) {
       detail: signature.label
     });
   }
-  const report = makeSimpleReport("goatool 확장자 불일치 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 확장자 불일치 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-extension-mismatch-check.txt",
@@ -11318,7 +11318,7 @@ async function runFileSizeSorter(files) {
   const items = [...files]
     .sort((a, b) => b.size - a.size)
     .map((file, index) => ({ name: file.name, size: file.size, status: `${index + 1}번째` }));
-  const report = makeSimpleReport("goatool 파일 용량 순서표", items.map((item, index) => `${index + 1}. ${item.name} / ${formatBytes(item.size)}`));
+  const report = makeSimpleReport("거래 증빙 도우미 파일 용량 순서표", items.map((item, index) => `${index + 1}. ${item.name} / ${formatBytes(item.size)}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-file-size-order.txt",
@@ -11341,7 +11341,7 @@ async function runFolderTreeExporter(files) {
     .map((file) => ({ path: file.webkitRelativePath || file.name, size: file.size }))
     .sort((a, b) => a.path.localeCompare(b.path, "ko"));
   const lines = items.map((item) => `${item.path} / ${formatBytes(item.size)}`);
-  const report = makeSimpleReport("goatool 폴더 구조 목록", lines);
+  const report = makeSimpleReport("거래 증빙 도우미 폴더 구조 목록", lines);
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-folder-structure.txt",
@@ -11381,7 +11381,7 @@ async function runFileRepairAttempt(files) {
       zip.file(uniqueZipName(`repaired/${result.outputName}`, used), result.blob);
     }
   }
-  const report = makeRepairReport("goatool 파일 복구 시도 결과", results);
+  const report = makeRepairReport("거래 증빙 도우미 파일 복구 시도 결과", results);
   const recovered = results.filter((item) => item.blob).length;
   let blob = null;
   if (recovered) {
@@ -11415,7 +11415,7 @@ async function runExtensionAutoFixer(files) {
       outputName: finalName
     });
   }
-  const report = makeSimpleReport("goatool 확장자 자동 수정", items.map((item) => `${item.name} -> ${item.outputName} / ${item.detail} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 확장자 자동 수정", items.map((item) => `${item.name} -> ${item.outputName} / ${item.detail} / ${item.status}`));
   zip.file("goatool-extension-map.txt", report);
   const blob = await zip.generateAsync({ type: "blob" });
   return {
@@ -11471,7 +11471,7 @@ async function runPdfSinglePageZip(files) {
     zip.file(name, bytes);
     rows.push([index + 1, name, `${bytes.length.toLocaleString("ko-KR")} B`]);
   }
-  zip.file("goatool-pdf-page-split-report.txt", makeSimpleReport("goatool PDF 페이지별 분리", rows.map((row) => `${row[0]} / ${row[1]} / ${row[2]}`)));
+  zip.file("goatool-pdf-page-split-report.txt", makeSimpleReport("거래 증빙 도우미 PDF 페이지별 분리", rows.map((row) => `${row[0]} / ${row[1]} / ${row[2]}`)));
   const blob = await zip.generateAsync({ type: "blob" });
   return {
     blob,
@@ -11515,7 +11515,7 @@ async function runPdfOddEvenSplitter(files) {
     zip.file(name, bytes);
     rows.push(["짝수", even.length, name]);
   }
-  zip.file("goatool-pdf-odd-even-report.txt", makeSimpleReport("goatool PDF 홀짝 분리", rows.map((row) => `${row[0]} / ${row[1]}쪽 / ${row[2]}`)));
+  zip.file("goatool-pdf-odd-even-report.txt", makeSimpleReport("거래 증빙 도우미 PDF 홀짝 분리", rows.map((row) => `${row[0]} / ${row[1]}쪽 / ${row[2]}`)));
   const blob = await zip.generateAsync({ type: "blob" });
   return {
     blob,
@@ -11550,7 +11550,7 @@ async function runZipRepairBasic(files) {
   const recovered = results.filter((item) => item.blob).length;
   let blob = null;
   if (recovered) {
-    zip.file("goatool-zip-repair-report.txt", makeRepairReport("goatool ZIP 복구 시도 결과", results));
+    zip.file("goatool-zip-repair-report.txt", makeRepairReport("거래 증빙 도우미 ZIP 복구 시도 결과", results));
     blob = await zip.generateAsync({ type: "blob" });
   }
   return {
@@ -11574,7 +11574,7 @@ async function runZipFolderFlattener(files) {
     rows.push([entry.name, name]);
   }
   if (!rows.length) throw new Error("새 ZIP으로 묶을 내부 파일을 찾지 못했습니다.");
-  output.file("goatool-zip-flatten-report.txt", makeSimpleReport("goatool ZIP 폴더 평탄화", rows.map((row) => `${row[0]} -> ${row[1]}`)));
+  output.file("goatool-zip-flatten-report.txt", makeSimpleReport("거래 증빙 도우미 ZIP 폴더 평탄화", rows.map((row) => `${row[0]} -> ${row[1]}`)));
   const blob = await output.generateAsync({ type: "blob" });
   return {
     blob,
@@ -11610,7 +11610,7 @@ async function runOfficeZipRepair(files) {
   const recovered = results.filter((item) => item.blob).length;
   let blob = null;
   if (recovered) {
-    zip.file("goatool-office-repair-report.txt", makeRepairReport("goatool 오피스 파일 복구 시도 결과", results));
+    zip.file("goatool-office-repair-report.txt", makeRepairReport("거래 증빙 도우미 오피스 파일 복구 시도 결과", results));
     blob = await zip.generateAsync({ type: "blob" });
   }
   return {
@@ -11645,7 +11645,7 @@ async function runImageRepairBasic(files, options) {
   const recovered = results.filter((item) => item.blob).length;
   let blob = null;
   if (recovered) {
-    zip.file("goatool-image-repair-report.txt", makeRepairReport("goatool 이미지 복구 시도 결과", results));
+    zip.file("goatool-image-repair-report.txt", makeRepairReport("거래 증빙 도우미 이미지 복구 시도 결과", results));
     blob = await zip.generateAsync({ type: "blob" });
   }
   return {
@@ -11721,7 +11721,7 @@ async function runImageSharpnessChecker(files) {
       detail: `점수 ${Math.round(score.value)}`
     });
   }
-  const report = makeSimpleReport("goatool 이미지 선명도 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 이미지 선명도 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
   return reportOutput("이미지 선명도 점검 결과", "가장자리 변화량 기준으로 흐림 가능성을 빠르게 점검했습니다.", items, report, "goatool-image-sharpness-check.txt");
 }
 
@@ -11736,7 +11736,7 @@ async function runImageTransparencyChecker(files) {
       detail: output.transparentPixels ? `${output.percent}%` : "불투명"
     });
   }
-  const report = makeSimpleReport("goatool 투명 배경 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
+  const report = makeSimpleReport("거래 증빙 도우미 투명 배경 점검", items.map((item) => `${item.name} / ${item.detail} / ${item.status}`));
   return {
     blob: new Blob([report], { type: "text/plain;charset=utf-8" }),
     fileName: "goatool-image-transparency-check.txt",
