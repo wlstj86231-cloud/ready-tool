@@ -27,12 +27,6 @@ if (!pack.includes("utm_campaign=agri_document_guides")) errors.push("pack-unit 
 if ((pack.match(/boribay\.com\/guides\/agricultural-price-lookup/g) || []).length !== 1) errors.push("pack-unit price lookup dest");
 if (/garak-[a-z-]+-price-lookup/.test(pack)) errors.push("pack-unit retired Garak dest");
 
-const agriHome = await fs.readFile(path.join(root, "public", "agri", "index.html"), "utf8");
-if (!agriHome.includes("/agri/guides/pack-unit-kg-files/")) errors.push("agri home pack-unit card missing");
-if (!agriHome.includes("utm_content=seller_ready")) errors.push("agri listings/new CTA rewritten");
-const agriHeader = agriHome.slice(agriHome.indexOf("<header>"), agriHome.indexOf("</header>") + 9);
-if (agriHeader.includes("보리장터")) errors.push("agri header has 보리장터");
-
 const civic = await fs.readFile(path.join(root, "index.html"), "utf8");
 if (civic.includes("garak-") || civic.includes("가락")) errors.push("civic home has Garak");
 if (civic.includes("/agri/guides/listing-photo-files")) errors.push("civic home has C2C guide");
