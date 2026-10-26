@@ -207,7 +207,7 @@ small {
   background: var(--soft);
   padding: 28px 0 40px;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .site-footer nav {
@@ -364,7 +364,7 @@ textarea {
 
 .field-help {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 /* notices */
@@ -585,7 +585,7 @@ textarea {
   margin-left: auto;
   font-weight: 700;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .ck-item[data-state="done"] .ck-count {
@@ -617,7 +617,7 @@ textarea {
 .ck-tip {
   margin: 0 0 10px;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .ck-tip strong {
@@ -655,6 +655,7 @@ textarea {
 .fc {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto 1fr;
   gap: 10px;
   padding: 10px;
   border: 1px solid var(--line);
@@ -681,26 +682,32 @@ textarea {
 }
 
 .fc-body {
+  grid-column: 2;
+  grid-row: 1 / span 2;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2px;
   min-width: 0;
 }
 
 .fc-name {
-  padding-right: 64px;
-  font-size: 0.95rem;
+  font-size: 1rem;
   overflow-wrap: anywhere;
 }
 
 .fc-date,
 .fc-meta {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
 .fc-date {
   color: #20503a;
   font-weight: 600;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 .fc-date.warn {
@@ -716,21 +723,22 @@ textarea {
 .fc-controls select,
 .fc-controls input {
   min-height: 46px;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
+/* 빼기 sits under the thumbnail so it never covers the file name or date. */
 .fc-remove {
-  position: absolute;
-  top: 6px;
-  right: 6px;
-  min-width: 56px;
+  grid-column: 1;
+  grid-row: 2;
+  align-self: start;
+  width: 72px;
   min-height: 44px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: #fff;
   color: var(--bad);
   font: inherit;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
 }
@@ -807,7 +815,7 @@ strong.bad {
 .download-row p {
   margin: 0;
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .next-steps {
@@ -823,7 +831,7 @@ strong.bad {
   padding-top: 16px;
   border-top: 1px solid var(--line);
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 /* explanation blocks */
@@ -899,7 +907,7 @@ strong.bad {
 table {
   border-collapse: collapse;
   width: 100%;
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 th,
@@ -908,6 +916,8 @@ td {
   padding: 8px 10px;
   text-align: left;
   vertical-align: top;
+  /* Wrap between words only; wide tables scroll inside .table-scroll instead of splitting "10kg". */
+  overflow-wrap: normal;
 }
 
 th {
@@ -1042,7 +1052,7 @@ tr.row-warn td {
 
 .tool-card span {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .limit-box {
@@ -1074,7 +1084,7 @@ tr.row-warn td {
 
 .article-meta {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .article h2 {
@@ -1110,7 +1120,7 @@ tr.row-warn td {
 
 .shot-list .tip {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .cta-box {
@@ -1129,7 +1139,7 @@ tr.row-warn td {
 }
 
 .source-list {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--muted);
 }
 
@@ -1156,7 +1166,7 @@ tr.row-warn td {
 
 .guide-card span {
   color: var(--muted);
-  font-size: 0.95rem;
+  font-size: 1rem;
 }
 
 .guide-card:hover {

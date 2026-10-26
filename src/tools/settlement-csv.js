@@ -37,7 +37,7 @@ const PII_PATTERNS = [
   { label: "계좌번호", test: (value) => (value.match(/\d{2,6}-\d{2,6}-\d{2,8}(-\d{1,4})?/g) || []).some((part) => part.replace(/-/g, "").length >= 10 && !/^01[016789]/.test(part)) },
 ];
 
-const state = { header: [], rows: [], map: {}, sourceName: "", analysis: null };
+const state = { header: [], rows: [], lines: [], map: {}, sourceName: "", analysis: null };
 const statusLine = $("#status");
 
 $("#blankTemplate").addEventListener("click", () => downloadBlob(new Blob([toCsv([HEADERS])], { type: "text/csv;charset=utf-8" }), "정산표_서식.csv"));
@@ -85,7 +85,10 @@ async function loadFile(file) {
 }
 
 function loadRows(allRows, sourceName) {
-  const rows = allRows.filter((row) => row.some((cell) => String(cell ?? "").trim() !== ""));
+  // Keep each row's own line number (1 = first line of the file) so the report points at
+  // the row the user sees in Excel even when title or empty rows come first.
+  const numbered = allRows.map((row, index) => ({ row: row || [], line: index + 1 })).filter(({ row }) => row.some((cell) => String(cell ?? "").trim() !== ""));
+  const rows = numbered.map(({ row }) => row);
   if (rows.length < 2) {
     setStatus(statusLine, "제목 줄과 내용 줄이 있는 표인지 확인해 주세요. 읽은 줄이 너무 적습니다.", "warn");
     return;
@@ -93,6 +96,7 @@ function loadRows(allRows, sourceName) {
   const headerIndex = findHeaderRow(rows);
   state.header = rows[headerIndex].map((cell, index) => String(cell || `열${index + 1}`).trim());
   state.rows = rows.slice(headerIndex + 1, headerIndex + 1 + MAX_ROWS).map((row) => state.header.map((_, index) => String(row[index] ?? "").trim()));
+  state.lines = numbered.slice(headerIndex + 1, headerIndex + 1 + MAX_ROWS).map(({ line }) => line);
   state.sourceName = sourceName;
   state.map = detectColumns(state.header);
   const cut = rows.length - headerIndex - 1 - state.rows.length;
@@ -161,7 +165,7 @@ function analyse() {
   const totals = { qty: 0, amount: 0, shipping: 0, fee: 0, target: 0, paid: 0 };
   let skippedTotals = 0;
   state.rows.forEach((row, index) => {
-    const line = index + 2;
+    const line = state.lines[index] ?? index + 2;
     // A total line ("합계" in the first cells, no real date) or a line with no trade data is not a trade.
     const isTotal = /(합계|총계|소계|total)/i.test(row.slice(0, 3).join(" ")) && !/\d/.test(cell(row, "date"));
     const hasTradeData = ["date", "buyer", "item", "qty", "price", "amount", "paid"].some((key) => String(cell(row, key) || "").trim());
@@ -285,7 +289,7 @@ function renderReport() {
     </table></div>${issueRows.length > PREVIEW_ROWS ? `<p class="muted">화면에는 ${PREVIEW_ROWS}줄까지만 보입니다. 전체는 점검 결과 CSV에 있습니다.</p>` : ""}`
         : ""
     }
-    <p class="muted">행 번호는 엑셀에서 보이는 줄 번호 기준(제목 줄이 1행)입니다.</p>`;
+    <p class="muted">행 번호는 이 파일을 엑셀에서 열었을 때 보이는 줄 번호입니다.</p>`;
 }
 
 function resultCsv() {

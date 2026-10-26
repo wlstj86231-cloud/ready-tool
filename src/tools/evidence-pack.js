@@ -338,15 +338,23 @@ function analyse() {
   const warnings = [];
 
   const noDate = state.files.filter((file) => file.isImage && !file.exif?.date);
-  if (noDate.length) warnings.push(`촬영 정보가 없는 사진 ${noDate.length}장: 메신저로 받았거나 캡처·편집한 사진일 수 있습니다. 직접 찍은 원본이 있으면 원본으로 바꿔 넣으세요. (${listNames(noDate)})`);
+  const heicNoDate = noDate.filter(isHeic);
+  const plainNoDate = noDate.filter((file) => !isHeic(file));
+  if (plainNoDate.length) warnings.push(`촬영 정보가 없는 사진 ${plainNoDate.length}장: 메신저로 받았거나 캡처·편집한 사진일 수 있습니다. 직접 찍은 원본이 있으면 원본으로 바꿔 넣으세요. (${listNames(plainNoDate)})`);
+  if (heicNoDate.length) warnings.push(`아이폰 HEIC 사진 ${heicNoDate.length}장은 이 도구가 촬영 정보를 읽지 못해 파일 저장 날짜로 정리했습니다. 휴대폰에서 바로 넣으면 보통 JPG로 바뀌어 촬영 날짜를 읽을 수 있습니다. (${listNames(heicNoDate)})`);
 
   const dated = state.files.filter((file) => file.exif?.date).map((file) => ({ file, time: file.exif.date }));
   if (dated.length) {
-    const latest = Math.max(...dated.map((entry) => entry.time));
-    const old = dated.filter((entry) => latest - entry.time > 60 * 86400000).map((entry) => entry.file);
-    if (old.length) warnings.push(`다른 사진보다 두 달 넘게 먼저 찍은 사진 ${old.length}장: 예전 사진이 섞이지 않았는지 확인하세요. (${listNames(old)})`);
-    const future = dated.filter((entry) => entry.time > Date.now() + 86400000).map((entry) => entry.file);
-    if (future.length) warnings.push(`촬영 날짜가 오늘보다 뒤인 사진 ${future.length}장: 휴대폰 날짜 설정이 틀렸을 수 있습니다. (${listNames(future)})`);
+    const future = dated.filter((entry) => entry.time > Date.now() + 86400000);
+    // Compare with the middle shot date of the normal photos, so one wrongly dated photo
+    // does not make every other photo look "old".
+    const normal = dated.filter((entry) => !future.includes(entry)).map((entry) => entry.time).sort((a, b) => a - b);
+    if (normal.length >= 2) {
+      const middle = normal[Math.floor((normal.length - 1) / 2)];
+      const old = dated.filter((entry) => middle - entry.time > 60 * 86400000).map((entry) => entry.file);
+      if (old.length) warnings.push(`다른 사진들보다 두 달 넘게 먼저 찍은 사진 ${old.length}장: 예전 사진이 섞이지 않았는지 확인하세요. (${listNames(old)})`);
+    }
+    if (future.length) warnings.push(`촬영 날짜가 오늘보다 뒤인 사진 ${future.length}장: 휴대폰 날짜 설정이 틀렸을 수 있습니다. (${listNames(future.map((entry) => entry.file))})`);
   }
 
   const byHash = new Map();
@@ -363,10 +371,26 @@ function analyse() {
   const gps = state.files.filter((file) => file.exif?.hasGps);
   const notes = [];
   if (gps.length) notes.push(`위치정보(GPS)가 들어 있는 사진 ${gps.length}장: 보관용 원본은 그대로 두고, 남에게 보낼 때는 위치정보를 지운 '보내기용 묶음'을 쓰세요.`);
+  const unshareable = state.files.filter(cannotStripLocation);
+  if (unshareable.length) notes.push(`영상이나 이 브라우저에서 열 수 없는 사진 ${unshareable.length}개는 위치정보를 지울 수 없어 '보내기용 묶음'에 넣지 않습니다: ${listNames(unshareable)}`);
   const unhashed = state.files.filter((file) => !file.hashed);
   if (unhashed.length) notes.push(`용량이 커서 파일 지문(SHA-256)을 계산하지 않은 파일 ${unhashed.length}개: ${listNames(unhashed)}`);
 
   return { counts, missingNeed, missingOptional, unassigned, warnings, notes };
+}
+
+function isHeic(file) {
+  return /^image\/hei[cf]/i.test(file.mime || "") || /^hei[cf]$/.test(extensionOf(file.name));
+}
+
+function isVideo(file) {
+  return /^video\//i.test(file.mime || "") || /^(mp4|mov|m4v|3gp|3g2|avi|mkv|webm|wmv)$/.test(extensionOf(file.name));
+}
+
+// Phone videos and photos the browser cannot re-encode (e.g. HEIC on a PC) may carry a
+// location the tool cannot remove, so they stay out of the share pack.
+function cannotStripLocation(file) {
+  return isVideo(file) || (file.isImage && !file.previewable);
 }
 
 function listNames(files) {
@@ -428,8 +452,8 @@ function renderLoose() {
 function fileCard(file) {
   const date = shotDate(file);
   const dateLine = file.exif?.date
-    ? `<span class="fc-date">촬영 ${escapeHtml(dateTimeLabel(date))}</span>`
-    : `<span class="fc-date warn">${file.isImage ? "촬영 정보 없음 · " : ""}파일 날짜 ${escapeHtml(dateTimeLabel(date))}</span>`;
+    ? `<span class="fc-date">촬영 <span class="nowrap">${escapeHtml(dateTimeLabel(date))}</span></span>`
+    : `<span class="fc-date warn">${file.isImage ? "촬영 정보 없음 · " : ""}파일 날짜 <span class="nowrap">${escapeHtml(dateTimeLabel(date))}</span></span>`;
   const size = file.info?.width ? ` · ${file.info.width}×${file.info.height}` : "";
   const thumb = file.thumbUrl
     ? `<img class="fc-thumb" src="${file.thumbUrl}" alt="" width="72" height="72" loading="lazy" />`
@@ -564,7 +588,11 @@ async function downloadShareZip() {
     const bytes = new Uint8Array(await output.blob.arrayBuffer());
     resized.set(file.id, { blob: output.blob, size: bytes.length, crc: crc32(bytes) });
   }
-  const planned = plannedNames((file) => (resized.has(file.id) ? "jpg" : null));
+  // Numbers stay the same as in the 보관용 묶음, so left-out files simply leave a gap.
+  const allPlanned = plannedNames((file) => (resized.has(file.id) ? "jpg" : null));
+  const planned = allPlanned.filter((entry) => !cannotStripLocation(entry.file));
+  const left = allPlanned.filter((entry) => cannotStripLocation(entry.file));
+  if (!planned.length) throw new Error("보내기용 묶음에 넣을 수 있는 파일이 없습니다. 영상과 이 브라우저에서 열 수 없는 사진은 위치정보를 지울 수 없어 넣지 않습니다.");
   const entries = [];
   for (const entry of planned) {
     const small = resized.get(entry.file.id);
@@ -574,10 +602,13 @@ async function downloadShareZip() {
         : { name: `${folder}/${entry.name}`, data: entry.file.blob, size: entry.file.size, crc: await ensureCrc(entry.file), date: shotDate(entry.file) }
     );
   }
-  entries.unshift(textEntry(`${folder}/00_목록.txt`, listText(planned, { share: true })));
+  entries.unshift(textEntry(`${folder}/00_목록.txt`, listText(planned, { share: true, left })));
   const zip = buildZip(entries);
   downloadBlob(zip, `${packBaseName()}_증빙묶음_보내기용.zip`);
-  setStatus(resultLine, `보내기용 묶음을 만들었습니다 (${formatBytes(zip.size)}). 사진 ${resized.size}장을 줄이고 촬영 정보를 지웠습니다. 보내기 전에 화면 속 이름·주소·번호가 보이지 않는지 확인하세요.`, "ok");
+  const leftNote = left.length ? ` 영상이나 열 수 없는 사진 ${left.length}개(${listNames(left.map((entry) => entry.file))})는 위치정보를 지울 수 없어 넣지 않았습니다. 꼭 보내야 하면 휴대폰의 공유 기능으로 위치정보를 끄고 따로 보내세요.` : "";
+  const docs = planned.filter((entry) => !resized.has(entry.file.id)).length;
+  const docNote = docs ? ` 서류 파일 ${docs}개는 원래 파일 그대로 들어 있으니 이름·계좌번호 등이 보이지 않는지 확인하세요.` : "";
+  setStatus(resultLine, `보내기용 묶음을 만들었습니다 (${formatBytes(zip.size)}). 사진 ${resized.size}장을 줄이고 위치정보 등 촬영 정보를 지웠습니다.${leftNote}${docNote} 보내기 전에 화면 속 이름·주소·번호가 보이지 않는지 확인하세요.`, left.length ? "warn" : "ok");
 }
 
 function missingBlobCheck() {
@@ -607,7 +638,7 @@ function listCsv(planned = plannedNames()) {
   ]);
 }
 
-function listText(planned = plannedNames(), { share = false } = {}) {
+function listText(planned = plannedNames(), { share = false, left = [] } = {}) {
   const p = preset();
   const result = analyse();
   const lines = [
@@ -630,6 +661,10 @@ function listText(planned = plannedNames(), { share = false } = {}) {
     if (!share) lines.push(`    SHA-256: ${row.sha256}`);
     if (row.memo) lines.push(`    메모: ${row.memo}`);
   });
+  if (left.length) {
+    lines.push("", "[이 묶음에 넣지 않은 파일]", "- 영상이나 이 브라우저에서 열 수 없는 사진은 위치정보를 지울 수 없어 넣지 않았습니다.");
+    left.forEach((entry) => lines.push(`${entry.number}. ${entry.name} (원래 이름: ${entry.file.name})`));
+  }
   lines.push(
     "",
     "[알아 둘 점]",
@@ -733,7 +768,8 @@ function coverCanvas(planned) {
   context.fillText("거래 증빙 사진", 90, y);
   y += 100;
   context.font = `400 30px ${FONT_STACK}`;
-  [`거래 종류: ${p.label}`, `거래 이름: ${tradeLabel()}`, `만든 날: ${dateTimeLabel(new Date())}`, `사진 ${planned.length}장 · 사진이 아닌 파일 ${state.files.length - planned.length}개는 이 PDF에 넣지 않았습니다`].forEach((line) => {
+  const skipped = state.files.length - planned.length;
+  [`거래 종류: ${p.label}`, `거래 이름: ${tradeLabel()}`, `만든 날: ${dateTimeLabel(new Date())}`, `사진 ${planned.length}장${skipped ? ` · 영상·서류 등 사진으로 보여 줄 수 없는 파일 ${skipped}개는 이 PDF에 넣지 않았습니다` : ""}`].forEach((line) => {
     wrapText(context, line, PAGE_W - 180).forEach((part) => {
       context.fillText(part, 90, y);
       y += 46;

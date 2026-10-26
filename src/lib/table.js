@@ -89,6 +89,7 @@ export async function readXlsxFirstSheet(buffer) {
   const sheetXml = await read(sheetPath);
   if (!sheetXml) throw new Error("엑셀의 첫 번째 시트를 찾지 못했습니다.");
   const shared = parseSharedStrings(await read("xl/sharedStrings.xml"), parser);
+  const dateStyles = parseDateStyles(await read("xl/styles.xml"), parser);
   const sheet = parser.parseFromString(sheetXml, "application/xml");
   const rows = [];
   for (const rowNode of sheet.getElementsByTagName("row")) {
@@ -103,6 +104,7 @@ export async function readXlsxFirstSheet(buffer) {
       if (type === "s") value = shared[Number(value)] ?? "";
       else if (type === "inlineStr") value = [...cellNode.getElementsByTagName("t")].map((node) => node.textContent).join("");
       else if (type === "b") value = value === "1" ? "TRUE" : "FALSE";
+      else if ((!type || type === "n") && value !== "" && dateStyles.has(Number(cellNode.getAttribute("s") || 0))) value = serialToDate(Number(value)) || value;
       cells[col] = String(value ?? "").trim();
     }
     rows[rowIndex] = Array.from(cells, (value) => value ?? "");
@@ -114,6 +116,33 @@ function parseSharedStrings(xml, parser) {
   if (!xml) return [];
   const doc = parser.parseFromString(xml, "application/xml");
   return [...doc.getElementsByTagName("si")].map((si) => [...si.getElementsByTagName("t")].map((node) => node.textContent).join(""));
+}
+
+// Excel stores dates as day numbers; a cell is a date when its style uses a date format.
+// Returns the set of cellXfs indexes that format dates.
+function parseDateStyles(xml, parser) {
+  const dates = new Set();
+  if (!xml) return dates;
+  const doc = parser.parseFromString(xml, "application/xml");
+  const custom = new Map([...doc.getElementsByTagName("numFmt")].map((node) => [Number(node.getAttribute("numFmtId")), node.getAttribute("formatCode") || ""]));
+  const builtinDate = (id) => (id >= 14 && id <= 22) || (id >= 27 && id <= 36) || (id >= 45 && id <= 47) || (id >= 50 && id <= 58);
+  const customDate = (code) => /[yd]/i.test(code.replace(/"[^"]*"|\[[^\]]*\]|\\./g, ""));
+  const cellXfs = doc.getElementsByTagName("cellXfs")[0];
+  if (!cellXfs) return dates;
+  [...cellXfs.getElementsByTagName("xf")].forEach((xf, index) => {
+    const id = Number(xf.getAttribute("numFmtId") || 0);
+    if (builtinDate(id) || (custom.has(id) && customDate(custom.get(id)))) dates.add(index);
+  });
+  return dates;
+}
+
+function serialToDate(serial) {
+  if (!Number.isFinite(serial) || serial < 1 || serial > 2958465) return "";
+  const date = new Date(Date.UTC(1899, 11, 30) + Math.round(serial * 86400) * 1000);
+  const pad = (value) => String(value).padStart(2, "0");
+  const day = `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}`;
+  const minutes = date.getUTCHours() * 60 + date.getUTCMinutes();
+  return minutes ? `${day} ${pad(date.getUTCHours())}:${pad(date.getUTCMinutes())}` : day;
 }
 
 function columnIndex(ref) {

@@ -110,7 +110,7 @@ function renderPreview() {
   const resize = Number($("#size").value);
   box.innerHTML = `
     ${noDate ? `<div class="notice warn"><p>촬영 정보가 없는 사진 ${noDate}장은 <strong>파일 저장 날짜</strong>로 정렬하고 이름을 붙였습니다. 메신저로 받았거나 캡처한 사진일 수 있으니 순서가 맞는지 확인하세요.</p></div>` : ""}
-    ${gps ? `<div class="notice"><p>위치정보가 들어 있는 사진 ${gps}장이 있습니다. ${resize ? "크기를 줄이면 위치정보가 지워집니다." : "원래 크기 그대로 받으면 위치정보도 그대로 남습니다. 남에게 보낼 사진이라면 크기 줄이기를 고르세요."}</p></div>` : ""}
+    ${gps ? `<div class="notice"><p>위치정보가 들어 있는 사진 ${gps}장이 있습니다. ${resize ? "크기를 줄이면 위치정보가 지워집니다(이 브라우저에서 열 수 없는 사진은 원본 그대로 들어가니 주의하세요)." : "원래 크기 그대로 받으면 위치정보도 그대로 남습니다. 남에게 보낼 사진이라면 크기 줄이기를 고르세요."}</p></div>` : ""}
     <div class="table-scroll"><table>
       <thead><tr><th scope="col">새 이름</th><th scope="col">원래 이름</th><th scope="col">찍은 날짜</th></tr></thead>
       <tbody>${rows
@@ -150,7 +150,7 @@ async function downloadZip() {
     const zip = buildZip(entries);
     downloadBlob(zip, `${ymd(new Date())}_사진_${rows.length}장.zip`);
     const kept = rows.filter((row) => row.kept).length;
-    setStatus(resultLine, `사진 ${rows.length}장을 묶었습니다 (${formatBytes(zip.size)}).${kept ? ` ${kept}장은 이 브라우저에서 열 수 없는 형식이라 줄이지 않고 그대로 넣었습니다.` : ""} 변경표(00_이름_변경표.csv)가 함께 들어 있습니다.`, kept ? "warn" : "ok");
+    setStatus(resultLine, `사진 ${rows.length}장을 묶었습니다 (${formatBytes(zip.size)}).${kept ? ` ${kept}장은 이 브라우저에서 열 수 없는 형식(HEIC 등)이라 줄이지 않고 원본 그대로 넣었습니다. 이 사진에는 위치정보가 남아 있을 수 있으니 남에게 보내지 마세요.` : ""} 변경표(00_이름_변경표.csv)가 함께 들어 있습니다.`, kept ? "warn" : "ok");
   } catch (error) {
     console.error(error);
     setStatus(resultLine, error.message || "묶음을 만들지 못했습니다. 사진 수를 줄여 다시 시도해 주세요.", "bad");

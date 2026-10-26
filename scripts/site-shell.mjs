@@ -4,7 +4,9 @@
 export const SITE = {
   name: "거래 증빙 도우미",
   base: "https://goatool.com",
-  cssVersion: "20261026",
+  // Bump cssVersion whenever public/css/site.css changes; iconVersion when the icons are redrawn.
+  cssVersion: "20261026-2",
+  iconVersion: "20261026",
   ogImage: "https://goatool.com/brand/goatool-og.png?v=20261026",
   logo: "https://goatool.com/brand/goatool-logo.png?v=20261026",
   operator: "제이 미디어(J MEDIA)",
@@ -25,9 +27,9 @@ const adsenseLoader = `<script>
 // Tags every page shares. Ads stay off error and utility-only pages (ads: false).
 export function commonHead({ ads = true } = {}) {
   return `<meta name="theme-color" content="#1f5da8" />
-    <link rel="icon" href="/favicon.ico?v=${SITE.cssVersion}" sizes="any" />
-    <link rel="icon" href="/favicon.png?v=${SITE.cssVersion}" type="image/png" />
-    <link rel="apple-touch-icon" href="/brand/goatool-apple-touch.png?v=${SITE.cssVersion}" />
+    <link rel="icon" href="/favicon.ico?v=${SITE.iconVersion}" sizes="any" />
+    <link rel="icon" href="/favicon.png?v=${SITE.iconVersion}" type="image/png" />
+    <link rel="apple-touch-icon" href="/brand/goatool-apple-touch.png?v=${SITE.iconVersion}" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="stylesheet" href="/css/site.css?v=${SITE.cssVersion}" />
     ${ads ? adsenseLoader : ""}`;
