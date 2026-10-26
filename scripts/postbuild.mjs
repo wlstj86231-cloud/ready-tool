@@ -4,6 +4,7 @@ import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "
 import { join, relative, sep } from "node:path";
 import { toolPages } from "../vite.config.js";
 import { retired } from "./retired-routes.mjs";
+import { ADSENSE_ACCOUNT, OPERATOR_LINE, ORG_ID } from "./site-shell.mjs";
 
 const root = join(import.meta.dirname, "..");
 const dist = join(root, "dist");
@@ -11,15 +12,13 @@ const base = "https://goatool.com";
 const SITE_UPDATED = "2026-10-26";
 
 // Pages whose lastmod is not read from their own JSON-LD.
+// The Mongolian pages (/mn/) are noindex and stay out of the sitemap: Mongolian is not an
+// AdSense-supported language, so they carry no ads and are kept only for Mongolian users.
+const infoPages = ["/about/", "/contact/", "/editorial/", "/corrections/", "/privacy/", "/terms/"];
+const mnPages = ["/mn/", "/mn/cashmere-evidence/", "/mn/tractor-evidence/"];
 const fixedLastmod = {
   "/": SITE_UPDATED,
-  "/about/": SITE_UPDATED,
-  "/privacy/": SITE_UPDATED,
-  "/terms/": SITE_UPDATED,
-  "/contact/": SITE_UPDATED,
-  "/mn/": "2026-09-24",
-  "/mn/cashmere-evidence/": "2026-09-25",
-  "/mn/tractor-evidence/": "2026-09-25",
+  ...Object.fromEntries(infoPages.map((path) => [path, SITE_UPDATED])),
   ...Object.fromEntries(toolPages.map((name) => [`/tools/${name}/`, SITE_UPDATED])),
 };
 
@@ -89,5 +88,42 @@ for (const file of htmlFiles) {
   }
 }
 if (broken.length) throw new Error(`broken internal links:\n${broken.join("\n")}`);
+
+// Trust checks on every sitemap page: footer operator line and policy links, AdSense account
+// meta, JSON-LD that parses and names the operator; guides and tools also need the meta block,
+// a source list and a 범위와 한계 note. Tool pages must not load ads.
+const problems = [];
+for (const [path] of urls) {
+  const html = readFileSync(join(dist, path, "index.html"), "utf8");
+  const need = (ok, what) => ok || problems.push(`${path}: ${what}`);
+  need(html.includes(OPERATOR_LINE), "footer operator line");
+  for (const link of ["/about/", "/contact/", "/editorial/", "/privacy/", "/terms/"]) need(html.includes(`href="${link}"`), `footer link ${link}`);
+  need(html.includes(`name="google-adsense-account" content="${ADSENSE_ACCOUNT}"`), "AdSense account meta");
+  need(!/name="robots" content="[^"]*noindex/.test(html), "noindex on a sitemap page");
+  const blocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => m[1]);
+  need(blocks.length > 0, "JSON-LD");
+  for (const block of blocks) {
+    try {
+      need(JSON.stringify(JSON.parse(block)).includes(ORG_ID), "JSON-LD without the operator @id");
+    } catch {
+      problems.push(`${path}: JSON-LD does not parse`);
+    }
+  }
+  const isGuide = path.startsWith("/agri/guides/") && path !== "/agri/guides/";
+  const isTool = path.startsWith("/tools/");
+  if (isGuide || isTool) {
+    need(html.includes('class="page-meta"') && html.includes("게시일") && html.includes("최종 확인일"), "meta block");
+    need(html.includes('id="sources"'), "출처 section");
+    need(html.includes("범위와 한계"), "범위와 한계 section");
+  }
+  if (isTool) need(!html.includes("adsbygoogle"), "ads on a tool page");
+}
+for (const path of mnPages) {
+  if (urls.some(([url]) => url === path)) problems.push(`${path}: Mongolian page listed in sitemap`);
+  const html = readFileSync(join(dist, path, "index.html"), "utf8");
+  if (!/name="robots" content="noindex/.test(html)) problems.push(`${path}: Mongolian page must be noindex`);
+  if (html.includes("adsbygoogle")) problems.push(`${path}: Mongolian page must not load ads`);
+}
+if (problems.length) throw new Error(`trust checks failed:\n${problems.join("\n")}`);
 
 console.log(`sitemap ${urls.length} urls, ${redirectLines.length} redirect rules, ${htmlFiles.length} html files link-checked`);
