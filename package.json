@@ -3,15 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "goatool browser tools for Korean public submission, job application files, PDFs, photo resizing, and cleanup.",
+  "description": "거래 증빙 도우미: browser-only tools and guides for farm trade evidence (used machinery photos, produce shipping, settlement tables).",
   "scripts": {
     "dev": "vite --host 127.0.0.1",
-    "build": "node scripts/generate-agri-guides.mjs && vite build && node scripts/postbuild.mjs && node scripts/add-agri.mjs",
+    "build": "node scripts/generate-agri-guides.mjs && node scripts/generate-info-pages.mjs && vite build && node scripts/postbuild.mjs",
     "preview": "vite preview --host 127.0.0.1"
   },
   "dependencies": {
-    "exceljs": "^4.4.0",
-    "jszip": "^3.10.1",
     "pdf-lib": "^1.17.1"
   },
   "devDependencies": {

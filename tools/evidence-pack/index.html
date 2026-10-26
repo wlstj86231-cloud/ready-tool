@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>거래 증빙 사진 묶음 만들기 - 거래 증빙 도우미</title>
+    <meta name="description" content="중고 농기계·농산물 출하·정산에 남길 사진과 서류 목록을 보며 항목별로 사진을 넣으면, 촬영 날짜를 읽어 이름을 붙이고 빠진 것을 알려 준 뒤 ZIP·점검표·사진 PDF로 묶어 줍니다." />
+    <link rel="canonical" href="https://goatool.com/tools/evidence-pack/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="거래 증빙 사진 묶음 만들기 - 거래 증빙 도우미" />
+    <meta property="og:description" content="남길 사진 목록을 보며 항목별로 넣으면 촬영 날짜로 이름을 붙이고 빠진 것을 알려 줍니다. 사진은 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/evidence-pack/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "거래 증빙 사진 묶음 만들기",
+        "url": "https://goatool.com/tools/evidence-pack/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "중고 농기계 사고팔기, 농산물 출하, 정산에 남길 사진·서류 목록에 맞춰 파일을 넣으면 촬영 날짜를 읽어 이름을 붙이고 빠진 항목을 알려 준 뒤 ZIP, 점검표, 사진 PDF로 묶습니다. 파일은 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:pack-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <span>증빙 묶음 만들기</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">핵심 도구</p>
+          <h1>거래 증빙 사진 묶음 만들기</h1>
+          <p class="lead">어떤 거래인지 고르면 남겨야 할 사진·서류 목록이 나옵니다. 항목마다 사진을 찍거나 골라 넣으면 촬영 날짜를 읽어 알아보기 쉬운 이름을 붙이고, 빠진 것을 알려 주고, 한 번에 내려받게 묶어 드립니다.</p>
+          <p class="privacy-line"><strong>사진은 이 기기 밖으로 나가지 않습니다.</strong> 모든 처리는 지금 쓰는 휴대폰·컴퓨터의 브라우저 안에서 합니다.</p>
+        </header>
+
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다. 브라우저 설정에서 자바스크립트를 켜 주세요.</p></noscript>
+
+        <div id="restore" class="notice" hidden></div>
+
+        <section class="tool-step" aria-labelledby="step1Title">
+          <h2 id="step1Title"><span class="step-no">1</span>어떤 거래인가요?</h2>
+          <div class="choice-grid" role="radiogroup" aria-label="거래 종류">
+            <label class="choice"><input type="radio" name="tradeType" value="machinery" checked /><span><strong>중고 농기계 사고팔기</strong><small>명판·차대번호·사용시간계·누유·인도 사진</small></span></label>
+            <label class="choice"><input type="radio" name="tradeType" value="produce" /><span><strong>농산물 보내기</strong><small>출하 전 상태·중량·포장·운송장</small></span></label>
+            <label class="choice"><input type="radio" name="tradeType" value="settlement" /><span><strong>정산·입금 정리</strong><small>정산표·주문·입금·비용 영수증</small></span></label>
+          </div>
+          <label class="field">
+            <span>거래 이름 <small>(파일 이름 앞에 붙습니다. 비워 두면 거래 종류로 붙입니다)</small></span>
+            <input id="tradeName" type="text" maxlength="30" autocomplete="off" placeholder="예: 트랙터판매" />
+          </label>
+          <p class="field-help">이름·전화번호 같은 개인정보는 넣지 마세요. 예: <code>트랙터판매</code>, <code>사과10kg출하</code>, <code>10월정산</code></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="step2Title">
+          <h2 id="step2Title"><span class="step-no">2</span>목록을 보며 사진·서류 넣기</h2>
+          <p id="presetIntro" class="step-intro"></p>
+          <p class="field-help">휴대폰에서는 <strong>사진 넣기</strong>를 누르면 바로 촬영하거나 앨범에서 고를 수 있습니다. 이미 모아 둔 사진이 많으면 아래 <strong>한꺼번에 넣기</strong>로 넣은 뒤 항목을 골라 주세요.</p>
+          <div id="checklist" class="checklist" aria-live="polite"></div>
+          <div class="bulk-box">
+            <h3>한꺼번에 넣기</h3>
+            <p>사진·영상·PDF·엑셀 등을 여러 개 고를 수 있습니다. 넣은 뒤 파일마다 어떤 항목인지 골라 주세요.</p>
+            <button type="button" class="btn" id="bulkAdd">여러 파일 한꺼번에 넣기</button>
+            <div id="loose" class="loose-files"></div>
+          </div>
+          <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+          <input id="fileInput" type="file" multiple hidden />
+        </section>
+
+        <section class="tool-step" aria-labelledby="step3Title">
+          <h2 id="step3Title"><span class="step-no">3</span>빠진 것 확인하고 내려받기</h2>
+          <div id="summary" class="summary"><p class="muted">사진이나 서류를 넣으면 여기에서 빠진 항목과 확인할 점을 알려 드립니다.</p></div>
+          <div class="download-list">
+            <div class="download-row">
+              <button type="button" class="btn primary" id="zipOriginal" disabled>보관용 묶음 받기 (원본 그대로, ZIP)</button>
+              <p>사진을 줄이지 않고 이름만 바꿔 묶습니다. 증빙 목록(TXT·CSV)이 함께 들어갑니다. <strong>나중을 위해 보관할 때 쓰세요.</strong></p>
+            </div>
+            <div class="download-row">
+              <button type="button" class="btn" id="zipShare" disabled>보내기용 묶음 받기 (사진 줄임, ZIP)</button>
+              <p>사진 긴 변을 1600픽셀로 줄이고 사진 속 위치정보 등 촬영 정보를 지운 사본입니다. 상대에게 보내거나 판매글에 올릴 때 쓰세요.</p>
+            </div>
+            <div class="download-row">
+              <button type="button" class="btn" id="printSheet" disabled>점검표 인쇄 · PDF로 저장</button>
+              <p>항목별 확인 결과와 파일 목록을 한 장으로 인쇄합니다. 인쇄 화면에서 <strong>PDF로 저장</strong>을 고르면 파일로 남습니다.</p>
+            </div>
+            <div class="download-row">
+              <button type="button" class="btn" id="photoPdf" disabled>사진 증빙 PDF 만들기</button>
+              <p>사진마다 한 쪽씩, 항목·촬영 날짜·원래 파일 이름을 아래에 적은 PDF를 만듭니다. 사진이 많으면 시간이 조금 걸립니다.</p>
+            </div>
+            <div class="download-row">
+              <button type="button" class="btn ghost" id="listTxt" disabled>증빙 목록만 받기 (TXT)</button>
+              <p>파일 이름·촬영 날짜·파일 지문(SHA-256)만 적은 글 파일입니다.</p>
+            </div>
+          </div>
+          <p id="result" class="status" role="status" aria-live="polite" hidden></p>
+          <div id="nextSteps" class="next-steps"></div>
+          <div class="clear-box">
+            <p>넣은 사진은 다음에 이어서 할 수 있게 <strong>이 기기의 브라우저 안에만</strong> 임시 저장됩니다. 다 끝났거나 여럿이 쓰는 컴퓨터라면 지워 주세요.</p>
+            <button type="button" class="btn ghost danger" id="clearAll">넣은 파일 모두 지우기</button>
+          </div>
+        </section>
+
+        <section class="explain" aria-labelledby="howTitle">
+          <h2 id="howTitle">이 도구가 하는 일과 하지 않는 일</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>촬영 날짜를 읽습니다</h3>
+              <p>휴대폰 카메라로 찍은 사진(JPG)에는 보통 찍은 날짜·시각이 <strong>촬영 정보(EXIF)</strong>로 함께 저장됩니다. 이 도구는 그 값을 읽어 파일 이름 앞에 붙이고 사진을 찍은 순서대로 정렬합니다. 촬영 정보가 없으면 파일이 저장된 날짜를 쓰고, 그렇다고 화면에 표시합니다.</p>
+            </article>
+            <article>
+              <h3>빠진 사진을 알려 줍니다</h3>
+              <p>거래 종류별로 꼭 남길 항목(필수)과 있으면 좋은 항목을 나눠 두었습니다. 필수 항목에 파일이 없으면 내려받기 전에 알려 주고, 같은 파일이 두 번 들어갔거나 글자가 읽히기엔 너무 작은 사진도 짚어 줍니다.</p>
+            </article>
+            <article>
+              <h3>파일 지문을 남깁니다</h3>
+              <p>목록에는 파일마다 <strong>SHA-256 값(파일 지문)</strong>이 적힙니다. 파일 내용이 조금이라도 바뀌면 지문이 달라지므로, 나중에 <a href="/tools/hash-compare/">같은 파일인지 확인</a> 도구로 지금 묶은 그 파일인지 대조할 수 있습니다.</p>
+            </article>
+            <article>
+              <h3>증명서를 대신하지는 않습니다</h3>
+              <p>촬영 정보는 휴대폰 시간 설정이나 편집으로 바뀔 수 있고, 파일 지문은 “같은 파일”인지만 알려 줍니다. 사진이 진짜인지, 누구 소유인지, 거래가 안전한지는 증명하지 못합니다. 계약서·입금 내역 같은 서류를 함께 남기세요.</p>
+            </article>
+          </div>
+
+          <h2>자주 묻는 질문</h2>
+          <div class="faq">
+            <details>
+              <summary>카카오톡으로 받은 사진은 날짜가 왜 안 나오나요?</summary>
+              <p>메신저나 SNS로 보내면서 사진이 줄어들 때 촬영 정보가 지워지는 경우가 많습니다. 이때는 파일이 저장된 날짜가 표시됩니다. 직접 찍은 원본 사진이 휴대폰 앨범에 있다면 그 원본을 넣어 주세요. 상대에게 받은 사진이라면 받은 날짜를 메모 칸에 적어 두면 좋습니다.</p>
+            </details>
+            <details>
+              <summary>아이폰 사진(HEIC)도 되나요?</summary>
+              <p>아이폰 사파리에서 앨범 사진을 고르면 보통 JPG로 바뀌어 넣어집니다. 컴퓨터에서 HEIC 파일을 직접 넣으면 미리보기와 크기 줄이기는 안 될 수 있지만, 파일은 이름을 붙여 보관용 묶음에 그대로 들어갑니다.</p>
+            </details>
+            <details>
+              <summary>영상도 넣을 수 있나요?</summary>
+              <p>네. 시동·작동 영상처럼 큰 파일도 이름을 붙여 보관용 묶음에 넣습니다. 200MB가 넘는 파일은 기기 메모리를 아끼기 위해 파일 지문(SHA-256)을 계산하지 않고 목록에 그렇게 적습니다.</p>
+            </details>
+            <details>
+              <summary>넣은 사진은 어디에 저장되나요?</summary>
+              <p>서버로는 보내지 않습니다. 다음에 이어서 할 수 있도록 이 기기 브라우저의 저장 공간에만 임시로 남깁니다. <strong>넣은 파일 모두 지우기</strong>를 누르거나 브라우저 사이트 데이터를 지우면 사라집니다.</p>
+            </details>
+            <details>
+              <summary>ZIP 파일은 어떻게 여나요?</summary>
+              <p>컴퓨터에서는 두 번 눌러 열거나 “압축 풀기”를 고르면 됩니다. 안드로이드 휴대폰은 “내 파일” 앱에서, 아이폰은 “파일” 앱에서 ZIP을 누르면 풀립니다.</p>
+            </details>
+          </div>
+
+          <h2>함께 읽으면 좋은 안내</h2>
+          <ul class="link-list">
+            <li><a href="/agri/guides/used-machinery-handover-files/">중고 농기계 사고팔 때 남길 사진·서류 체크리스트</a></li>
+            <li><a href="/agri/guides/produce-shipping-evidence/">농산물 보낼 때 남길 사진: 출하 전 상태·중량·포장·운송장</a></li>
+            <li><a href="/agri/guides/direct-sale-settlement-files/">직거래 정산표 만드는 법</a></li>
+            <li><a href="/agri/guides/photo-date-exif/">사진 촬영 날짜 확인하는 법과 한계</a></li>
+            <li><a href="/agri/guides/evidence-pack-final-checklist/">거래 마무리 전 최종 증빙 점검표</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <div id="printArea" class="print-area"></div>
+    <script type="module" src="/src/tools/evidence-pack.js"></script>
+  </body>
+</html>

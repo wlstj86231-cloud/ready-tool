@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>서류·사진 PDF 하나로 묶기 - 거래 증빙 도우미</title>
+    <meta name="description" content="계약서·정산서 PDF와 영수증·이체확인증 사진을 원하는 순서대로 한 PDF로 합칩니다. PDF마다 필요한 쪽만 고를 수 있고, 파일은 서버로 보내지 않고 브라우저에서 처리합니다." />
+    <link rel="canonical" href="https://goatool.com/tools/pdf-organizer/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="서류·사진 PDF 하나로 묶기 - 거래 증빙 도우미" />
+    <meta property="og:description" content="계약서 PDF와 영수증 사진을 순서대로 한 PDF로 합칩니다. 파일은 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/pdf-organizer/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "서류·사진 PDF 하나로 묶기",
+        "url": "https://goatool.com/tools/pdf-organizer/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "PDF 서류와 JPG·PNG 사진을 원하는 순서대로 한 PDF로 합치고, PDF마다 필요한 쪽만 골라 넣습니다. 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:tools-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/#tools">도구</a> <span aria-hidden="true">›</span> <span>PDF 하나로 묶기</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">서류 정리</p>
+          <h1>서류·사진 PDF 하나로 묶기</h1>
+          <p class="lead">매매 계약서 PDF, 정비 영수증 사진, 이체확인증 캡처처럼 흩어진 서류를 원하는 순서대로 한 PDF로 합칩니다. 긴 PDF에서는 필요한 쪽만 골라 넣을 수 있습니다.</p>
+          <p class="privacy-line"><strong>파일은 이 기기 밖으로 나가지 않습니다.</strong> 합치는 작업은 브라우저 안에서만 합니다.</p>
+        </header>
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다.</p></noscript>
+
+        <section class="tool-step" aria-labelledby="s1">
+          <h2 id="s1"><span class="step-no">1</span>PDF·사진 넣기</h2>
+          <button type="button" class="btn primary" id="pick">PDF·사진 고르기</button>
+          <input id="fileInput" type="file" accept="application/pdf,.pdf,image/jpeg,image/png,.jpg,.jpeg,.png" multiple hidden />
+          <p class="field-help">PDF와 JPG·PNG 사진을 섞어서 넣을 수 있습니다. 다시 고르면 목록 끝에 더해집니다.</p>
+          <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s2">
+          <h2 id="s2"><span class="step-no">2</span>순서와 쪽 고르기</h2>
+          <p class="field-help">▲▼ 버튼으로 순서를 바꿉니다. PDF는 <strong>넣을 쪽</strong> 칸에 <code>1-3, 5</code>처럼 적으면 그 쪽만 들어가고, 비워 두면 전부 들어갑니다.</p>
+          <ol id="list" class="order-list"></ol>
+          <label class="field"><span>사진 페이지</span>
+            <select id="imageFit">
+              <option value="a4">A4 용지에 맞추기 (여백 있음, 인쇄용 권장)</option>
+              <option value="native">사진 비율 그대로 한 쪽</option>
+            </select>
+          </label>
+          <label class="field"><span>만들 파일 이름</span><input id="outName" type="text" maxlength="60" autocomplete="off" /></label>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s3">
+          <h2 id="s3"><span class="step-no">3</span>PDF 만들기</h2>
+          <div class="btn-row">
+            <button type="button" class="btn primary" id="make" disabled>PDF 만들어 받기</button>
+            <button type="button" class="btn ghost danger" id="reset" disabled>목록 비우기</button>
+          </div>
+          <p id="result" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="explain" aria-labelledby="tipTitle">
+          <h2 id="tipTitle">알아 두면 좋은 점</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>순서는 이렇게 추천합니다</h3>
+              <p>계약서 → 입금(이체) 내역 → 정비·수리 기록 → 기타 영수증 순으로 묶으면 받는 사람이 흐름대로 읽기 쉽습니다. 정산 자료라면 정산표 → 위탁 정산서 → 비용 영수증 순이 보기 좋습니다.</p>
+            </article>
+            <article>
+              <h3>암호가 걸린 PDF</h3>
+              <p>은행·관공서에서 받은 PDF 중에는 암호가 걸려 합칠 수 없는 파일이 있습니다. 해당 PDF를 열어 인쇄 메뉴의 <strong>PDF로 저장</strong>으로 암호 없는 사본을 만든 뒤 넣어 보세요.</p>
+            </article>
+            <article>
+              <h3>사진은 줄여서 넣습니다</h3>
+              <p>사진은 긴 변 2000픽셀 정도로 줄여 PDF 용량을 줄입니다. 영수증 글자가 작다면 만든 PDF를 열어 확대해 읽히는지 확인하세요.</p>
+            </article>
+            <article>
+              <h3>만든 뒤 꼭 열어 보세요</h3>
+              <p>합친 PDF를 열어 쪽 순서, 방향, 빠진 쪽이 없는지 확인한 뒤 보내세요. 원래 파일은 바뀌지 않으니 그대로 보관하면 됩니다.</p>
+            </article>
+          </div>
+          <h2>함께 쓰면 좋은 도구</h2>
+          <ul class="link-list">
+            <li><a href="/tools/evidence-pack/">거래 증빙 사진 묶음 만들기 (사진마다 설명이 붙은 PDF)</a></li>
+            <li><a href="/tools/image-redactor/">사진 속 번호 가리기 (계좌번호·주소 가린 뒤 넣기)</a></li>
+            <li><a href="/agri/guides/evidence-pack-final-checklist/">거래 마무리 전 최종 증빙 점검표</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <script type="module" src="/src/tools/pdf-organizer.js"></script>
+  </body>
+</html>

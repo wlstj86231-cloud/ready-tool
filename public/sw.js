@@ -1,62 +1,13 @@
-const CACHE_NAME = "goatool-v7";
-const SHELL_URLS = [
-  "/",
-  "/guides/",
-  "/favicon.ico",
-  "/favicon.png",
-  "/brand/goatool-logo.png",
-  "/brand/goatool-icon-192.png",
-  "/brand/goatool-icon-512.png",
-  "/brand/goatool-og.png",
-  "/site.webmanifest"
-];
-
-self.addEventListener("install", (event) => {
-  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(SHELL_URLS)));
-  self.skipWaiting();
-});
+// The old single-page app registered a caching service worker. The rebuilt site does not use
+// one, so this version clears the old caches and unregisters itself for returning visitors.
+self.addEventListener("install", () => self.skipWaiting());
 
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))))
-      .then(() => self.clients.claim())
+    (async () => {
+      const keys = await caches.keys();
+      await Promise.all(keys.map((key) => caches.delete(key)));
+      await self.registration.unregister();
+    })()
   );
 });
-
-self.addEventListener("fetch", (event) => {
-  const request = event.request;
-  const url = new URL(request.url);
-  if (request.method !== "GET" || url.origin !== self.location.origin) return;
-
-  if (request.mode === "navigate") {
-    event.respondWith(networkFirst(request));
-    return;
-  }
-
-  event.respondWith(staleWhileRevalidate(request));
-});
-
-async function networkFirst(request) {
-  const cache = await caches.open(CACHE_NAME);
-  try {
-    const response = await fetch(request);
-    if (response.ok) cache.put(request, response.clone());
-    return response;
-  } catch {
-    return (await cache.match(request)) || (await cache.match("/"));
-  }
-}
-
-async function staleWhileRevalidate(request) {
-  const cache = await caches.open(CACHE_NAME);
-  const cached = await cache.match(request);
-  const fetched = fetch(request)
-    .then((response) => {
-      if (response.ok) cache.put(request, response.clone());
-      return response;
-    })
-    .catch(() => cached);
-  return cached || fetched;
-}

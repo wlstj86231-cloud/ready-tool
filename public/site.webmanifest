@@ -1,7 +1,7 @@
 {
   "name": "거래 증빙 도우미",
   "short_name": "거래증빙도우미",
-  "description": "제출 전 파일 준비, 이미지 개인정보 정리, CSV와 엑셀 정리를 돕는 공익형 도구 모음입니다.",
+  "description": "중고 농기계·농산물 거래에서 남길 사진과 서류를 브라우저 안에서 정리하는 도구입니다.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
@@ -10,17 +10,17 @@
   "lang": "ko-KR",
   "icons": [
     {
-      "src": "/brand/goatool-icon-192.png",
+      "src": "/brand/goatool-icon-192.png?v=20261026",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/brand/goatool-icon-512.png",
+      "src": "/brand/goatool-icon-512.png?v=20261026",
       "sizes": "512x512",
       "type": "image/png"
     },
     {
-      "src": "/brand/goatool-maskable-512.png",
+      "src": "/brand/goatool-maskable-512.png?v=20261026",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"

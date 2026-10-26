@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>사진 날짜순 이름 바꾸기·용량 줄이기 - 거래 증빙 도우미</title>
+    <meta name="description" content="여러 사진의 촬영 날짜(EXIF)를 읽어 찍은 순서대로 정렬하고 '날짜_이름_번호' 규칙으로 이름을 바꿉니다. 보내기 좋게 크기를 줄이고 위치정보를 지운 사본도 ZIP으로 받을 수 있습니다." />
+    <link rel="canonical" href="https://goatool.com/tools/photo-rename/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="사진 날짜순 이름 바꾸기·용량 줄이기 - 거래 증빙 도우미" />
+    <meta property="og:description" content="촬영 날짜순으로 사진 이름을 한 번에 바꾸고, 보내기 좋게 줄인 사본을 만듭니다. 사진은 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/photo-rename/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "사진 날짜순 이름 바꾸기·용량 줄이기",
+        "url": "https://goatool.com/tools/photo-rename/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "사진의 촬영 날짜를 읽어 찍은 순서대로 정렬하고 규칙에 맞춰 이름을 바꾼 뒤, 원래 크기 또는 줄인 사본을 ZIP으로 내려받습니다. 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:tools-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/#tools">도구</a> <span aria-hidden="true">›</span> <span>사진 이름 바꾸기·줄이기</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">사진 정리</p>
+          <h1>사진 날짜순 이름 바꾸기·용량 줄이기</h1>
+          <p class="lead">휴대폰에서 옮긴 <code>IMG_2041.jpg</code> 같은 사진들을 찍은 순서대로 늘어놓고, <code>2026-10-20_트랙터_01.jpg</code>처럼 한 번에 이름을 바꿉니다. 문자나 메신저로 보내기 좋게 크기를 줄인 사본도 만들 수 있습니다.</p>
+          <p class="privacy-line"><strong>사진은 이 기기 밖으로 나가지 않습니다.</strong> 원래 사진 파일은 바뀌지 않고, 이름을 바꾼 사본을 새로 내려받습니다.</p>
+        </header>
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다.</p></noscript>
+
+        <section class="tool-step" aria-labelledby="s1">
+          <h2 id="s1"><span class="step-no">1</span>사진 고르기</h2>
+          <button type="button" class="btn primary" id="pick">사진 여러 장 고르기</button>
+          <input id="photoInput" type="file" accept="image/*" multiple hidden />
+          <p class="field-help">한 번에 200장까지 넣을 수 있습니다. 다시 고르면 목록에 더해집니다.</p>
+          <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s2">
+          <h2 id="s2"><span class="step-no">2</span>이름 규칙 정하기</h2>
+          <label class="field"><span>앞에 붙일 이름 <small>(예: 트랙터, 사과출하. 비워 두면 날짜와 번호만)</small></span><input id="label" type="text" maxlength="30" autocomplete="off" placeholder="예: 트랙터" /></label>
+          <label class="field"><span>날짜 모양</span>
+            <select id="dateStyle">
+              <option value="dash">2026-10-20 (날짜)</option>
+              <option value="compact">20261020 (붙여 쓰기)</option>
+              <option value="time">2026-10-20_1432 (날짜와 시각)</option>
+              <option value="none">날짜 넣지 않기</option>
+            </select>
+          </label>
+          <label class="field"><span>순서</span>
+            <select id="order">
+              <option value="shot">찍은 시간순 (촬영 정보 기준)</option>
+              <option value="picked">고른 순서 그대로</option>
+              <option value="name">원래 파일 이름순</option>
+            </select>
+          </label>
+          <label class="field"><span>사진 크기</span>
+            <select id="size">
+              <option value="0">원래 크기 그대로 (이름만 바꾸기)</option>
+              <option value="2048">긴 변 2048픽셀로 줄이기</option>
+              <option value="1600" selected>긴 변 1600픽셀로 줄이기 (보내기용 권장)</option>
+              <option value="1280">긴 변 1280픽셀로 줄이기 (더 작게)</option>
+            </select>
+          </label>
+          <p class="field-help">크기를 줄이면 사진을 새로 저장하므로 사진 속 촬영 정보(위치정보 포함)가 지워집니다. 찍은 날짜는 새 파일 이름과 변경표에 남습니다. <strong>증빙으로 보관할 원본은 따로 두세요.</strong></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s3">
+          <h2 id="s3"><span class="step-no">3</span>확인하고 내려받기</h2>
+          <div id="preview"><p class="muted">사진을 고르면 바뀔 이름을 여기서 미리 보여 드립니다.</p></div>
+          <div class="btn-row">
+            <button type="button" class="btn primary" id="download" disabled>이름 바꾼 사진 받기 (ZIP)</button>
+            <button type="button" class="btn ghost" id="mapCsv" disabled>변경표만 받기 (CSV)</button>
+            <button type="button" class="btn ghost danger" id="reset" disabled>목록 비우기</button>
+          </div>
+          <p id="result" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="explain" aria-labelledby="aboutTitle">
+          <h2 id="aboutTitle">알아 두면 좋은 점</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>찍은 날짜는 어디서 읽나요?</h3>
+              <p>휴대폰 카메라 사진(JPG)에 함께 저장되는 촬영 정보(EXIF)의 “찍은 날짜·시각”을 읽습니다. 촬영 정보가 없는 사진(메신저로 받은 사진, 캡처 화면, PNG 등)은 파일이 저장된 날짜를 쓰고 목록에 <strong>파일 날짜</strong>라고 표시합니다.</p>
+            </article>
+            <article>
+              <h3>원래 사진은 그대로입니다</h3>
+              <p>이 도구는 원래 파일의 이름을 직접 바꾸지 않습니다. 새 이름이 붙은 사본을 ZIP으로 받고, 어떤 파일이 어떤 이름이 되었는지 변경표(CSV)에 남깁니다.</p>
+            </article>
+            <article>
+              <h3>얼마나 줄이면 되나요?</h3>
+              <p>휴대폰 화면이나 판매글에서 보기에는 긴 변 1600픽셀이면 충분한 경우가 많습니다. 명판·계기판처럼 작은 글자가 중요한 사진은 줄인 뒤 확대해서 글자가 읽히는지 꼭 확인하세요.</p>
+            </article>
+            <article>
+              <h3>항목별로 정리하려면</h3>
+              <p>명판·사용시간계·누유처럼 항목별로 이름을 붙이고 빠진 사진까지 확인하려면 <a href="/tools/evidence-pack/">거래 증빙 사진 묶음 만들기</a>를 쓰세요.</p>
+            </article>
+          </div>
+          <h2>함께 읽으면 좋은 안내</h2>
+          <ul class="link-list">
+            <li><a href="/agri/guides/photo-date-exif/">사진 촬영 날짜 확인하는 법과 한계</a></li>
+            <li><a href="/agri/guides/listing-photo-files/">판매글 사진 순번·원본·공개본 묶기</a></li>
+            <li><a href="/agri/guides/machinery-listing-files/">중고 농기계 판매글 사진 순서</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <script type="module" src="/src/tools/photo-rename.js"></script>
+  </body>
+</html>

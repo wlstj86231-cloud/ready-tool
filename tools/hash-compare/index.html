@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>같은 파일인지 확인 (파일 지문 대조) - 거래 증빙 도우미</title>
+    <meta name="description" content="SHA-256 파일 지문으로 두 파일이 완전히 같은지, 또는 예전에 만든 증빙 목록과 지금 가진 사진·서류가 같은 파일인지 대조합니다. 파일은 서버로 보내지 않습니다." />
+    <link rel="canonical" href="https://goatool.com/tools/hash-compare/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="같은 파일인지 확인 (파일 지문 대조) - 거래 증빙 도우미" />
+    <meta property="og:description" content="파일 지문(SHA-256)으로 예전에 묶은 증빙과 지금 가진 파일이 같은지 대조합니다. 파일은 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/hash-compare/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "같은 파일인지 확인 (파일 지문 대조)",
+        "url": "https://goatool.com/tools/hash-compare/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "SHA-256 값으로 두 파일이 같은지, 증빙 목록에 적힌 파일과 지금 가진 파일이 같은지 대조합니다. 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:tools-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/#tools">도구</a> <span aria-hidden="true">›</span> <span>같은 파일인지 확인</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">나중에 대조하기</p>
+          <h1>같은 파일인지 확인</h1>
+          <p class="lead">파일마다 내용으로 계산한 <strong>파일 지문(SHA-256)</strong>이 있습니다. 내용이 한 글자, 한 점이라도 바뀌면 지문이 완전히 달라집니다. 예전에 묶어 둔 증빙과 지금 가진 파일이 같은 파일인지 확인할 때 씁니다.</p>
+          <p class="privacy-line"><strong>파일은 이 기기 밖으로 나가지 않습니다.</strong> 지문 계산은 브라우저 안에서만 합니다.</p>
+        </header>
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다.</p></noscript>
+
+        <section class="tool-step" aria-labelledby="m1">
+          <h2 id="m1"><span class="step-no">A</span>증빙 목록과 대조하기</h2>
+          <p><a href="/tools/evidence-pack/">거래 증빙 사진 묶음 만들기</a>에서 받은 <code>00_증빙목록.csv</code>(또는 TXT)를 넣고, 지금 가진 사진·서류를 넣으면 목록의 어떤 파일과 같은지 알려 드립니다.</p>
+          <div class="btn-row">
+            <button type="button" class="btn" id="pickList">① 증빙 목록 넣기</button>
+            <button type="button" class="btn" id="pickFiles">② 확인할 파일 넣기</button>
+          </div>
+          <input id="listInput" type="file" accept=".csv,.txt,text/csv,text/plain" hidden />
+          <input id="filesInput" type="file" multiple hidden />
+          <p id="listStatus" class="status" role="status" aria-live="polite" hidden></p>
+          <div id="listResult"></div>
+        </section>
+
+        <section class="tool-step" aria-labelledby="m2">
+          <h2 id="m2"><span class="step-no">B</span>두 파일 비교하기</h2>
+          <p>보낸 파일과 받은 파일, 휴대폰의 원본과 컴퓨터의 사본처럼 두 파일이 완전히 같은지 봅니다.</p>
+          <div class="btn-row">
+            <button type="button" class="btn" id="pickA">첫 번째 파일</button>
+            <button type="button" class="btn" id="pickB">두 번째 파일</button>
+          </div>
+          <input id="inputA" type="file" hidden />
+          <input id="inputB" type="file" hidden />
+          <div id="pairResult" class="compare-result" aria-live="polite"></div>
+        </section>
+
+        <section class="explain" aria-labelledby="meanTitle">
+          <h2 id="meanTitle">결과를 이렇게 읽으세요</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>지문이 같으면</h3>
+              <p>두 파일의 내용이 완전히 같다는 뜻입니다. 파일 이름이나 저장된 날짜가 달라도 내용이 같으면 지문은 같습니다.</p>
+            </article>
+            <article>
+              <h3>지문이 다르면</h3>
+              <p>내용이 조금이라도 다릅니다. 사진을 메신저로 보내거나 크기를 줄이거나 편집하면 새 파일이 되어 지문이 달라집니다. 그래서 <strong>원본을 따로 보관</strong>하는 것이 중요합니다.</p>
+            </article>
+            <article>
+              <h3>지문이 증명하지 않는 것</h3>
+              <p>지문은 "같은 파일인지"만 알려 줍니다. 사진을 언제 찍었는지, 사진 속 내용이 사실인지, 누가 만들었는지는 알려 주지 않습니다.</p>
+            </article>
+            <article>
+              <h3>목록은 따로 보관하세요</h3>
+              <p>증빙 목록 파일을 묶음과 다른 곳(이메일로 자신에게 보내기, 다른 저장장치 등)에도 두면, 나중에 목록과 파일을 대조할 때 믿을 만한 기준이 됩니다.</p>
+            </article>
+          </div>
+          <h2>함께 읽으면 좋은 안내</h2>
+          <ul class="link-list">
+            <li><a href="/agri/guides/evidence-pack-final-checklist/">거래 마무리 전 최종 증빙 점검표</a></li>
+            <li><a href="/agri/guides/photo-date-exif/">사진 촬영 날짜 확인하는 법과 한계</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <script type="module" src="/src/tools/hash-compare.js"></script>
+  </body>
+</html>

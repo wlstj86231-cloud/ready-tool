@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>사진 속 번호 가리기 - 거래 증빙 도우미</title>
+    <meta name="description" content="운송장 이름·주소·전화번호, 통장 계좌번호, 농기계 제조번호 뒷자리처럼 남에게 보이면 안 되는 부분을 손가락으로 끌어 검은 상자로 가린 사진 사본을 만듭니다. 사진은 서버로 보내지 않습니다." />
+    <link rel="canonical" href="https://goatool.com/tools/image-redactor/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="사진 속 번호 가리기 - 거래 증빙 도우미" />
+    <meta property="og:description" content="운송장 주소·전화번호, 계좌번호, 제조번호 뒷자리를 검은 상자로 가린 사본을 만듭니다. 사진은 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/image-redactor/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "사진 속 번호 가리기",
+        "url": "https://goatool.com/tools/image-redactor/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "사진에서 개인정보가 보이는 부분을 검은 상자로 가리고 촬영 정보를 지운 JPG 사본을 만듭니다. 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:tools-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/#tools">도구</a> <span aria-hidden="true">›</span> <span>사진 속 번호 가리기</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">공개 전 확인</p>
+          <h1>사진 속 번호 가리기</h1>
+          <p class="lead">판매글이나 단체방에 사진을 올리기 전에, 남에게 보이면 안 되는 번호와 주소를 검은 상자로 가린 사본을 만듭니다. 원래 사진은 그대로 두고 가린 사본만 새로 저장합니다.</p>
+          <p class="privacy-line"><strong>사진은 이 기기 밖으로 나가지 않습니다.</strong> 가리는 작업은 브라우저 안에서만 합니다.</p>
+        </header>
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다.</p></noscript>
+
+        <section class="tool-step" aria-labelledby="s1">
+          <h2 id="s1"><span class="step-no">1</span>사진 고르기</h2>
+          <button type="button" class="btn primary" id="pick">가릴 사진 고르기</button>
+          <input id="fileInput" type="file" accept="image/*" hidden />
+          <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s2">
+          <h2 id="s2"><span class="step-no">2</span>가릴 곳을 끌어서 칠하기</h2>
+          <p class="field-help">가릴 부분의 한쪽 모서리에서 반대쪽 모서리까지 손가락(또는 마우스)으로 끌면 검은 상자가 생깁니다. 글자보다 넉넉하게 덮으세요.</p>
+          <div class="canvas-wrap" id="canvasWrap" hidden><canvas id="canvas" aria-label="가릴 영역을 끌어서 표시하는 사진 화면"></canvas></div>
+          <div class="btn-row">
+            <button type="button" class="btn ghost" id="undo" disabled>마지막 상자 지우기</button>
+            <button type="button" class="btn ghost" id="clearBoxes" disabled>상자 모두 지우기</button>
+          </div>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s3">
+          <h2 id="s3"><span class="step-no">3</span>가린 사본 저장하기</h2>
+          <button type="button" class="btn primary" id="save" disabled>가린 사진 저장 (JPG)</button>
+          <p class="field-help">저장한 사진은 촬영 정보(위치정보 포함)가 지워진 새 JPG입니다. 저장한 뒤 사진을 크게 열어 가린 글자가 정말 안 보이는지 확인하세요.</p>
+          <p id="result" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="explain" aria-labelledby="whatTitle">
+          <h2 id="whatTitle">공개하기 전에 가릴 것</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>운송장</h3>
+              <p>받는 사람·보내는 사람 이름, 주소, 전화번호. 배송 조회에 필요한 송장번호는 거래 상대에게만 따로 알려 주세요.</p>
+            </article>
+            <article>
+              <h3>입금·계좌 화면</h3>
+              <p>계좌번호, 잔액, 다른 거래 내역. 입금 날짜와 금액, 보낸 사람처럼 확인에 필요한 부분만 남깁니다.</p>
+            </article>
+            <article>
+              <h3>농기계 명판·서류</h3>
+              <p>판매글에 올리는 명판 사진은 형식명은 보이게 두고 제조번호 뒷자리를 가리는 편이 안전합니다. 구매자가 실물 확인 때 원본과 대조하면 됩니다.</p>
+            </article>
+            <article>
+              <h3>사진 속 배경</h3>
+              <p>집 주소가 적힌 문패, 차량 번호판, 가족 얼굴, 달력의 메모처럼 무심코 찍힌 것도 한 번 더 살펴보세요.</p>
+            </article>
+          </div>
+          <div class="notice warn">
+            <p><strong>모자이크·흐림 대신 검은 상자를 씁니다.</strong> 흐리게 만든 글자는 확대하거나 보정하면 다시 읽히는 경우가 있어, 완전히 덮는 방식이 더 안전합니다.</p>
+          </div>
+          <h2>함께 쓰면 좋은 도구</h2>
+          <ul class="link-list">
+            <li><a href="/tools/evidence-pack/">거래 증빙 사진 묶음 만들기</a></li>
+            <li><a href="/tools/photo-rename/">사진 날짜순 이름 바꾸기·용량 줄이기</a></li>
+            <li><a href="/agri/guides/machinery-listing-files/">중고 농기계 판매글 사진 순서</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <script type="module" src="/src/tools/image-redactor.js"></script>
+  </body>
+</html>

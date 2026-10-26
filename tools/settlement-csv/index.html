@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>직거래 정산표 점검·서식 내려받기 - 거래 증빙 도우미</title>
+    <meta name="description" content="농산물 직거래 정산표(CSV·엑셀)를 넣으면 수량×단가와 판매금액, 받을 돈과 실제 입금액 차이, 빈 칸·중복 줄, 연락처·계좌번호가 든 열을 찾아 줍니다. 빈 정산표 서식도 받을 수 있습니다." />
+    <link rel="canonical" href="https://goatool.com/tools/settlement-csv/" />
+    <!--site:common-->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="거래 증빙 도우미" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:title" content="직거래 정산표 점검·서식 내려받기 - 거래 증빙 도우미" />
+    <meta property="og:description" content="정산표의 계산 실수, 덜 들어온 입금, 빈 칸과 중복을 찾습니다. 표는 서버로 보내지 않습니다." />
+    <meta property="og:url" content="https://goatool.com/tools/settlement-csv/" />
+    <meta property="og:image" content="https://goatool.com/brand/goatool-og.png?v=20261026" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "직거래 정산표 점검",
+        "url": "https://goatool.com/tools/settlement-csv/",
+        "applicationCategory": "UtilitiesApplication",
+        "operatingSystem": "웹 브라우저",
+        "inLanguage": "ko-KR",
+        "description": "CSV·엑셀 정산표에서 수량×단가와 판매금액 차이, 받을 금액과 입금액 차이, 빈 칸, 중복 줄, 개인정보가 든 열을 찾고 결과 CSV와 공유용 CSV를 만듭니다. 브라우저 안에서만 처리합니다.",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" },
+        "isAccessibleForFree": true,
+        "publisher": { "@type": "Organization", "name": "제이 미디어(J MEDIA)", "url": "https://jnewmedia.com/" }
+      }
+    </script>
+  </head>
+  <body>
+    <!--site:header:tools-->
+    <main id="main" class="page" tabindex="-1">
+      <div class="wrap">
+        <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/#tools">도구</a> <span aria-hidden="true">›</span> <span>정산표 점검</span></nav>
+        <header class="page-head">
+          <p class="eyebrow">정산</p>
+          <h1>직거래 정산표 점검</h1>
+          <p class="lead">판매가 쌓이면 "얼마가 들어왔어야 하는데 얼마가 들어왔는지"가 흐려집니다. 정산표를 넣으면 계산이 틀린 줄, 덜 들어오거나 아직 안 들어온 돈, 빈 칸과 중복 줄을 찾아 드립니다.</p>
+          <p class="privacy-line"><strong>표는 이 기기 밖으로 나가지 않습니다.</strong> 계산과 점검은 브라우저 안에서만 합니다.</p>
+        </header>
+        <noscript><p class="notice warn">이 도구는 자바스크립트가 켜져 있어야 작동합니다.</p></noscript>
+
+        <section class="tool-step" aria-labelledby="s0">
+          <h2 id="s0"><span class="step-no">1</span>정산표가 없다면 서식부터</h2>
+          <p>엑셀에서 바로 열리는 CSV 서식입니다. 한 줄에 거래 하나씩 적습니다.</p>
+          <div class="btn-row">
+            <button type="button" class="btn" id="blankTemplate">빈 정산표 서식 받기</button>
+            <button type="button" class="btn ghost" id="exampleTemplate">예시가 든 서식 받기</button>
+          </div>
+          <details class="faq">
+            <summary>열마다 무엇을 적나요?</summary>
+            <div class="table-scroll"><table>
+              <thead><tr><th scope="col">열</th><th scope="col">적는 내용</th></tr></thead>
+              <tbody>
+                <tr><td>날짜</td><td>주문 또는 보낸 날짜 (예: 2026-10-20)</td></tr>
+                <tr><td>구매자(별칭)</td><td>이름 대신 별칭이나 주문번호. 전화번호·주소는 따로 보관하세요.</td></tr>
+                <tr><td>품목 · 규격</td><td>예: 사과(홍로) · 10kg 상자</td></tr>
+                <tr><td>수량 · 단가</td><td>숫자만. 단가는 상자(개)당 가격</td></tr>
+                <tr><td>판매금액</td><td>수량 × 단가</td></tr>
+                <tr><td>배송비</td><td>구매자에게 받은 배송비. 판매자가 냈다면 0으로 두고 메모에 적기</td></tr>
+                <tr><td>수수료·공제</td><td>결제·위탁 수수료, 환불·반품으로 빠진 돈</td></tr>
+                <tr><td>받을 금액</td><td>판매금액 + 배송비 − 수수료·공제</td></tr>
+                <tr><td>입금일 · 입금액</td><td>통장에 실제로 들어온 날짜와 금액</td></tr>
+                <tr><td>운송장번호 · 메모</td><td>배송 확인용 번호, 특이 사항</td></tr>
+              </tbody>
+            </table></div>
+          </details>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s1">
+          <h2 id="s1"><span class="step-no">2</span>정산표 넣기</h2>
+          <button type="button" class="btn primary" id="pick">정산표 파일 고르기 (CSV·엑셀)</button>
+          <input id="fileInput" type="file" accept=".csv,.tsv,.txt,.xlsx,text/csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" hidden />
+          <details class="faq">
+            <summary>엑셀에서 복사해 붙여넣기</summary>
+            <label class="field"><span>제목 줄(날짜·품목·수량…)부터 표를 통째로 복사해 붙여넣으세요.</span><textarea id="paste" spellcheck="false"></textarea></label>
+            <button type="button" class="btn" id="usePaste">붙여넣은 표 점검하기</button>
+          </details>
+          <p class="field-help">엑셀 파일(.xlsx)은 첫 번째 시트를 읽습니다. 오래된 .xls 파일은 엑셀에서 "다른 이름으로 저장 → CSV"로 바꿔 넣어 주세요.</p>
+          <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+        </section>
+
+        <section class="tool-step" aria-labelledby="s2">
+          <h2 id="s2"><span class="step-no">3</span>열 확인과 점검 결과</h2>
+          <div id="mapping"></div>
+          <div id="report"><p class="muted">정산표를 넣으면 여기에 결과가 나옵니다.</p></div>
+          <div class="btn-row">
+            <button type="button" class="btn primary" id="resultCsv" disabled>점검 결과 CSV 받기</button>
+            <button type="button" class="btn ghost" id="shareCsv" disabled>공유용 CSV 받기 (연락처·계좌 열 빼기)</button>
+          </div>
+        </section>
+
+        <section class="explain" aria-labelledby="knowTitle">
+          <h2 id="knowTitle">알아 두면 좋은 점</h2>
+          <div class="explain-grid">
+            <article>
+              <h3>무엇을 계산하나요?</h3>
+              <p>줄마다 <strong>수량 × 단가 = 판매금액</strong>인지, <strong>판매금액 + 배송비 − 수수료·공제 = 받을 금액</strong>인지, 받을 금액과 <strong>입금액</strong>이 같은지 봅니다. 1원 이하 차이는 같은 것으로 봅니다.</p>
+            </article>
+            <article>
+              <h3>원본은 바뀌지 않습니다</h3>
+              <p>넣은 파일은 고치지 않습니다. 결과 CSV에는 원래 열 뒤에 계산값과 "확인할 점" 열이 붙습니다. 고칠 곳을 찾은 뒤 원래 엑셀 파일에서 직접 고치세요.</p>
+            </article>
+            <article>
+              <h3>배송비를 누가 냈는지</h3>
+              <p>판매자가 택배비를 냈다면 배송비 열은 0으로 두고, 택배비는 비용 영수증으로 따로 남기세요. 받을 금액과 비용이 섞이면 입금 대조가 어려워집니다.</p>
+            </article>
+            <article>
+              <h3>개인정보는 따로</h3>
+              <p>전화번호·주소·계좌번호는 정산표와 다른 파일에 두는 편이 안전합니다. 표에서 그런 값이 보이면 열 이름과 함께 알려 드리고, 공유용 CSV에서는 그 열을 뺍니다.</p>
+            </article>
+          </div>
+          <h2>함께 보면 좋은 안내</h2>
+          <ul class="link-list">
+            <li><a href="/agri/guides/direct-sale-settlement-files/">직거래 정산표 만드는 법</a></li>
+            <li><a href="/agri/guides/pack-unit-kg-files/">출하 정산표에서 망·단·상자를 kg 열로 맞추는 법</a></li>
+            <li><a href="/tools/evidence-pack/?type=settlement">정산 자료 묶음 만들기 (정산표·입금·영수증)</a></li>
+          </ul>
+        </section>
+      </div>
+    </main>
+    <!--site:footer-->
+    <script type="module" src="/src/tools/settlement-csv.js"></script>
+  </body>
+</html>
