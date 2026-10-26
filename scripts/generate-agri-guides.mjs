@@ -276,7 +276,7 @@ const guides = [
 
       <section id="preparation-method">
         <h2>작성 방법과 파일 처리 범위</h2>
-        <p>안내 작성·수정 책임: 거래 증빙 도우미 운영자(${SITE.operator}). 정산표 점검·사진 이름 바꾸기·증빙 묶음 도구의 처리 범위에 맞춰 순서를 설명합니다. 예시 숫자와 파일명은 설명용이며 실제 고객·거래의 자료가 아닙니다.</p>
+        <p>안내 작성·수정 책임: 거래 증빙 도우미 운영자, ${SITE.operator}. 정산표 점검·사진 이름 바꾸기·증빙 묶음 도구의 처리 범위에 맞춰 순서를 설명합니다. 예시 숫자와 파일명은 설명용이며 실제 고객·거래의 자료가 아닙니다.</p>
         <p>연결한 도구는 선택한 파일을 지금 쓰는 브라우저에서 읽고 결과 파일을 만듭니다. 파일 원본과 표 내용은 서버로 보내거나 보관하지 않습니다. 광고 등 외부 리소스의 처리는 <a href="/privacy/">개인정보 처리방침</a>에서 구분합니다.</p>
         <p>정산표, 파일명, 파일 지문은 자료 정리를 돕습니다. 거래 사실이나 금액을 증명하는 공식 서류가 되지는 않습니다.</p>
         <h3>수정 기록</h3>
@@ -290,7 +290,7 @@ const guides = [
     ],
     related: ["pack-unit-kg-files", "produce-shipping-evidence", "evidence-pack-final-checklist"],
     boribayNext: {
-      text: "가격과 포장 기준을 정하거나 위탁 판매 정산을 미리 따져 보려면 보리장터 안내를 참고하세요. 보리장터는 같은 운영사의 지역 직거래 장터입니다.",
+      text: "가격과 포장 기준을 정하거나 위탁 판매 정산을 미리 따져 보려면 보리장터 안내를 참고하세요.",
       href: boribay("/guides/produce-direct-sale-pricing-packaging", "guide-settlement"),
       label: "농산물 직거래 포장과 가격 정하기",
       extra: [
@@ -638,7 +638,7 @@ function renderGuide(guide) {
             <p class="eyebrow">${escapeHtml(groups.find((group) => group.id === guide.group).label)}</p>
             <h1>${escapeHtml(guide.title)}</h1>
             <p class="lead">${escapeHtml(guide.description)}</p>
-            <p class="article-meta">작성·관리: ${SITE.name} 운영자(${SITE.operator}) · 최종 수정 <time datetime="${guide.modified}">${guide.modified}</time></p>
+            <p class="article-meta">작성·관리: ${SITE.name} 운영자, ${SITE.operator} · 최종 수정 <time datetime="${guide.modified}">${guide.modified}</time></p>
           </header>
           ${guide.intro.map((text) => `<p>${escapeHtml(text)}</p>`).join("")}
           ${toolHtml}
