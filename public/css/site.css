@@ -937,6 +937,10 @@ tr.row-warn td {
   font-size: 2rem;
 }
 
+.wide-only {
+  display: none;
+}
+
 .hero .lead {
   max-width: 44em;
 }
@@ -1228,6 +1232,10 @@ tr.row-warn td {
 }
 
 @media (min-width: 640px) {
+  .wide-only {
+    display: inline;
+  }
+
   .wrap {
     padding: 0 24px;
   }
