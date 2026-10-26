@@ -2,7 +2,28 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import { presets } from "../src/data/presets.js";
-import { SITE, boribay, commonHead, escapeAttr, escapeHtml, jsonLd, publisher, siteFooter, siteHeader, socialMeta } from "./site-shell.mjs";
+import {
+  CONSUMER_URL,
+  ECRM_URL,
+  KLAC_URL,
+  SITE,
+  WEBSITE_ID,
+  boribay,
+  breadcrumbNode,
+  commonHead,
+  escapeAttr,
+  escapeHtml,
+  graph,
+  jsonLd,
+  orgRef,
+  pageMeta,
+  scopeSection,
+  siteFooter,
+  siteHeader,
+  socialMeta,
+  sourcesSection,
+} from "./site-shell.mjs";
+import { sourceEntries } from "./sources.mjs";
 
 const root = path.resolve(import.meta.dirname, "..");
 const out = path.join(root, "public", "agri", "guides");
@@ -13,14 +34,11 @@ const CHECKED = SITE.checked;
 const legacyBoribay = (slug, campaign, content) =>
   `https://boribay.com/guides/${slug}?utm_source=goatool.com&utm_medium=owned_referral&utm_campaign=${campaign}&utm_content=${content}`;
 
-const sources = {
-  standard: ["국립농산물품질관리원 고시 「농산물 표준규격」 (제2025-6호, 2025-08-04 시행) — 국가법령정보센터", "https://www.law.go.kr/admRulLsInfoP.do?admRulSeq=2100000262624"],
-  qualityRule7: ["「농수산물 품질관리법 시행규칙」 제7조(표준규격품의 출하 및 표시방법 등) — 국가법령정보센터", "https://www.law.go.kr/법령/농수산물품질관리법시행규칙/제7조"],
-  origin: ["「농수산물의 원산지 표시 등에 관한 법률」 제5조(원산지 표시) — 국가법령정보센터", "https://www.law.go.kr/법령/농수산물의원산지표시등에관한법률/제5조"],
-  commerce146: ["「상법」 제146조(운송인의 책임소멸) — 국가법령정보센터", "https://www.law.go.kr/법령/상법/제146조"],
-  parcelTerms: ["공정거래위원회 「택배업 표준약관 개정」 (2020-06-18) — 대한민국 정책브리핑", "https://www.korea.kr/news/policyNewsView.do?newsId=156396329"],
-  ecrm: ["경찰청 사이버범죄 신고시스템", "https://ecrm.police.go.kr/minwon/main"],
-};
+// Official help channels named in the 범위와 한계 notes.
+const klac = `<a href="${KLAC_URL}">대한법률구조공단</a>(국번 없이 132)`;
+const consumer = `<a href="${CONSUMER_URL}">1372소비자상담센터</a>(국번 없이 1372)`;
+const ecrm = `<a href="${ECRM_URL}">경찰청 사이버범죄 신고시스템</a>`;
+const privacyLaw = `「개인정보 보호법」은 그것만으로는 누구인지 알 수 없어도 다른 정보와 쉽게 합쳐 개인을 알아볼 수 있는 정보까지 개인정보로 봅니다.`;
 
 const shotList = (presetId, filter) =>
   `<ul class="shot-list">${presets[presetId].items
@@ -70,6 +88,7 @@ const guides = [
         <li><strong>판매글·단체방에 올릴 사본</strong>은 제조번호 뒷자리, 차량 번호판, 연락처가 보이지 않게 <a href="/tools/image-redactor/">사진 속 번호 가리기</a>로 가린 뒤 올립니다.</li>
         <li>사진에 위치정보가 들어 있으면 집이나 창고 위치가 드러날 수 있습니다. 남에게 보낼 사진은 <a href="/tools/photo-rename/">크기를 줄여 촬영 정보를 지운 사본</a>을 쓰세요.</li>
       </ul>
+      <p>${privacyLaw} 계약서·이체 확인증처럼 이름과 연락처, 계좌번호가 함께 찍힌 서류 사진은 특히 가린 사본만 주고받으세요. (확인일 ${CHECKED})</p>
 
       <h2>계약서에 적어 두면 좋은 것</h2>
       <p>정해진 양식이 없더라도 아래 내용을 종이 계약서나 문자·메신저로 분명히 남겨 두면, 나중에 서로의 기억이 달라도 확인할 수 있습니다.</p>
@@ -93,7 +112,8 @@ const guides = [
       ])}
 
       <h2>탁송을 맡긴다면</h2>
-      <p>싣기 직전, 결박을 마친 모습, 내린 직후를 같은 방향에서 찍어야 운송 중에 생긴 흠과 원래 있던 흠을 구분할 수 있습니다. 견적서에는 기계 크기와 무게, 작업기 포함 여부, 싣고 내리는 조건을 적어 두세요. 견적을 받을 때 확인할 항목은 <a href="https://tripmarking.com/">농기계 탁송 견적 비교</a>에서 정리할 수 있습니다.</p>
+      <p>싣기 직전, 결박을 마친 모습, 내린 직후를 같은 방향에서 찍어야 운송 중에 생긴 흠과 원래 있던 흠을 구분할 수 있습니다. 받는 쪽은 내린 자리에서 바로 상태를 확인하세요. 「상법」 제146조에 따르면 받는 사람이 이의 없이 물건을 받고 운임 등을 치르면 운송인의 책임은 원칙적으로 사라지고, 받을 때 바로 알 수 없었던 훼손이나 일부 분실은 받은 날부터 2주 안에 운송인에게 통지를 보내야 책임을 물을 수 있습니다. (확인일 ${CHECKED})</p>
+      <p>견적서에는 기계 크기와 무게, 작업기 포함 여부, 싣고 내리는 조건을 적어 두세요. 견적을 받을 때 확인할 항목은 <a href="https://tripmarking.com/">농기계 탁송 견적 비교</a>에서 정리할 수 있습니다.</p>
 
       <h2>거래가 끝난 뒤</h2>
       <p>산 쪽이라면 정비·보험·수리 기록을 이어서 남겨 두면 다음에 되팔 때도 같은 자료를 쓸 수 있습니다. <a href="https://megapureunasset.kr/">농기계 자산 수첩</a>에서 기계별 기록을 정리해 보세요. 입금 전에 상대가 서두르거나 선입금만 요구하는 등 이상한 점이 있다면 <a href="https://scamreader.com/">직거래 사기 점검</a>에서 흔한 사기 신호를 먼저 확인하세요.</p>`,
@@ -103,13 +123,19 @@ const guides = [
       ["시동 영상은 얼마나 찍으면 되나요?", "엔진이 식은 상태의 시동부터 PTO, 유압 리프트, 짧은 주행까지 30초~1분이면 충분합니다. 영상 처음에 사용시간계를 비추면 언제 찍은 영상인지 맞춰 보기 쉽습니다."],
       ["카카오톡으로 받은 사진도 증빙이 되나요?", "메신저를 거친 사진은 촬영 정보가 지워지는 경우가 많습니다. 가능하면 원본 파일을 따로 받아 두고, 어렵다면 받은 날짜를 메모로 남기세요."],
     ],
+    sources: ["commerce146", "privacy2", "exif"],
+    scope: [
+      "거래 당사자가 남길 사진과 서류를 정리한 목록입니다. 농기계 등록·보험·융자 같은 행정 절차와 기계 상태 진단 방법은 다루지 않습니다.",
+      "명판·각인 위치는 제조사와 기종마다 다릅니다. 설명서나 제조사 서비스센터에서 확인하세요.",
+      `계약 내용이나 하자 책임을 두고 다툼이 생기면 ${klac}이나 변호사에게 상담하세요. 돈을 보냈는데 연락이 끊기는 등 사기가 의심되면 ${ecrm}에 신고할 수 있습니다.`,
+    ],
     related: ["machinery-listing-files", "photo-date-exif", "evidence-pack-final-checklist"],
     boribayNext: { text: "판매글을 올리거나 매물을 찾고 있다면 보리장터 농기계 게시판을 이용할 수 있습니다.", href: boribay("/?category=MACHINERY", "guide-used-machinery-handover"), label: "보리장터 농기계 게시판", extra: [["중고 농기계 판매 방법 (보리장터 안내)", boribay("/guides/used-machinery-selling-checklist", "guide-used-machinery-handover")]] },
   },
   {
     slug: "machinery-listing-files",
     group: "machinery",
-    published: "2026-08-10",
+    published: "2026-09-20",
     modified: "2026-10-26",
     title: "명판·시간계·작업기 사진 파일 묶기",
     metaTitle: "중고 농기계 판매글 사진 순서: 명판·시간계·작업기",
@@ -134,6 +160,7 @@ const guides = [
 
       <h2>명판 사진과 공개본 나누기</h2>
       <p>형식명이 읽히는 공개본을 만들고, 전체 제조번호는 원본에만 남깁니다. 공개본에서는 <a href="/tools/image-redactor/">사진 속 번호 가리기</a>로 제조번호 일부를 가립니다. 구매자가 실물을 보러 오면 원본 명판과 대조하면 됩니다.</p>
+      <p>사진 배경에 찍힌 연락처, 집 주소, 차량 번호판도 함께 가립니다. ${privacyLaw} (확인일 ${CHECKED})</p>
 
       <h2>시간계·작업기 순번 붙이기</h2>
       <p>시동 후 사용시간계, 포함 작업기를 명판 다음 번호로 묶습니다. 예: <code>2026-09-20_형식명_02_시간계.jpg</code>. 설명문에서도 “사진 2: 사용시간계 ○○○시간”처럼 같은 번호를 쓰면, 구매자가 사진과 설명을 맞춰 보기 쉽습니다. 여러 장의 이름을 한 번에 바꾸려면 <a href="/tools/photo-rename/">사진 날짜순 이름 바꾸기</a>를 쓰세요.</p>
@@ -151,6 +178,12 @@ const guides = [
     faqs: [
       ["마력 사진만 있으면 명판을 생략해도 되나요?", "마력은 출력을 가리킬 뿐 기종을 특정하지 못합니다. 형식명이 읽히는 명판 사진이 없으면 묶음을 완성하지 않습니다."],
       ["작업기 사진을 나중에 추가해도 포함인가요?", "판매글과 계약서에 적지 않은 작업기는 포함으로 보기 어렵습니다. 포함할 작업기는 처음부터 사진과 설명에 함께 넣으세요."],
+    ],
+    sources: ["privacy2"],
+    scope: [
+      "판매글 사진의 순서와 공개 범위만 다룹니다. 기계 상태를 진단하는 방법은 다루지 않으니 정비업체나 제조사 서비스센터에 확인하세요.",
+      "판매글에 올릴 수 있는 내용과 사진 규칙은 이용하는 거래 사이트의 운영 정책을 따르세요.",
+      "실물 확인, 계약, 넘겨주는 날에 남길 자료는 <a href=\"/agri/guides/used-machinery-handover-files/\">중고 농기계 사고팔 때 남길 사진·서류</a>에 정리했습니다.",
     ],
     related: ["used-machinery-handover-files", "listing-photo-files", "listing-date-columns"],
     // This guide keeps a single Boribay how-to link and no sister-site links.
@@ -208,6 +241,11 @@ const guides = [
       ["운송장 사진을 단체방에 올려도 되나요?", "받는 사람 이름·주소·전화번호를 가린 사본만 올리세요. 송장번호는 거래 상대에게만 따로 알려 주는 편이 안전합니다."],
     ],
     sources: ["standard", "qualityRule7", "origin", "parcelTerms", "commerce146"],
+    scope: [
+      "표준규격과 원산지 표시의 대상 품목, 세부 표시 방법은 품목마다 다릅니다. 고시 원문과 국립농산물품질관리원 안내에서 확인하세요.",
+      `택배 사고 접수 절차와 기한은 택배사마다 약관이 다르니 이용한 택배사 고객센터에 먼저 확인하세요. 택배사와 분쟁이 생기면 ${consumer}에서 상담할 수 있습니다.`,
+      `「상법」 제146조가 내 경우에 어떻게 적용되는지 같은 법적 판단은 이 글이 하지 않습니다. ${klac}이나 변호사에게 상담하세요.`,
+    ],
     related: ["listing-photo-files", "pack-unit-kg-files", "direct-sale-settlement-files"],
     boribayNext: { text: "농산물 직거래 판매글은 보리장터 농산물 게시판에 올릴 수 있습니다.", href: boribay("/?category=PRODUCE", "guide-produce-shipping"), label: "보리장터 농산물 게시판", extra: [["농산물 직거래 포장과 가격 정하기 (보리장터 안내)", boribay("/guides/produce-direct-sale-pricing-packaging", "guide-produce-shipping")]] },
   },
@@ -266,24 +304,21 @@ const guides = [
       <p>자세한 열 구성과 계산 예시는 <a href="/agri/guides/pack-unit-kg-files/">망·단·상자·통 수량을 kg 열로 맞추는 법</a>을 참고하세요.</p>
 
       <h2>CSV와 엑셀, 공유할 때</h2>
-      <p>CSV는 표 한 장을 주고받기 쉽지만 수식·서식·여러 시트는 남지 않습니다. 원본 엑셀 파일은 따로 보관하고, CSV로 내보낸 뒤 다시 열어 수량·금액·합계가 맞는지 확인하세요. 남에게 보낼 때는 구매자 전화번호·주소·계좌번호가 든 열을 빼고 보냅니다. 정산표 점검 도구의 <strong>공유용 CSV</strong>가 그런 열을 빼 줍니다.</p>
+      <p>CSV는 표 한 장을 주고받기 쉽지만 수식·서식·여러 시트는 남지 않습니다. Microsoft 지원 문서도 엑셀 파일을 CSV로 저장하면 현재 워크시트만 저장되고 일부 기능이 사라질 수 있다고 안내합니다. 원본 엑셀 파일은 따로 보관하고, CSV로 내보낸 뒤 다시 열어 수량·금액·합계가 맞는지 확인하세요. (확인일 ${CHECKED})</p>
+      <p>남에게 보낼 때는 구매자 전화번호·주소·계좌번호가 든 열을 빼고 보냅니다. ${privacyLaw} 정산표 점검 도구의 <strong>공유용 CSV</strong>가 그런 열을 빼 줍니다.</p>
 
       <h2>정산 자료를 한 묶음으로</h2>
-      <p>정산표와 함께 주문 내역, 같은 기간 입금 내역, 발송 기록, 비용 영수증을 한 묶음에 넣어 두면 나중에 금액이 맞지 않는 곳을 바로 찾을 수 있습니다. <a href="/tools/evidence-pack/?type=settlement">정산 자료 묶음 만들기</a>를 쓰면 빠진 자료를 알려 줍니다. 한 해 농사의 손익을 따져 보려면 <a href="https://www.reportools.com/">농가 손익 계산기</a>도 함께 써 보세요.</p>
-
-      <section id="preparation-method">
-        <h2>작성 방법과 파일 처리 범위</h2>
-        <p>안내 작성·수정 책임: 거래 증빙 도우미 운영자, ${SITE.operator}. 정산표 점검·사진 이름 바꾸기·증빙 묶음 도구의 처리 범위에 맞춰 순서를 설명합니다. 예시 숫자와 파일명은 설명용이며 실제 고객·거래의 자료가 아닙니다.</p>
-        <p>연결한 도구는 선택한 파일을 지금 쓰는 브라우저에서 읽고 결과 파일을 만듭니다. 파일 원본과 표 내용은 서버로 보내거나 보관하지 않습니다. 광고 등 외부 리소스의 처리는 <a href="/privacy/">개인정보 처리방침</a>에서 구분합니다.</p>
-        <p>정산표, 파일명, 파일 지문은 자료 정리를 돕습니다. 거래 사실이나 금액을 증명하는 공식 서류가 되지는 않습니다.</p>
-        <h3>수정 기록</h3>
-        <p><time datetime="2026-10-26">2026-10-26</time>: 정산표 열 구성, 받을 금액 계산식, 입금 대조 순서와 예시를 새로 쓰고 정산표 점검 도구와 연결했습니다.<br><time datetime="2026-10-15">2026-10-15</time>: 작성 책임, 연결 도구의 파일 처리 범위와 결과의 한계를 보강했습니다.</p>
-        <p>설명이 틀렸거나 도구가 이상하면 <a href="/contact/">문의·오류 제보</a> 안내를 따라 알려 주세요.</p>
-      </section>`,
+      <p>정산표와 함께 주문 내역, 같은 기간 입금 내역, 발송 기록, 비용 영수증을 한 묶음에 넣어 두면 나중에 금액이 맞지 않는 곳을 바로 찾을 수 있습니다. <a href="/tools/evidence-pack/?type=settlement">정산 자료 묶음 만들기</a>를 쓰면 빠진 자료를 알려 줍니다. 한 해 농사의 손익을 따져 보려면 <a href="https://www.reportools.com/">농가 손익 계산기</a>도 함께 써 보세요.</p>`,
     faqs: [
       ["직거래 정산표를 CSV로 저장해도 되나요?", "표를 주고받는 데는 편하지만 수식·서식·여러 시트는 그대로 남지 않습니다. 원본 엑셀 파일을 따로 두고, 내보낸 CSV를 다시 열어 금액과 합계가 맞는지 확인하세요."],
       ["배송비는 판매금액에 넣나요?", "구매자에게 따로 받은 배송비는 배송비 열에 적고, 판매자가 낸 택배비는 비용 영수증으로 따로 남기는 편이 입금 대조가 쉽습니다."],
       ["공판장 위탁 판매도 같은 표에 적나요?", "같은 표에 적어도 되지만 위탁 정산서의 수수료·운송비·공제 항목을 수수료·공제 열에 나눠 적으세요. 경매 수취금액을 미리 따져 보려면 보리장터의 경매 수취금액 계산기 안내를 참고할 수 있습니다."],
+    ],
+    sources: ["excelCsv", "privacy2"],
+    scope: [
+      "정산표는 받을 돈과 들어온 돈을 맞춰 보는 관리용 표입니다. 세무 장부나 세금 신고 서식이 아니며, 농산물 판매 소득의 세금 문제는 관할 세무서나 세무 전문가에게 확인하세요.",
+      "공판장·위탁 판매의 수수료와 공제 항목은 거래처의 정산서 기준을 따르세요. 이 글의 계산식은 직거래 기준입니다.",
+      "예시의 숫자와 파일 이름은 계산 방법을 보여 주기 위해 만든 것이며 실제 시세나 실제 거래가 아닙니다.",
     ],
     related: ["pack-unit-kg-files", "produce-shipping-evidence", "evidence-pack-final-checklist"],
     boribayNext: {
@@ -311,6 +346,7 @@ const guides = [
     body: () => `
       <h2>촬영 정보(EXIF)란</h2>
       <p>JPG 사진에는 사진 그림과 함께 찍은 날짜·시각, 휴대폰 기종, 카메라 설정 같은 정보가 저장됩니다. 이를 EXIF(이그지프)라고 부릅니다. 휴대폰의 위치 기능을 켜고 찍었다면 찍은 장소의 위치(GPS)도 들어갈 수 있습니다.</p>
+      <p>EXIF는 일본의 카메라영상기기공업회(CIPA)가 전자정보기술산업협회(JEITA)와 함께 정한 표준입니다. 찍은 날짜·시각(DateTimeOriginal)과 위치(GPS) 항목이 이 표준에 정해져 있어, 기종이 달라도 같은 방법으로 읽을 수 있습니다. 다만 표준은 저장 형식을 정할 뿐, 그 값이 맞는지는 보장하지 않습니다. (확인일 ${CHECKED})</p>
 
       <h2>찍은 날짜 확인하는 방법</h2>
       <ul>
@@ -334,7 +370,7 @@ const guides = [
         <li><strong>날짜를 보여 주는 다른 기록과 함께</strong>: 이체 확인증의 시각, 택배 접수 시각, 메시지를 주고받은 시각처럼 다른 사람이나 기관이 남긴 기록이 함께 있으면 날짜를 설명하기 쉽습니다.</li>
         <li><strong>사진 안에 날짜 단서 넣기</strong>: 사용시간계, 운송장, 날짜가 찍힌 영수증을 같은 장면에 함께 찍는 것도 방법입니다.</li>
         <li><strong>받은 사진은 받은 날짜 메모</strong>: 상대에게 받은 사진은 받은 날짜와 대화방을 메모해 두세요.</li>
-        <li><strong>파일 지문 남기기</strong>: 증빙 묶음을 만들면 파일마다 SHA-256 지문이 목록에 남습니다. 나중에 <a href="/tools/hash-compare/">같은 파일인지 확인</a>으로 그때 묶은 파일인지 대조할 수 있습니다.</li>
+        <li><strong>파일 지문 남기기</strong>: 증빙 묶음을 만들면 파일마다 SHA-256 지문이 목록에 남습니다. SHA-256은 미국 국립표준기술연구소(NIST)가 표준(FIPS 180-4)으로 정한 계산 방법으로, 파일 내용이 조금만 달라도 전혀 다른 값이 나옵니다. 나중에 <a href="/tools/hash-compare/">같은 파일인지 확인</a>으로 그때 묶은 파일인지 대조할 수 있습니다.</li>
       </ol>
 
       <h2>위치정보는 공개 전에 지우세요</h2>
@@ -343,6 +379,11 @@ const guides = [
       ["촬영 날짜를 바꿀 수 있나요?", "바꿀 수 있습니다. 그래서 촬영 정보는 정리용 참고 정보로 쓰고, 날짜가 중요한 거래라면 계약서·이체 확인증·택배 접수 기록 같은 다른 기록을 함께 남기세요."],
       ["아이폰 사진은 어떻게 되나요?", "아이폰은 HEIC 형식으로 찍는 경우가 많습니다. 사파리에서 앨범 사진을 고르면 JPG로 바뀌어 넣어지는 경우가 많고, 컴퓨터로 옮긴 HEIC 파일은 브라우저에서 미리보기가 안 될 수 있습니다."],
       ["촬영 정보가 없는 사진은 쓸 수 없나요?", "쓸 수 있습니다. 다만 언제 찍었는지는 다른 기록으로 설명해야 합니다. 받은 날짜, 대화 내용, 함께 찍힌 날짜 단서를 메모해 두세요."],
+    ],
+    sources: ["exif", "sha256"],
+    scope: [
+      "휴대폰 기종과 갤러리 앱마다 메뉴 이름과 촬영 정보 저장 방식이 다릅니다. 내 기기의 설명서나 제조사 안내를 함께 확인하세요.",
+      `사진을 법원이나 수사기관에 증거로 낼 때의 요건(원본 제출 방법 등)은 이 글이 다루지 않습니다. 제출처나 ${klac}, 변호사에게 확인하세요.`,
     ],
     related: ["used-machinery-handover-files", "produce-shipping-evidence", "evidence-pack-final-checklist"],
   },
@@ -386,17 +427,23 @@ const guides = [
       <h2>문제가 생겼다면</h2>
       <ul>
         <li>주고받은 대화와 사진을 지우지 말고 그대로 보관합니다.</li>
-        <li>택배 운송 중 파손·분실이라면 택배사 사고 접수를 먼저 합니다. 순서는 <a href="/agri/guides/produce-shipping-evidence/">농산물 보낼 때 남길 사진</a>의 마지막 부분을 참고하세요.</li>
-        <li>돈을 보냈는데 물건이 오지 않거나 연락이 끊겼다면 <a href="https://scamreader.com/">직거래 사기 점검</a>에서 흔한 사기 신호를 확인하고, 피해를 입었다면 <a href="${sources.ecrm[1]}">경찰청 사이버범죄 신고시스템</a>에 신고할 수 있습니다.</li>
+        <li>택배 운송 중 파손·분실이라면 택배사 사고 접수를 먼저 합니다. 「상법」 제146조는 받을 때 바로 알 수 없었던 훼손이나 일부 분실이라도 받은 날부터 2주 안에 운송인에게 통지하도록 하고 있으니 미루지 마세요. 2020년에 개정된 택배 표준약관은 고객이 손해를 입증하는 서류를 내면 택배사가 30일 안에 먼저 배상하도록 했습니다. 순서는 <a href="/agri/guides/produce-shipping-evidence/">농산물 보낼 때 남길 사진</a>의 마지막 부분을 참고하세요. (확인일 ${CHECKED})</li>
+        <li>돈을 보냈는데 물건이 오지 않거나 연락이 끊겼다면 <a href="https://scamreader.com/">직거래 사기 점검</a>에서 흔한 사기 신호를 확인하고, 피해를 입었다면 <a href="${ECRM_URL}">경찰청 사이버범죄 신고시스템</a>에 신고할 수 있습니다.</li>
       </ul>
       <p class="btn-row"><button type="button" class="btn" onclick="window.print()">이 점검표 인쇄하기</button></p>`,
     faqs: [],
+    sources: ["commerce146", "parcelTerms", "ecrm"],
+    scope: [
+      "흔한 거래 흐름을 기준으로 만든 점검표이며, 모든 거래에 필요한 서류를 빠짐없이 담지는 않습니다. 거래 상대와 따로 약속한 서류가 있다면 함께 챙기세요.",
+      "자료를 법으로 얼마나 보관해야 하는지는 안내하지 않습니다. 세금 신고나 지원 사업에 쓸 자료는 해당 기관의 안내를 따르세요.",
+      `택배사와 분쟁이 생기면 ${consumer}, 계약 다툼은 ${klac}에 상담할 수 있습니다.`,
+    ],
     related: ["used-machinery-handover-files", "produce-shipping-evidence", "direct-sale-settlement-files"],
   },
   {
     slug: "listing-photo-files",
     group: "produce",
-    published: "2026-08-10",
+    published: "2026-09-20",
     modified: "2026-10-26",
     title: "판매글 사진 순번·원본·공개본 묶기",
     description: "농산물 판매글에 올릴 사진을 전체·실중량·수확 표시 순서로 번호를 붙여 묶고, 촬영 원본과 올릴 사본을 나눠 보관하는 순서입니다.",
@@ -410,20 +457,25 @@ const guides = [
       ["전체·실중량·수확 표시 순서로 번호 붙이기", "상품 전체 → 저울 위 실중량 → 수확일이나 품종이 적힌 표시 순서로 01·02·03 번호를 붙입니다. 예: 2026-09-20_감자_01_전체.jpg. 번호는 사진 순서를 나타낼 뿐 등급이나 무게를 증명하지 않습니다."],
       ["올릴 사본에서 글자가 읽히는지 확인", "크기를 줄인 사본을 직접 열어 저울 숫자와 날짜 글자가 읽히는지 봅니다. “사과”처럼 통칭만 보이고 품종이 안 보이면 품종을 판매글 본문에 적어 두세요."],
       ["다른 날·다른 물량 사진 빼기", "어제 포장한 상자나 다른 품종 사진이 섞이지 않았는지 원본 폴더의 촬영 날짜와 대조합니다."],
-      ["올리기 전에 개인정보 가리기", "운송장, 주소가 적힌 상자, 차량 번호판이 찍혔다면 가린 사본을 올립니다."],
+      ["올리기 전에 개인정보 가리기", "운송장, 주소가 적힌 상자, 차량 번호판이 찍혔다면 가린 사본을 올립니다. 「개인정보 보호법」은 이름이나 영상처럼 개인을 알아볼 수 있는 정보뿐 아니라, 다른 정보와 쉽게 합쳐 알아볼 수 있는 정보도 개인정보로 봅니다. (확인일 " + CHECKED + ")"],
     ],
     faqs: [
       ["사진 번호가 있으면 실중량은 따로 안 적어도 되나요?", "번호는 사진 순서만 나타냅니다. 실중량은 저울 사진과 함께 숫자로 판매글이나 정산표에 따로 적으세요."],
       ["원본 사진을 그대로 올려도 되나요?", "올릴 때는 사본을 쓰세요. 원본에는 찍은 위치(GPS)가 들어 있을 수 있고, 화면에 주소나 연락처가 찍혀 있을 수 있습니다."],
     ],
     tools: [["판매 사진에 날짜·순서 번호 붙이기", "/tools/photo-rename/"], ["올릴 사본의 주소·번호 가리기", "/tools/image-redactor/"], ["출하 사진을 항목별로 묶기", "/tools/evidence-pack/?type=produce"]],
+    sources: ["exif", "privacy2"],
+    scope: [
+      "판매글 사진을 고르고 이름 붙이는 순서만 다룹니다. 원산지·표준규격 같은 표시 의무는 <a href=\"/agri/guides/produce-shipping-evidence/\">농산물 보낼 때 남길 사진</a>에서 출처와 함께 설명합니다.",
+      "사진 번호와 파일 이름은 정리용이며 등급이나 무게를 증명하지 않습니다. 무게는 저울 사진과 숫자로 따로 남기세요.",
+    ],
     related: ["machinery-listing-files", "listing-date-columns", "produce-shipping-evidence"],
     legacyLink: ["품종·중량·수확일 칸을 채워 판매글 올리기", legacyBoribay("produce-listing-three-fields", "c2c_howto_202609", "listing-photo-files"), "사진을 묶었다면 같은 칸으로 판매글을 올리세요."],
   },
   {
     slug: "listing-date-columns",
     group: "produce",
-    published: "2026-08-10",
+    published: "2026-09-20",
     modified: "2026-10-26",
     title: "출하가능일·도정일 열 만들기",
     description: "김장 배추·햅쌀처럼 날짜가 중요한 상품의 정산표와 판매글에서 출하 가능일, 수확일, 도정일을 나눠 적고 사진 찍은 날짜와 섞지 않는 방법입니다.",
@@ -435,7 +487,7 @@ const guides = [
     steps: [
       ["날짜 열을 세 칸으로 나누기", "출하 가능일, 수확일, 도정일(쌀) 열을 따로 둡니다. 모르는 날짜는 “미확인”으로 두고, 사진 찍은 날짜로 채우지 않습니다."],
       ["사진 파일 이름에 날짜 종류 적기", "파일 이름에 어떤 날짜인지 함께 적습니다. 예: 2026-09-20_햅쌀_도정일_01_표시.jpg. 절임배추 도착일을 수확일 파일 이름에 쓰지 않습니다."],
-      ["포장 표시 사진과 열 맞추기", "쌀 포장 표시에 생산연도와 도정 날짜가 함께 있으면 정산표에서도 두 칸으로 나눠 옮겨 적습니다. “당일 도정” 같은 문구만 있고 날짜가 없으면 도정일 칸은 비워 두고 메모에 그 문구를 적습니다."],
+      ["포장 표시 사진과 열 맞추기", "「양곡관리법」 제20조의2는 양곡가공업자나 양곡매매업자가 양곡을 팔 때 생산연도·품질 등 농림축산식품부령으로 정한 사항을 포장이나 용기에 표시하도록 하고, 세부 표시사항과 방법은 같은 법 시행규칙 제7조의3과 별표 4에 두고 있습니다(확인일 " + CHECKED + "). 쌀 포장 표시에 생산연도와 도정 날짜가 함께 있으면 정산표에서도 두 칸으로 나눠 옮겨 적습니다. “당일 도정” 같은 문구만 있고 날짜가 없으면 도정일 칸은 비워 두고 메모에 그 문구를 적습니다."],
       ["지난 날짜의 줄 정리", "출하 가능일이 지난 줄의 단가를 새 물량 줄에 복사하지 않습니다. 새 물량은 새 줄로 적습니다."],
     ],
     faqs: [
@@ -443,13 +495,18 @@ const guides = [
       ["도정일만 있으면 생산연도 칸은 지워도 되나요?", "생산연도와 도정일은 서로 다른 정보입니다. 포장 표시에 둘 다 있으면 두 칸 모두 남겨 두세요."],
     ],
     tools: [["정산표의 빈 칸·계산 확인하기", "/tools/settlement-csv/"], ["사진에 날짜·순서 번호 붙이기", "/tools/photo-rename/"], ["출하 사진을 항목별로 묶기", "/tools/evidence-pack/?type=produce"]],
+    sources: ["grain20_2", "grainRule7_3"],
+    scope: [
+      "양곡 표시 의무를 지는 사람(양곡가공업자·양곡매매업자)과 세부 표시사항은 법령 원문과 별표 4에서 확인하세요. 직접 생산한 쌀을 파는 농가에 그대로 적용되는지는 이 글이 판단하지 않습니다. 국립농산물품질관리원이나 관할 시·군청에 문의하세요.",
+      "김장 배추·절임배추의 표시 기준은 이 글에서 다루지 않습니다.",
+    ],
     related: ["listing-photo-files", "photo-date-exif", "direct-sale-settlement-files"],
     legacyLink: ["출하일·도정일을 칸에 적어 시즌 글 올리기", legacyBoribay("kimjang-rice-listing-dates", "c2c_howto_202609", "listing-date-columns"), "날짜 열을 나눴다면 시즌 판매글에 그 날짜를 적으세요."],
   },
   {
     slug: "pack-unit-kg-files",
     group: "settlement",
-    published: "2026-08-10",
+    published: "2026-09-20",
     modified: "2026-10-26",
     title: "출하 정산표에서 망·단·상자·통 수량을 kg 열로 맞추는 법",
     description: "양파 망, 대파 단, 사과·배 상자, 수박 통처럼 포장 단위가 섞인 출하 수량을 실중량 kg 열로 바꿔 적는 정산표 열 구성, 엑셀 계산식, 계산 예시와 저울 사진 남기는 순서를 정리했습니다.",
@@ -520,6 +577,10 @@ const guides = [
       ["선물 상자처럼 개수로 파는 것도 kg으로 바꿔야 하나요?", "개수로 판 상품은 개수 열을 그대로 두고, 무게를 달았다면 kg 열에 따로 적습니다. 개당 가격을 kg당 칸에 옮겨 적지 않습니다."],
     ],
     sources: ["standard"],
+    scope: [
+      "표준규격의 포장 규격과 표시중량 허용범위는 품목과 포장재마다 다르니 고시 원문에서 확인하세요.",
+      "예시 표의 무게와 가격은 계산 방법을 보여 주기 위해 만든 숫자이며 실제 시세나 실제 거래가 아닙니다. 실제 가격은 공식 가격정보에서 같은 품목·등급·단위로 조회하세요.",
+    ],
     related: ["direct-sale-settlement-files", "produce-shipping-evidence", "evidence-pack-final-checklist"],
     legacyLink: ["품목·등급·단위를 맞춰 공식 가격 조회하는 법", legacyBoribay("agricultural-price-lookup", "agri_document_guides", "pack-unit-kg-files"), "실제 가격·거래 기준을 이어서 확인하세요."],
   },
@@ -531,12 +592,15 @@ const guides = [
     title: "폐농자재 정리·처분 기록 준비법",
     description: "남은 비료·농약 용기·농업용 필름과 고장 난 자재를 품목별로 분리하고 문의·인계 기록을 남기는 기본 순서입니다.",
     card: "품목 분리·라벨 사진·문의와 인계 기록",
-    intro: [],
+    intro: [
+      "남은 비료나 농약 용기, 다 쓴 농업용 필름, 고장 난 자재를 정리할 때는 무엇을 얼마나 어디로 넘겼는지가 나중에 다시 필요해질 수 있습니다. 이웃에게 나누거나 수거처에 넘길 때 품목별 사진과 목록, 문의한 결과를 같은 번호로 남겨 두면 받은 쪽과 내용을 맞춰 보기 쉽습니다.",
+      "이 글은 처분 방법 자체를 정해 주지 않습니다. 받는 품목과 배출 방법은 지역마다 다르므로, 아래 순서대로 기록을 준비한 뒤 지역 행정기관이나 수거처의 안내를 따르세요.",
+    ],
     steps: [
       ["품목 분리", "내용물이 남은 제품, 빈 용기, 필름·끈, 금속·플라스틱 자재를 섞지 않고 구분합니다."],
       ["표시 촬영", "제품명·성분·남은 양·오염 상태를 확인할 수 있게 라벨과 전체 모습을 촬영합니다."],
       ["농약 빈병·폐비닐 문의용 사진 정리", "빈 용기와 내용물이 남은 제품, 흙이나 다른 물질이 섞인 필름을 사진과 목록에서 구분합니다. 품목별 수량 또는 확인한 양, 보관 상태, 문의할 질문을 같은 번호로 적으세요. 수거 가능 여부는 사진 파일만으로 판단하지 않습니다."],
-      ["공식 경로 확인", "임의 매립·소각·배출을 피하고 지역 행정기관·수거처의 최신 안내와 인계일을 기록합니다. 가까운 공동집하장 위치는 영농폐기물 집하장 지도(sumimap.com)에서 찾아볼 수 있습니다."],
+      ["공식 경로 확인", "「폐기물관리법」 제8조는 허가·승인을 받거나 신고한 폐기물처리시설이 아닌 곳에서 폐기물을 매립하거나 소각하지 못하게 하고 있습니다(조례로 정한 일부 지역의 예외가 있습니다. 확인일 " + CHECKED + "). 밭에 묻거나 태우지 말고, 지역 행정기관·수거처의 최신 안내와 인계일을 기록합니다. 가까운 공동집하장 위치는 영농폐기물 집하장 지도(sumimap.com)에서 찾아볼 수 있습니다."],
       ["공동집하장에 문의한 결과 남기기", "문의일, 확인한 기관·수거처, 받는 품목, 배출 방법, 수거일과 답변 내용을 기록합니다. 안내문 파일과 사진을 같은 폴더에 두고, 다른 지역의 안내나 지난 수거일 자료와 섞이지 않게 합니다."],
       ["인계 뒤 파일 목록 확인", "인계 날짜와 실제 넘긴 품목·수량을 최초 목록에 맞춰 적고, 받은 확인 자료가 있다면 함께 보관합니다. 사진과 안내문을 한 PDF로 묶어 두면 나중에 찾기 쉽습니다."],
     ],
@@ -545,6 +609,11 @@ const guides = [
       ["공동집하장 주소만 알면 처분 기록은 충분한가요?", "주소 외에도 해당 품목을 받는지, 수거일과 분리 방법이 무엇인지 확인한 날짜와 답변을 남기세요. 거래 증빙 도우미는 파일 정리를 돕고 실제 수거 조건은 지역 기관·수거처에서 확인합니다."],
     ],
     tools: [["품목별 사진에 날짜·번호 붙이기", "/tools/photo-rename/"], ["안내문과 사진을 PDF 하나로 묶기", "/tools/pdf-organizer/"], ["사진 속 주소·연락처 가리기", "/tools/image-redactor/"]],
+    sources: ["waste8"],
+    scope: [
+      "수거 품목, 배출 방법, 수거일은 지역마다 다릅니다. 시·군청 담당 부서나 지역 수거처의 최신 안내를 따르세요.",
+      "내용물이 남은 농약이나 비료를 어떻게 처리할지는 이 글이 안내하지 않습니다. 제품 라벨의 안내와 지역 기관의 답변을 따르세요.",
+    ],
     related: ["photo-date-exif", "evidence-pack-final-checklist"],
     sisterLink: ["가까운 공동집하장 찾기 — 영농폐기물 집하장 지도", "https://sumimap.com/"],
     legacyLink: ["폐농자재 처리·나눔 확인 가이드", legacyBoribay("farm-supplies-disposal-guide", "agri_document_guides", "farm-supplies-disposal-records"), "처리 방법과 집하장 찾기를 이어서 확인하세요."],
@@ -559,6 +628,7 @@ const groups = [
 ];
 
 const bySlug = new Map(guides.map((guide) => [guide.slug, guide]));
+const sourcesFor = (guide) => sourceEntries(guide.sources);
 
 function page({ title, description, url, type, head = "", body, ads = true }) {
   return `<!doctype html>
@@ -602,9 +672,10 @@ function renderGuide(guide) {
   const faqHtml = guide.faqs.length
     ? `<h2>자주 묻는 질문</h2><div class="faq">${guide.faqs.map(([q, a]) => `<details><summary>${escapeHtml(q)}</summary><p>${escapeHtml(a)}</p></details>`).join("")}</div>`
     : "";
-  const sourceHtml = guide.sources?.length
-    ? `<h2>근거로 삼은 자료</h2><ul class="source-list">${guide.sources.map((key) => `<li><a href="${escapeAttr(sources[key][1])}">${escapeHtml(sources[key][0])}</a> (확인일 ${CHECKED})</li>`).join("")}</ul><p class="source-list">법령·고시·약관은 바뀔 수 있습니다. 중요한 판단 전에는 링크한 원문과 담당 기관 안내를 다시 확인하세요. 이 안내는 법률 자문이 아닙니다.</p>`
-    : "";
+  if (!guide.sources?.length) throw new Error(`guide without sources: ${guide.slug}`);
+  if (!guide.scope?.length) throw new Error(`guide without 범위와 한계: ${guide.slug}`);
+  const sourceHtml = sourcesSection(guide.sources, { note: "법령·고시·약관은 바뀔 수 있습니다. 중요한 판단 전에는 링크한 원문과 담당 기관 안내를 다시 확인하세요. 이 안내는 법률 자문이 아닙니다." });
+  const scopeHtml = scopeSection(guide.scope);
   const relatedHtml = `<h2>함께 읽으면 좋은 안내</h2><div class="guide-cards">${guide.related
     .map((slug) => bySlug.get(slug))
     .map((item) => `<a class="guide-card" href="/agri/guides/${item.slug}/"><strong>${escapeHtml(item.title)}</strong><span>${escapeHtml(item.card)}</span></a>`)
@@ -615,31 +686,28 @@ function renderGuide(guide) {
     : guide.legacyLink
       ? `<div class="boribay-box"><p>${escapeHtml(guide.legacyLink[2])}</p><p><a href="${escapeAttr(guide.legacyLink[1])}">${escapeHtml(guide.legacyLink[0])}</a></p><p class="muted">보리장터는 이 사이트와 같은 운영사의 지역 직거래 장터입니다.</p></div>`
       : "";
-  const schema = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Article",
-        headline: guide.title,
-        description: guide.description,
-        inLanguage: "ko-KR",
-        datePublished: guide.published,
-        dateModified: guide.modified,
-        mainEntityOfPage: url,
-        image: SITE.ogImage,
-        author: { "@type": "Organization", name: SITE.name, url: `${base}/` },
-        publisher: { ...publisher, logo: { "@type": "ImageObject", url: SITE.logo } },
-      },
-      {
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "처음", item: `${base}/` },
-          { "@type": "ListItem", position: 2, name: "가이드", item: `${base}/agri/guides/` },
-          { "@type": "ListItem", position: 3, name: guide.title, item: url },
-        ],
-      },
-    ],
-  };
+  const schema = graph(
+    {
+      "@type": "Article",
+      "@id": `${url}#article`,
+      headline: guide.title,
+      description: guide.description,
+      inLanguage: "ko-KR",
+      datePublished: guide.published,
+      dateModified: guide.modified,
+      mainEntityOfPage: url,
+      image: SITE.ogImage,
+      author: orgRef,
+      publisher: orgRef,
+      isPartOf: { "@id": WEBSITE_ID },
+      citation: sourcesFor(guide).map((entry) => entry.url),
+    },
+    breadcrumbNode([
+      ["처음", "/"],
+      ["가이드", "/agri/guides/"],
+      [guide.title, `/agri/guides/${guide.slug}/`],
+    ])
+  );
   const body = `
         <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <a href="/agri/guides/">가이드</a></nav>
         <article class="article">
@@ -647,13 +715,14 @@ function renderGuide(guide) {
             <p class="eyebrow">${escapeHtml(groups.find((group) => group.id === guide.group).label)}</p>
             <h1>${escapeHtml(guide.title)}</h1>
             <p class="lead">${escapeHtml(guide.description)}</p>
-            <p class="article-meta">작성·관리: ${SITE.name} 운영자, ${SITE.operator} · 최종 수정 <time datetime="${guide.modified}">${guide.modified}</time></p>
+            ${pageMeta({ published: guide.published, sourceCount: guide.sources.length })}
           </header>
           ${guide.intro.map((text) => `<p>${escapeHtml(text)}</p>`).join("")}
           ${toolHtml}
           ${guide.body ? guide.body() : stepsHtml}
           ${toolsList}
           ${faqHtml}
+          ${scopeHtml}
           ${sourceHtml}
           ${sisterHtml}
           ${boribayHtml}
@@ -667,15 +736,24 @@ function renderHub() {
   const url = `${base}/agri/guides/`;
   const title = `거래할 때 남길 사진·서류 가이드 - ${SITE.name}`;
   const description = "중고 농기계 사고팔기, 농산물 출하, 직거래 정산에서 무엇을 찍고 어떤 서류를 남길지, 파일을 어떻게 정리할지 단계별로 설명하는 안내 모음입니다.";
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    name: "거래할 때 남길 사진·서류 가이드",
-    url,
-    inLanguage: "ko-KR",
-    description,
-    hasPart: guides.map((guide) => ({ "@type": "Article", name: guide.title, url: `${base}/agri/guides/${guide.slug}/` })),
-  };
+  const schema = graph(
+    {
+      "@type": "CollectionPage",
+      "@id": `${url}#collection`,
+      name: "거래할 때 남길 사진·서류 가이드",
+      url,
+      inLanguage: "ko-KR",
+      description,
+      isPartOf: { "@id": WEBSITE_ID },
+      publisher: orgRef,
+      dateModified: guides.map((guide) => guide.modified).sort().at(-1),
+      hasPart: guides.map((guide) => ({ "@id": `${base}/agri/guides/${guide.slug}/#article` })),
+    },
+    breadcrumbNode([
+      ["처음", "/"],
+      ["가이드", "/agri/guides/"],
+    ])
+  );
   const body = `
         <nav class="crumb" aria-label="현재 위치"><a href="/">처음</a> <span aria-hidden="true">›</span> <span>가이드</span></nav>
         <header class="page-head">
@@ -691,7 +769,7 @@ function renderHub() {
               .join("")}</div></section>`
           )
           .join("")}
-        <section aria-labelledby="g-how"><h2 id="g-how">가이드 작성 기준</h2><p>안내는 거래 현장에서 바로 따라 할 수 있는 순서를 중심으로 쓰고, 법령·고시·약관을 인용할 때는 원문 링크와 확인일을 함께 적습니다. 확인하지 못한 숫자나 사례는 적지 않습니다. 틀린 곳을 발견하면 <a href="/contact/">문의·오류 제보</a>로 알려 주세요.</p></section>`;
+        <section aria-labelledby="g-how"><h2 id="g-how">가이드 작성 기준</h2><p>안내는 거래 현장에서 바로 따라 할 수 있는 순서를 중심으로 쓰고, 법령·고시·약관·기술 표준을 인용할 때는 글 끝의 출처 목록에 원문 링크와 확인일을 적습니다. 확인하지 못한 숫자나 사례는 적지 않고, 예시는 예시라고 밝힙니다. 글마다 다루지 않는 것은 “범위와 한계”에 적었습니다. 자세한 작성 방법은 <a href="/editorial/">편집 원칙</a>에 있고, 틀린 곳은 <a href="/contact/">문의</a>로 알려 주시면 확인해 <a href="/corrections/">정정·수정 기록</a>에 남깁니다.</p></section>`;
   return page({ title, description, url, type: "website", head: jsonLd(schema), body });
 }
 

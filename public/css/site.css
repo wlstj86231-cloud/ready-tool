@@ -1143,6 +1143,79 @@ tr.row-warn td {
   color: var(--muted);
 }
 
+/* who maintains a page, when it was published and re-checked, how many sources */
+.page-meta {
+  margin: 12px 0;
+  padding: 10px 14px;
+  border-left: 4px solid var(--brand);
+  background: var(--soft);
+  border-radius: 0 10px 10px 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.sources ol,
+.scope ul,
+.tool-about ul {
+  padding-left: 1.3em;
+}
+
+.sources li,
+.scope li,
+.tool-about li {
+  margin-bottom: 6px;
+}
+
+.sources a {
+  overflow-wrap: anywhere;
+}
+
+.source-note {
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.tool-about {
+  margin-top: 36px;
+}
+
+.tool-about h3 {
+  margin: 18px 0 6px;
+  font-size: 1.1rem;
+}
+
+.info-table th {
+  width: 9.5em;
+}
+
+.info-table td {
+  overflow-wrap: anywhere;
+}
+
+.change-entry h3 {
+  margin: 18px 0 6px;
+  font-size: 1.1rem;
+}
+
+.change-entry ul {
+  margin-top: 0;
+}
+
+.footer-op,
+.footer-note {
+  margin: 6px 0;
+}
+
+.nw,
+.page-meta time,
+.change-entry time {
+  white-space: nowrap;
+}
+
+.footer-op a {
+  color: var(--text);
+}
+
 .guide-cards {
   display: grid;
   gap: 10px;
